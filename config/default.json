@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Default",
+    "abstract": true,
+    "config": {
+      "test": 0
+    }
+  },
+  {
+    "name": "simpleRun",
+    "config": {
+      "test": 42
+    }
+  }
+]
