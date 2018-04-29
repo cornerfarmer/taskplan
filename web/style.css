@@ -1,0 +1,98 @@
+body {
+    font-family: 'Roboto','Helvetica','Arial',sans-serif;
+    color: #757575;
+    line-height: 1.15;
+    background: #FAFAFA;
+}
+
+h1 {
+    font-size: 80px;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 40px;
+    margin-bottom: 15px;
+}
+
+#scheduler {
+    padding: 16px 0;
+}
+
+.tasks {
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.tasks .task {
+    list-style: none;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    background: white;
+    margin-bottom: 16px;
+}
+
+.tasks .task .content {
+    padding: 16px;
+    padding-bottom: 12px;
+    border: 1px solid rgba(0,0,0,.1);
+    border-bottom: none;
+}
+
+
+.tasks .task .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.tasks .task .header .project-name {
+    font-weight: 300;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.tasks .task .progress {
+    background: #3f51b5;
+    height: 2px;
+    margin-bottom: 10px;
+    border-radius: 0;
+}
+
+.tasks .task .preset-name {
+    font-size: 14px;
+}
+
+.tasks .task .toolbar {
+    background: rgba(158,158,158,.2);
+    padding: 5px 16px;
+    line-height: 1;
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+.tasks .task .toolbar .action {
+    background: #3f51b5;
+    padding: 0 10px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    border-radius: 2px;
+    font-weight: 500;
+   /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/
+    height: 24px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.tasks .task .toolbar .action i {
+    margin-right: 7px;
+}
+
+.tasks .task .toolbar .action span {
+    margin-top: 2px;
+}

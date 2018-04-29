@@ -4,11 +4,22 @@ from EventManager import EventManager, ServerSentEvent, EventType
 from Project import Project
 from ProjectManager import ProjectManager
 from Scheduler import Scheduler
+import time
+import threading
 
 def run(projects):
     event_manager = EventManager()
     scheduler = Scheduler(event_manager)
     project_manager = ProjectManager(projects)
+
+    def update_clients():
+        while True:
+            scheduler.update_clients()
+
+            time.sleep(3)
+
+    t = threading.Thread(target=update_clients)
+    t.start()
 
     app = Flask(__name__, static_folder="web")
 
@@ -16,6 +27,7 @@ def run(projects):
     def update():
         def gen():
             q = event_manager.subscribe()
+            print("subscribe")
 
             if scheduler.running is not None:
                 q.put(ServerSentEvent(EventType.TASK_CHANGED, scheduler.running))
@@ -28,6 +40,7 @@ def run(projects):
                     yield event.encode()
             finally:
                 event_manager.unsubscribe(q)
+                print("unsubscribe")
 
         return Response(gen(), mimetype="text/event-stream")
 

@@ -3,13 +3,13 @@
     "name": "Default",
     "abstract": true,
     "config": {
-      "test": 0
+      "iterations": 1
     }
   },
   {
     "name": "simpleRun",
     "config": {
-      "test": 42
+      "iterations": 10
     }
   }
 ]

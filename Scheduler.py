@@ -5,6 +5,7 @@ from EventManager import EventType
 from TaskWrapper import State
 from queue import Queue
 
+
 class Scheduler:
 
     def __init__(self, event_manager):
@@ -27,6 +28,12 @@ class Scheduler:
 
             if self.running is not None:
                 self.running.stop()
+                self.event_manager.throw(EventType.TASK_CHANGED, self.running)
 
             self.running = self.queue.get()
             self.running.start(self.running_sem)
+            self.event_manager.throw(EventType.TASK_CHANGED, self.running)
+
+    def update_clients(self):
+        if self.running is not None:
+            self.event_manager.throw(EventType.TASK_CHANGED, self.running)
