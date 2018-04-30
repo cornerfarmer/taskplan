@@ -1,6 +1,7 @@
 [
   {
     "name": "Default",
+    "uuid": "5",
     "abstract": true,
     "config": {
       "iterations": 1
@@ -8,8 +9,9 @@
   },
   {
     "name": "simpleRun",
+    "uuid": "42",
     "config": {
-      "iterations": 10
+      "iterations": 30
     }
   }
 ]

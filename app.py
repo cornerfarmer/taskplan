@@ -10,11 +10,12 @@ import threading
 def run(projects):
     event_manager = EventManager()
     scheduler = Scheduler(event_manager)
-    project_manager = ProjectManager(projects)
+    project_manager = ProjectManager(projects, event_manager)
 
     def update_clients():
         while True:
             scheduler.update_clients()
+            project_manager.update_clients()
 
             time.sleep(3)
 
@@ -29,10 +30,8 @@ def run(projects):
             q = event_manager.subscribe()
             print("subscribe")
 
-            if scheduler.running is not None:
-                q.put(ServerSentEvent(EventType.TASK_CHANGED, scheduler.running))
-            for task in list(scheduler.queue.queue):
-                q.put(ServerSentEvent(EventType.TASK_CHANGED, task))
+            scheduler.update_new_client(q)
+            project_manager.update_new_client(q)
 
             try:
                 while True:
@@ -44,9 +43,9 @@ def run(projects):
 
         return Response(gen(), mimetype="text/event-stream")
 
-    @app.route('/start/<string:project_name>/<string:preset_name>')
-    def start(project_name, preset_name):
-        task = project_manager.create_task(project_name, preset_name)
+    @app.route('/start/<string:project_name>/<string:preset_uuid>')
+    def start(project_name, preset_uuid):
+        task = project_manager.create_task(project_name, preset_uuid)
         scheduler.enqueue(task)
         return ""
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Scheduler from "./Scheduler";
+import State from "./Global";
 
 
 function TaskStatus(props) {
@@ -35,7 +35,7 @@ function TaskToolbar(props) {
     return (
         <div className="toolbar">
             <div className="action">
-                <i className="fas fa-pause"></i><span>Pause</span>
+                <i className="fa fa-pause"></i><span>Pause</span>
             </div>
         </div>
     );

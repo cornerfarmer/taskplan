@@ -9,11 +9,11 @@ class Project:
         self.configuration = Configuration(config_dir)
         self.name = task_class_name
 
-    def create_task(self, preset_name):
-        if preset_name in self.configuration.presets_by_name:
-            preset = self.configuration.presets_by_name[preset_name]
+    def create_task(self, preset_uuid):
+        if preset_uuid in self.configuration.presets_by_uuid:
+            preset = self.configuration.presets_by_uuid[preset_uuid]
         else:
-            raise LookupError("No preset with name " + preset_name)
+            raise LookupError("No preset with uuid " + preset_uuid)
 
         task = TaskWrapper(self.task_dir, self.task_class_name, preset, self)
 
@@ -21,3 +21,4 @@ class Project:
 
     def possible_presets(self):
         return [preset for preset in self.configuration.presets if not preset.abstract]
+

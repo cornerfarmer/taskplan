@@ -5,6 +5,24 @@ body {
     background: #FAFAFA;
 }
 
+html,
+body,
+#root,
+#root > .container,
+#root > .container >.row,
+#root > .container >.row > div,
+#root > .container >.row > div > #scheduler {
+    height: 100%;
+}
+
+#root > .container >.row > div:first-child {
+    padding-right: 0;
+}
+
+#root > .container >.row > div:last-child {
+    padding-left: 0;
+}
+
 h1 {
     font-size: 80px;
     font-weight: 300;
@@ -20,7 +38,8 @@ h2 {
 }
 
 #scheduler {
-    padding: 16px 0;
+    padding: 16px 30px 16px;
+    overflow-y: auto;
 }
 
 .tasks {
@@ -95,4 +114,95 @@ h2 {
 
 .tasks .task .toolbar .action span {
     margin-top: 2px;
+}
+
+
+
+#project-manager {
+    border: 1px solid rgba(0,0,0,.1);
+    border-top: 0;
+    border-bottom: 0;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#project-manager #projects-toolbar {
+    display: flex;
+    padding: 5px 16px;
+    background: rgba(158,158,158,.2);
+}
+
+#project-manager #projects {
+    overflow-y: hidden;
+}
+
+#project-manager #projects .project {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#project-manager #projects .project .tabs {
+    display: flex;
+    border: 1px solid rgba(0,0,0,.1);
+    border-right: none;
+    border-left: none;
+    background: white;
+}
+
+#project-manager #projects .project .tabs div {
+    padding: 16px;
+    border-right: 1px solid rgba(0,0,0,.1);
+    flex: 2 1 0;
+    text-align: center;
+    font-weight: 300;
+    font-size: 24px;
+}
+
+#project-manager #projects .project .tabs div:last-child {
+    border: none;
+}
+
+#project-manager #projects .project .presets {
+    padding: 0;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+#project-manager #projects .project .presets .preset {
+    list-style: none;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding: 16px;
+    background: white;
+}
+
+#project-manager #projects .project .presets .preset .header {
+}
+
+#project-manager #projects .project .presets .preset .header .title {
+    font-weight: 300;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#project-manager #projects .project .presets .preset .header .toolbar {
+    float: right;
+    margin: 0 10px 0 10px;
+}
+
+#project-manager #projects .project .presets .preset .header .toolbar .action {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.2);
+    border-radius: 2px;
+}
+
+#project-manager #projects .project .presets .preset .footer {
+    font-size: 14px;
 }

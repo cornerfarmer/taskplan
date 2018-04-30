@@ -1,5 +1,6 @@
 import React from 'react';
 import Scheduler from './Scheduler'
+import ProjectManager from "./ProjectManager";
 
 class App extends React.Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class App extends React.Component {
                         <Scheduler evtSource={this.evtSource}/>
                     </div>
                     <div className="col-sm-6">
+                        <ProjectManager evtSource={this.evtSource}/>
                     </div>
                 </div>
             </div>

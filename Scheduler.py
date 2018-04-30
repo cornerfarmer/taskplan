@@ -34,6 +34,13 @@ class Scheduler:
             self.running.start(self.running_sem)
             self.event_manager.throw(EventType.TASK_CHANGED, self.running)
 
+    def update_new_client(self, client):
+        if self.running is not None:
+            self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, self.running)
+
+        for task in list(self.queue.queue):
+            self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, task)
+
     def update_clients(self):
         if self.running is not None:
             self.event_manager.throw(EventType.TASK_CHANGED, self.running)

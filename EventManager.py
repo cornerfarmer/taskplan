@@ -1,15 +1,20 @@
 from queue import Queue
 from enum import Enum
 import json
+
+from Project import Project
 from TaskWrapper import TaskWrapper
 from datetime import timezone
 
+from config.Preset import Preset
+
+
 class ServerSentEvent(object):
-    def __init__(self, event_type, data):
-        self.data = self._pack_data_for_client(data)
+    def __init__(self, event_type, data, parent_data=None):
+        self.data = self._pack_data_for_client(data, parent_data)
         self.event = event_type
 
-    def _pack_data_for_client(self, data):
+    def _pack_data_for_client(self, data, parent_data=None):
         data_client = {}
         if isinstance(data, TaskWrapper):
             data_client['uuid'] = str(data.uuid)
@@ -19,6 +24,13 @@ class ServerSentEvent(object):
             data_client['start_time'] = 0 if data.start_time is None else data.start_time.timestamp()
             data_client['mean_iteration_time'] = data.mean_iteration_time()
             data_client['total_iterations'] = data.total_iterations
+        elif isinstance(data, Preset):
+            data_client['uuid'] = str(data.uuid)
+            data_client['name'] = data.name
+            data_client['project_name'] = parent_data.name
+            data_client['base'] = data.base_preset.name if data.base_preset is not None else ""
+        elif isinstance(data, Project):
+            data_client['name'] = data.name
         else:
             raise LookupError("Given data type not supported: " + str(data))
 
@@ -35,6 +47,8 @@ class ServerSentEvent(object):
 
 class EventType(Enum):
     TASK_CHANGED = "TASK_CHANGED"
+    PRESET_CHANGED = "PRESET_CHANGED"
+    PROJECT_ADDED = "PROJECT_ADDED"
 
 class EventManager:
     def __init__(self):
@@ -44,10 +58,14 @@ class EventManager:
         self.subscriptions.append(Queue())
         return self.subscriptions[-1]
 
-    def throw(self, event_type, data):
-        event = ServerSentEvent(event_type, data)
+    def throw(self, event_type, data, parent_data=None):
+        event = ServerSentEvent(event_type, data, parent_data)
         for subscription in self.subscriptions:
             subscription.put(event)
+
+    def throw_for_client(self, subscription, event_type, data, parent_data=None):
+        event = ServerSentEvent(event_type, data, parent_data)
+        subscription.put(event)
 
     def unsubscribe(self, subscription):
         self.subscriptions.remove(subscription)
