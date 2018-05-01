@@ -136,6 +136,7 @@ h2 {
 
 #project-manager #projects {
     overflow-y: hidden;
+    flex: 1 1 auto;
 }
 
 #project-manager #projects .project {
@@ -152,6 +153,7 @@ h2 {
     background: white;
 }
 
+
 #project-manager #projects .project .tabs div {
     padding: 16px;
     border-right: 1px solid rgba(0,0,0,.1);
@@ -159,6 +161,17 @@ h2 {
     text-align: center;
     font-weight: 300;
     font-size: 24px;
+    background: rgba(0,0,0,.05);
+    cursor: pointer;
+}
+
+#project-manager #projects .project .tabs div:hover {
+    background: rgba(0,0,0,.025);
+}
+
+#project-manager #projects .project .tabs div.tab-active,
+#project-manager #projects .project .tabs div.tab-active:hover {
+    background: white;
 }
 
 #project-manager #projects .project .tabs div:last-child {
@@ -169,6 +182,7 @@ h2 {
     padding: 0;
     overflow-y: auto;
     margin-bottom: 0;
+    flex: 1 1 auto;
 }
 
 #project-manager #projects .project .presets .preset {
@@ -176,6 +190,10 @@ h2 {
     border-bottom: 1px solid rgba(0,0,0,.1);
     padding: 16px;
     background: white;
+}
+
+#project-manager #projects .project .presets .preset.preset-abstract {
+    font-style: italic;
 }
 
 #project-manager #projects .project .presets .preset .header {
@@ -201,8 +219,25 @@ h2 {
     justify-content: center;
     background: rgba(0,0,0,.2);
     border-radius: 2px;
+    cursor: pointer;
 }
 
 #project-manager #projects .project .presets .preset .footer {
     font-size: 14px;
+}
+
+#project-manager #projects .project .presets-toolbar {
+    display: flex;
+    padding: 5px 16px;
+    background: rgba(158,158,158,.2);
+}
+
+#project-manager #projects .project .presets-toolbar label {
+    margin-bottom: 0;
+    display: flex;
+    align-content: center;
+}
+
+#project-manager #projects .project .presets-toolbar label input {
+    margin-right: 10px;
 }

@@ -29,6 +29,7 @@ class ServerSentEvent(object):
             data_client['name'] = data.name
             data_client['project_name'] = parent_data.name
             data_client['base'] = data.base_preset.name if data.base_preset is not None else ""
+            data_client['abstract'] = data.abstract
         elif isinstance(data, Project):
             data_client['name'] = data.name
         else:

@@ -7,7 +7,8 @@ class TestTask(TaskInterface):
     def __init__(self):
         pass
 
-    def run(self, preset, logger, finished_iterations):
-        for i in range(preset.get_int("iterations")):
+    def run(self, preset, logger, finished_iterations, total_iterations):
+        print(finished_iterations.value, total_iterations)
+        for i in range(finished_iterations.value, total_iterations):
             time.sleep(1)
             finished_iterations.value = i
