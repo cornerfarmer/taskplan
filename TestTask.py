@@ -1,14 +1,25 @@
-from TaskInterface import TaskInterface
+import pickle
+from pathlib import Path
+
+from Task import Task
 import tensorflow
 import time
 
-class TestTask(TaskInterface):
+class TestTask(Task):
 
-    def __init__(self):
-        pass
+    def __init__(self, preset, logger):
+        super().__init__(preset, logger)
+        self.sum = 0
 
-    def run(self, preset, logger, finished_iterations, total_iterations):
-        print(finished_iterations.value, total_iterations)
-        for i in range(finished_iterations.value, total_iterations):
-            time.sleep(1)
-            finished_iterations.value = i
+    def save(self, path):
+        with open(path / Path("model.pk"), 'wb') as handle:
+            pickle.dump(self.sum, handle)
+
+    def step(self):
+        time.sleep(1)
+        self.sum += 1
+
+    def load(self, path):
+        with open(path / Path("model.pk"), 'rb') as handle:
+            self.sum = pickle.load(handle)
+

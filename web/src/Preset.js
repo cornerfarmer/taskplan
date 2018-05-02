@@ -21,7 +21,7 @@ class Preset extends React.Component {
 
     render() {
         return (
-            <li className={this.props.preset.abstract ? "preset preset-abstract" : "preset"}>
+            <li className={this.props.preset.abstract ? "item item-abstract" : "item"}>
                 <div className="header">
                     <div className="toolbar">
                         {!this.props.preset.abstract &&

@@ -29,10 +29,15 @@ class Scheduler:
             if self.running is not None:
                 self.running.stop()
                 self.event_manager.throw(EventType.TASK_CHANGED, self.running)
+                self.running = None
 
             self.running = self.queue.get()
             self.running.start(self.running_sem)
             self.event_manager.throw(EventType.TASK_CHANGED, self.running)
+
+    def pause(self, task_uuid):
+        if self.running is not None and str(self.running.uuid) == task_uuid:
+            self.running.pause()
 
     def update_new_client(self, client):
         if self.running is not None:

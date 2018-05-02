@@ -31,14 +31,34 @@ function TaskProgress(props) {
     }
 }
 
-function TaskToolbar(props) {
-    return (
-        <div className="toolbar">
-            <div className="action">
-                <i className="fa fa-pause"></i><span>Pause</span>
+class TaskToolbar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.pause = this.pause.bind(this);
+    }
+
+    pause() {
+        fetch("/pause/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+    render() {
+        return (
+            <div className="toolbar">
+                <div className="action" onClick={this.pause}>
+                    <i className="fa fa-pause"></i><span>Pause</span>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 class Task extends React.Component {
@@ -57,7 +77,7 @@ class Task extends React.Component {
                     <TaskProgress state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
                     <div className="preset-name">{this.props.task.preset_name}</div>
                 </div>
-                <TaskToolbar/>
+                <TaskToolbar task={this.props.task}/>
             </li>
         );
     }

@@ -14,26 +14,32 @@ class Scheduler extends React.Component {
             const tasks = pm.state.tasks.slice();
             const changedTask = JSON.parse(e.data);
 
-            if (changedTask.state === State.RUNNING) {
-                changedTask.start_time = new Date(changedTask.start_time * 1000);
-
-                pm.refreshRunTime(changedTask);
-                changedTask.total_time = parseInt(changedTask.mean_iteration_time * changedTask.total_iterations);
-            }
-
             const previousIndex = tasks.findIndex(function (e) {
                 return e.uuid === changedTask.uuid
             });
-            console.log(changedTask);
-            if (previousIndex >= 0) {
-                tasks[previousIndex] = changedTask;
-            } else {
-                tasks.push(changedTask);
-            }
 
-            pm.setState({
-                tasks: tasks
-            });
+            if (changedTask.state === State.RUNNING || changedTask.state === State.QUEUED) {
+                if (changedTask.state === State.RUNNING) {
+                    changedTask.start_time = new Date(changedTask.start_time * 1000);
+                    pm.refreshRunTime(changedTask);
+                    changedTask.total_time = parseInt(changedTask.mean_iteration_time * changedTask.total_iterations);
+                }
+
+                if (previousIndex >= 0) {
+                    tasks[previousIndex] = changedTask;
+                } else {
+                    tasks.push(changedTask);
+                }
+
+                pm.setState({
+                    tasks: tasks
+                });
+            } else if (previousIndex !== -1) {
+                tasks.splice(previousIndex, 1);
+                pm.setState({
+                    tasks: tasks
+                });
+            }
         });
     }
 

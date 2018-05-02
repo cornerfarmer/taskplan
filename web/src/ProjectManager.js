@@ -14,7 +14,6 @@ class ProjectManager extends React.Component {
         this.props.evtSource.addEventListener("PROJECT_ADDED", function (e) {
             const projects = pm.state.projects.slice();
             const newProject = JSON.parse(e.data);
-            console.log(newProject);
 
             projects.push(newProject);
             pm.projectsRefs.push(React.createRef());
@@ -29,12 +28,24 @@ class ProjectManager extends React.Component {
             const projectIndex = pm.state.projects.findIndex(function (e) {
                 return e.name === changedPreset.project_name
             });
-            console.log([changedPreset, projectIndex]);
 
             if (projectIndex >= 0) {
                 pm.projectsRefs[projectIndex].current.presetChanged(changedPreset)
             } else {
-                console.log("Undefinde project: " + changedPreset.project_name)
+                console.log("Undefined project: " + changedPreset.project_name)
+            }
+        });
+
+        this.props.evtSource.addEventListener("TASK_CHANGED", function (e) {
+            const changedTask = JSON.parse(e.data);
+            const projectIndex = pm.state.projects.findIndex(function (e) {
+                return e.name === changedTask.project_name
+            });
+
+            if (projectIndex >= 0) {
+                pm.projectsRefs[projectIndex].current.taskChanged(changedTask)
+            } else {
+                console.log("Undefined project: " + changedTask.project_name)
             }
         });
     }

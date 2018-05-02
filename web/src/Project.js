@@ -1,12 +1,15 @@
 import React from 'react';
 import Preset from "./Preset";
 import State from "./Global";
+import FinishedTask from "./FinishedTask";
+import PausedTask from "./PausedTask";
 
 class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             presets: [],
+            tasks: [],
             showAbstract: false,
             activeTab: 0
         };
@@ -33,6 +36,32 @@ class Project extends React.Component {
         });
     }
 
+    taskChanged(changedTask) {
+        const tasks = this.state.tasks.slice();
+
+        const previousIndex = tasks.findIndex(function (e) {
+            return e.uuid === changedTask.uuid
+        });
+
+        if (changedTask.state === State.STOPPED) {
+            if (previousIndex >= 0) {
+                tasks[previousIndex] = changedTask;
+            } else {
+                tasks.push(changedTask);
+            }
+
+            this.setState({
+                tasks: tasks
+            });
+        } else if (previousIndex !== -1) {
+            tasks.splice(previousIndex, 1);
+            this.setState({
+                tasks: tasks
+            });
+        }
+    }
+
+
     toggleShowAbstract() {
         this.setState({
           showAbstract: !this.state.showAbstract,
@@ -49,9 +78,9 @@ class Project extends React.Component {
         return (
             <div className="project">
                 <div className="tabs">
-                    <div className={this.state.activeTab === 0 && "tab-active"} onClick={() => this.showTab(0)}>New</div>
-                    <div className={this.state.activeTab === 1 && "tab-active"} onClick={() => this.showTab(1)}>Paused</div>
-                    <div className={this.state.activeTab === 2 && "tab-active"} onClick={() => this.showTab(2)}>Finished</div>
+                    <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>New</div>
+                    <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Paused</div>
+                    <div className={this.state.activeTab === 2 ? "tab-active" : ""} onClick={() => this.showTab(2)}>Finished</div>
                 </div>
                 <ul className="presets" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
                     {this.state.presets.filter(preset => (!preset.abstract || this.state.showAbstract)).map(preset => (
@@ -67,6 +96,22 @@ class Project extends React.Component {
                         Show abstract presets
                     </label>
                 </div>
+                <ul className="paused-tasks" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                    {this.state.tasks.filter(task => task.finished_iterations !== task.total_iterations).map(task => (
+                        <PausedTask
+                            key={task.uuid}
+                            task={task}
+                        />
+                    ))}
+                </ul>
+                <ul className="finished-tasks" style={{'display': (this.state.activeTab === 2 ? 'block' : 'none')}}>
+                    {this.state.tasks.filter(task => task.finished_iterations === task.total_iterations).map(task => (
+                        <FinishedTask
+                            key={task.uuid}
+                            task={task}
+                        />
+                    ))}
+                </ul>
             </div>
         );
     }

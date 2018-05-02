@@ -30,8 +30,8 @@ def run(projects):
             q = event_manager.subscribe()
             print("subscribe")
 
-            scheduler.update_new_client(q)
             project_manager.update_new_client(q)
+            scheduler.update_new_client(q)
 
             try:
                 while True:
@@ -47,6 +47,19 @@ def run(projects):
     def start(project_name, preset_uuid):
         task = project_manager.create_task(project_name, preset_uuid)
         scheduler.enqueue(task)
+        return ""
+
+    @app.route('/pause/<string:task_uuid>')
+    def pause(task_uuid):
+        scheduler.pause(task_uuid)
+        return ""
+
+    @app.route('/continue/<string:task_uuid>')
+    def continue_task(task_uuid, extra_iterations=0):
+        task = project_manager.find_task_by_uuid(task_uuid)
+        if task is not None and task.finished_iterations() < task.total_iterations + extra_iterations:
+            task.total_iterations += extra_iterations
+            scheduler.enqueue(task)
         return ""
 
     return app

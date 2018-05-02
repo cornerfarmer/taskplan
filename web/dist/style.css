@@ -178,39 +178,39 @@ h2 {
     border: none;
 }
 
-#project-manager #projects .project .presets {
+#project-manager #projects .project ul {
     padding: 0;
     overflow-y: auto;
     margin-bottom: 0;
     flex: 1 1 auto;
 }
 
-#project-manager #projects .project .presets .preset {
+#project-manager #projects .project ul .item {
     list-style: none;
     border-bottom: 1px solid rgba(0,0,0,.1);
     padding: 16px;
     background: white;
 }
 
-#project-manager #projects .project .presets .preset.preset-abstract {
+#project-manager #projects .project ul .item.item-abstract {
     font-style: italic;
 }
 
-#project-manager #projects .project .presets .preset .header {
+#project-manager #projects .project ul .item .header {
 }
 
-#project-manager #projects .project .presets .preset .header .title {
+#project-manager #projects .project ul .item .header .title {
     font-weight: 300;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
-#project-manager #projects .project .presets .preset .header .toolbar {
+#project-manager #projects .project ul .item .header .toolbar {
     float: right;
     margin: 0 10px 0 10px;
 }
 
-#project-manager #projects .project .presets .preset .header .toolbar .action {
+#project-manager #projects .project ul .item .header .toolbar .action {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
     width: 40px;
     height: 40px;
@@ -222,7 +222,7 @@ h2 {
     cursor: pointer;
 }
 
-#project-manager #projects .project .presets .preset .footer {
+#project-manager #projects .project ul .item .footer {
     font-size: 14px;
 }
 

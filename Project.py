@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from TaskWrapper import TaskWrapper
+from TaskWrapper import TaskWrapper, State
 from config.Configuration import Configuration
 
 class Project:
@@ -17,8 +17,9 @@ class Project:
     def _load_saved_tasks(self):
         for path in self.result_dir.iterdir():
             if path.is_dir():
-                self.tasks.append(TaskWrapper(self.task_dir, self.task_class_name, None, self, 0))
+                self.tasks.append(TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, 0))
                 self.tasks[-1].load_metadata(path)
+                self.tasks[-1].state = State.STOPPED
 
     def create_task(self, preset_uuid):
         if preset_uuid in self.configuration.presets_by_uuid:
@@ -26,11 +27,23 @@ class Project:
         else:
             raise LookupError("No preset with uuid " + preset_uuid)
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, preset, self, 30)
+        task = TaskWrapper(self.task_dir, self.task_class_name, preset, self, 30, self.maximal_try_of_preset(preset) + 1)
         task.save_metadata()
 
         return task
 
+    def maximal_try_of_preset(self, preset):
+        maximal_try = -1
+        for task in self.tasks:
+            if task.preset == preset:
+                maximal_try = max(maximal_try, task.try_number)
+        return maximal_try
+
     def possible_presets(self):
         return [preset for preset in self.configuration.presets if not preset.abstract]
 
+    def find_task_by_uuid(self, uuid):
+        for task in self.tasks:
+            if str(task.uuid) == uuid:
+                return task
+        return None
