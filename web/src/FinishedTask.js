@@ -31,7 +31,9 @@ class FinishedTask extends React.Component {
                     <div className="title">{this.props.task.preset_name}</div>
                 </div>
                 <div className="footer">
-                    Iterations: {this.props.task.finished_iterations}
+                    <span>Iterations: {this.props.task.finished_iterations}</span>
+                    <span>Created: {this.props.task.creation_time.toShortStr()}</span>
+                    <span>Finished: {this.props.task.saved_time.toShortStr()}</span>
                 </div>
             </li>
         );

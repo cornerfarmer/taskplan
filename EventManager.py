@@ -22,6 +22,8 @@ class ServerSentEvent(object):
             data_client['project_name'] = data.project.name
             data_client['preset_name'] = data.preset.name
             data_client['start_time'] = 0 if data.start_time is None else data.start_time.timestamp()
+            data_client['creation_time'] = 0 if data.creation_time is None else data.creation_time.timestamp()
+            data_client['saved_time'] = 0 if data.saved_time is None else data.saved_time.timestamp()
             data_client['mean_iteration_time'] = data.mean_iteration_time()
             data_client['total_iterations'] = data.total_iterations
             data_client['finished_iterations'] = data.finished_iterations()
@@ -33,6 +35,7 @@ class ServerSentEvent(object):
             data_client['project_name'] = parent_data.name
             data_client['base'] = data.base_preset.name if data.base_preset is not None else ""
             data_client['abstract'] = data.abstract
+            data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
         elif isinstance(data, Project):
             data_client['name'] = data.name
         else:

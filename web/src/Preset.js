@@ -34,6 +34,7 @@ class Preset extends React.Component {
                 </div>
                 <div className="footer">
                     {this.props.preset.base !== "" ? <span>Inherits from: {this.props.preset.base}</span> : <span>Default base preset</span>}
+                    {!this.props.preset.abstract && <span>Started tries: {this.props.preset.started_tries}</span>}
                 </div>
             </li>
         );

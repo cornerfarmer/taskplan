@@ -27,8 +27,10 @@ class TaskWrapper:
         self._finished_iterations = Value('i', 0)
         self._pause_computation = Value('b', False)
         self.start_time = None
+        self.creation_time = datetime.datetime.now()
+        self.saved_time = None
         self.total_iterations = total_iterations
-        self.try_number = 0
+        self.try_number = try_number
 
     def start(self, running_sem):
         sys.stdout.flush()
@@ -46,6 +48,7 @@ class TaskWrapper:
         self.state = State.STOPPED
         if self.process is not None:
             self.process.join()
+        self.saved_time = datetime.datetime.now()
         self.save_metadata()
 
     def mean_iteration_time(self):
@@ -75,6 +78,8 @@ class TaskWrapper:
         data['finished_iterations'] = self._finished_iterations.value
         data['total_iterations'] = self.total_iterations
         data['try_number'] = self.try_number
+        data['creation_time'] = self.creation_time
+        data['saved_time'] = self.saved_time
         path = self.project.result_dir / Path(self.preset.name)
         path.mkdir(parents=True, exist_ok=True)
         with open(path / Path("metadata.pk"), 'wb') as handle:
@@ -88,4 +93,6 @@ class TaskWrapper:
             self._finished_iterations.value = data['finished_iterations']
             self.total_iterations = data['total_iterations']
             self.try_number = data['try_number']
+            self.creation_time = data['creation_time']
+            self.saved_time = data['saved_time']
 

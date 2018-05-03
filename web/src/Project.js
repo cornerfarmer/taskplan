@@ -44,6 +44,9 @@ class Project extends React.Component {
         });
 
         if (changedTask.state === State.STOPPED) {
+            changedTask.creation_time = new Date(changedTask.creation_time * 1000);
+            changedTask.saved_time = new Date(changedTask.saved_time * 1000);
+
             if (previousIndex >= 0) {
                 tasks[previousIndex] = changedTask;
             } else {

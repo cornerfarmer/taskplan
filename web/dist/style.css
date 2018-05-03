@@ -226,6 +226,16 @@ h2 {
     font-size: 14px;
 }
 
+#project-manager #projects .project ul .item .footer span:before {
+    content: "-";
+    margin: 0 7px;
+}
+
+#project-manager #projects .project ul .item .footer span:first-child:before {
+    content: "";
+    margin: 0;
+}
+
 #project-manager #projects .project .presets-toolbar {
     display: flex;
     padding: 5px 16px;
