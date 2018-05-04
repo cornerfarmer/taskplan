@@ -22,18 +22,18 @@ class FinishedTask extends React.Component {
     render() {
         return (
             <li className="item">
-                <div className="header">
-                    <div className="toolbar">
-                        <div className="action" onClick={this.restart}>
-                            <i className="fa fa-redo"></i>
-                        </div>
+                <div className="content">
+                    <div className="title"><span className="try-number">{this.props.task.try}</span>{this.props.task.preset_name}</div>
+                    <div className="footer">
+                        <span>Iterations: {this.props.task.finished_iterations}</span>
+                        <span>Created: {this.props.task.creation_time.toShortStr()}</span>
+                        <span>Finished: {this.props.task.saved_time.toShortStr()}</span>
                     </div>
-                    <div className="title">{this.props.task.preset_name}</div>
                 </div>
-                <div className="footer">
-                    <span>Iterations: {this.props.task.finished_iterations}</span>
-                    <span>Created: {this.props.task.creation_time.toShortStr()}</span>
-                    <span>Finished: {this.props.task.saved_time.toShortStr()}</span>
+                <div className="toolbar">
+                    <div className="action" onClick={this.restart}>
+                        <i className="fa fa-redo"></i>
+                    </div>
                 </div>
             </li>
         );

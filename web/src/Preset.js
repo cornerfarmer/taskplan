@@ -22,19 +22,19 @@ class Preset extends React.Component {
     render() {
         return (
             <li className={this.props.preset.abstract ? "item item-abstract" : "item"}>
-                <div className="header">
-                    <div className="toolbar">
-                        {!this.props.preset.abstract &&
-                            <div className="action" onClick={this.start}>
-                                <i className="fa fa-play"></i>
-                            </div>
-                        }
-                    </div>
+                <div className="content">
                     <div className="title">{this.props.preset.name}</div>
+                    <div className="footer">
+                        {this.props.preset.base !== "" ? <span><span>Inherits from:</span> {this.props.preset.base}</span> : <span>Default base preset</span>}
+                        {!this.props.preset.abstract && <span><span>Started tries:</span> {this.props.preset.started_tries}</span>}
+                    </div>
                 </div>
-                <div className="footer">
-                    {this.props.preset.base !== "" ? <span>Inherits from: {this.props.preset.base}</span> : <span>Default base preset</span>}
-                    {!this.props.preset.abstract && <span>Started tries: {this.props.preset.started_tries}</span>}
+                <div className="toolbar">
+                    {!this.props.preset.abstract &&
+                        <div className="action" onClick={this.start}>
+                            <i className="fa fa-play"></i>
+                        </div>
+                    }
                 </div>
             </li>
         );
