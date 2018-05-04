@@ -1,3 +1,6 @@
+import datetime
+
+
 class Task:
 
     def __init__(self, preset, logger):
@@ -7,10 +10,15 @@ class Task:
     def load(self, path):
         raise NotImplementedError()
 
-    def run(self, finished_iterations, total_iterations, pause_computation):
+    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation):
         for i in range(finished_iterations.value, total_iterations):
             self.step()
-            finished_iterations.value = i + 1
+
+            with finished_iterations.get_lock():
+                with iteration_update_time.get_lock():
+                    finished_iterations.value = i + 1
+                    iteration_update_time.value = datetime.datetime.now().timestamp()
+
             if pause_computation.value:
                 break
 

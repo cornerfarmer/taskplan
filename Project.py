@@ -29,6 +29,7 @@ class Project:
 
         task = TaskWrapper(self.task_dir, self.task_class_name, preset, self, 30, self.maximal_try_of_preset(preset) + 1)
         task.save_metadata()
+        self.tasks.append(task)
 
         return task
 

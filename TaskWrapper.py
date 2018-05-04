@@ -26,6 +26,7 @@ class TaskWrapper:
         self.project = project
         self._finished_iterations = Value('i', 0)
         self._pause_computation = Value('b', False)
+        self._iteration_update_time = Value('d', 0.0)
         self.start_time = None
         self.creation_time = datetime.datetime.now()
         self.saved_time = None
@@ -35,7 +36,7 @@ class TaskWrapper:
     def start(self, running_sem):
         sys.stdout.flush()
         self._pause_computation.value = False
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, running_sem, self._finished_iterations, self.total_iterations, self._pause_computation, self.project.result_dir / Path(self.preset.name)))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, running_sem, self._finished_iterations, self._iteration_update_time, self.total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir)))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -51,25 +52,24 @@ class TaskWrapper:
         self.saved_time = datetime.datetime.now()
         self.save_metadata()
 
-    def mean_iteration_time(self):
-        if self.start_time is not None and self._finished_iterations.value > 0:
-            return (datetime.datetime.now() - self.start_time).total_seconds() / self._finished_iterations.value
-        else:
-            return 0
-
-    def finished_iterations(self):
-        return self._finished_iterations.value
+    def finished_iterations_and_update_time(self):
+        with self._finished_iterations.get_lock():
+            with self._iteration_update_time.get_lock():
+                return self._finished_iterations.value, self._iteration_update_time.value
 
     @staticmethod
-    def _run(task_dir, class_name, preset, running_sem, finished_iterations, total_iterations, pause_computation, result_dir):
+    def _run(task_dir, class_name, preset, running_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir):
         sys.path.append(str(task_dir))
         task_class = getattr(importlib.import_module(class_name), class_name)
         task = task_class(preset, None)
         if finished_iterations.value > 0:
-            task.load(result_dir)
-        task.run(finished_iterations, total_iterations, pause_computation)
-        task.save(result_dir)
+            task.load(save_dir)
+        task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation)
+        task.save(save_dir)
         running_sem.release()
+
+    def build_save_dir(self, result_dir):
+        return result_dir / Path(self.preset.name + " (try " + str(self.try_number) + ")")
 
     def save_metadata(self):
         data = {}
@@ -80,7 +80,7 @@ class TaskWrapper:
         data['try_number'] = self.try_number
         data['creation_time'] = self.creation_time
         data['saved_time'] = self.saved_time
-        path = self.project.result_dir / Path(self.preset.name)
+        path = self.build_save_dir(self.project.result_dir)
         path.mkdir(parents=True, exist_ok=True)
         with open(path / Path("metadata.pk"), 'wb') as handle:
             pickle.dump(data, handle)

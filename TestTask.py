@@ -16,7 +16,7 @@ class TestTask(Task):
             pickle.dump(self.sum, handle)
 
     def step(self):
-        time.sleep(1)
+        time.sleep(0.2)
         self.sum += 1
 
     def load(self, path):

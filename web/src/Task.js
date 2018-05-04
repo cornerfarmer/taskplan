@@ -24,7 +24,8 @@ function TaskStatus(props) {
 
 function TaskProgress(props) {
     if (props.state === State.RUNNING) {
-        var style = {width: (props.total_time > 0 ? props.run_time / props.total_time * 100 : 0) + '%'};
+        console.log([props.run_time, props.finished_iterations, props.start_time, props.iteration_update_time, props.run_time, (props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time, ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations]);
+        var style = {width: (props.mean_iteration_time > 0 ? ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations * 100 : 0) + '%'};
         return <div className="progress" style={style}></div>;
     } else {
         return "";
@@ -74,7 +75,7 @@ class Task extends React.Component {
                         <div className="project-name">{this.props.task.project_name}</div>
                         <TaskStatus index={this.props.index} state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
                     </div>
-                    <TaskProgress state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
+                    <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
                     <div className="preset-name">{this.props.task.preset_name}</div>
                 </div>
                 <TaskToolbar task={this.props.task}/>

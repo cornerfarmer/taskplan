@@ -20,9 +20,19 @@ class Scheduler extends React.Component {
 
             if (changedTask.state === State.RUNNING || changedTask.state === State.QUEUED) {
                 if (changedTask.state === State.RUNNING) {
+                    if (previousIndex >= 0) {
+                        if (changedTask.finished_iterations !== tasks[previousIndex].finished_iterations) {
+                            changedTask.mean_iteration_time = (changedTask.iteration_update_time - (tasks[previousIndex].iteration_update_time === 0 ? changedTask.start_time : tasks[previousIndex].iteration_update_time)) / (changedTask.finished_iterations - tasks[previousIndex].finished_iterations);
+                            changedTask.total_time = parseInt(changedTask.iteration_update_time - changedTask.start_time + changedTask.mean_iteration_time * (changedTask.total_iterations - changedTask.finished_iterations));
+                        } else {
+                            changedTask.mean_iteration_time = tasks[previousIndex].mean_iteration_time;
+                            changedTask.total_time = tasks[previousIndex].total_time;
+                        }
+                    }
+                    console.log(changedTask);
+                    changedTask.start_time_timestamp = changedTask.start_time;
                     changedTask.start_time = new Date(changedTask.start_time * 1000);
                     pm.refreshRunTime(changedTask);
-                    changedTask.total_time = parseInt(changedTask.mean_iteration_time * changedTask.total_iterations);
                 }
 
                 if (previousIndex >= 0) {

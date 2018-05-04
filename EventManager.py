@@ -24,9 +24,8 @@ class ServerSentEvent(object):
             data_client['start_time'] = 0 if data.start_time is None else data.start_time.timestamp()
             data_client['creation_time'] = 0 if data.creation_time is None else data.creation_time.timestamp()
             data_client['saved_time'] = 0 if data.saved_time is None else data.saved_time.timestamp()
-            data_client['mean_iteration_time'] = data.mean_iteration_time()
             data_client['total_iterations'] = data.total_iterations
-            data_client['finished_iterations'] = data.finished_iterations()
+            data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
             data_client['preset_uuid'] = data.preset.uuid
             data_client['try'] = data.try_number
         elif isinstance(data, Preset):

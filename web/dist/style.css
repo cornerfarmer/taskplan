@@ -80,6 +80,12 @@ h2 {
     height: 2px;
     margin-bottom: 10px;
     border-radius: 0;
+
+    -webkit-transition: width 400ms ease-in-out;
+    -moz-transition: width 400ms ease-in-out;
+    -ms-transition: width 400ms ease-in-out;
+    -o-transition: width 400ms ease-in-out;
+    transition: width 400ms ease-in-out;
 }
 
 .tasks .task .preset-name {
