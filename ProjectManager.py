@@ -7,8 +7,8 @@ class ProjectManager:
         self.projects = projects
         self.event_manager = event_manager
 
-    def create_task(self, project_name, preset_uuid):
-        return self.project_by_name(project_name).create_task(preset_uuid)
+    def create_task(self, project_name, preset_uuid, total_iterations):
+        return self.project_by_name(project_name).create_task(preset_uuid, total_iterations)
 
     def project_by_name(self, project_name):
         for project in self.projects:

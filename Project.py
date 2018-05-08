@@ -21,13 +21,13 @@ class Project:
                 self.tasks[-1].load_metadata(path)
                 self.tasks[-1].state = State.STOPPED
 
-    def create_task(self, preset_uuid):
+    def create_task(self, preset_uuid, total_iterations):
         if preset_uuid in self.configuration.presets_by_uuid:
             preset = self.configuration.presets_by_uuid[preset_uuid]
         else:
             raise LookupError("No preset with uuid " + preset_uuid)
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, preset, self, 30, self.maximal_try_of_preset(preset) + 1)
+        task = TaskWrapper(self.task_dir, self.task_class_name, preset, self, total_iterations, self.maximal_try_of_preset(preset) + 1)
         task.save_metadata()
         self.tasks.append(task)
 

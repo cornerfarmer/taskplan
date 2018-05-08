@@ -1,22 +1,16 @@
 import React from 'react';
+import Prompt from "./Prompt";
 
 class Preset extends React.Component {
     constructor(props) {
         super(props);
-        this.start = this.start.bind(this);
+
+        this.promptRefs = React.createRef();
+        this.openDialog = this.openDialog.bind(this);
     }
 
-    start() {
-        fetch("/start/" + this.props.preset.project_name + "/" + this.props.preset.uuid)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-
-                }
-            )
+    openDialog() {
+        this.promptRefs.current.openDialog();
     }
 
     render() {
@@ -31,11 +25,12 @@ class Preset extends React.Component {
                 </div>
                 <div className="toolbar">
                     {!this.props.preset.abstract &&
-                        <div className="action" onClick={this.start}>
+                        <div className="action" onClick={this.openDialog}>
                             <i className="fa fa-play"></i>
                         </div>
                     }
                 </div>
+                <Prompt ref={this.promptRefs} header="How many iterations?" text="Specify the number of iterations, you want the task to run:" url={"/start/" + this.props.preset.project_name + "/" + this.props.preset.uuid}/>
             </li>
         );
     }

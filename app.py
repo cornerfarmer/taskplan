@@ -43,9 +43,9 @@ def run(projects):
 
         return Response(gen(), mimetype="text/event-stream")
 
-    @app.route('/start/<string:project_name>/<string:preset_uuid>')
-    def start(project_name, preset_uuid):
-        task = project_manager.create_task(project_name, preset_uuid)
+    @app.route('/start/<string:project_name>/<string:preset_uuid>/<int:total_iterations>')
+    def start(project_name, preset_uuid, total_iterations):
+        task = project_manager.create_task(project_name, preset_uuid, total_iterations)
         scheduler.enqueue(task)
         return ""
 
@@ -57,7 +57,7 @@ def run(projects):
     @app.route('/continue/<string:task_uuid>')
     def continue_task(task_uuid, extra_iterations=0):
         task = project_manager.find_task_by_uuid(task_uuid)
-        if task is not None and task.finished_iterations() < task.total_iterations + extra_iterations:
+        if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations + extra_iterations:
             task.total_iterations += extra_iterations
             scheduler.enqueue(task)
         return ""
