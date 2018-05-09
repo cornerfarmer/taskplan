@@ -32,11 +32,13 @@ class TaskWrapper:
         self.saved_time = None
         self.total_iterations = total_iterations
         self.try_number = try_number
+        self._is_running = Value('b', False)
 
-    def start(self, running_sem):
+    def start(self, wakeup_sem):
         sys.stdout.flush()
         self._pause_computation.value = False
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, running_sem, self._finished_iterations, self._iteration_update_time, self.total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir)))
+        self._is_running.value = True
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, wakeup_sem, self._finished_iterations, self._iteration_update_time, self.total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir), self._is_running))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -52,21 +54,27 @@ class TaskWrapper:
         self.saved_time = datetime.datetime.now()
         self.save_metadata()
 
+    def is_running(self):
+        return self._is_running.value
+
     def finished_iterations_and_update_time(self):
         with self._finished_iterations.get_lock():
             with self._iteration_update_time.get_lock():
                 return self._finished_iterations.value, self._iteration_update_time.value
 
     @staticmethod
-    def _run(task_dir, class_name, preset, running_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir):
+    def _run(task_dir, class_name, preset, wakeup_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running):
         sys.path.append(str(task_dir))
         task_class = getattr(importlib.import_module(class_name), class_name)
         task = task_class(preset, None)
+
         if finished_iterations.value > 0:
             task.load(save_dir)
         task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation)
         task.save(save_dir)
-        running_sem.release()
+
+        is_running.value = False
+        wakeup_sem.release()
 
     def build_save_dir(self, result_dir):
         return result_dir / Path(self.preset.name + " (try " + str(self.try_number) + ")")

@@ -3,6 +3,7 @@ from enum import Enum
 import json
 
 from Project import Project
+import Scheduler
 from TaskWrapper import TaskWrapper
 from datetime import timezone
 
@@ -37,6 +38,8 @@ class ServerSentEvent(object):
             data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
         elif isinstance(data, Project):
             data_client['name'] = data.name
+        elif isinstance(data, Scheduler.Scheduler):
+            data_client['max_running'] = data.max_running
         else:
             raise LookupError("Given data type not supported: " + str(data))
 
@@ -55,6 +58,7 @@ class EventType(Enum):
     TASK_CHANGED = "TASK_CHANGED"
     PRESET_CHANGED = "PRESET_CHANGED"
     PROJECT_ADDED = "PROJECT_ADDED"
+    SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
 
 class EventManager:
     def __init__(self):

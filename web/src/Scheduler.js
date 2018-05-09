@@ -6,7 +6,8 @@ class Scheduler extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tasks: []
+            tasks: [],
+            max_running: 1
         };
 
         var pm = this;
@@ -17,6 +18,7 @@ class Scheduler extends React.Component {
             const previousIndex = tasks.findIndex(function (e) {
                 return e.uuid === changedTask.uuid
             });
+            console.log(changedTask);
 
             if (changedTask.state === State.RUNNING || changedTask.state === State.QUEUED) {
                 if (changedTask.state === State.RUNNING) {
@@ -29,7 +31,6 @@ class Scheduler extends React.Component {
                             changedTask.total_time = tasks[previousIndex].total_time;
                         }
                     }
-                    console.log(changedTask);
                     changedTask.start_time_timestamp = changedTask.start_time;
                     changedTask.start_time = new Date(changedTask.start_time * 1000);
                     pm.refreshRunTime(changedTask);
@@ -50,6 +51,13 @@ class Scheduler extends React.Component {
                     tasks: tasks
                 });
             }
+        });
+
+        this.props.evtSource.addEventListener("SCHEDULER_OPTIONS", function (e) {
+            const options = JSON.parse(e.data);
+            pm.setState({
+                max_running: options.max_running
+            });
         });
     }
 
@@ -79,7 +87,7 @@ class Scheduler extends React.Component {
         return (
             <div id="scheduler">
                 <h1>TaskPlan</h1>
-                <h2>Running ({this.state.tasks.filter(task => task.state === State.RUNNING).length} / 0)</h2>
+                <h2>Running ({this.state.tasks.filter(task => task.state === State.RUNNING).length} / {this.state.max_running})</h2>
                 <ul className="tasks">
                     {this.state.tasks.filter(task => task.state === State.RUNNING).map((task, index) => (
                         <Task

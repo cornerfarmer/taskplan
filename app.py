@@ -7,9 +7,9 @@ from Scheduler import Scheduler
 import time
 import threading
 
-def run(projects):
+def run(projects, max_running):
     event_manager = EventManager()
-    scheduler = Scheduler(event_manager)
+    scheduler = Scheduler(event_manager, max_running)
     project_manager = ProjectManager(projects, event_manager)
 
     def update_clients():
@@ -66,4 +66,4 @@ def run(projects):
 
 
 def create_app():
-    return run([Project(".", "TestTask")])
+    return run([Project(".", "TestTask")], 4)
