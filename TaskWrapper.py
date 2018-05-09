@@ -33,6 +33,7 @@ class TaskWrapper:
         self.total_iterations = total_iterations
         self.try_number = try_number
         self._is_running = Value('b', False)
+        self.queue_index = 0
 
     def start(self, wakeup_sem):
         sys.stdout.flush()

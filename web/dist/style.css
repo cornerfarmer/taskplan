@@ -69,6 +69,10 @@ h2 {
     align-items: flex-start;
 }
 
+#tasks-queued.tasks .task .header {
+    cursor: grab;
+}
+
 .tasks .task .header .project-name {
     font-weight: 300;
     font-size: 24px;
@@ -122,6 +126,18 @@ h2 {
     margin-top: 2px;
 }
 
+
+
+.tasks .task.on-drag-over {
+    border: 3px dashed #3f51b5;
+    box-shadow: none;
+}
+
+.tasks .task.on-drag-over .content,
+.tasks .task.on-drag-over .toolbar
+{
+    visibility: hidden;
+}
 
 
 #project-manager {

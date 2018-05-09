@@ -29,6 +29,7 @@ class ServerSentEvent(object):
             data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
             data_client['preset_uuid'] = data.preset.uuid
             data_client['try'] = data.try_number
+            data_client['queue_index'] = data.queue_index
         elif isinstance(data, Preset):
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.name

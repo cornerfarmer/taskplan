@@ -65,18 +65,81 @@ class TaskToolbar extends React.Component {
 class Task extends React.Component {
     constructor(props) {
         super(props);
+        this.projectName = React.createRef();
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onDragOver = this.onDragOver.bind(this);
+        this.onDragEnter = this.onDragEnter.bind(this);
+        this.onDragLeave = this.onDragLeave.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+        this.taskRef = React.createRef();
+        this.dragEnterCounter = 0
+    }
+
+    onMouseDown(e) {
+        this.target = e.target;
+    }
+
+    onDragStart(e) {
+        if (this.projectName.current.contains(this.target)) {
+            e.dataTransfer.setData("text/plain", this.props.task.uuid);
+        } else {
+            e.preventDefault();
+        }
+    }
+
+    onDragOver(e) {
+        if (this.props.task.state === State.QUEUED && this.props.task.uuid !== e.dataTransfer.getData("text/plain")) {
+            e.preventDefault();
+        }
+    }
+
+    onDrop(e) {
+        if (this.props.task.state === State.QUEUED && this.props.task.uuid !== e.dataTransfer.getData("text/plain")) {
+            e.preventDefault();
+            fetch("/reorder/" + e.dataTransfer.getData("text/plain") + "/" + this.props.index)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            );
+
+            this.dragEnterCounter = 0;
+            this.taskRef.current.className = "task";
+        }
+    }
+
+    onDragEnter(e) {
+        if (this.props.task.state === State.QUEUED && this.props.task.uuid !== e.dataTransfer.getData("text/plain")) {
+            e.preventDefault();
+            this.taskRef.current.className = "task on-drag-over";
+            this.dragEnterCounter++;
+        }
+    }
+
+    onDragLeave(e) {
+        if (this.props.task.state === State.QUEUED && this.props.task.uuid !== e.dataTransfer.getData("text/plain")) {
+            e.preventDefault();
+            this.dragEnterCounter--;
+            if (this.dragEnterCounter === 0)
+                this.taskRef.current.className = "task";
+        }
     }
 
     render() {
         return (
-            <li className="task">
+            <li ref={this.taskRef} className="task" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} onMouseDown={this.onMouseDown} draggable={this.props.task.state === State.QUEUED ? "true" : "false"} >
                 <div className="content">
                     <div className="header">
-                        <div className="project-name">{this.props.task.project_name}</div>
+                        <div className="project-name" ref={this.projectName}>{this.props.task.project_name}</div>
                         <TaskStatus index={this.props.index} state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
                     </div>
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
-                    <div className="preset-name">{this.props.task.preset_name}</div>
+                    <div className="preset-name">{this.props.task.preset_name} - {this.props.task.uuid}</div>
                 </div>
                 <TaskToolbar task={this.props.task}/>
             </li>

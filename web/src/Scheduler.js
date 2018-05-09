@@ -88,7 +88,7 @@ class Scheduler extends React.Component {
             <div id="scheduler">
                 <h1>TaskPlan</h1>
                 <h2>Running ({this.state.tasks.filter(task => task.state === State.RUNNING).length} / {this.state.max_running})</h2>
-                <ul className="tasks">
+                <ul className="tasks" id="tasks-running">
                     {this.state.tasks.filter(task => task.state === State.RUNNING).map((task, index) => (
                         <Task
                             key={task.uuid}
@@ -98,8 +98,8 @@ class Scheduler extends React.Component {
                     ))}
                 </ul>
                 <h2>Waiting ({this.state.tasks.filter(task => task.state === State.QUEUED).length})</h2>
-                <ul className="tasks">
-                    {this.state.tasks.filter(task => task.state === State.QUEUED).map((task, index) => (
+                <ul className="tasks" id="tasks-queued">
+                    {this.state.tasks.filter(task => task.state === State.QUEUED).sort(function(a,b) { return a.queue_index - b.queue_index }).map((task, index) => (
                         <Task
                             key={task.uuid}
                             task={task}

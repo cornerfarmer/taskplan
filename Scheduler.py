@@ -23,6 +23,7 @@ class Scheduler:
         self.queue_mutex.acquire()
 
         self.queue.append(task)
+        task.queue_index = len(self.queue) - 1
         task.state = State.QUEUED
         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, task)
 
@@ -43,6 +44,7 @@ class Scheduler:
 
             if len(self.queue) > 0 and len(self.runnings) < self.max_running:
                 self.runnings.append(self.queue.pop(0))
+                self.update_indices()
                 self.runnings[-1].start(self.wakeup_sem)
                 self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.runnings[-1])
 
@@ -52,6 +54,33 @@ class Scheduler:
         for running in self.runnings:
             if str(running.uuid) == task_uuid:
                 running.pause()
+
+    def update_indices(self):
+        for i in range(0, len(self.queue)):
+            self.queue[i].queue_index = i
+            self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.queue[i])
+
+    def reorder(self, task_uuid, new_index):
+        self.queue_mutex.acquire()
+
+        task_to_reorder = None
+        old_index = None
+        for index, task in enumerate(self.queue):
+            if str(task.uuid) == task_uuid:
+                task_to_reorder = task
+                old_index = index
+                break
+
+        if task_to_reorder is not None:
+            #if old_index <= new_index:
+            #    new_index -= 1
+            new_index = max(0, min(len(self.queue) - 1, new_index))
+            self.queue.remove(task_to_reorder)
+            self.queue.insert(new_index, task_to_reorder)
+
+            self.update_indices()
+
+        self.queue_mutex.release()
 
     def update_new_client(self, client):
         self.event_manager.throw_for_client(client, EventManager.EventType.SCHEDULER_OPTIONS, self)

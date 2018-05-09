@@ -62,8 +62,13 @@ def run(projects, max_running):
             scheduler.enqueue(task)
         return ""
 
+    @app.route('/reorder/<string:task_uuid>/<int:new_index>')
+    def reorder_task(task_uuid, new_index):
+        scheduler.reorder(task_uuid, new_index)
+        return ""
+
     return app
 
 
 def create_app():
-    return run([Project(".", "TestTask")], 4)
+    return run([Project(".", "TestTask")], 1)
