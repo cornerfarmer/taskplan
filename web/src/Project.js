@@ -17,6 +17,7 @@ class Project extends React.Component {
         this.presetChanged = this.presetChanged.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.showTab = this.showTab.bind(this);
+        this.addPreset = this.addPreset.bind(this);
         this.presetEditor = React.createRef()
     }
 
@@ -79,6 +80,10 @@ class Project extends React.Component {
         });
     }
 
+    addPreset() {
+        this.presetEditor.current.new(this.props.project.name);
+    }
+
     render() {
         return (
             <div className="project">
@@ -97,11 +102,14 @@ class Project extends React.Component {
                     ))}
                 </ul>
                 <PresetEditor ref={this.presetEditor}/>
-                <div className="presets-toolbar" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
+                <div className="presets-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />
-                        Show abstract presets
+                        <span>Show abstract presets</span>
                     </label>
+                    <div className="buttons">
+                        <div onClick={this.addPreset}>Add preset</div>
+                    </div>
                 </div>
                 <ul className="paused-tasks" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
                     {this.state.tasks.filter(task => task.finished_iterations !== task.total_iterations).map(task => (

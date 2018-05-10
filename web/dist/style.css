@@ -288,18 +288,23 @@ h2 {
     display: flex;
     padding: 5px 16px;
     background: rgba(158,158,158,.2);
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #project-manager #projects .project .presets-toolbar label {
     margin-bottom: 0;
     display: flex;
-    align-content: center;
+    align-items: center;
 }
 
 #project-manager #projects .project .presets-toolbar label input {
     margin-right: 10px;
 }
 
+#project-manager #projects .project .presets-toolbar .buttons div:last-child {
+    margin-right: 0;
+}
 
 
 .prompt-wrapper {
@@ -346,8 +351,8 @@ h2 {
     margin: 0 16px 16px 16px;
 }
 
-#preset-editor .buttons div,
-.prompt-wrapper .prompt .buttons div {
+.buttons div,
+.buttons div {
     background: rgba(158,158,158,.2);
     padding: 6px 10px;
     border-radius: 2px;
@@ -356,8 +361,8 @@ h2 {
     font-size: 14px;
 }
 
-#preset-editor .buttons div:first-child,
-.prompt-wrapper .prompt .buttons div:first-child {
+.buttons div:first-child,
+.buttons div:first-child {
     background: #3f51b5;
     color: white;
     margin-right: 10px;

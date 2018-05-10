@@ -1,15 +1,15 @@
 [
   {
     "name": "Default",
-    "uuid": "5",
     "abstract": true,
-    "config": {}
+    "config": {},
+    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09"
   },
   {
     "name": "simpleRun",
-    "uuid": "42",
     "config": {
-      "learning_rate": 0.1
-    }
+      "learning_rate": 0.35
+    },
+    "uuid": "22799753-d04b-445c-87bd-67e215b1e27f"
   }
 ]

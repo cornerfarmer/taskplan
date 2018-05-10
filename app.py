@@ -9,6 +9,9 @@ import threading
 from flask import request
 import json
 
+from config.Preset import Preset
+
+
 def run(projects, max_running):
     event_manager = EventManager()
     scheduler = Scheduler(event_manager, max_running)
@@ -76,9 +79,23 @@ def run(projects, max_running):
         project = project_manager.project_by_name(project_name)
         configuration = project.configuration
         if preset_uuid in configuration.presets_by_uuid:
-            configuration.presets_by_uuid[preset_uuid].set_data(new_data)
+            preset = configuration.presets_by_uuid[preset_uuid]
+            new_data['uuid'] = preset.uuid
+            preset.set_data(new_data)
             configuration.save()
-            event_manager.throw(EventType.PRESET_CHANGED, configuration.presets_by_uuid[preset_uuid], project)
+            event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+
+        return ""
+
+    @app.route('/add/<string:project_name>', methods=['POST'])
+    def add_preset(project_name):
+        new_data = json.loads(request.form.get('data'))
+
+        project = project_manager.project_by_name(project_name)
+
+        preset = project.configuration.add_preset(new_data)
+
+        event_manager.throw(EventType.PRESET_CHANGED, preset, project)
 
         return ""
 
