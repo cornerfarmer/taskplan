@@ -6,6 +6,8 @@ from ProjectManager import ProjectManager
 from Scheduler import Scheduler
 import time
 import threading
+from flask import request
+import json
 
 def run(projects, max_running):
     event_manager = EventManager()
@@ -65,6 +67,19 @@ def run(projects, max_running):
     @app.route('/reorder/<string:task_uuid>/<int:new_index>')
     def reorder_task(task_uuid, new_index):
         scheduler.reorder(task_uuid, new_index)
+        return ""
+
+    @app.route('/edit/<string:project_name>/<string:preset_uuid>', methods=['POST'])
+    def edit_preset(project_name, preset_uuid):
+        new_data = json.loads(request.form.get('data'))
+
+        project = project_manager.project_by_name(project_name)
+        configuration = project.configuration
+        if preset_uuid in configuration.presets_by_uuid:
+            configuration.presets_by_uuid[preset_uuid].set_data(new_data)
+            configuration.save()
+            event_manager.throw(EventType.PRESET_CHANGED, configuration.presets_by_uuid[preset_uuid], project)
+
         return ""
 
     return app

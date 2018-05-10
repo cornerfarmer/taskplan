@@ -37,6 +37,7 @@ class ServerSentEvent(object):
             data_client['base'] = data.base_preset.name if data.base_preset is not None else ""
             data_client['abstract'] = data.abstract
             data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
+            data_client['data'] = data.data
         elif isinstance(data, Project):
             data_client['name'] = data.name
         elif isinstance(data, Scheduler.Scheduler):

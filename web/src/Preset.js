@@ -29,6 +29,9 @@ class Preset extends React.Component {
                             <i className="fa fa-play"></i>
                         </div>
                     }
+                    <div className="action" onClick={() => this.props.editFunc(this.props.preset)}>
+                        <i className="fa fa-edit"></i>
+                    </div>
                 </div>
                 <Prompt ref={this.promptRefs} header="How many iterations?" text="Specify the number of iterations, you want the task to run:" url={"/start/" + this.props.preset.project_name + "/" + this.props.preset.uuid}/>
             </li>

@@ -339,12 +339,14 @@ h2 {
     width: calc(100% - 32px);
 }
 
+#preset-editor .buttons,
 .prompt-wrapper .prompt .buttons {
     display: flex;
     justify-content: flex-end;
     margin: 0 16px 16px 16px;
 }
 
+#preset-editor .buttons div,
 .prompt-wrapper .prompt .buttons div {
     background: rgba(158,158,158,.2);
     padding: 6px 10px;
@@ -354,8 +356,21 @@ h2 {
     font-size: 14px;
 }
 
+#preset-editor .buttons div:first-child,
 .prompt-wrapper .prompt .buttons div:first-child {
     background: #3f51b5;
     color: white;
     margin-right: 10px;
+}
+
+#preset-editor .header {
+    padding: 5px 16px;
+    background: rgba(158,158,158,.2);
+}
+
+#preset-editor textarea {
+    width: calc(100% - 32px);
+    resize: vertical;
+    margin: 16px;
+    height: 200px;
 }

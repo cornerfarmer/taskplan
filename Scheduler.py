@@ -64,16 +64,12 @@ class Scheduler:
         self.queue_mutex.acquire()
 
         task_to_reorder = None
-        old_index = None
         for index, task in enumerate(self.queue):
             if str(task.uuid) == task_uuid:
                 task_to_reorder = task
-                old_index = index
                 break
 
         if task_to_reorder is not None:
-            #if old_index <= new_index:
-            #    new_index -= 1
             new_index = max(0, min(len(self.queue) - 1, new_index))
             self.queue.remove(task_to_reorder)
             self.queue.insert(new_index, task_to_reorder)

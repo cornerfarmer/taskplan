@@ -9,6 +9,7 @@ class Project:
         self.task_dir = Path(task_dir)
         self.task_class_name = task_class_name
         self.configuration = Configuration(config_dir)
+        self.configuration.save()
         self.name = task_class_name
         self.result_dir = Path(result_dir)
         self.tasks = []

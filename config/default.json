@@ -3,13 +3,13 @@
     "name": "Default",
     "uuid": "5",
     "abstract": true,
-    "config": {
-    }
+    "config": {}
   },
   {
     "name": "simpleRun",
     "uuid": "42",
     "config": {
+      "learning_rate": 0.1
     }
   }
 ]

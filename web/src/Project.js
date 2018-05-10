@@ -3,6 +3,7 @@ import Preset from "./Preset";
 import State from "./Global";
 import FinishedTask from "./FinishedTask";
 import PausedTask from "./PausedTask";
+import PresetEditor from "./PresetEditor";
 
 class Project extends React.Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class Project extends React.Component {
         this.presetChanged = this.presetChanged.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.showTab = this.showTab.bind(this);
+        this.presetEditor = React.createRef()
     }
 
     presetChanged(changedPreset) {
@@ -90,9 +92,11 @@ class Project extends React.Component {
                         <Preset
                             key={preset.uuid}
                             preset={preset}
+                            editFunc={this.presetEditor.current.open}
                         />
                     ))}
                 </ul>
+                <PresetEditor ref={this.presetEditor}/>
                 <div className="presets-toolbar" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />
