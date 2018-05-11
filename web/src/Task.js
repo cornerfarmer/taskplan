@@ -1,5 +1,6 @@
 import React from 'react';
 import State from "./Global";
+import Prompt from "./Prompt";
 
 
 function TaskStatus(props) {
@@ -36,6 +37,8 @@ class TaskToolbar extends React.Component {
     constructor(props) {
         super(props);
         this.pause = this.pause.bind(this);
+        this.openExtraDialog = this.openExtraDialog.bind(this);
+        this.promptExtraRefs = React.createRef();
     }
 
     pause() {
@@ -51,12 +54,20 @@ class TaskToolbar extends React.Component {
             )
     }
 
+    openExtraDialog() {
+        this.promptExtraRefs.current.openDialog();
+    }
+
     render() {
         return (
             <div className="toolbar">
                 <div className="action" onClick={this.pause}>
                     <i className="fa fa-pause"></i><span>Pause</span>
                 </div>
+                <div className="action" onClick={this.openExtraDialog}>
+                    <i className="fa fa-plus"></i><span>Extend</span>
+                </div>
+                <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/change/" + this.props.task.uuid}/>
             </div>
         );
     }

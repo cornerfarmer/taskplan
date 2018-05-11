@@ -5,7 +5,7 @@ class Prompt extends React.Component {
         super(props);
         this.state = {
             dialogOpen: false,
-            inputValue: ''
+            inputValue: this.props.defaultValue
         };
 
         this.start = this.start.bind(this);

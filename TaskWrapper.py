@@ -30,7 +30,7 @@ class TaskWrapper:
         self.start_time = None
         self.creation_time = datetime.datetime.now()
         self.saved_time = None
-        self.total_iterations = total_iterations
+        self._total_iterations = Value('i', total_iterations)
         self.try_number = try_number
         self._is_running = Value('b', False)
         self.queue_index = 0
@@ -39,7 +39,7 @@ class TaskWrapper:
         sys.stdout.flush()
         self._pause_computation.value = False
         self._is_running.value = True
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, wakeup_sem, self._finished_iterations, self._iteration_update_time, self.total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir), self._is_running))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir), self._is_running))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -85,7 +85,7 @@ class TaskWrapper:
         data['uuid'] = str(self.uuid)
         data['preset_uuid'] = str(self.preset.uuid)
         data['finished_iterations'] = self._finished_iterations.value
-        data['total_iterations'] = self.total_iterations
+        data['total_iterations'] = self._total_iterations.value
         data['try_number'] = self.try_number
         data['creation_time'] = self.creation_time
         data['saved_time'] = self.saved_time
@@ -100,8 +100,17 @@ class TaskWrapper:
             self.uuid = uuid.UUID(data['uuid'])
             self.preset = self.project.configuration.presets_by_uuid[data['preset_uuid']]
             self._finished_iterations.value = data['finished_iterations']
-            self.total_iterations = data['total_iterations']
+            self._total_iterations.value = data['total_iterations']
             self.try_number = data['try_number']
             self.creation_time = data['creation_time']
             self.saved_time = data['saved_time']
+
+    def total_iterations(self):
+        return self._total_iterations.value
+
+    def set_total_iterations(self, total_iterations):
+        with self._finished_iterations.get_lock():
+            with self._total_iterations.get_lock():
+                if total_iterations > self._finished_iterations.value + (1 if self.state == State.RUNNING else 0):
+                    self._total_iterations.value = total_iterations
 

@@ -60,10 +60,13 @@ def run(projects, max_running):
         return ""
 
     @app.route('/continue/<string:task_uuid>')
-    def continue_task(task_uuid, extra_iterations=0):
+    @app.route('/continue/<string:task_uuid>/<int:total_iterations>')
+    def continue_task(task_uuid, total_iterations=0):
         task = project_manager.find_task_by_uuid(task_uuid)
-        if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations + extra_iterations:
-            task.total_iterations += extra_iterations
+        if total_iterations > 0:
+            task.set_total_iterations(total_iterations)
+
+        if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations():
             scheduler.enqueue(task)
         return ""
 
@@ -97,6 +100,11 @@ def run(projects, max_running):
 
         event_manager.throw(EventType.PRESET_CHANGED, preset, project)
 
+        return ""
+
+    @app.route('/change/<string:task_uuid>/<int:total_iterations>')
+    def change(task_uuid, total_iterations):
+        scheduler.change_total_iterations(task_uuid, total_iterations)
         return ""
 
     return app
