@@ -374,9 +374,16 @@ h2 {
     background: rgba(158,158,158,.2);
 }
 
-#preset-editor textarea {
+#preset-editor .jsoneditor {
     width: calc(100% - 32px);
     resize: vertical;
     margin: 16px;
-    height: 200px;
+    height: 300px;
+    border-color:  #3f51b5;
+}
+
+
+#preset-editor .jsoneditor div.jsoneditor-menu {
+    background-color: #3f51b5;
+    border-color:  #3f51b5;
 }

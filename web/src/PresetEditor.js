@@ -1,12 +1,17 @@
 import React from 'react';
 import Prompt from "./Prompt";
+import { JsonEditor as Editor } from 'jsoneditor-react';
+import 'jsoneditor-react/es/editor.min.css';
+import ace from 'brace';
+import 'brace/mode/json';
 
 class PresetEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             preset: null,
-            config: ''
+            config: '',
+            mode: 'code'
         };
 
         this.open = this.open.bind(this);
@@ -14,7 +19,7 @@ class PresetEditor extends React.Component {
         this.save = this.save.bind(this);
         this.new = this.new.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.textarea = React.createRef();
+        this.onModeChange = this.onModeChange.bind(this);
     }
 
     open(preset) {
@@ -23,7 +28,7 @@ class PresetEditor extends React.Component {
 
         this.setState({
             preset: preset,
-            config: JSON.stringify(data, null, 2)
+            config: data
         });
     }
 
@@ -31,7 +36,7 @@ class PresetEditor extends React.Component {
         this.close();
         this.setState({
             preset: {name: 'New preset', project_name: project_name},
-            config: JSON.stringify({config: {}}, null, 2)
+            config: {config: {}}
         });
     }
 
@@ -39,11 +44,12 @@ class PresetEditor extends React.Component {
         this.setState({
             preset: null
         });
+
     }
 
     save() {
         var data = new FormData();
-        data.append("data", this.state.config);
+        data.append("data", JSON.stringify(this.state.config));
 
         var url = "";
         if (this.state.preset.uuid)
@@ -70,9 +76,15 @@ class PresetEditor extends React.Component {
     }
     
 
-    onChange(e) {
+    onChange(data) {
         this.setState({
-            config: e.target.value
+            config: data
+        });
+    }
+
+    onModeChange(mode) {
+        this.setState({
+            mode: mode
         });
     }
 
@@ -81,7 +93,7 @@ class PresetEditor extends React.Component {
             return (
                 <div id="preset-editor" >
                     <div className="header">{this.state.preset.name}</div>
-                    <textarea ref={this.textarea} value={this.state.config} onChange={this.onChange}/>
+                    <Editor mode={this.state.mode} allowedModes={['code', 'tree']} value={this.state.config} onModeChange={this.onModeChange} onChange={this.onChange} ace={ace} history={true} />
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>
