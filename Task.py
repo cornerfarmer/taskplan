@@ -1,5 +1,5 @@
 import datetime
-
+import tensorflow as tf
 
 class Task:
 
@@ -10,9 +10,11 @@ class Task:
     def load(self, path):
         raise NotImplementedError()
 
-    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation):
+    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, result_dir):
+        tensorboard_writer = tf.summary.FileWriter(str(result_dir))
+
         while finished_iterations.value < total_iterations.value:
-            self.step()
+            self.step(tensorboard_writer, finished_iterations.value)
 
             with finished_iterations.get_lock():
                 with iteration_update_time.get_lock():
@@ -22,7 +24,9 @@ class Task:
             if pause_computation.value:
                 break
 
-    def step(self):
+        tensorboard_writer.flush()
+
+    def step(self, tensorboard_writer, current_iteration):
         raise NotImplementedError()
 
     def save(self, path):

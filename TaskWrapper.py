@@ -6,7 +6,7 @@ from enum import Enum
 import uuid
 import datetime
 from pathlib import Path
-
+from  TestTask import TestTask
 
 class State(Enum):
     INIT = 0
@@ -71,7 +71,7 @@ class TaskWrapper:
 
         if finished_iterations.value > 0:
             task.load(save_dir)
-        task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation)
+        task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir)
         task.save(save_dir)
 
         is_running.value = False

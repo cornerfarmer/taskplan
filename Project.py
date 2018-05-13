@@ -12,6 +12,7 @@ class Project:
         self.configuration.save()
         self.name = task_class_name
         self.result_dir = Path(result_dir)
+        self.result_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self._load_saved_tasks()
 

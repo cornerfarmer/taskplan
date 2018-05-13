@@ -6,7 +6,7 @@ from ProjectManager import ProjectManager
 from Scheduler import Scheduler
 import time
 import threading
-from flask import request
+from flask import request, render_template
 import json
 
 from config.Preset import Preset
@@ -27,7 +27,11 @@ def run(projects, max_running):
     t = threading.Thread(target=update_clients)
     t.start()
 
-    app = Flask(__name__, static_folder="web")
+    app = Flask(__name__, static_folder="web/dist", static_url_path="/static", template_folder="web/dist")
+
+    @app.route('/')
+    def static_page():
+        return render_template('index.html')
 
     @app.route('/update')
     def update():
