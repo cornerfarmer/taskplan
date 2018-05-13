@@ -154,6 +154,16 @@ h2 {
     display: flex;
     padding: 5px 16px;
     background: rgba(158,158,158,.2);
+    justify-content: space-between;
+}
+
+#project-manager #projects-toolbar #tb-link {
+    background: #F57C00;
+    color: white;
+    border-radius: 2px;
+    padding: 0 3px;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 #project-manager #projects {

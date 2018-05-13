@@ -40,6 +40,7 @@ class ServerSentEvent(object):
             data_client['data'] = data.data
         elif isinstance(data, Project):
             data_client['name'] = data.name
+            data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif isinstance(data, Scheduler.Scheduler):
             data_client['max_running'] = data.max_running
         else:
@@ -59,7 +60,7 @@ class ServerSentEvent(object):
 class EventType(Enum):
     TASK_CHANGED = "TASK_CHANGED"
     PRESET_CHANGED = "PRESET_CHANGED"
-    PROJECT_ADDED = "PROJECT_ADDED"
+    PROJECT_CHANGED = "PROJECT_CHANGED"
     SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
 
 class EventManager:

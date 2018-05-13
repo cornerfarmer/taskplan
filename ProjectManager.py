@@ -19,7 +19,7 @@ class ProjectManager:
 
     def update_new_client(self, client):
         for project in self.projects:
-            self.event_manager.throw_for_client(client, EventType.PROJECT_ADDED, project)
+            self.event_manager.throw_for_client(client, EventType.PROJECT_CHANGED, project)
 
             for preset in project.configuration.presets:
                 self.event_manager.throw_for_client(client, EventType.PRESET_CHANGED, preset, project)

@@ -1,7 +1,12 @@
 import os
+import threading
 from pathlib import Path
+
+import EventManager
 from TaskWrapper import TaskWrapper, State
 from config.Configuration import Configuration
+import subprocess
+import time
 
 class Project:
 
@@ -14,6 +19,7 @@ class Project:
         self.result_dir = Path(result_dir)
         self.result_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
+        self.tensorboard_port = None
         self._load_saved_tasks()
 
     def _load_saved_tasks(self):
@@ -50,3 +56,28 @@ class Project:
             if str(task.uuid) == uuid:
                 return task
         return None
+
+    def start_tensorboard(self, event_manager):
+        if self.tensorboard_port is None:
+            port = self.tensorboard_port
+            t = threading.Thread(target=self._run_tensorboard)
+            t.start()
+
+            while port != self.tensorboard_port:
+                port = self.tensorboard_port
+                time.sleep(2)
+
+            event_manager.throw(EventManager.EventType.PROJECT_CHANGED, self)
+
+    def _run_tensorboard(self):
+        self.tensorboard_port = 6006
+        while True:
+            process = subprocess.Popen(["tensorboard", "--logdir", str(self.result_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
+            output, error = process.communicate()
+
+            if output.startswith(b'TensorBoard attempted to bind to port'):
+                self.tensorboard_port += 1
+            else:
+                self.tensorboard_port = -1
+                break
+

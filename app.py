@@ -111,6 +111,12 @@ def run(projects, max_running):
         scheduler.change_total_iterations(task_uuid, total_iterations)
         return ""
 
+    @app.route('/tensorboard/<string:project_name>')
+    def open_tensorboard(project_name):
+        project = project_manager.project_by_name(project_name)
+        project.start_tensorboard(event_manager)
+        return Response(str(project.tensorboard_port), 'text/xml')
+
     return app
 
 

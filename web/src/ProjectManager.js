@@ -9,14 +9,23 @@ class ProjectManager extends React.Component {
             currentProject: 0
         };
         this.projectsRefs = [];
+        this.gotoTB = this.gotoTB.bind(this);
 
         var pm = this;
-        this.props.evtSource.addEventListener("PROJECT_ADDED", function (e) {
+        this.props.evtSource.addEventListener("PROJECT_CHANGED", function (e) {
             const projects = pm.state.projects.slice();
-            const newProject = JSON.parse(e.data);
+            const changedProject = JSON.parse(e.data);
 
-            projects.push(newProject);
-            pm.projectsRefs.push(React.createRef());
+            const projectIndex = pm.state.projects.findIndex(function (e) {
+                return e.name === changedProject.name
+            });
+
+            if (projectIndex >= 0) {
+                projects[projectIndex] = changedProject
+            } else {
+                projects.push(changedProject);
+                pm.projectsRefs.push(React.createRef());
+            }
 
             pm.setState({
                 projects: projects
@@ -56,6 +65,24 @@ class ProjectManager extends React.Component {
         });
     }
 
+    gotoTB() {
+        if (this.state.projects[this.state.currentProject].tensorboard_port === -1) {
+             fetch("/tensorboard/" + this.state.projects[this.state.currentProject].name)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        if (result !== -1) {
+                            window.open("//" + window.location.hostname + ":" + result, '_blank');
+                        }
+                    },
+                    (error) => {
+
+                    }
+                )
+        } else {
+            window.open("//" + window.location.hostname + ":" + this.state.projects[this.state.currentProject].tensorboard_port,'_blank');
+        }
+    }
 
     render() {
         return (
@@ -66,6 +93,7 @@ class ProjectManager extends React.Component {
                             {project.name}
                         </div>
                     ))}
+                    <div id="tb-link" onClick={this.gotoTB}>TB</div>
                 </div>
                 <div id="projects">
                     {this.state.projects.map((project, index) => (
