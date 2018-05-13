@@ -200,6 +200,19 @@ h2 {
     border: none;
 }
 
+#project-manager #projects .project .sorting {
+    padding: 5px 16px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+#project-manager #projects .project .sorting > div > * {
+    margin-right: 10px;
+}
+
+#project-manager #projects .project .sorting > div > .fa {
+    cursor: pointer;
+}
+
 #project-manager #projects .project ul {
     padding: 0;
     overflow-y: auto;
