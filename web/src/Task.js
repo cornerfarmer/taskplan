@@ -39,6 +39,7 @@ class TaskToolbar extends React.Component {
         this.pause = this.pause.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.promptExtraRefs = React.createRef();
+        this.openLog = this.openLog.bind(this);
     }
 
     pause() {
@@ -58,15 +59,26 @@ class TaskToolbar extends React.Component {
         this.promptExtraRefs.current.openDialog();
     }
 
+    openLog() {
+        window.open("/log/" + this.props.task.uuid, '_blank');
+    }
+
     render() {
         return (
             <div className="toolbar">
-                <div className="action" onClick={this.pause}>
-                    <i className="fa fa-pause"></i><span>Pause</span>
-                </div>
-                <div className="action" onClick={this.openExtraDialog}>
-                    <i className="fa fa-plus"></i><span>Extend</span>
-                </div>
+                {this.props.task.state === State.RUNNING &&
+                    <span>
+                        <div className="action" onClick={this.pause}>
+                            <i className="fa fa-pause"></i><span>Pause</span>
+                        </div>
+                        < div className="action" onClick={this.openExtraDialog}>
+                            <i className="fa fa-plus"></i><span>Extend</span>
+                        </div>
+                        <div className="action" onClick={this.openLog}>
+                            <i className="far fa-file-alt"></i><span>Log</span>
+                        </div>
+                    </span>
+                }
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/change/" + this.props.task.uuid}/>
             </div>
         );

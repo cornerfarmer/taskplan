@@ -117,6 +117,26 @@ def run(projects, max_running):
         project.start_tensorboard(event_manager)
         return Response(str(project.tensorboard_port), 'text/xml')
 
+    @app.route('/log/<string:task_uuid>')
+    def log(task_uuid):
+        task = project_manager.find_task_by_uuid(task_uuid)
+        return render_template('log.html', task_uuid=task_uuid, preset_name=task.preset.name, try_number=task.try_number, created=str(task.creation_time))
+
+    @app.route('/read_log/<string:task_uuid>')
+    def read_log(task_uuid):
+        task = project_manager.find_task_by_uuid(task_uuid)
+        def gen():
+            log_file = open(task.build_save_dir() / "main.log", 'r')
+
+            while not log_file.closed:
+                line = log_file.readline()
+                if not line:
+                    time.sleep(1)
+                else:
+                    yield "data: " + line + "\n\n"
+
+        return Response(gen(), mimetype="text/event-stream")
+
     return app
 
 

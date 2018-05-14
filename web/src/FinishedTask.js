@@ -9,6 +9,7 @@ class FinishedTask extends React.Component {
         this.promptExtraRefs = React.createRef();
         this.openDialog = this.openDialog.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
+        this.openLog = this.openLog.bind(this);
     }
 
     openDialog() {
@@ -19,6 +20,10 @@ class FinishedTask extends React.Component {
         this.promptExtraRefs.current.openDialog();
     }
 
+    openLog() {
+        window.open("/log/" + this.props.task.uuid, '_blank');
+    }
+
     render() {
         return (
             <li className="item">
@@ -26,7 +31,7 @@ class FinishedTask extends React.Component {
                     <div className="title"><span className="try-number">{this.props.task.try}</span>{this.props.task.preset_name}</div>
                     <div className="footer">
                         <span><span>Iterations:</span> {this.props.task.finished_iterations}</span>
-                        <span><span>Created:</span> {this.props.task.creation_time.toShortStr()}</span>
+                        <span><span>Started:</span> {this.props.task.creation_time.toShortStr()}</span>
                         <span><span>Finished:</span> {this.props.task.saved_time.toShortStr()}</span>
                     </div>
                 </div>
@@ -38,12 +43,12 @@ class FinishedTask extends React.Component {
                         <i className="fa fa-plus"></i>
                     </div>
                     <div className="dropdown">
-                        <button className="action dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                             <i className="fas fa-ellipsis-h"></i>
-                        </button>
-                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <div className="action" onClick={this.openExtraDialog}>
-                                <i className="fa fa-plus"></i>
+                        </div>
+                        <div className="dropdown-menu">
+                            <div className="action" onClick={this.openLog}>
+                                <i className="far fa-file-alt"></i>
                             </div>
                         </div>
                     </div>

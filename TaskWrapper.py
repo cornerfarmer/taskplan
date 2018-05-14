@@ -41,7 +41,7 @@ class TaskWrapper:
         sys.stdout.flush()
         self._pause_computation.value = False
         self._is_running.value = True
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir), self._is_running))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(), self._is_running))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -81,8 +81,8 @@ class TaskWrapper:
         is_running.value = False
         wakeup_sem.release()
 
-    def build_save_dir(self, result_dir):
-        return result_dir / Path(self.preset.name + " (try " + str(self.try_number) + ")")
+    def build_save_dir(self):
+        return self.project.result_dir / Path(self.preset.name + " (try " + str(self.try_number) + ")")
 
     def save_metadata(self):
         data = {}
@@ -93,7 +93,7 @@ class TaskWrapper:
         data['try_number'] = self.try_number
         data['creation_time'] = self.creation_time
         data['saved_time'] = self.saved_time
-        path = self.build_save_dir(self.project.result_dir)
+        path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
         with open(path / Path("metadata.pk"), 'wb') as handle:
             pickle.dump(data, handle)
