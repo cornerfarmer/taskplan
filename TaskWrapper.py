@@ -7,6 +7,8 @@ import uuid
 import datetime
 from pathlib import Path
 from  TestTask import TestTask
+from util.Logger import Logger
+
 
 class State(Enum):
     INIT = 0
@@ -39,7 +41,7 @@ class TaskWrapper:
         sys.stdout.flush()
         self._pause_computation.value = False
         self._is_running.value = True
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset, wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir), self._is_running))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(self.project.result_dir), self._is_running))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -67,7 +69,9 @@ class TaskWrapper:
     def _run(task_dir, class_name, preset, wakeup_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running):
         sys.path.append(str(task_dir))
         task_class = getattr(importlib.import_module(class_name), class_name)
-        task = task_class(preset, None)
+        logger = Logger(save_dir, "main")
+        preset.set_logger(logger.get_with_module('config'))
+        task = task_class(preset, logger.get_with_module('task'))
 
         if finished_iterations.value > 0:
             task.load(save_dir)
@@ -95,7 +99,7 @@ class TaskWrapper:
             pickle.dump(data, handle)
 
     def load_metadata(self, path):
-        with open(path / Path("metadata.pk"), 'rb') as handle:
+        with open(path / Path("metadata.pk"), 'rb') as handle   :
             data = pickle.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
             self.preset = self.project.configuration.presets_by_uuid[data['preset_uuid']]

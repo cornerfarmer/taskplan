@@ -17,7 +17,8 @@ class TestTask(Task):
 
     def step(self, tensorboard_writer, current_iteration):
         time.sleep(1)
-        self.sum += 1
+        self.sum += self.preset.get_int('step')
+        self.logger.log("Current sum: " + str(self.sum) + " (Iteration " + str(current_iteration) + ")")
         tensorboard_writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="sum", simple_value=self.sum)]), current_iteration)
 
     def load(self, path):

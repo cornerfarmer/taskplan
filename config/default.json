@@ -8,7 +8,7 @@
   {
     "name": "simpleRun",
     "config": {
-      "learning_rate": 0.35
+      "step": 3
     },
     "uuid": "22799753-d04b-445c-87bd-67e215b1e27f"
   },

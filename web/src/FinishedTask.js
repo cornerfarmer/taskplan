@@ -37,6 +37,16 @@ class FinishedTask extends React.Component {
                     <div className="action" onClick={this.openExtraDialog}>
                         <i className="fa fa-plus"></i>
                     </div>
+                    <div className="dropdown">
+                        <button className="action dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i className="fas fa-ellipsis-h"></i>
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div className="action" onClick={this.openExtraDialog}>
+                                <i className="fa fa-plus"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <Prompt ref={this.promptRefs} header="How many iterations?" text="Specify the number of iterations, you want the task to run:" url={"/start/" + this.props.task.project_name + "/" + this.props.task.preset_uuid}/>
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/continue/" + this.props.task.uuid}/>
