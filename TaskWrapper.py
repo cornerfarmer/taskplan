@@ -73,10 +73,20 @@ class TaskWrapper:
         preset.set_logger(logger.get_with_module('config'))
         task = task_class(preset, logger.get_with_module('task'))
 
+        def save_func():
+            task.save(save_dir)
+            with open(save_dir / Path("metadata.pk"), 'rb') as handle:
+                data = pickle.load(handle)
+
+            with open(save_dir / Path("metadata.pk"), 'wb') as handle:
+                data['saved_time'] = datetime.datetime.now()
+                data['finished_iterations'] = finished_iterations.value
+                pickle.dump(data, handle)
+
         if finished_iterations.value > 0:
             task.load(save_dir)
-        task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir)
-        task.save(save_dir)
+        task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, save_func)
+        save_func()
 
         is_running.value = False
         wakeup_sem.release()
