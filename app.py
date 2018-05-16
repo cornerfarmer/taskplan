@@ -67,7 +67,15 @@ def run(projects, max_running):
     def cancel(task_uuid):
         removed_task = scheduler.cancel(task_uuid)
         if removed_task is not None:
-            project_manager.remove_task(removed_task)
+            if removed_task.finished_iterations_and_update_time()[0] == 0:
+                project_manager.remove_task(removed_task)
+            else:
+                event_manager.throw(EventType.TASK_CHANGED, removed_task)
+        return ""
+
+    @app.route('/run_now/<string:task_uuid>')
+    def run_now(task_uuid):
+        scheduler.run_now(task_uuid)
         return ""
 
     @app.route('/continue/<string:task_uuid>')

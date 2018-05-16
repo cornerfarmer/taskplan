@@ -38,6 +38,7 @@ class TaskToolbar extends React.Component {
         super(props);
         this.pause = this.pause.bind(this);
         this.cancel = this.cancel.bind(this);
+        this.runNow = this.runNow.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.promptExtraRefs = React.createRef();
         this.openLog = this.openLog.bind(this);
@@ -58,6 +59,19 @@ class TaskToolbar extends React.Component {
 
     cancel() {
         fetch("/cancel/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+    runNow() {
+        fetch("/run_now/" + this.props.task.uuid)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -95,6 +109,9 @@ class TaskToolbar extends React.Component {
                 }
                 {this.props.task.state === State.QUEUED &&
                     <span>
+                        <div className="action" onClick={this.runNow}>
+                            <i className="fas fa-exclamation-triangle"></i><span>Run now!</span>
+                        </div>
                         <div className="action" onClick={this.cancel}>
                             <i className="fas fa-times"></i><span>Cancel</span>
                         </div>

@@ -1,6 +1,6 @@
 import threading
 from multiprocessing import Semaphore
-from threading import Lock
+from threading import RLock
 
 import EventManager
 from TaskWrapper import State
@@ -13,7 +13,7 @@ class Scheduler:
         self.event_manager = event_manager
         self.runnings = []
         self.queue = []
-        self._queue_mutex = Lock()
+        self._queue_mutex = RLock()
         self.wakeup_sem = Semaphore(0)
         self.max_running = max_running
 
@@ -52,6 +52,15 @@ class Scheduler:
                 if str(running.uuid) == task_uuid:
                     running.pause()
 
+    def run_now(self, task_uuid):
+        with self._queue_mutex:
+            for task in self.queue:
+                if str(task.uuid) == task_uuid:
+                    self.reorder(task_uuid, 0)
+                    for i in range(self.max_running - 1, len(self.runnings)):
+                        self.pause(str(self.runnings[i].uuid))
+                    break
+
     def cancel(self, task_uuid):
         removed_task = None
         with self._queue_mutex:
@@ -59,6 +68,7 @@ class Scheduler:
                 if str(task.uuid) == task_uuid:
                     self.queue.remove(task)
                     removed_task = task
+                    removed_task.state = State.STOPPED
                     break
             return removed_task
 
