@@ -42,6 +42,10 @@ h2 {
     overflow-y: auto;
 }
 
+#scheduler #max-running-tasks {
+    cursor: pointer;
+}
+
 .tasks {
     padding: 0;
     margin-bottom: 30px;

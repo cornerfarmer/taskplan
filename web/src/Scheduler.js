@@ -1,6 +1,7 @@
 import React from 'react';
 import State from './Global'
 import Task from './Task'
+import Prompt from "./Prompt";
 
 class Scheduler extends React.Component {
     constructor(props) {
@@ -75,6 +76,9 @@ class Scheduler extends React.Component {
                 max_running: options.max_running
             });
         });
+
+        this.openMaxRunningDialogRefs = React.createRef();
+        this.openMaxRunningDialog = this.openMaxRunningDialog.bind(this);
     }
 
     refreshRunTime(task) {
@@ -99,11 +103,16 @@ class Scheduler extends React.Component {
         clearInterval(this.timerID);
     }
 
+    openMaxRunningDialog() {
+        this.openMaxRunningDialogRefs.current.openDialog();
+    }
+
     render() {
         return (
             <div id="scheduler">
                 <h1>TaskPlan</h1>
-                <h2>Running ({this.state.tasks.filter(task => task.state === State.RUNNING).length} / {this.state.max_running})</h2>
+                <h2>Running ({this.state.tasks.filter(task => task.state === State.RUNNING).length} / <span id="max-running-tasks" onClick={this.openMaxRunningDialog}>{this.state.max_running}</span>)</h2>
+                <Prompt ref={this.openMaxRunningDialogRefs} defaultValue={this.state.max_running} header="Set maximum parallel tasks?" text="Specify the new number of tasks which can run in parallel:" url={"/change_max_running"}/>
                 <ul className="tasks" id="tasks-running">
                     {this.state.tasks.filter(task => task.state === State.RUNNING).map((task, index) => (
                         <Task

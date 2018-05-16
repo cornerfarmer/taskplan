@@ -43,7 +43,7 @@ class ServerSentEvent(object):
             data_client['name'] = data.name
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif isinstance(data, Scheduler.Scheduler):
-            data_client['max_running'] = data.max_running
+            data_client['max_running'] = data.max_running()
         else:
             raise LookupError("Given data type not supported: " + str(data))
 

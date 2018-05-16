@@ -15,7 +15,7 @@ class Scheduler:
         self.queue = []
         self._queue_mutex = RLock()
         self.wakeup_sem = Semaphore(0)
-        self.max_running = max_running
+        self._max_running = max_running
 
         t = threading.Thread(target=self._schedule)
         t.start()
@@ -40,7 +40,7 @@ class Scheduler:
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
                         self.runnings.remove(running)
 
-                if len(self.queue) > 0 and len(self.runnings) < self.max_running:
+                if len(self.queue) > 0 and len(self.runnings) < self._max_running:
                     self.runnings.append(self.queue.pop(0))
                     self._update_indices()
                     self.runnings[-1].start(self.wakeup_sem)
@@ -57,7 +57,7 @@ class Scheduler:
             for task in self.queue:
                 if str(task.uuid) == task_uuid:
                     self.reorder(task_uuid, 0)
-                    for i in range(self.max_running - 1, len(self.runnings)):
+                    for i in range(self._max_running - 1, len(self.runnings)):
                         self.pause(str(self.runnings[i].uuid))
                     break
 
@@ -107,3 +107,11 @@ class Scheduler:
                     task.set_total_iterations(total_iterations)
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, task)
                     break
+
+    def set_max_running(self, max_running):
+        with self._queue_mutex:
+            self._max_running = max_running
+        self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+
+    def max_running(self):
+        return self._max_running

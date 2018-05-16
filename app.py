@@ -159,6 +159,11 @@ def run(projects, max_running):
 
         return Response(gen(), mimetype="text/event-stream")
 
+    @app.route('/change_max_running/<int:new_max_running>')
+    def change_max_running(new_max_running):
+        scheduler.set_max_running(new_max_running)
+        return ""
+
     return app
 
 
