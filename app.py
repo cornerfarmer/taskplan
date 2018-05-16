@@ -74,6 +74,13 @@ def run(projects, max_running):
             scheduler.enqueue(task)
         return ""
 
+    @app.route('/finish/<string:task_uuid>')
+    def finish(task_uuid):
+        task = project_manager.find_task_by_uuid(task_uuid)
+        task.finish()
+        event_manager.throw(EventType.TASK_CHANGED, task)
+        return ""
+
     @app.route('/reorder/<string:task_uuid>/<int:new_index>')
     def reorder_task(task_uuid, new_index):
         scheduler.reorder(task_uuid, new_index)

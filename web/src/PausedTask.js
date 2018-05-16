@@ -4,11 +4,25 @@ class PausedTask extends React.Component {
     constructor(props) {
         super(props);
         this.continue = this.continue.bind(this);
+        this.finish = this.finish.bind(this);
         this.openLog = this.openLog.bind(this);
     }
 
     continue() {
         fetch("/continue/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+    finish() {
+        fetch("/finish/" + this.props.task.uuid)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -38,6 +52,9 @@ class PausedTask extends React.Component {
                 <div className="toolbar">
                     <div className="action" onClick={this.continue}>
                         <i className="fa fa-play"></i>
+                    </div>
+                    <div className="action" onClick={this.finish}>
+                        <i className="fas fa-flag-checkered"></i>
                     </div>
                     <div className="dropdown">
                         <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >

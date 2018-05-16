@@ -50,6 +50,11 @@ class TaskWrapper:
         if self.state == State.RUNNING:
             self._pause_computation.value = True
 
+    def finish(self):
+        if self.state == State.STOPPED:
+            self._total_iterations.value = self._finished_iterations.value
+            self.save_metadata()
+
     def stop(self):
         self.state = State.STOPPED
         if self.process is not None:
