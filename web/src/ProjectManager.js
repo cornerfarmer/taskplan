@@ -97,15 +97,33 @@ class ProjectManager extends React.Component {
         }
     }
 
+    changeProject(deltaIndex) {
+        var currentProject = this.state.currentProject;
+        currentProject += deltaIndex;
+        currentProject = Math.min(this.state.projects.length - 1, Math.max(0, currentProject));
+        console.log(currentProject);
+        this.setState({
+            currentProject: currentProject
+        });
+    }
+
     render() {
         return (
             <div id="project-manager">
                 <div id="projects-toolbar">
-                    {this.state.projects.map((project, index) => (
-                        <div key={project.name} onClick={() => this.setProject(index)}>
-                            {project.name}
+                    {this.state.projects.length > 0 &&
+                        <div id="project-selector">
+                            <span onClick={() => this.changeProject(-1)} className={this.state.currentProject > 0 ? 'active' : ''}>
+                                <i className="fas fa-caret-left"></i>
+                            </span>
+                            <span>
+                                {this.state.projects[this.state.currentProject].name}
+                            </span>
+                            <span onClick={() => this.changeProject(1)} className={this.state.currentProject < this.state.projects.length - 1 ? 'active' : ''}>
+                                <i className="fas fa-caret-right"></i>
+                            </span>
                         </div>
-                    ))}
+                    }
                     <div id="tb-link" onClick={this.gotoTB}>TB</div>
                 </div>
                 <div id="projects">
@@ -114,6 +132,7 @@ class ProjectManager extends React.Component {
                             key={project.name}
                             project={project}
                             evtSource={this.props.evtSource}
+                            visible={index === this.state.currentProject}
                             ref={this.projectsRefs[index]}
                         />
                     ))}

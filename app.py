@@ -155,4 +155,4 @@ def run(projects, max_running):
 
 
 def create_app():
-    return run([Project(".", "TestTask")], 1)
+    return run([Project(".", "TestTask"), Project("/home/domin/Dokumente/watteNN", "WatteNNTask", result_dir="task_results")], 1)

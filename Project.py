@@ -13,10 +13,10 @@ class Project:
     def __init__(self, task_dir, task_class_name, result_dir="results", config_dir="config"):
         self.task_dir = Path(task_dir)
         self.task_class_name = task_class_name
-        self.configuration = Configuration(config_dir)
+        self.configuration = Configuration(str(self.task_dir / Path(config_dir)))
         self.configuration.save()
         self.name = task_class_name
-        self.result_dir = Path(result_dir)
+        self.result_dir = self.task_dir / Path(result_dir)
         self.result_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None

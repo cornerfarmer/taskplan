@@ -158,6 +158,19 @@ h2 {
     justify-content: space-between;
 }
 
+#project-manager #projects-toolbar #project-selector span {
+    margin-right: 20px;
+}
+
+#project-manager #projects-toolbar #project-selector span i {
+    color: #BBB;
+}
+
+#project-manager #projects-toolbar #project-selector span.active i {
+    color: inherit;
+    cursor: pointer;
+}
+
 #project-manager #projects-toolbar #tb-link {
     background: #F57C00;
     color: white;

@@ -120,7 +120,7 @@ class Project extends React.Component {
         var project = this;
         var s;
         return (
-            <div className="project">
+            <div className="project" style={this.props.visible ? {} : {display: 'none'}}>
                 <div className="tabs">
                     <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>New</div>
                     <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Paused</div>
