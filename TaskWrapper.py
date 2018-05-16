@@ -16,8 +16,8 @@ class State(Enum):
     RUNNING = 2
     STOPPED = 3
 
-class TaskWrapper:
 
+class TaskWrapper:
     def __init__(self, task_dir, class_name, preset, project, total_iterations, try_number):
         self.task_dir = task_dir
         self.class_name = class_name
