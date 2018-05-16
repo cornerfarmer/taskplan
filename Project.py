@@ -81,3 +81,7 @@ class Project:
                 self.tensorboard_port = -1
                 break
 
+    def remove_task(self, task):
+        if task in self.tasks:
+            self.tasks.remove(task)
+            task.remove_data()

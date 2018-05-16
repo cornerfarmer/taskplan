@@ -56,6 +56,17 @@ class Scheduler:
                 running.pause()
         self.queue_mutex.release()
 
+    def cancel(self, task_uuid):
+        removed_task = None
+        self.queue_mutex.acquire()
+        for task in self.queue:
+            if str(task.uuid) == task_uuid:
+                self.queue.remove(task)
+                removed_task = task
+                break
+        self.queue_mutex.release()
+        return removed_task
+
     def _update_indices(self):
         for i in range(0, len(self.queue)):
             self.queue[i].queue_index = i

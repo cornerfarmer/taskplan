@@ -71,6 +71,21 @@ class Project extends React.Component {
         }
     }
 
+    removeTask(taskUuid) {
+        const tasks = this.state.tasks.slice();
+
+        const index = tasks.findIndex(function (e) {
+            return e.uuid === taskUuid
+        });
+
+        if (index > 0)
+            tasks.splice(index, 1);
+
+        this.setState({
+            tasks: tasks
+        });
+    }
+
 
     toggleShowAbstract() {
         this.setState({

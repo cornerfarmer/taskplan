@@ -36,3 +36,7 @@ class ProjectManager:
             if task is not None:
                 return task
         return None
+
+    def remove_task(self, task):
+        task.project.remove_task(task)
+        self.event_manager.throw(EventType.TASK_REMOVED, task)

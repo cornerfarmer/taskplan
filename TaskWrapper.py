@@ -8,7 +8,7 @@ import datetime
 from pathlib import Path
 from  TestTask import TestTask
 from util.Logger import Logger
-
+import shutil
 
 class State(Enum):
     INIT = 0
@@ -133,3 +133,6 @@ class TaskWrapper:
                 if total_iterations > self._finished_iterations.value + (1 if self.state == State.RUNNING else 0):
                     self._total_iterations.value = total_iterations
 
+    def remove_data(self):
+        save_dir = self.build_save_dir()
+        shutil.rmtree(save_dir)

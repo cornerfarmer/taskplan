@@ -37,6 +37,7 @@ class TaskToolbar extends React.Component {
     constructor(props) {
         super(props);
         this.pause = this.pause.bind(this);
+        this.cancel = this.cancel.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.promptExtraRefs = React.createRef();
         this.openLog = this.openLog.bind(this);
@@ -44,6 +45,19 @@ class TaskToolbar extends React.Component {
 
     pause() {
         fetch("/pause/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+    cancel() {
+        fetch("/cancel/" + this.props.task.uuid)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -72,10 +86,17 @@ class TaskToolbar extends React.Component {
                             <i className="fa fa-pause"></i><span>Pause</span>
                         </div>
                         < div className="action" onClick={this.openExtraDialog}>
-                            <i className="fa fa-plus"></i><span>Extend</span>
+                            <i className="fa fa-edit"></i><span>Change</span>
                         </div>
                         <div className="action" onClick={this.openLog}>
                             <i className="far fa-file-alt"></i><span>Log</span>
+                        </div>
+                    </span>
+                }
+                {this.props.task.state === State.QUEUED &&
+                    <span>
+                        <div className="action" onClick={this.cancel}>
+                            <i className="fas fa-times"></i><span>Cancel</span>
                         </div>
                     </span>
                 }

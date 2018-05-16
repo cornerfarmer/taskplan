@@ -63,6 +63,13 @@ def run(projects, max_running):
         scheduler.pause(task_uuid)
         return ""
 
+    @app.route('/cancel/<string:task_uuid>')
+    def cancel(task_uuid):
+        removed_task = scheduler.cancel(task_uuid)
+        if removed_task is not None:
+            project_manager.remove_task(removed_task)
+        return ""
+
     @app.route('/continue/<string:task_uuid>')
     @app.route('/continue/<string:task_uuid>/<int:total_iterations>')
     def continue_task(task_uuid, total_iterations=0):

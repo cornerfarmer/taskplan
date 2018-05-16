@@ -53,6 +53,22 @@ class Scheduler extends React.Component {
             }
         });
 
+        this.props.evtSource.addEventListener("TASK_REMOVED", function (e) {
+            const tasks = pm.state.tasks.slice();
+            const changedTask = JSON.parse(e.data);
+
+            const index = tasks.findIndex(function (e) {
+                return e.uuid === changedTask.uuid;
+            });
+
+            if (index > 0)
+                tasks.splice(index, 1);
+
+            pm.setState({
+                tasks: tasks
+            });
+        });
+
         this.props.evtSource.addEventListener("SCHEDULER_OPTIONS", function (e) {
             const options = JSON.parse(e.data);
             pm.setState({

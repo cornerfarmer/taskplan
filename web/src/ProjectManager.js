@@ -57,6 +57,19 @@ class ProjectManager extends React.Component {
                 console.log("Undefined project: " + changedTask.project_name)
             }
         });
+
+        this.props.evtSource.addEventListener("TASK_REMOVED", function (e) {
+            const changedTask = JSON.parse(e.data);
+            const projectIndex = pm.state.projects.findIndex(function (e) {
+                return e.name === changedTask.project_name
+            });
+
+            if (projectIndex >= 0) {
+                pm.projectsRefs[projectIndex].current.removeTask(changedTask.uuid)
+            } else {
+                console.log("Undefined project: " + changedTask.project_name)
+            }
+        });
     }
 
     setProject(currentProject) {
