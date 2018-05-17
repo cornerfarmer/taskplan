@@ -100,6 +100,15 @@ h2 {
     font-size: 14px;
 }
 
+.tasks .task .try-number {
+    background: rgba(158,158,158,.2);
+    padding: 1px 7px 2px 7px;
+    margin-right: 7px;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: top;
+}
+
 .tasks .task .toolbar {
     background: rgba(158,158,158,.2);
     padding: 5px 16px;
