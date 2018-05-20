@@ -26,6 +26,7 @@ class Scheduler:
             task.queue_index = len(self.queue) - 1
             task.state = State.QUEUED
             self.event_manager.throw(EventManager.EventType.TASK_CHANGED, task)
+            self.event_manager.log("The task " + str(task) + " has been added to queue", "Task added to the queue")
 
             self.wakeup_sem.release()
 
@@ -38,6 +39,10 @@ class Scheduler:
                     if not running.is_running():
                         running.stop()
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
+                        if running.finished_iterations_and_update_time()[0] < running.total_iterations():
+                            self.event_manager.log("The task " + str(running) + ") has been paused", "Task has been paused")
+                        else:
+                            self.event_manager.log("The task " + str(running) + ") has been finished", "Task has been finished")
                         self.runnings.remove(running)
 
                 if len(self.queue) > 0 and len(self.runnings) < self._max_running:
@@ -45,6 +50,7 @@ class Scheduler:
                     self._update_indices()
                     self.runnings[-1].start(self.wakeup_sem)
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.runnings[-1])
+                    self.event_manager.log("The task " + str(self.runnings[-1]) + ") has been started", "Next task has been started")
 
     def pause(self, task_uuid):
         with self._queue_mutex:

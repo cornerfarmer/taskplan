@@ -136,3 +136,6 @@ class TaskWrapper:
     def remove_data(self):
         save_dir = self.build_save_dir()
         shutil.rmtree(save_dir)
+
+    def __str__(self):
+        return self.project.name + ": " + self.preset.name + " (try " + str(self.try_number) + ")"

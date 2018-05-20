@@ -113,6 +113,7 @@ def run(projects, max_running):
             preset.set_data(new_data)
             configuration.save()
             event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+            event_manager.log("Preset " + preset.name + " has been changed", "Preset has been changed")
 
         return ""
 

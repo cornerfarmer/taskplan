@@ -1,3 +1,4 @@
+from pathlib import Path
 from queue import Queue
 from enum import Enum
 import json
@@ -8,7 +9,14 @@ from TaskWrapper import TaskWrapper
 from datetime import timezone
 
 from config.Preset import Preset
+from util.Logger import Logger
+import logging
 
+class FlashMessage:
+    def __init__(self, message, short, level):
+        self.message = message
+        self.short = short
+        self.level = level
 
 class ServerSentEvent(object):
     def __init__(self, event_type, data, parent_data=None):
@@ -44,6 +52,10 @@ class ServerSentEvent(object):
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif isinstance(data, Scheduler.Scheduler):
             data_client['max_running'] = data.max_running()
+        elif isinstance(data, FlashMessage):
+            data_client['message'] = data.message
+            data_client['short'] = data.short
+            data_client['level'] = data.level
         else:
             raise LookupError("Given data type not supported: " + str(data))
 
@@ -58,16 +70,19 @@ class ServerSentEvent(object):
         lines += "data: " + json.dumps(self.data) + "\n"
         return lines + "\n\n"
 
+
 class EventType(Enum):
     TASK_CHANGED = "TASK_CHANGED"
     TASK_REMOVED = "TASK_REMOVED"
     PRESET_CHANGED = "PRESET_CHANGED"
     PROJECT_CHANGED = "PROJECT_CHANGED"
     SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
+    FLASH_MESSAGE = "FLASH_MESSAGE"
 
 class EventManager:
     def __init__(self):
         self.subscriptions = []
+        self.logger = Logger(Path('.'), 'global')
 
     def subscribe(self):
         self.subscriptions.append(Queue())
@@ -85,3 +100,8 @@ class EventManager:
     def unsubscribe(self, subscription):
         self.subscriptions.remove(subscription)
 
+    def log(self, message, short="", level=logging.INFO):
+        self.logger.log(message, level)
+        if short is "":
+            short = message
+        self.throw(EventType.FLASH_MESSAGE, FlashMessage(message, short, level))

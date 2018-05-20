@@ -1,6 +1,7 @@
 import React from 'react';
 import Scheduler from './Scheduler'
 import ProjectManager from "./ProjectManager";
+import FlashMessageManager from "./FlashMessageManager"
 
 class App extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
+                <FlashMessageManager evtSource={this.evtSource}/>
                 <div className="row">
                     <div className="col-sm-6">
                         <Scheduler evtSource={this.evtSource}/>
