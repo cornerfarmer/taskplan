@@ -46,7 +46,7 @@ class PausedTask extends React.Component {
                     <div className="footer">
                         <span><span>Iterations:</span> {this.props.task.finished_iterations} / {this.props.task.total_iterations}</span>
                         <span><span>Started:</span> {this.props.task.creation_time.toShortStr()}</span>
-                        <span><span>Paused:</span> {this.props.task.saved_time.toShortStr()}</span>
+                        <span><span>Paused:</span> {this.props.task.saved_time.toShortStr()} {this.props.task.had_error && <span className="task-error">(Error)</span>}</span>
                     </div>
                 </div>
                 <div className="toolbar">

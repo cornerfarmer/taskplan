@@ -9,6 +9,8 @@ from pathlib import Path
 from  TestTask import TestTask
 from util.Logger import Logger
 import shutil
+import traceback
+import logging
 
 class State(Enum):
     INIT = 0
@@ -35,13 +37,15 @@ class TaskWrapper:
         self._total_iterations = Value('i', total_iterations)
         self.try_number = try_number
         self._is_running = Value('b', False)
+        self._had_error = Value('b', False)
         self.queue_index = 0
 
     def start(self, wakeup_sem):
         sys.stdout.flush()
         self._pause_computation.value = False
         self._is_running.value = True
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(), self._is_running))
+        self._had_error.value = False
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(), self._is_running, self._had_error))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -62,6 +66,9 @@ class TaskWrapper:
         self.saved_time = datetime.datetime.now()
         self.save_metadata()
 
+    def had_error(self):
+        return self._had_error.value
+
     def is_running(self):
         return self._is_running.value
 
@@ -71,7 +78,7 @@ class TaskWrapper:
                 return self._finished_iterations.value, self._iteration_update_time.value
 
     @staticmethod
-    def _run(task_dir, class_name, preset, wakeup_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running):
+    def _run(task_dir, class_name, preset, wakeup_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running, had_error):
         sys.path.append(str(task_dir))
         task_class = getattr(importlib.import_module(class_name), class_name)
         logger = Logger(save_dir, "main")
@@ -88,10 +95,14 @@ class TaskWrapper:
                 data['finished_iterations'] = finished_iterations.value
                 pickle.dump(data, handle)
 
-        if finished_iterations.value > 0:
-            task.load(save_dir)
-        task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, save_func)
-        save_func()
+        try:
+            if finished_iterations.value > 0:
+                task.load(save_dir)
+            task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, save_func)
+            save_func()
+        except:
+            logger.log(traceback.format_exc(), logging.ERROR)
+            had_error.value = True
 
         is_running.value = False
         wakeup_sem.release()
@@ -108,6 +119,7 @@ class TaskWrapper:
         data['try_number'] = self.try_number
         data['creation_time'] = self.creation_time
         data['saved_time'] = self.saved_time
+        data['had_error'] = self._had_error.value
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
         with open(str(path / Path("metadata.pk")), 'wb') as handle:
@@ -123,6 +135,7 @@ class TaskWrapper:
             self.try_number = data['try_number']
             self.creation_time = data['creation_time']
             self.saved_time = data['saved_time']
+            self._had_error.value = data['had_error']
 
     def total_iterations(self):
         return self._total_iterations.value

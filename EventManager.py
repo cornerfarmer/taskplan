@@ -39,6 +39,7 @@ class ServerSentEvent(object):
                 data_client['preset_uuid'] = data.preset.uuid
                 data_client['try'] = data.try_number
                 data_client['queue_index'] = data.queue_index
+                data_client['had_error'] = data.had_error()
         elif isinstance(data, Preset):
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.name

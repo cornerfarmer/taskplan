@@ -149,7 +149,7 @@ def run(projects, max_running):
     def read_log(task_uuid):
         task = project_manager.find_task_by_uuid(task_uuid)
         def gen():
-            log_file = open(task.build_save_dir() / "main.log", 'r')
+            log_file = open(str(task.build_save_dir() / "main.log"), 'r')
 
             while not log_file.closed:
                 line = log_file.readline()

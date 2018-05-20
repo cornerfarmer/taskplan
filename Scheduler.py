@@ -5,7 +5,7 @@ from threading import RLock
 import EventManager
 from TaskWrapper import State
 from queue import Queue
-
+import logging
 
 class Scheduler:
 
@@ -39,7 +39,9 @@ class Scheduler:
                     if not running.is_running():
                         running.stop()
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
-                        if running.finished_iterations_and_update_time()[0] < running.total_iterations():
+                        if running.had_error():
+                            self.event_manager.log("The task " + str(running) + ") has been stopped due to an error", "Error occurred in task", logging.ERROR)
+                        elif running.finished_iterations_and_update_time()[0] < running.total_iterations():
                             self.event_manager.log("The task " + str(running) + ") has been paused", "Task has been paused")
                         else:
                             self.event_manager.log("The task " + str(running) + ") has been finished", "Task has been finished")

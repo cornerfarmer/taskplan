@@ -297,7 +297,12 @@ h2 {
     margin-top: 10px;
 }
 
-#project-manager #projects .project ul .item .content .footer span:before {
+#project-manager #projects .project ul .item .content .footer .task-error {
+    color: #ef767a;
+    font-weight: 400;
+}
+
+#project-manager #projects .project ul .item .content .footer span:not(.task-error):before {
     content: "-";
     margin: 0 7px;
 }
@@ -504,4 +509,12 @@ h2 {
 
 #flash-messages .flash-message:hover {
     opacity: 1.0;
+}
+
+#flash-messages .flash-message.level-40 {
+    background: #ef767a;
+}
+
+#flash-messages .flash-message.level-30 {
+    background: #eeb868;
 }

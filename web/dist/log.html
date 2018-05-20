@@ -78,6 +78,11 @@
             padding-right: 15px;
         }
 
+        #file #content pre {
+            margin: 0;
+            font-family: 'Roboto Mono', monospace;
+        }
+
         #file #goto-end {
             position: fixed;
             right: 20px;
@@ -129,8 +134,8 @@
             newLine.textContent = line;
             lines.appendChild(newLine);
 
-            var newContent = document.createElement("div");
-            newContent.textContent = e.data;
+            var newContent = document.createElement("pre");
+            newContent.textContent = (e.data !== "" ? e.data : " ");
             content.appendChild(newContent);
 
             line++;
