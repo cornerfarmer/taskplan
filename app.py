@@ -93,6 +93,7 @@ def run(projects, max_running):
     def finish(task_uuid):
         task = project_manager.find_task_by_uuid(task_uuid)
         task.finish()
+        event_manager.log("The total iterations of task \"" + str(task) + "\" has decreased to " + str(task.total_iterations()) + ", so the task is now considered finished", "The task has been finished")
         event_manager.throw(EventType.TASK_CHANGED, task)
         return ""
 
@@ -113,7 +114,7 @@ def run(projects, max_running):
             preset.set_data(new_data)
             configuration.save()
             event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-            event_manager.log("Preset " + preset.name + " has been changed", "Preset has been changed")
+            event_manager.log("Preset \"" + preset.name + "\" has been changed", "Preset has been changed")
 
         return ""
 
@@ -126,6 +127,7 @@ def run(projects, max_running):
         preset = project.configuration.add_preset(new_data)
 
         event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+        event_manager.log("Preset \"" + preset.name + "\" has been added", "Preset has been added")
 
         return ""
 
@@ -137,6 +139,7 @@ def run(projects, max_running):
     @app.route('/tensorboard/<string:project_name>')
     def open_tensorboard(project_name):
         project = project_manager.project_by_name(project_name)
+        event_manager.log("Starting tensorboard for project \"" + str(project_name) + "\"...", "Starting tensorboard...")
         project.start_tensorboard(event_manager)
         return Response(str(project.tensorboard_port), 'text/xml')
 

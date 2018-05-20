@@ -26,7 +26,7 @@ class Scheduler:
             task.queue_index = len(self.queue) - 1
             task.state = State.QUEUED
             self.event_manager.throw(EventManager.EventType.TASK_CHANGED, task)
-            self.event_manager.log("The task " + str(task) + " has been added to queue", "Task added to the queue")
+            self.event_manager.log("The task \"" + str(task) + "\" has been added to queue", "Task added to the queue")
 
             self.wakeup_sem.release()
 
@@ -40,11 +40,11 @@ class Scheduler:
                         running.stop()
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
                         if running.had_error():
-                            self.event_manager.log("The task " + str(running) + ") has been stopped due to an error", "Error occurred in task", logging.ERROR)
+                            self.event_manager.log("The task \"" + str(running) + "\" has been stopped due to an error after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Error occurred in task", logging.ERROR)
                         elif running.finished_iterations_and_update_time()[0] < running.total_iterations():
-                            self.event_manager.log("The task " + str(running) + ") has been paused", "Task has been paused")
+                            self.event_manager.log("The task \"" + str(running) + "\" has been paused after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been paused")
                         else:
-                            self.event_manager.log("The task " + str(running) + ") has been finished", "Task has been finished")
+                            self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been finished")
                         self.runnings.remove(running)
 
                 if len(self.queue) > 0 and len(self.runnings) < self._max_running:
@@ -52,7 +52,7 @@ class Scheduler:
                     self._update_indices()
                     self.runnings[-1].start(self.wakeup_sem)
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.runnings[-1])
-                    self.event_manager.log("The task " + str(self.runnings[-1]) + ") has been started", "Next task has been started")
+                    self.event_manager.log("The task \"" + str(self.runnings[-1]) + "\" has been started, beginning with iteration " + str(self.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
 
     def pause(self, task_uuid):
         with self._queue_mutex:
@@ -67,6 +67,7 @@ class Scheduler:
                     self.reorder(task_uuid, 0)
                     for i in range(self._max_running - 1, len(self.runnings)):
                         self.pause(str(self.runnings[i].uuid))
+                    self.event_manager.log("The task \"" + str(task) + "\" will be started as soon as possible", "Preset has been prioritized")
                     break
 
     def cancel(self, task_uuid):
@@ -77,6 +78,7 @@ class Scheduler:
                     self.queue.remove(task)
                     removed_task = task
                     removed_task.state = State.STOPPED
+                    self.event_manager.log("The task \"" + str(removed_task) + "\" has been cancelled", "Task has been cancelled")
                     break
             return removed_task
 
@@ -119,6 +121,7 @@ class Scheduler:
     def set_max_running(self, max_running):
         with self._queue_mutex:
             self._max_running = max_running
+        self.event_manager.log("The maximal running tasks has been changed to " + str(max_running), "The maximal running tasks has been changed")
         self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
 
     def max_running(self):
