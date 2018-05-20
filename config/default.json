@@ -1,20 +1,20 @@
 [
   {
-    "name": "Default",
+    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "abstract": true,
-    "config": {},
-    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09"
+    "name": "Default",
+    "config": {}
   },
   {
+    "uuid": "22799753-d04b-445c-87bd-67e215b1e27f",
     "name": "simpleRun",
     "config": {
       "step": 3
-    },
-    "uuid": "22799753-d04b-445c-87bd-67e215b1e27f"
+    }
   },
   {
+    "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330",
     "name": "test",
-    "config": {},
-    "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330"
+    "config": {}
   }
 ]

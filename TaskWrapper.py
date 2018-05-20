@@ -80,10 +80,10 @@ class TaskWrapper:
 
         def save_func():
             task.save(save_dir)
-            with open(save_dir / Path("metadata.pk"), 'rb') as handle:
+            with open(str(save_dir / Path("metadata.pk")), 'rb') as handle:
                 data = pickle.load(handle)
 
-            with open(save_dir / Path("metadata.pk"), 'wb') as handle:
+            with open(str(save_dir / Path("metadata.pk")), 'wb') as handle:
                 data['saved_time'] = datetime.datetime.now()
                 data['finished_iterations'] = finished_iterations.value
                 pickle.dump(data, handle)
@@ -110,11 +110,11 @@ class TaskWrapper:
         data['saved_time'] = self.saved_time
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
-        with open(path / Path("metadata.pk"), 'wb') as handle:
+        with open(str(path / Path("metadata.pk")), 'wb') as handle:
             pickle.dump(data, handle)
 
     def load_metadata(self, path):
-        with open(path / Path("metadata.pk"), 'rb') as handle   :
+        with open(str(path / Path("metadata.pk")), 'rb') as handle   :
             data = pickle.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
             self.preset = self.project.configuration.presets_by_uuid[data['preset_uuid']]
