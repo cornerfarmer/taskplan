@@ -12,6 +12,7 @@ class Prompt extends React.Component {
         this.openDialog = this.openDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
         this.updateInputValue = this.updateInputValue.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     start() {
@@ -48,6 +49,17 @@ class Prompt extends React.Component {
         });
     }
 
+    onKeyDown(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            this.start();
+        }
+        if (e.keyCode === 27) {
+            e.preventDefault();
+            this.closeDialog();
+        }
+    }
+
     render() {
         if (this.state.dialogOpen) {
             return (
@@ -55,7 +67,7 @@ class Prompt extends React.Component {
                     <div className="prompt">
                         <div className="prompt-header">{this.props.header}</div>
                         <div className="prompt-text">{this.props.text}</div>
-                        <input type="text" name="iterations" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} />
+                        <input autoFocus onFocus={(e) => {e.target.select()}} type="text" name="iterations" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onKeyDown={this.onKeyDown} />
                         <div className="buttons">
                             <div onClick={this.start}>Ok</div>
                             <div onClick={this.closeDialog}>Cancel</div>
