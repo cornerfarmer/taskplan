@@ -17,9 +17,9 @@ function TaskStatus(props) {
                 return "--:--";
         }
 
-        return <div className="status">{renderTime(props.run_time)} / {renderTime(props.total_time)}</div>;
+        return <div className="time">{renderTime(props.run_time)} / {renderTime(props.total_time)}</div>;
     } else {
-        return <div className="status">{props.index + 1}</div>
+        return <div className="time">{props.index + 1}</div>
     }
 }
 
@@ -200,7 +200,10 @@ class Task extends React.Component {
                 <div className="content">
                     <div className="header">
                         <div className="project-name" ref={this.projectName}>{this.props.task.project_name}</div>
-                        <TaskStatus index={this.props.index} state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
+                        <div className="status">
+                            <TaskStatus index={this.props.index} state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
+                            <div className="iterations">{this.props.task.finished_iterations} / {this.props.task.total_iterations}</div>
+                        </div>
                     </div>
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
                     <div className="preset-name"><span className="try-number">{this.props.task.try}</span>{this.props.task.preset_name}</div>
