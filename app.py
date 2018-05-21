@@ -1,16 +1,16 @@
 from flask import Flask, jsonify, Response
 
-from EventManager import EventManager, ServerSentEvent, EventType
-from Project import Project
-from ProjectManager import ProjectManager
-from Scheduler import Scheduler
+from TaskPlan.EventManager import EventManager, ServerSentEvent, EventType
+from TaskPlan.Project import Project
+from TaskPlan.ProjectManager import ProjectManager
+from TaskPlan.Scheduler import Scheduler
 import time
 import threading
 from flask import request, render_template
 import json
 from pathlib import Path
 
-from config.Preset import Preset
+from TaskConf.config.Preset import Preset
 
 
 def run(projects, max_running):
@@ -183,4 +183,4 @@ def run(projects, max_running):
 
 
 def create_app():
-    return run([Project(".", "TestTask"), Project("/home/domin/Dokumente/watteNN", "WatteNNTask", result_dir="task_results")], 1)
+    return run([Project("TaskPlan", "TestTask"), Project("/home/domin/Dokumente/watteNN", "WatteNNTask", result_dir="task_results")], 1)

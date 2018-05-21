@@ -6,12 +6,12 @@ from enum import Enum
 import uuid
 import datetime
 from pathlib import Path
-from  TestTask import TestTask
-from util.Logger import Logger
+from TaskConf.util.Logger import Logger
 import shutil
 import traceback
 import logging
 
+import os
 class State(Enum):
     INIT = 0
     QUEUED = 1
@@ -79,23 +79,25 @@ class TaskWrapper:
 
     @staticmethod
     def _run(task_dir, class_name, preset, wakeup_sem, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running, had_error):
-        sys.path.append(str(task_dir))
-        task_class = getattr(importlib.import_module(class_name), class_name)
         logger = Logger(save_dir, "main")
         preset.set_logger(logger.get_with_module('config'))
-        task = task_class(preset, logger.get_with_module('task'))
-
-        def save_func():
-            task.save(save_dir)
-            with open(str(save_dir / Path("metadata.pk")), 'rb') as handle:
-                data = pickle.load(handle)
-
-            with open(str(save_dir / Path("metadata.pk")), 'wb') as handle:
-                data['saved_time'] = datetime.datetime.now()
-                data['finished_iterations'] = finished_iterations.value
-                pickle.dump(data, handle)
 
         try:
+            sys.path.append(str(task_dir))
+            os.chdir(str(task_dir))
+            task_class = getattr(importlib.import_module(class_name), class_name)
+            task = task_class(preset, logger.get_with_module('task'))
+
+            def save_func():
+                task.save(save_dir)
+                with open(str(save_dir / Path("metadata.pk")), 'rb') as handle:
+                    data = pickle.load(handle)
+
+                with open(str(save_dir / Path("metadata.pk")), 'wb') as handle:
+                    data['saved_time'] = datetime.datetime.now()
+                    data['finished_iterations'] = finished_iterations.value
+                    pickle.dump(data, handle)
+
             if finished_iterations.value > 0:
                 task.load(save_dir)
             task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, save_func)

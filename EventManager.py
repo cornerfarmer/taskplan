@@ -1,16 +1,11 @@
+import json
+import logging
+from enum import Enum
 from pathlib import Path
 from queue import Queue
-from enum import Enum
-import json
 
-from Project import Project
-import Scheduler
-from TaskWrapper import TaskWrapper
-from datetime import timezone
+from TaskConf.util.Logger import Logger
 
-from config.Preset import Preset
-from util.Logger import Logger
-import logging
 
 class FlashMessage:
     def __init__(self, message, short, level):
@@ -25,7 +20,7 @@ class ServerSentEvent(object):
 
     def _pack_data_for_client(self, event_type, data, parent_data=None):
         data_client = {}
-        if isinstance(data, TaskWrapper):
+        if event_type in [EventType.TASK_CHANGED, EventType.TASK_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             data_client['project_name'] = data.project.name
             if event_type is not EventType.TASK_REMOVED:
@@ -40,7 +35,7 @@ class ServerSentEvent(object):
                 data_client['try'] = data.try_number
                 data_client['queue_index'] = data.queue_index
                 data_client['had_error'] = data.had_error()
-        elif isinstance(data, Preset):
+        elif event_type is EventType.PRESET_CHANGED:
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.name
             data_client['project_name'] = parent_data.name
@@ -48,12 +43,12 @@ class ServerSentEvent(object):
             data_client['abstract'] = data.abstract
             data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
             data_client['data'] = data.data
-        elif isinstance(data, Project):
+        elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
-        elif isinstance(data, Scheduler.Scheduler):
+        elif event_type is EventType.SCHEDULER_OPTIONS:
             data_client['max_running'] = data.max_running()
-        elif isinstance(data, FlashMessage):
+        elif event_type is EventType.FLASH_MESSAGE:
             data_client['message'] = data.message
             data_client['short'] = data.short
             data_client['level'] = data.level

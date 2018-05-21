@@ -1,7 +1,7 @@
 import pickle
 from pathlib import Path
 
-from Task import Task
+from TaskPlan.Task import Task
 import tensorflow as tf
 import time
 

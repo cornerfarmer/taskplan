@@ -2,20 +2,20 @@ import os
 import threading
 from pathlib import Path
 
-import EventManager
-from TaskWrapper import TaskWrapper, State
-from config.Configuration import Configuration
+from TaskPlan.EventManager import EventType
+from TaskPlan.TaskWrapper import TaskWrapper, State
+from TaskConf.config.Configuration import Configuration
 import subprocess
 import time
 
 class Project:
 
-    def __init__(self, task_dir, task_class_name, result_dir="results", config_dir="config"):
-        self.task_dir = Path(task_dir)
+    def __init__(self, task_dir, task_class_name, name="", result_dir="results", config_dir="config"):
+        self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.configuration = Configuration(str(self.task_dir / Path(config_dir)))
         self.configuration.save()
-        self.name = task_class_name
+        self.name = task_class_name if name is "" else name
         self.result_dir = self.task_dir / Path(result_dir)
         self.result_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
@@ -25,9 +25,13 @@ class Project:
     def _load_saved_tasks(self):
         for path in self.result_dir.iterdir():
             if path.is_dir():
-                self.tasks.append(TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, 0))
-                self.tasks[-1].load_metadata(path)
-                self.tasks[-1].state = State.STOPPED
+                try:
+                    task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, 0)
+                    task.load_metadata(path)
+                    task.state = State.STOPPED
+                    self.tasks.append(task)
+                except:
+                    pass
 
     def create_task(self, preset_uuid, total_iterations):
         if preset_uuid in self.configuration.presets_by_uuid:
@@ -67,7 +71,7 @@ class Project:
                 port = self.tensorboard_port
                 time.sleep(2)
 
-            event_manager.throw(EventManager.EventType.PROJECT_CHANGED, self)
+            event_manager.throw(EventType.PROJECT_CHANGED, self)
 
     def _run_tensorboard(self):
         self.tensorboard_port = 6006
