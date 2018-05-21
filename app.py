@@ -8,6 +8,7 @@ import time
 import threading
 from flask import request, render_template
 import json
+from pathlib import Path
 
 from config.Preset import Preset
 
@@ -143,16 +144,26 @@ def run(projects, max_running):
         project.start_tensorboard(event_manager)
         return Response(str(project.tensorboard_port), 'text/xml')
 
+    @app.route('/log')
     @app.route('/log/<string:task_uuid>')
-    def log(task_uuid):
-        task = project_manager.find_task_by_uuid(task_uuid)
-        return render_template('log.html', task_uuid=task_uuid, preset_name=task.preset.name, try_number=task.try_number, created=str(task.creation_time))
+    def log(task_uuid=""):
+        if task_uuid is "":
+            return render_template('log.html', preset_name="Global")
+        else:
+            task = project_manager.find_task_by_uuid(task_uuid)
+            return render_template('log.html', task_uuid=task_uuid, preset_name=task.preset.name, try_number=task.try_number, created=str(task.creation_time))
 
+    @app.route('/read_log/')
     @app.route('/read_log/<string:task_uuid>')
-    def read_log(task_uuid):
-        task = project_manager.find_task_by_uuid(task_uuid)
+    def read_log(task_uuid=""):
+        if task_uuid is not "":
+            task = project_manager.find_task_by_uuid(task_uuid)
+            log_path = str(task.build_save_dir() / "main.log")
+        else:
+            log_path = str(Path('.') / "global.log")
+
         def gen():
-            log_file = open(str(task.build_save_dir() / "main.log"), 'r')
+            log_file = open(log_path, 'r')
 
             while not log_file.closed:
                 line = log_file.readline()

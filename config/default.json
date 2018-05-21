@@ -1,20 +1,22 @@
 [
   {
-    "config": {},
     "name": "Default",
+    "config": {},
     "abstract": true,
     "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09"
   },
   {
+    "name": "simpleRun",
     "config": {
       "step": 3
     },
-    "name": "simpleRun",
     "uuid": "22799753-d04b-445c-87bd-67e215b1e27f"
   },
   {
-    "config": {},
     "name": "test",
-    "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330"
+    "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330",
+    "config": {
+      "step": 245
+    }
   }
 ]

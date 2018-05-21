@@ -110,7 +110,6 @@ class Scheduler extends React.Component {
     render() {
         return (
             <div id="scheduler">
-                <h1>TaskPlan</h1>
                 <h2>Running ({this.state.tasks.filter(task => task.state === State.RUNNING).length} / <span id="max-running-tasks" onClick={this.openMaxRunningDialog}>{this.state.max_running}</span>)</h2>
                 <Prompt ref={this.openMaxRunningDialogRefs} defaultValue={this.state.max_running} header="Set maximum parallel tasks?" text="Specify the new number of tasks which can run in parallel:" url={"/change_max_running"}/>
                 <ul className="tasks" id="tasks-running">
