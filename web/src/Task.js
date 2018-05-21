@@ -112,6 +112,9 @@ class TaskToolbar extends React.Component {
                         <div className="action" onClick={this.runNow}>
                             <i className="fas fa-exclamation-triangle"></i><span>Run now!</span>
                         </div>
+                        < div className="action" onClick={this.openExtraDialog}>
+                            <i className="fa fa-edit"></i><span>Change</span>
+                        </div>
                         <div className="action" onClick={this.cancel}>
                             <i className="fas fa-times"></i><span>Cancel</span>
                         </div>

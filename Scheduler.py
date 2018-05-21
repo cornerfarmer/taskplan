@@ -116,7 +116,13 @@ class Scheduler:
                 if str(task.uuid) == task_uuid:
                     task.set_total_iterations(total_iterations)
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, task)
-                    break
+                    return
+
+            for task in self.queue:
+                if str(task.uuid) == task_uuid:
+                    task.set_total_iterations(total_iterations)
+                    self.event_manager.throw(EventManager.EventType.TASK_CHANGED, task)
+                    return
 
     def set_max_running(self, max_running):
         with self._queue_mutex:
