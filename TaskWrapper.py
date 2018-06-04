@@ -128,6 +128,9 @@ class TaskWrapper:
 
                 save_func()
 
+                if pause_computation.value:
+                    break
+
         except:
             logger.log(traceback.format_exc(), logging.ERROR)
             had_error.value = True
