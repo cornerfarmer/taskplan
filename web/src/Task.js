@@ -24,9 +24,17 @@ function TaskStatus(props) {
 }
 
 function TaskProgress(props) {
+    if (props.state === State.RUNNING && props.total_subtasks > 1) {
+        var style = {width: Math.min(1, props.finished_subtasks / props.total_subtasks) * 100 + '%'};
+        return <div className="progress" style={style}></div>;
+    } else {
+        return "";
+    }
+}
+
+function SubTaskProgress(props) {
     if (props.state === State.RUNNING) {
-        console.log([props.run_time, props.finished_iterations, props.start_time, props.iteration_update_time, props.run_time, (props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time, ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations]);
-        var style = {width: (props.mean_iteration_time > 0 ? ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations * 100 : 0) + '%'};
+        var style = {width: (props.mean_iteration_time > 0 ? Math.min(1, ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations) * 100 : 0) + '%'};
         return <div className="progress" style={style}></div>;
     } else {
         return "";
@@ -205,7 +213,8 @@ class Task extends React.Component {
                             <div className="iterations">{this.props.task.finished_iterations} / {this.props.task.total_iterations}</div>
                         </div>
                     </div>
-                    <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
+                    <TaskProgress state={this.props.task.state} total_subtasks={this.props.task.total_subtasks} finished_subtasks={this.props.task.finished_subtasks} />
+                    <SubTaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
                     <div className="preset-name"><span className="try-number">{this.props.task.try}</span>{this.props.task.preset_name}</div>
                 </div>
                 <TaskToolbar task={this.props.task}/>

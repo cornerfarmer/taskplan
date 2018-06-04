@@ -9,7 +9,17 @@
     "uuid": "22799753-d04b-445c-87bd-67e215b1e27f",
     "name": "simpleRun",
     "config": {
-      "step": 3
+      "iterate": {
+        "step": [
+          1,
+          4,
+          6
+        ],
+        "test": [
+          0.1,
+          0.2
+        ]
+      }
     }
   },
   {

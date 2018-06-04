@@ -7,8 +7,8 @@ import time
 
 class TestTask(Task):
 
-    def __init__(self, preset, logger):
-        super().__init__(preset, logger)
+    def __init__(self, preset, logger, subtask):
+        super().__init__(preset, logger, subtask)
         self.sum = 0
 
     def save(self, path):
