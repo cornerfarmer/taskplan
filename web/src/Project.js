@@ -14,7 +14,7 @@ class Project extends React.Component {
             showAbstract: false,
             activeTab: 0,
             sorting: [0, 0, 0],
-            sortingDescending: [false, true, true]
+            sortingDescending: [true, true, true]
         };
         this.presetChanged = this.presetChanged.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -32,6 +32,7 @@ class Project extends React.Component {
             return e.uuid === changedPreset.uuid
         });
         console.log(changedPreset);
+        changedPreset.creation_time = new Date(changedPreset.creation_time * 1000);
         if (previousIndex >= 0) {
             presets[previousIndex] = changedPreset;
         } else {
@@ -131,8 +132,9 @@ class Project extends React.Component {
                         <label>Sorting:</label>
                         {this.state.activeTab === 0 &&
                             <select value={this.state.sorting[0]} onChange={this.onChangeSorting}>
-                                <option value="0">Name</option>
-                                <option value="1">Tries</option>
+                                <option value="0">Created</option>
+                                <option value="1">Name</option>
+                                <option value="2">Tries</option>
                             </select>
                         }
                         {this.state.activeTab === 1 &&
@@ -158,8 +160,10 @@ class Project extends React.Component {
                     {this.state.presets.filter(preset => (!preset.abstract || this.state.showAbstract)).sort(function (a, b) {
                         switch(project.state.sorting[0]) {
                             case 0:
-                                s = a.name.localeCompare(b.name); break;
+                                s = a.creation_time - b.creation_time; break;
                             case 1:
+                                s = a.name.localeCompare(b.name); break;
+                            case 2:
                                 s = a.started_tries - b.started_tries; break;
                         }
                         if (s === 0)

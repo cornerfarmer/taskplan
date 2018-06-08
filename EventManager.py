@@ -45,6 +45,7 @@ class ServerSentEvent(object):
             data_client['abstract'] = data.abstract
             data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
             data_client['data'] = data.data
+            data_client['creation_time'] = data.creation_time.timestamp()
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port

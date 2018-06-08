@@ -22,14 +22,22 @@ class PresetEditor extends React.Component {
         this.onModeChange = this.onModeChange.bind(this);
     }
 
-    open(preset) {
+    open(preset, duplicate) {
         var data = Object.assign({}, preset.data);
         delete data.uuid;
+        delete data.creation_time;
 
-        this.setState({
-            preset: preset,
-            config: data
-        });
+        if (duplicate) {
+            this.setState({
+                preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name},
+                config: data
+            });
+        } else {
+            this.setState({
+                preset: preset,
+                config: data
+            });
+        }
     }
 
     new(project_name) {

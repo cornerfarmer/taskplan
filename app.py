@@ -112,7 +112,9 @@ def run(projects, max_running):
         if preset_uuid in configuration.presets_by_uuid:
             preset = configuration.presets_by_uuid[preset_uuid]
             new_data['uuid'] = preset.uuid
+            new_data['creation_time'] = preset.data['creation_time']
             preset.set_data(new_data)
+
             configuration.save()
             event_manager.throw(EventType.PRESET_CHANGED, preset, project)
             event_manager.log("Preset \"" + preset.name + "\" has been changed", "Preset has been changed")
