@@ -14,6 +14,7 @@ class PresetEditor extends React.Component {
             mode: 'code'
         };
 
+        this.jsonEditor = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.save = this.save.bind(this);
@@ -26,6 +27,7 @@ class PresetEditor extends React.Component {
         var data = Object.assign({}, preset.data);
         delete data.uuid;
         delete data.creation_time;
+        var wasOpen = this.state.preset !== null;
 
         if (duplicate) {
             this.setState({
@@ -38,14 +40,20 @@ class PresetEditor extends React.Component {
                 config: data
             });
         }
+        if (wasOpen)
+            this.jsonEditor.current.jsonEditor.set(data);
     }
 
     new(project_name) {
-        this.close();
+        var wasOpen = this.state.preset !== null;
+
         this.setState({
             preset: {name: 'New preset', project_name: project_name},
             config: {config: {}}
         });
+
+        if (wasOpen)
+            this.jsonEditor.current.jsonEditor.set({config: {}});
     }
 
     close() {
@@ -101,7 +109,7 @@ class PresetEditor extends React.Component {
             return (
                 <div id="preset-editor" >
                     <div className="header">{this.state.preset.name}</div>
-                    <Editor mode={this.state.mode} allowedModes={['code', 'tree']} value={this.state.config} onModeChange={this.onModeChange} onChange={this.onChange} ace={ace} history={true} />
+                    <Editor ref={this.jsonEditor} mode={this.state.mode} allowedModes={['code', 'tree']} value={this.state.config} onModeChange={this.onModeChange} onChange={this.onChange} ace={ace} history={true} />
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>
