@@ -1,22 +1,22 @@
 [
   {
-    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "config": {},
+    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
+    "abstract": true,
     "creation_time": 1528499228.59067,
-    "name": "Default",
-    "abstract": true
+    "name": "Default"
   },
   {
     "config": {
       "iterate": {
+        "test": [
+          0.2,
+          0.2
+        ],
         "step": [
           1,
           4,
           6
-        ],
-        "test": [
-          0.2,
-          0.2
         ]
       }
     },
@@ -25,58 +25,58 @@
     "name": "simpleRun"
   },
   {
-    "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330",
     "config": {
       "step": 245
     },
+    "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330",
     "creation_time": 1528499228.591235,
     "name": "test"
   },
   {
-    "uuid": "c014d024-df16-419b-89d5-941243d4cc1c",
     "config": {},
+    "uuid": "c014d024-df16-419b-89d5-941243d4cc1c",
     "creation_time": 1528499936.653531,
     "name": "empty"
   },
   {
-    "uuid": "b135ab8e-1d11-498e-81fd-c684ecbf456e",
     "config": {},
+    "uuid": "b135ab8e-1d11-498e-81fd-c684ecbf456e",
     "creation_time": 1528499953.543179,
     "name": "empty 2"
   },
   {
-    "uuid": "0ddf56ba-651f-4b0a-a412-95c95265f4d8",
     "config": {
       "iterate": {
+        "test": [
+          0.1,
+          0.2
+        ],
         "step": [
           1,
           4,
           6
-        ],
-        "test": [
-          0.1,
-          0.2
         ]
       }
     },
+    "uuid": "0ddf56ba-651f-4b0a-a412-95c95265f4d8",
     "creation_time": 1528500472.130018,
     "name": "simpleRun 2"
   },
   {
-    "uuid": "eb3ce212-c630-4c1c-a125-4304ecc37bce",
     "config": {
       "iterate": {
+        "test": [
+          0.3,
+          0.3
+        ],
         "step": [
           1,
           4,
           6
-        ],
-        "test": [
-          0.3,
-          0.3
         ]
       }
     },
+    "uuid": "eb3ce212-c630-4c1c-a125-4304ecc37bce",
     "creation_time": 1528500755.54173,
     "name": "simpleRun 3"
   }

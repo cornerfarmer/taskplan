@@ -126,9 +126,12 @@ class Scheduler:
 
     def set_max_running(self, max_running):
         with self._queue_mutex:
+            prev_max_running = self._max_running
             self._max_running = max_running
         self.event_manager.log("The maximal running tasks has been changed to " + str(max_running), "The maximal running tasks has been changed")
         self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+        for i in range(max_running - prev_max_running):
+            self.wakeup_sem.release()
 
     def max_running(self):
         return self._max_running
