@@ -20,7 +20,7 @@ class State(Enum):
 
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, preset, project, total_iterations, try_number):
+    def __init__(self, task_dir, class_name, preset, original_preset_uuid, project, total_iterations, try_number):
         self.task_dir = task_dir
         self.class_name = class_name
         self.preset = preset
@@ -28,6 +28,7 @@ class TaskWrapper:
         self.state = State.INIT
         self.uuid = uuid.uuid4()
         self.project = project
+        self.original_preset_uuid = original_preset_uuid
         self._finished_iterations = Value('i', 0)
         self._total_subtasks = Value('i', 0)
         self._finished_subtasks = Value('i', 0)
@@ -144,7 +145,6 @@ class TaskWrapper:
     def save_metadata(self):
         data = {}
         data['uuid'] = str(self.uuid)
-        data['preset_uuid'] = str(self.preset.uuid)
         data['finished_iterations'] = self._finished_iterations.value
         data['finished_subtasks'] = self._finished_subtasks.value
         data['total_iterations'] = self._total_iterations.value
@@ -152,6 +152,8 @@ class TaskWrapper:
         data['creation_time'] = self.creation_time
         data['saved_time'] = self.saved_time
         data['had_error'] = self._had_error.value
+        data['preset'] = self.preset.data
+        data['original_preset_uuid'] = self.original_preset_uuid
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
         with open(str(path / Path("metadata.pk")), 'wb') as handle:
@@ -161,13 +163,14 @@ class TaskWrapper:
         with open(str(path / Path("metadata.pk")), 'rb') as handle   :
             data = pickle.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
-            self.preset = self.project.configuration.presets_by_uuid[data['preset_uuid']]
+            self.preset = self.project.configuration.add_preset(data['preset'], None)
             self._finished_iterations.value = data['finished_iterations']
             self._finished_subtasks.value = data['finished_subtasks']
             self._total_iterations.value = data['total_iterations']
             self.try_number = data['try_number']
             self.creation_time = data['creation_time']
             self.saved_time = data['saved_time']
+            self.original_preset_uuid = data['original_preset_uuid']
             self._had_error.value = data['had_error']
 
     def total_iterations(self):

@@ -127,7 +127,7 @@ def run(projects, max_running):
 
         project = project_manager.project_by_name(project_name)
 
-        preset = project.configuration.add_preset(new_data)
+        preset = project.configuration.add_preset(new_data, project.configuration.presets[-1].file)
 
         event_manager.throw(EventType.PRESET_CHANGED, preset, project)
         event_manager.log("Preset \"" + preset.name + "\" has been added", "Preset has been added")
@@ -185,4 +185,4 @@ def run(projects, max_running):
 
 
 def create_app():
-    return run([Project(".", "TestTask"), Project("/home/domin/Dokumente/watteNN", "WatteNNTask", result_dir="task_results")], 1)
+    return run([Project(".", "TestTask")], 1)

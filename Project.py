@@ -26,7 +26,7 @@ class Project:
         for path in self.result_dir.iterdir():
             if path.is_dir():
                 try:
-                    task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, 0)
+                    task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0)
                     task.load_metadata(path)
                     task.state = State.STOPPED
                     self.tasks.append(task)
@@ -39,7 +39,10 @@ class Project:
         else:
             raise LookupError("No preset with uuid " + preset_uuid)
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, preset, self, total_iterations, self.maximal_try_of_preset(preset) + 1)
+        preset_data = preset.data.copy()
+        preset_data['uuid'] = None
+        task_preset = self.configuration.add_preset(preset_data, None)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, preset.uuid, self, total_iterations, self.maximal_try_of_preset(preset) + 1)
         task.save_metadata()
         self.tasks.append(task)
 
@@ -48,7 +51,7 @@ class Project:
     def maximal_try_of_preset(self, preset):
         maximal_try = -1
         for task in self.tasks:
-            if task.preset == preset:
+            if task.original_preset_uuid == preset.uuid:
                 maximal_try = max(maximal_try, task.try_number)
         return maximal_try
 
