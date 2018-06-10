@@ -1,4 +1,5 @@
 import os
+import pickle
 import threading
 from pathlib import Path
 
@@ -21,12 +22,26 @@ class Project:
         self.tasks = []
         self.tensorboard_port = None
         self._load_saved_tasks()
+        self.versions = ["initial"]
+        self._load_metadata()
+
+    def _save_metadata(self):
+        data = {}
+        data['versions'] = self.versions
+        with open(str(self.task_dir / Path("metadata.pk")), 'wb') as handle:
+            pickle.dump(data, handle)
+
+    def _load_metadata(self):
+        if (self.task_dir / Path("metadata.pk")).exists():
+            with open(str(self.task_dir / Path("metadata.pk")), 'rb') as handle   :
+                data = pickle.load(handle)
+                self.versions = data['versions']
 
     def _load_saved_tasks(self):
         for path in self.result_dir.iterdir():
             if path.is_dir():
                 try:
-                    task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0)
+                    task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0, None)
                     task.load_metadata(path)
                     task.state = State.STOPPED
                     self.tasks.append(task)
@@ -42,7 +57,7 @@ class Project:
         preset_data = preset.data.copy()
         preset_data['uuid'] = None
         task_preset = self.configuration.add_preset(preset_data, None)
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, preset.uuid, self, total_iterations, self.maximal_try_of_preset(preset) + 1)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, preset.uuid, self, total_iterations, self.maximal_try_of_preset(preset) + 1, self.versions[-1])
         task.save_metadata()
         self.tasks.append(task)
 
@@ -51,7 +66,7 @@ class Project:
     def maximal_try_of_preset(self, preset):
         maximal_try = -1
         for task in self.tasks:
-            if task.original_preset_uuid == preset.uuid:
+            if task.original_preset_uuid == preset.uuid and task.code_version == self.versions[-1]:
                 maximal_try = max(maximal_try, task.try_number)
         return maximal_try
 
@@ -92,3 +107,7 @@ class Project:
         if task in self.tasks:
             self.tasks.remove(task)
             task.remove_data()
+
+    def add_version(self, new_version):
+        self.versions.append(new_version)
+        self._save_metadata()

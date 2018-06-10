@@ -181,6 +181,14 @@ def run(projects, max_running):
         scheduler.set_max_running(new_max_running)
         return ""
 
+    @app.route('/addVersion/<string:project_name>/<string:version_name>')
+    def add_version(project_name, version_name):
+        project = project_manager.project_by_name(project_name)
+        project.add_version(version_name)
+        event_manager.throw(EventType.PROJECT_CHANGED, project)
+        return ""
+
+
     return app
 
 

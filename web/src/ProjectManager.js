@@ -1,5 +1,6 @@
 import React from 'react';
 import Project from "./Project";
+import Prompt from "./Prompt";
 
 class ProjectManager extends React.Component {
     constructor(props) {
@@ -10,6 +11,8 @@ class ProjectManager extends React.Component {
         };
         this.projectsRefs = [];
         this.gotoTB = this.gotoTB.bind(this);
+        this.addVersion = this.addVersion.bind(this);
+        this.promptRefs = React.createRef();
 
         var pm = this;
         this.props.evtSource.addEventListener("PROJECT_CHANGED", function (e) {
@@ -107,6 +110,10 @@ class ProjectManager extends React.Component {
         });
     }
 
+    addVersion() {
+        this.promptRefs.current.openDialog();
+    }
+
     render() {
         return (
             <div id="project-manager">
@@ -124,7 +131,13 @@ class ProjectManager extends React.Component {
                             </span>
                         </div>
                     }
-                    <div id="tb-link" onClick={this.gotoTB}>TB</div>
+                    {this.state.projects.length > 0 &&
+                        <span id="project-toolbar">
+                            <div id="code-version" >{this.state.projects[this.state.currentProject].version} <i className="fas fa-plus" id="add-version" onClick={this.addVersion}></i></div>
+                            <div id="tb-link" onClick={this.gotoTB}>TB</div>
+                            <Prompt ref={this.promptRefs} header="Create code version" text="Specify the name of the new code version:" url={"/addVersion/" + this.state.projects[this.state.currentProject].name}/>
+                        </span>
+                    }
                 </div>
                 <div id="projects">
                     {this.state.projects.map((project, index) => (

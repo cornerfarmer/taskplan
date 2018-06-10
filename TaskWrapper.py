@@ -20,7 +20,7 @@ class State(Enum):
 
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, preset, original_preset_uuid, project, total_iterations, try_number):
+    def __init__(self, task_dir, class_name, preset, original_preset_uuid, project, total_iterations, try_number, code_version):
         self.task_dir = task_dir
         self.class_name = class_name
         self.preset = preset
@@ -42,6 +42,7 @@ class TaskWrapper:
         self._is_running = Value('b', False)
         self._had_error = Value('b', False)
         self.queue_index = 0
+        self.code_version = code_version
 
     def start(self, wakeup_sem):
         sys.stdout.flush()
@@ -140,7 +141,7 @@ class TaskWrapper:
         wakeup_sem.release()
 
     def build_save_dir(self):
-        return self.project.result_dir / Path(self.preset.name + " (try " + str(self.try_number) + ")")
+        return self.project.result_dir / Path(self.code_version) / Path(self.preset.name) / Path(str(self.try_number))
 
     def save_metadata(self):
         data = {}
@@ -154,6 +155,7 @@ class TaskWrapper:
         data['had_error'] = self._had_error.value
         data['preset'] = self.preset.data
         data['original_preset_uuid'] = self.original_preset_uuid
+        data['code_version'] = self.code_version
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
         with open(str(path / Path("metadata.pk")), 'wb') as handle:
@@ -172,6 +174,7 @@ class TaskWrapper:
             self.saved_time = data['saved_time']
             self.original_preset_uuid = data['original_preset_uuid']
             self._had_error.value = data['had_error']
+            self.code_version = data['code_version']
 
     def total_iterations(self):
         return self._total_iterations.value

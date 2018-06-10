@@ -48,6 +48,7 @@ class ServerSentEvent(object):
             data_client['creation_time'] = data.creation_time.timestamp()
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
+            data_client['version'] = data.versions[-1]
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif event_type is EventType.SCHEDULER_OPTIONS:
             data_client['max_running'] = data.max_running()
