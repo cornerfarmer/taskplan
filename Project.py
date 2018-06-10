@@ -33,20 +33,22 @@ class Project:
 
     def _load_metadata(self):
         if (self.task_dir / Path("metadata.pk")).exists():
-            with open(str(self.task_dir / Path("metadata.pk")), 'rb') as handle   :
+            with open(str(self.task_dir / Path("metadata.pk")), 'rb') as handle:
                 data = pickle.load(handle)
                 self.versions = data['versions']
 
     def _load_saved_tasks(self):
-        for path in self.result_dir.iterdir():
-            if path.is_dir():
-                try:
-                    task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0, None)
-                    task.load_metadata(path)
-                    task.state = State.STOPPED
-                    self.tasks.append(task)
-                except:
-                    pass
+        for checkpoint in self.result_dir.iterdir():
+            for task in checkpoint.iterdir():
+                for path in task.iterdir():
+                    if path.is_dir():
+                        try:
+                            task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0, None)
+                            task.load_metadata(path)
+                            task.state = State.STOPPED
+                            self.tasks.append(task)
+                        except:
+                            pass
 
     def create_task(self, preset_uuid, total_iterations):
         if preset_uuid in self.configuration.presets_by_uuid:
