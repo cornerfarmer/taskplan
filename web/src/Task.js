@@ -48,7 +48,9 @@ class TaskToolbar extends React.Component {
         this.cancel = this.cancel.bind(this);
         this.runNow = this.runNow.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
+        this.openPresetDialog = this.openPresetDialog.bind(this);
         this.promptExtraRefs = React.createRef();
+        this.promptPresetRefs = React.createRef();
         this.openLog = this.openLog.bind(this);
     }
 
@@ -95,6 +97,10 @@ class TaskToolbar extends React.Component {
         this.promptExtraRefs.current.openDialog();
     }
 
+    openPresetDialog() {
+        this.promptPresetRefs.current.openDialog();
+    }
+
     openLog() {
         window.open("/log/" + this.props.task.uuid, '_blank');
     }
@@ -113,6 +119,9 @@ class TaskToolbar extends React.Component {
                         <div className="action" onClick={this.openLog}>
                             <i className="far fa-file-alt"></i><span>Log</span>
                         </div>
+                        < div className="action" onClick={this.openPresetDialog}>
+                            <i className="fas fa-code"></i><span>Config</span>
+                        </div>
                     </span>
                 }
                 {this.props.task.state === State.QUEUED &&
@@ -126,9 +135,13 @@ class TaskToolbar extends React.Component {
                         <div className="action" onClick={this.cancel}>
                             <i className="fas fa-times"></i><span>Cancel</span>
                         </div>
+                        < div className="action" onClick={this.openPresetDialog}>
+                            <i className="fas fa-code"></i><span>Config</span>
+                        </div>
                     </span>
                 }
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/change/" + this.props.task.uuid}/>
+                <Prompt ref={this.promptPresetRefs} presetEditor={true} header="Change config?" text="Specify the new configuration which will be used on the fly:" url={"/adjust_task_preset/" + this.props.task.preset_uuid}/>
             </div>
         );
     }
