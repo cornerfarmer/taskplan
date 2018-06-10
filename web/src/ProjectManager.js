@@ -143,6 +143,7 @@ class ProjectManager extends React.Component {
                     {this.state.projects.map((project, index) => (
                         <Project
                             key={project.name}
+                            default_preset={project.default_preset}
                             project={project}
                             evtSource={this.props.evtSource}
                             visible={index === this.state.currentProject}

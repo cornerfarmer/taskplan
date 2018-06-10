@@ -11,7 +11,10 @@ class PresetEditor extends React.Component {
         this.state = {
             preset: null,
             config: '',
-            mode: 'code'
+            mode: 'code',
+            name: '',
+            base: '',
+            abstract: false
         };
 
         this.jsonEditor = React.createRef();
@@ -21,6 +24,9 @@ class PresetEditor extends React.Component {
         this.new = this.new.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onModeChange = this.onModeChange.bind(this);
+        this.onNameChange = this.onNameChange.bind(this);
+        this.onBaseChange = this.onBaseChange.bind(this);
+        this.onAbstractChange = this.onAbstractChange.bind(this);
     }
 
     open(preset, duplicate) {
@@ -32,16 +38,22 @@ class PresetEditor extends React.Component {
         if (duplicate) {
             this.setState({
                 preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name},
-                config: data
+                config: data['config'],
+                name: 'Duplicated ' + preset.name,
+                base: preset.data.base,
+                abstract: preset.abstract
             });
         } else {
             this.setState({
                 preset: preset,
-                config: data
+                config: data['config'],
+                name: preset.name,
+                base: preset.data.base,
+                abstract: preset.abstract
             });
         }
         if (wasOpen)
-            this.jsonEditor.current.jsonEditor.set(data);
+            this.jsonEditor.current.jsonEditor.set(data['config']);
     }
 
     new(project_name) {
@@ -49,11 +61,14 @@ class PresetEditor extends React.Component {
 
         this.setState({
             preset: {name: 'New preset', project_name: project_name},
-            config: {config: {}}
+            config: {},
+            name: '',
+            base: this.props.default_preset,
+            abstract: false
         });
 
         if (wasOpen)
-            this.jsonEditor.current.jsonEditor.set({config: {}});
+            this.jsonEditor.current.jsonEditor.set({});
     }
 
     close() {
@@ -65,7 +80,7 @@ class PresetEditor extends React.Component {
 
     save() {
         var data = new FormData();
-        data.append("data", JSON.stringify(this.state.config));
+        data.append("data", JSON.stringify({'name': this.state.name, 'base': this.state.base, 'abstract': this.state.abstract, 'config': this.state.config}));
 
         var url = "";
         if (this.state.preset.uuid)
@@ -104,11 +119,45 @@ class PresetEditor extends React.Component {
         });
     }
 
+    onNameChange(event) {
+        this.setState({
+            name: event.target.value
+        });
+    }
+
+    onBaseChange(event) {
+        this.setState({
+            base: event.target.value
+        });
+    }
+
+    onAbstractChange(event) {
+        this.setState({
+            abstract: event.target.value
+        });
+    }
+
     render() {
         if (this.state.preset !== null) {
             return (
                 <div id="preset-editor" >
                     <div className="header">{this.state.preset.name}</div>
+                    <div className="field">
+                        <label>Name:</label>
+                        <input value={this.state.name} onChange={this.onNameChange} placeholder="<generate name>" />
+                    </div>
+                    <div className="field">
+                        <label>Base:</label>
+                        <select value={this.state.base} onChange={this.onBaseChange} >
+                            {this.props.presets.map(preset => (
+                                <option value={preset.uuid}>{preset.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="field">
+                        <label>Abstract:</label>
+                        <input checked={this.state.abstract} onChange={this.onAbstractChange} type="checkbox" />
+                    </div>
                     <Editor ref={this.jsonEditor} mode={this.state.mode} allowedModes={['code', 'tree']} value={this.state.config} onModeChange={this.onModeChange} onChange={this.onChange} ace={ace} history={true} />
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>

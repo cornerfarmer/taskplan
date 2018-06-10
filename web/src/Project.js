@@ -179,7 +179,7 @@ class Project extends React.Component {
                         />
                     ))}
                 </ul>
-                <PresetEditor ref={this.presetEditor}/>
+                <PresetEditor ref={this.presetEditor} presets={this.state.presets} default_preset={this.props.default_preset}/>
                 <div className="presets-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />
