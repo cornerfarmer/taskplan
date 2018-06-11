@@ -89,7 +89,7 @@ class Project:
 
             while port != self.tensorboard_port:
                 port = self.tensorboard_port
-                time.sleep(2)
+                time.sleep(5)
 
             event_manager.throw(EventType.PROJECT_CHANGED, self)
 
