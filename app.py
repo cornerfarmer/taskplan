@@ -188,7 +188,15 @@ def run(projects, max_running):
         event_manager.throw(EventType.PROJECT_CHANGED, project)
         return ""
 
-
+    @app.route('/config/preset/<string:project_name>/<string:preset_uuid>')
+    def config_preset(project_name, preset_uuid):
+        project = project_manager.project_by_name(project_name)
+        configuration = project.configuration
+        if preset_uuid in configuration.presets_by_uuid:
+            preset = configuration.presets_by_uuid[preset_uuid]
+            return jsonify(preset.data['config'])
+        else:
+            return ""
     return app
 
 

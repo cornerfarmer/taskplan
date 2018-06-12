@@ -42,9 +42,9 @@ class ServerSentEvent(object):
             data_client['name'] = data.name
             data_client['project_name'] = parent_data.name
             data_client['base'] = data.base_preset.name if data.base_preset is not None else ""
+            data_client['base_uuid'] = data.base_preset.uuid if data.base_preset is not None else ""
             data_client['abstract'] = data.abstract
             data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
-            data_client['data'] = data.data
             data_client['creation_time'] = data.creation_time.timestamp()
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name

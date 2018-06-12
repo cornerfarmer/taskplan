@@ -1,86 +1,75 @@
 import React from 'react';
-import Prompt from "./Prompt";
-import { JsonEditor as Editor } from 'jsoneditor-react';
-import 'jsoneditor-react/es/editor.min.css';
-import ace from 'brace';
-import 'brace/mode/json';
+import ConfigEditor from "./ConfigEditor";
 
 class PresetEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             preset: null,
-            config: '',
-            mode: 'code',
             name: '',
             base: '',
             abstract: false
         };
 
-        this.jsonEditor = React.createRef();
+        this.configEditor = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.save = this.save.bind(this);
         this.new = this.new.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onModeChange = this.onModeChange.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
         this.onBaseChange = this.onBaseChange.bind(this);
         this.onAbstractChange = this.onAbstractChange.bind(this);
     }
 
     open(preset, duplicate) {
-        var data = Object.assign({}, preset.data);
-        delete data.uuid;
-        delete data.creation_time;
         var wasOpen = this.state.preset !== null;
 
         if (duplicate) {
             this.setState({
-                preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name},
-                config: data['config'],
+                preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name, uuid: preset.uuid},
                 name: 'Duplicated ' + preset.name,
-                base: preset.data.base,
+                base: preset.base_uuid,
                 abstract: preset.abstract
             });
         } else {
             this.setState({
                 preset: preset,
-                config: data['config'],
                 name: preset.name,
-                base: preset.data.base,
+                base: preset.base_uuid,
                 abstract: preset.abstract
             });
         }
-        if (wasOpen)
-            this.jsonEditor.current.jsonEditor.set(data['config']);
+        //if (wasOpen)
+        //    this.jsonEditor.current.jsonEditor.set(data['config']);
     }
 
     new(project_name) {
-        var wasOpen = this.state.preset !== null;
-
         this.setState({
             preset: {name: 'New preset', project_name: project_name},
-            config: {},
             name: '',
             base: this.props.default_preset,
             abstract: false
         });
-
-        if (wasOpen)
-            this.jsonEditor.current.jsonEditor.set({});
     }
 
     close() {
         this.setState({
             preset: null
         });
-
     }
 
     save() {
         var data = new FormData();
-        data.append("data", JSON.stringify({'name': this.state.name, 'base': this.state.base, 'abstract': this.state.abstract, 'config': this.state.config}));
+
+        var dataJson = {};
+        if (this.state.name !== "")
+            dataJson['name'] = this.state.name;
+        dataJson['base'] = this.state.base;
+        if (this.state.abstract)
+            dataJson['abstract'] = this.state.abstract;
+        dataJson['config'] = this.configEditor.current.state.config;
+
+        data.append("data", JSON.stringify(dataJson));
 
         var url = "";
         if (this.state.preset.uuid)
@@ -104,19 +93,6 @@ class PresetEditor extends React.Component {
             );
 
         this.close();
-    }
-    
-
-    onChange(data) {
-        this.setState({
-            config: data
-        });
-    }
-
-    onModeChange(mode) {
-        this.setState({
-            mode: mode
-        });
     }
 
     onNameChange(event) {
@@ -158,7 +134,7 @@ class PresetEditor extends React.Component {
                         <label>Abstract:</label>
                         <input checked={this.state.abstract} onChange={this.onAbstractChange} type="checkbox" />
                     </div>
-                    <Editor ref={this.jsonEditor} mode={this.state.mode} allowedModes={['code', 'tree']} value={this.state.config} onModeChange={this.onModeChange} onChange={this.onChange} ace={ace} history={true} />
+                    <ConfigEditor ref={this.configEditor} url={this.state.preset.uuid !== undefined ? "/config/preset/" + this.state.preset.project_name + "/" + this.state.preset.uuid : ""}/>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>
