@@ -134,7 +134,7 @@ class PresetEditor extends React.Component {
                         <label>Abstract:</label>
                         <input checked={this.state.abstract} onChange={this.onAbstractChange} type="checkbox" />
                     </div>
-                    <ConfigEditor ref={this.configEditor} url={this.state.preset.uuid !== undefined ? "/config/preset/" + this.state.preset.project_name + "/" + this.state.preset.uuid : ""}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/preset/" + this.state.preset.project_name + "/" + (this.state.preset.uuid !== undefined ? this.state.preset.uuid : this.props.default_preset)}/>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>

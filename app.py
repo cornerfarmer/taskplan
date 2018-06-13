@@ -194,7 +194,7 @@ def run(projects, max_running):
         configuration = project.configuration
         if preset_uuid in configuration.presets_by_uuid:
             preset = configuration.presets_by_uuid[preset_uuid]
-            return jsonify(preset.data['config'])
+            return jsonify(preset.compose_config())
         else:
             return ""
     return app

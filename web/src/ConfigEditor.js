@@ -28,7 +28,7 @@ class ConfigEditor extends React.Component {
     }
 
     reload() {
-        if (this.props.url === "" && (this.state.loadedUrl !== this.props.url || Object.keys(this.state.config).length > 0)) {
+        if (this.props.url === "" && this.state.loadedUrl !== this.props.url) {
 
             this.setState({
                 config: {},
