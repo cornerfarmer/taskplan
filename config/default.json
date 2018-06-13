@@ -1,15 +1,21 @@
 [
   {
-    "config": {},
-    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
-    "abstract": true,
     "name": "Default",
+    "abstract": true,
+    "config": {
+      "step": 27,
+      "test": {
+        "deep": [
+          12,
+          25
+        ]
+      }
+    },
+    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "creation_time": 1528499228.59067
   },
   {
     "name": "simpleRun",
-    "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
-    "abstract": false,
     "config": {
       "iterate": {
         "step": [
@@ -27,31 +33,21 @@
     "creation_time": 1528499228.591189
   },
   {
+    "name": "test",
+    "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "config": {
-      "step": 100
+      "step": 25
     },
     "uuid": "9c15d552-331a-4736-87c4-7cb70aa5c330",
-    "creation_time": 1528499228.591235,
-    "name": "test"
+    "creation_time": 1528499228.591235
   },
   {
-    "name": "Test12",
     "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
-    "abstract": false,
     "config": {
-      "step": 1
+      "step": 25
     },
-    "uuid": "2632c9fe-01e8-4d97-b3a9-411c3be044f5",
-    "creation_time": 1528669546.092875
-  },
-  {
-    "name": "Abs",
-    "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
-    "abstract": "false",
-    "config": {
-      "steps": 1
-    },
-    "uuid": "077fb613-532e-4246-ad25-dc3544a2ef76",
-    "creation_time": 1528670662.453103
+    "uuid": "bd6b2f13-1606-4d8a-aac0-597360196210",
+    "creation_time": 1528850269.802666,
+    "name": "step: 25"
   }
 ]
