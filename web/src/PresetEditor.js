@@ -64,7 +64,8 @@ class PresetEditor extends React.Component {
         var dataJson = {};
         if (this.state.name !== "")
             dataJson['name'] = this.state.name;
-        dataJson['base'] = this.state.base;
+        if (this.state.preset.uuid !== this.props.default_preset)
+            dataJson['base'] = this.state.base;
         if (this.state.abstract)
             dataJson['abstract'] = this.state.abstract;
         dataJson['config'] = this.configEditor.current.state.config;
@@ -122,14 +123,16 @@ class PresetEditor extends React.Component {
                         <label>Name:</label>
                         <input value={this.state.name} onChange={this.onNameChange} placeholder="<generate name>" />
                     </div>
-                    <div className="field">
-                        <label>Base:</label>
-                        <select value={this.state.base} onChange={this.onBaseChange} >
-                            {this.props.presets.map(preset => (
-                                <option value={preset.uuid}>{preset.name}</option>
-                            ))}
-                        </select>
-                    </div>
+                    {this.state.preset.uuid !== this.props.default_preset &&
+                        <div className="field">
+                            <label>Base:</label>
+                            <select value={this.state.base} onChange={this.onBaseChange}>
+                                {this.props.presets.map(preset => (
+                                    <option value={preset.uuid}>{preset.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    }
                     <div className="field">
                         <label>Abstract:</label>
                         <input checked={this.state.abstract} onChange={this.onAbstractChange} type="checkbox" />
