@@ -7,6 +7,7 @@ class Task:
         self.preset = preset
         self.logger = logger
         self.subtask = subtask
+        self.preset.iteration_cursor = 0
 
         if 'iterate' in preset.config.configBlocks:
             number_of_subtasks = 1
@@ -72,6 +73,7 @@ class Task:
             save_interval = 0
 
         while finished_iterations.value < total_iterations.value:
+            self.preset.iteration_cursor = finished_iterations.value
             self.step(tensorboard_writer, finished_iterations.value)
 
             with finished_iterations.get_lock():

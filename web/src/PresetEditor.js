@@ -8,7 +8,9 @@ class PresetEditor extends React.Component {
             preset: null,
             name: '',
             base: '',
-            abstract: false
+            abstract: false,
+            dynamic: false,
+            uuid_to_load: null
         };
 
         this.configEditor = React.createRef();
@@ -19,6 +21,7 @@ class PresetEditor extends React.Component {
         this.onNameChange = this.onNameChange.bind(this);
         this.onBaseChange = this.onBaseChange.bind(this);
         this.onAbstractChange = this.onAbstractChange.bind(this);
+        this.onDynamicChange = this.onDynamicChange.bind(this);
     }
 
     open(preset, duplicate) {
@@ -26,17 +29,21 @@ class PresetEditor extends React.Component {
 
         if (duplicate) {
             this.setState({
-                preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name, uuid: preset.uuid},
+                preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name},
                 name: 'Duplicated ' + preset.name,
                 base: preset.base_uuid,
-                abstract: preset.abstract
+                uuid_to_load: preset.uuid,
+                abstract: preset.abstract,
+                dynamic: preset.dynamic
             });
         } else {
             this.setState({
                 preset: preset,
                 name: preset.name,
                 base: preset.base_uuid,
-                abstract: preset.abstract
+                uuid_to_load: preset.uuid,
+                abstract: preset.abstract,
+                dynamic: preset.dynamic
             });
         }
         //if (wasOpen)
@@ -48,7 +55,9 @@ class PresetEditor extends React.Component {
             preset: {name: 'New preset', project_name: project_name},
             name: '',
             base: this.props.default_preset,
-            abstract: false
+            abstract: false,
+            dynamic: false,
+            uuid_to_load: null
         });
     }
 
@@ -68,6 +77,8 @@ class PresetEditor extends React.Component {
             dataJson['base'] = this.state.base;
         if (this.state.abstract)
             dataJson['abstract'] = this.state.abstract;
+        if (this.state.dynamic)
+            dataJson['dynamic'] = this.state.dynamic;
         dataJson['config'] = this.configEditor.current.state.config;
 
         data.append("data", JSON.stringify(dataJson));
@@ -110,7 +121,13 @@ class PresetEditor extends React.Component {
 
     onAbstractChange(event) {
         this.setState({
-            abstract: event.target.value
+            abstract: event.target.checked
+        });
+    }
+
+    onDynamicChange(event) {
+        this.setState({
+            dynamic: event.target.checked
         });
     }
 
@@ -137,7 +154,11 @@ class PresetEditor extends React.Component {
                         <label>Abstract:</label>
                         <input checked={this.state.abstract} onChange={this.onAbstractChange} type="checkbox" />
                     </div>
-                    <ConfigEditor ref={this.configEditor} url={"/config/preset/" + this.state.preset.project_name + "/" + (this.state.preset.uuid !== undefined ? this.state.preset.uuid : this.props.default_preset)}/>
+                    <div className="field">
+                        <label>Dynamic:</label>
+                        <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" />
+                    </div>
+                    <ConfigEditor ref={this.configEditor} url={"/config/preset/" + this.state.preset.project_name + "/" + (this.state.uuid_to_load !== null ? this.state.uuid_to_load : this.state.base)} base={this.state.base}/>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>

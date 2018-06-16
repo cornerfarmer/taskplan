@@ -2,13 +2,19 @@
   {
     "name": "Default",
     "abstract": true,
+    "dynamic": true,
     "config": {
-      "step": 27,
-      "test": {
-        "deep": [
-          12,
-          25
-        ]
+      "0": {
+        "step": 27,
+        "test": {
+          "deep": [
+            12,
+            25
+          ]
+        }
+      },
+      "5": {
+        "step": 10000
       }
     },
     "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
@@ -42,12 +48,36 @@
     "creation_time": 1528499228.591235
   },
   {
+    "name": "Duplicated step: 25",
     "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "config": {
-      "step": 25
+      "step": 11
     },
     "uuid": "bd6b2f13-1606-4d8a-aac0-597360196210",
-    "creation_time": 1528850269.802666,
-    "name": "step: 25"
+    "creation_time": 1528850269.802666
+  },
+  {
+    "name": "0/step: 1 - 0/test/deep: [12, 25] - 10/step: 100",
+    "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
+    "dynamic": true,
+    "config": {
+      "0": {
+        "step": 1
+      },
+      "10": {
+        "step": 100
+      }
+    },
+    "uuid": "fd856d7f-ac05-409c-882a-6b55e88e8b3c",
+    "creation_time": 1529186433.568377
+  },
+  {
+    "name": "step: 5",
+    "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
+    "config": {
+      "step": 5
+    },
+    "uuid": "9bf46c62-f7ef-4343-88f4-ad84e6546456",
+    "creation_time": 1529189446.24457
   }
 ]
