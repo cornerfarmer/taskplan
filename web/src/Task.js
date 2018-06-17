@@ -141,7 +141,7 @@ class TaskToolbar extends React.Component {
                     </span>
                 }
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/change/" + this.props.task.uuid}/>
-                <Prompt ref={this.promptPresetRefs} presetEditor={true} header="Change config?" text="Specify the new configuration which will be used on the fly:" url={"/adjust_task_preset/" + this.props.task.preset_uuid}/>
+                <Prompt ref={this.promptPresetRefs} presetEditor={true} presetEditorUrl={"/config/task/" + this.props.task.uuid} header="Change config?" text="Specify the new configuration which will be used on the fly:" url={"/adjust_task_preset/" + this.props.task.uuid}/>
             </div>
         );
     }

@@ -1,8 +1,5 @@
 import React from 'react';
-import { JsonEditor as Editor } from 'jsoneditor-react';
-import 'jsoneditor-react/es/editor.min.css';
-import ace from 'brace';
-import 'brace/mode/json';
+import ConfigEditor from "./ConfigEditor";
 
 class Prompt extends React.Component {
     constructor(props) {
@@ -12,6 +9,7 @@ class Prompt extends React.Component {
             inputValue: this.props.defaultValue
         };
 
+        this.configEditor = React.createRef();
         this.start = this.start.bind(this);
         this.openDialog = this.openDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
@@ -26,7 +24,7 @@ class Prompt extends React.Component {
         });
         if (this.props.presetEditor) {
             var data = new FormData();
-            data.append("data", JSON.stringify(this.state.inputValue));
+            data.append("data", JSON.stringify(this.configEditor.current.state.config));
 
             fetch(this.props.url,
             {
@@ -102,7 +100,7 @@ class Prompt extends React.Component {
                             <input autoFocus onFocus={(e) => {e.target.select()}} type="text" name="iterations" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onKeyDown={this.onKeyDown} />
                         }
                         {this.props.presetEditor &&
-                            <Editor ref={this.jsonEditor} allowedModes={['code', 'tree']} mode='code' value={{}} onChange={this.onChange} ace={ace} history={true}/>
+                            <ConfigEditor ref={this.configEditor} url={this.props.presetEditorUrl} />
                         }
                         <div className="buttons">
                             <div onClick={this.start}>Ok</div>

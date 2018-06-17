@@ -3,8 +3,9 @@ import tensorflow as tf
 
 class Task:
 
-    def __init__(self, preset, logger, subtask):
+    def __init__(self, preset, preset_pipe, logger, subtask):
         self.preset = preset
+        self.preset_pipe = preset_pipe
         self.logger = logger
         self.subtask = subtask
         self.preset.iteration_cursor = 0
@@ -73,6 +74,13 @@ class Task:
             save_interval = 0
 
         while finished_iterations.value < total_iterations.value:
+            preset_available = self.preset_pipe.poll(timeout=0)
+            while preset_available:
+                new_preset = self.preset_pipe.recv()
+                new_preset.set_logger(self.preset.logger, self.preset.printed_settings)
+                self.preset = new_preset
+                preset_available = self.preset_pipe.poll(timeout=0)
+
             self.preset.iteration_cursor = finished_iterations.value
             self.step(tensorboard_writer, finished_iterations.value)
 

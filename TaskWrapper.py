@@ -1,5 +1,5 @@
 import pickle
-from multiprocessing import Process, Value
+from multiprocessing import Process, Value, Pipe
 import sys
 import importlib
 from enum import Enum
@@ -24,6 +24,7 @@ class TaskWrapper:
         self.task_dir = task_dir
         self.class_name = class_name
         self.preset = preset
+        self.preset_pipe_recv, self.preset_pipe_send = Pipe(duplex=False)
         self.process = None
         self.state = State.INIT
         self.uuid = uuid.uuid4()
@@ -49,7 +50,7 @@ class TaskWrapper:
         self._pause_computation.value = False
         self._is_running.value = True
         self._had_error.value = False
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._finished_subtasks, self._total_subtasks, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(), self._is_running, self._had_error))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), self.preset_pipe_recv, wakeup_sem, self._finished_subtasks, self._total_subtasks, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(), self._is_running, self._had_error))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -88,7 +89,7 @@ class TaskWrapper:
                 return self._finished_iterations.value, self._iteration_update_time.value
 
     @staticmethod
-    def _run(task_dir, class_name, preset, wakeup_sem, finished_subtasks, total_subtasks, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running, had_error):
+    def _run(task_dir, class_name, preset, preset_pipe, wakeup_sem, finished_subtasks, total_subtasks, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running, had_error):
 
         logger = Logger(save_dir, "main")
         try:
@@ -106,7 +107,7 @@ class TaskWrapper:
                 logger = Logger(save_dir, "main")
                 preset.set_logger(logger.get_with_module('config'))
 
-                task = task_class(preset, logger.get_with_module('task'), subtask)
+                task = task_class(preset, preset_pipe, logger.get_with_module('task'), subtask)
 
                 def save_func():
                     task.save(save_dir)
@@ -188,6 +189,12 @@ class TaskWrapper:
     def remove_data(self):
         save_dir = self.build_save_dir()
         shutil.rmtree(save_dir)
+
+    def adjust_config(self, new_config):
+        with self._finished_iterations.get_lock():
+            new_config = self.preset.diff_config(new_config, self._finished_iterations.value + 1)
+            self.preset.set_config_at_timestep(new_config, self._finished_iterations.value + 1)
+            self.preset_pipe_send.send(self.preset.clone())
 
     def __str__(self):
         return self.project.name + ": " + self.preset.name + " (try " + str(self.try_number) + ")"

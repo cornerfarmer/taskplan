@@ -197,6 +197,27 @@ def run(projects, max_running):
             return jsonify(preset.compose_config())
         else:
             return ""
+
+    @app.route('/config/task/<string:task_uuid>')
+    @app.route('/config/task/<string:task_uuid>/<int:iteration>')
+    def config_task(task_uuid, iteration=-1):
+        task = project_manager.find_task_by_uuid(task_uuid)
+        if task is not None:
+            if iteration == -1:
+                iteration = task.finished_iterations_and_update_time()[0]
+            return jsonify(task.preset.compose_config_for_timestep(iteration))
+        else:
+            return ""
+
+    @app.route('/adjust_task_preset/<string:task_uuid>', methods=['POST'])
+    def adjust_task_preset(task_uuid):
+        task = project_manager.find_task_by_uuid(task_uuid)
+        if task is not None:
+            new_data = json.loads(request.form.get('data'))
+            task.adjust_config(new_data)
+
+        return ""
+
     return app
 
 
