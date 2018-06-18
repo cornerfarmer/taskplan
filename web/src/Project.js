@@ -22,6 +22,7 @@ class Project extends React.Component {
         this.addPreset = this.addPreset.bind(this);
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
+        this.rerunTask = this.rerunTask.bind(this);
         this.presetEditor = React.createRef()
     }
 
@@ -116,6 +117,11 @@ class Project extends React.Component {
         this.setState({sortingDescending: sortingDescending});
     }
 
+    rerunTask(task) {
+        let preset = this.state.presets.filter(preset => preset.uuid === task.preset_uuid)[0];
+        this.showTab(0);
+        this.presetEditor.current.open(preset, true, task.uuid);
+    }
 
     render() {
         var project = this;
@@ -208,6 +214,7 @@ class Project extends React.Component {
                         return s;
                     }).map(task => (
                         <PausedTask
+                            rerunTask={this.rerunTask}
                             key={task.uuid}
                             task={task}
                         />
@@ -232,6 +239,7 @@ class Project extends React.Component {
                         return s;
                     }).map(task => (
                         <FinishedTask
+                            rerunTask={this.rerunTask}
                             key={task.uuid}
                             task={task}
                         />

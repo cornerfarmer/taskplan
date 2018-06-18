@@ -10,7 +10,8 @@ class PresetEditor extends React.Component {
             base: '',
             abstract: false,
             dynamic: false,
-            uuid_to_load: null
+            uuid_to_load: null,
+            task_uuid: null
         };
 
         this.configEditor = React.createRef();
@@ -24,7 +25,7 @@ class PresetEditor extends React.Component {
         this.onDynamicChange = this.onDynamicChange.bind(this);
     }
 
-    open(preset, duplicate) {
+    open(preset, duplicate, task_uuid=null) {
         var wasOpen = this.state.preset !== null;
 
         if (duplicate) {
@@ -34,7 +35,8 @@ class PresetEditor extends React.Component {
                 base: preset.base_uuid,
                 uuid_to_load: preset.uuid,
                 abstract: preset.abstract,
-                dynamic: preset.dynamic
+                dynamic: preset.dynamic,
+                task_uuid: task_uuid
             });
         } else {
             this.setState({
@@ -43,7 +45,8 @@ class PresetEditor extends React.Component {
                 base: preset.base_uuid,
                 uuid_to_load: preset.uuid,
                 abstract: preset.abstract,
-                dynamic: preset.dynamic
+                dynamic: preset.dynamic,
+                task_uuid: null
             });
         }
         //if (wasOpen)
@@ -57,7 +60,8 @@ class PresetEditor extends React.Component {
             base: this.props.default_preset,
             abstract: false,
             dynamic: false,
-            uuid_to_load: null
+            uuid_to_load: null,
+            task_uuid: null
         });
     }
 
@@ -158,7 +162,12 @@ class PresetEditor extends React.Component {
                         <label>Dynamic:</label>
                         <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" />
                     </div>
-                    <ConfigEditor ref={this.configEditor} url={"/config/preset/" + this.state.preset.project_name + "/" + (this.state.uuid_to_load !== null ? this.state.uuid_to_load : this.state.base)} base={this.state.base}/>
+                    {this.state.task_uuid === null ? (
+                            <ConfigEditor ref={this.configEditor} url={"/config/preset/" + this.state.preset.project_name + "/" + (this.state.uuid_to_load !== null ? this.state.uuid_to_load : this.state.base)} base={this.state.base}/>
+                        ) : (
+                            <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.state.task_uuid}/>
+                        )
+                    }
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>

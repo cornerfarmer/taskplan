@@ -5,15 +5,9 @@ class FinishedTask extends React.Component {
     constructor(props) {
         super(props);
 
-        this.promptRefs = React.createRef();
         this.promptExtraRefs = React.createRef();
-        this.openDialog = this.openDialog.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.openLog = this.openLog.bind(this);
-    }
-
-    openDialog() {
-        this.promptRefs.current.openDialog();
     }
 
     openExtraDialog() {
@@ -36,7 +30,7 @@ class FinishedTask extends React.Component {
                     </div>
                 </div>
                 <div className="toolbar">
-                    <div className="action" onClick={this.openDialog}>
+                    <div className="action" onClick={() => this.props.rerunTask(this.props.task)}>
                         <i className="fa fa-redo"></i>
                     </div>
                     <div className="action" onClick={this.openExtraDialog}>
@@ -53,7 +47,6 @@ class FinishedTask extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Prompt ref={this.promptRefs} header="How many iterations?" text="Specify the number of iterations, you want the task to run:" url={"/start/" + this.props.task.project_name + "/" + this.props.task.preset_uuid}/>
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/continue/" + this.props.task.uuid}/>
             </li>
         );
