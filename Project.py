@@ -1,3 +1,4 @@
+import copy
 import os
 import pickle
 import threading
@@ -56,8 +57,10 @@ class Project:
         else:
             raise LookupError("No preset with uuid " + preset_uuid)
 
-        preset_data = preset.data.copy()
+        preset_data = copy.deepcopy(preset.data)
         preset_data['uuid'] = None
+        preset_data['config'] = preset.compose_config()
+        del preset_data['base']
         task_preset = self.configuration.add_preset(preset_data, None)
         task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, preset.uuid, self, total_iterations, self.maximal_try_of_preset(preset) + 1, self.versions[-1])
         task.save_metadata()

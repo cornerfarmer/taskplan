@@ -239,7 +239,6 @@ def run(projects, max_running):
         if task is not None:
             new_data = json.loads(request.form.get('data'))
             task.adjust_config(new_data)
-            event_manager.throw(EventType.PRESET_CHANGED, task.preset, task.project)
 
         return ""
 
