@@ -8,7 +8,10 @@ class ProjectManager:
         self.event_manager = event_manager
 
     def create_task(self, project_name, preset_uuid, total_iterations):
-        return self.project_by_name(project_name).create_task(preset_uuid, total_iterations)
+        project = self.project_by_name(project_name)
+        task = project.create_task(preset_uuid, total_iterations)
+        self.event_manager.throw(EventType.PRESET_CHANGED, project.configuration.presets_by_uuid[preset_uuid], project)
+        return task
 
     def project_by_name(self, project_name):
         for project in self.projects:
