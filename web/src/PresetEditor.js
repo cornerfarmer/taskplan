@@ -182,7 +182,7 @@ class PresetEditor extends React.Component {
                         <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" disabled={this.state.forceDynamic} />
                     </div>
                     {this.state.task_uuid === null ? (
-                            <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/preset/" + this.state.preset.project_name + "/" + this.state.base + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} base={this.state.base}/>
+                            <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/preset/" + this.state.preset.project_name + (this.state.preset.uuid === this.props.default_preset ? "" : "/" + this.state.base + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : ""))} base={this.state.base}/>
                         ) : (
                             <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/task/" + this.state.base + "/" + this.state.task_uuid}/>
                         )

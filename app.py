@@ -188,11 +188,16 @@ def run(projects, max_running):
         event_manager.throw(EventType.PROJECT_CHANGED, project)
         return ""
 
+    @app.route('/config/preset/<string:project_name>')
     @app.route('/config/preset/<string:project_name>/<string:preset_base_uuid>')
     @app.route('/config/preset/<string:project_name>/<string:preset_base_uuid>/<string:preset_uuid>')
-    def config_preset(project_name, preset_base_uuid, preset_uuid=None):
+    def config_preset(project_name, preset_base_uuid=None, preset_uuid=None):
         project = project_manager.project_by_name(project_name)
         configuration = project.configuration
+
+        if preset_base_uuid is None and preset_uuid is None:
+            return jsonify({'config': configuration.presets_by_uuid[configuration.default_preset_uuid].compose_config(), 'dynamic': False})
+
         if preset_base_uuid in configuration.presets_by_uuid:
             preset_base = configuration.presets_by_uuid[preset_base_uuid]
 
