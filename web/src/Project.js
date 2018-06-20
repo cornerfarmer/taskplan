@@ -118,7 +118,7 @@ class Project extends React.Component {
     }
 
     rerunTask(task) {
-        let preset = this.state.presets.filter(preset => preset.uuid === task.preset_uuid)[0];
+        let preset = {'name': task.preset_name, 'project_name': task.project_name, 'base_uuid': this.props.project.default_preset, 'abstract': false, 'dynamic': task.preset_dynamic, 'uuid': ''};
         this.showTab(0);
         this.presetEditor.current.open(preset, true, task.uuid);
     }

@@ -188,13 +188,24 @@ def run(projects, max_running):
         event_manager.throw(EventType.PROJECT_CHANGED, project)
         return ""
 
-    @app.route('/config/preset/<string:project_name>/<string:preset_uuid>')
-    def config_preset(project_name, preset_uuid):
+    @app.route('/config/preset/<string:project_name>/<string:preset_base_uuid>')
+    @app.route('/config/preset/<string:project_name>/<string:preset_base_uuid>/<string:preset_uuid>')
+    def config_preset(project_name, preset_base_uuid, preset_uuid=None):
         project = project_manager.project_by_name(project_name)
         configuration = project.configuration
-        if preset_uuid in configuration.presets_by_uuid:
-            preset = configuration.presets_by_uuid[preset_uuid]
-            return jsonify(preset.compose_config())
+        if preset_base_uuid in configuration.presets_by_uuid:
+            preset_base = configuration.presets_by_uuid[preset_base_uuid]
+
+            if preset_uuid is not None:
+                if preset_uuid in configuration.presets_by_uuid:
+                    preset = configuration.presets_by_uuid[preset_uuid]
+                    config = preset.compose_config(preset_base)
+                else:
+                    return ""
+            else:
+                config = preset_base.compose_config()
+
+            return jsonify({'config': config, 'dynamic': preset_base.treat_dynamic()})
         else:
             return ""
 
@@ -205,15 +216,20 @@ def run(projects, max_running):
         if task is not None:
             if iteration == -1:
                 iteration = task.finished_iterations_and_update_time()[0]
-            return jsonify(task.preset.compose_config_for_timestep(iteration))
+            return jsonify({'config': task.preset.compose_config_for_timestep(iteration), 'dynamic': False})
         else:
             return ""
 
-    @app.route('/config/task/<string:task_uuid>')
-    def config_task(task_uuid):
+    @app.route('/config/task/<string:preset_base_uuid>/<string:task_uuid>')
+    def config_task(preset_base_uuid, task_uuid):
         task = project_manager.find_task_by_uuid(task_uuid)
         if task is not None:
-            return jsonify(task.preset.compose_config())
+            configuration = task.project.configuration
+            if preset_base_uuid in configuration.presets_by_uuid:
+                preset_base = configuration.presets_by_uuid[preset_base_uuid]
+                return jsonify({'config': task.preset.compose_config(preset_base), 'dynamic': preset_base.treat_dynamic()})
+            else:
+                return ""
         else:
             return ""
 
@@ -223,7 +239,7 @@ def run(projects, max_running):
         if task is not None:
             new_data = json.loads(request.form.get('data'))
             task.adjust_config(new_data)
-            event_manager.throw(EventType.PRESET_CHANGED, task.preset)
+            event_manager.throw(EventType.PRESET_CHANGED, task.preset, task.project)
 
         return ""
 

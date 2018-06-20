@@ -192,7 +192,7 @@ class TaskWrapper:
 
     def adjust_config(self, new_config):
         with self._finished_iterations.get_lock():
-            new_config = self.preset.diff_config(new_config, self._finished_iterations.value + 1)
+            new_config = self.preset.diff_config(new_config, False, self._finished_iterations.value + 1)
             self.preset.set_config_at_timestep(new_config, self._finished_iterations.value + 1)
             self.preset_pipe_send.send(self.preset.clone())
 

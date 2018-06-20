@@ -31,7 +31,7 @@ class ServerSentEvent(object):
                 data_client['saved_time'] = 0 if data.saved_time is None else data.saved_time.timestamp()
                 data_client['total_iterations'] = data.total_iterations()
                 data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
-                data_client['preset_uuid'] = data.original_preset_uuid
+                data_client['preset_dynamic'] = data.preset.dynamic
                 data_client['try'] = data.try_number
                 data_client['queue_index'] = data.queue_index
                 data_client['had_error'] = data.had_error()

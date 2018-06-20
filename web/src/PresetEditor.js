@@ -10,6 +10,7 @@ class PresetEditor extends React.Component {
             base: '',
             abstract: false,
             dynamic: false,
+            forceDynamic: false,
             uuid_to_load: null,
             task_uuid: null
         };
@@ -23,6 +24,7 @@ class PresetEditor extends React.Component {
         this.onBaseChange = this.onBaseChange.bind(this);
         this.onAbstractChange = this.onAbstractChange.bind(this);
         this.onDynamicChange = this.onDynamicChange.bind(this);
+        this.onIsBaseDynamic = this.onIsBaseDynamic.bind(this);
     }
 
     open(preset, duplicate, task_uuid=null) {
@@ -30,12 +32,13 @@ class PresetEditor extends React.Component {
 
         if (duplicate) {
             this.setState({
-                preset: {name: 'Duplicated ' + preset.name, project_name: preset.project_name},
-                name: 'Duplicated ' + preset.name,
+                preset: {name: (task_uuid === null ? 'Duplicated ' : 'Rerun ') + preset.name, project_name: preset.project_name},
+                name: (task_uuid === null ? 'Duplicated ' : 'Rerun ') + preset.name,
                 base: preset.base_uuid,
                 uuid_to_load: preset.uuid,
                 abstract: preset.abstract,
                 dynamic: preset.dynamic,
+                forceDynamic: false,
                 task_uuid: task_uuid
             });
         } else {
@@ -46,6 +49,7 @@ class PresetEditor extends React.Component {
                 uuid_to_load: preset.uuid,
                 abstract: preset.abstract,
                 dynamic: preset.dynamic,
+                forceDynamic: false,
                 task_uuid: null
             });
         }
@@ -61,6 +65,7 @@ class PresetEditor extends React.Component {
             abstract: false,
             dynamic: false,
             uuid_to_load: null,
+            forceDynamic: false,
             task_uuid: null
         });
     }
@@ -135,6 +140,20 @@ class PresetEditor extends React.Component {
         });
     }
 
+    onIsBaseDynamic(isDynamic) {
+        if (isDynamic) {
+            this.setState({
+                dynamic: true,
+                forceDynamic: true
+            });
+        } else if (this.state.forceDynamic) {
+            this.setState({
+                dynamic: false,
+                forceDynamic: false
+            });
+        }
+    }
+
     render() {
         if (this.state.preset !== null) {
             return (
@@ -148,7 +167,7 @@ class PresetEditor extends React.Component {
                         <div className="field">
                             <label>Base:</label>
                             <select value={this.state.base} onChange={this.onBaseChange}>
-                                {this.props.presets.map(preset => (
+                                {this.props.presets.filter(preset => preset.uuid !== this.state.uuid_to_load).map(preset => (
                                     <option value={preset.uuid}>{preset.name}</option>
                                 ))}
                             </select>
@@ -160,12 +179,12 @@ class PresetEditor extends React.Component {
                     </div>
                     <div className="field">
                         <label>Dynamic:</label>
-                        <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" />
+                        <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" disabled={this.state.forceDynamic} />
                     </div>
                     {this.state.task_uuid === null ? (
-                            <ConfigEditor ref={this.configEditor} url={"/config/preset/" + this.state.preset.project_name + "/" + (this.state.uuid_to_load !== null ? this.state.uuid_to_load : this.state.base)} base={this.state.base}/>
+                            <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/preset/" + this.state.preset.project_name + "/" + this.state.base + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} base={this.state.base}/>
                         ) : (
-                            <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.state.task_uuid}/>
+                            <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/task/" + this.state.base + "/" + this.state.task_uuid}/>
                         )
                     }
                     <div className="buttons">

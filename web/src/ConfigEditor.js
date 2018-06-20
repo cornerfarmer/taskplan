@@ -42,11 +42,14 @@ class ConfigEditor extends React.Component {
             .then(
                 (result) => {
                     this.setState({
-                        config: result,
+                        config: result['config'],
                         loadedUrl: this.props.url
                     });
                     if (this.jsonEditor.current !== null)
-                        this.jsonEditor.current.jsonEditor.set(result);
+                        this.jsonEditor.current.jsonEditor.set(result['config']);
+
+                    if (this.props.onDynamicChange !== undefined)
+                        this.props.onDynamicChange(result['dynamic'])
                 },
                 (error) => {
 
