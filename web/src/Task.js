@@ -11,9 +11,12 @@ function TaskStatus(props) {
         }
 
         function renderTime(time) {
-            if (time > 0)
-                return pad(time / 60) + ":" + pad(time % 60);
-            else
+            if (time > 0) {
+                if (time >= 3600)
+                    return pad(time / 3600) + ":" + pad((time % 3600) / 60) + ":" + pad(time % 60);
+                else
+                    return pad(time / 60) + ":" + pad(time % 60);
+            } else
                 return "--:--";
         }
 
