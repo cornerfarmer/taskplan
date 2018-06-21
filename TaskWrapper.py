@@ -106,6 +106,7 @@ class TaskWrapper:
 
                 logger = Logger(save_dir, "main")
                 preset.set_logger(logger.get_with_module('config'))
+                preset.iteration_cursor = finished_iterations.value
 
                 task = task_class(preset, preset_pipe, logger.get_with_module('task'), subtask)
 

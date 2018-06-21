@@ -8,7 +8,6 @@ class Task:
         self.preset_pipe = preset_pipe
         self.logger = logger
         self.subtask = subtask
-        self.preset.iteration_cursor = 0
 
         if 'iterate' in preset.config.configBlocks:
             number_of_subtasks = 1
