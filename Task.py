@@ -65,7 +65,7 @@ class Task:
 
         return name
 
-    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, result_dir, save_func):
+    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, result_dir, save_func):
         tensorboard_writer = tf.summary.FileWriter(str(result_dir))
         try:
             save_interval = self.preset.get_int('save_interval')
@@ -88,13 +88,17 @@ class Task:
                     finished_iterations.value = finished_iterations.value + 1
                     iteration_update_time.value = datetime.datetime.now().timestamp()
 
-            if save_interval > 0 and finished_iterations.value % save_interval == 0:
-                save_func()
-                tensorboard_writer.flush()
-                self.logger.log("Auto-Saving after " + str(finished_iterations.value) + " iterations")
-
             if pause_computation.value:
                 break
+
+            if save_now.value or (save_interval > 0 and finished_iterations.value % save_interval == 0):
+                if save_now.value:
+                    self.logger.log("Doing a manual save after " + str(finished_iterations.value) + " iterations")
+                else:
+                    self.logger.log("Auto-Saving after " + str(finished_iterations.value) + " iterations")
+                save_now.value = False
+                save_func()
+                tensorboard_writer.flush()
 
         tensorboard_writer.flush()
 

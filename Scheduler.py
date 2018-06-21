@@ -60,6 +60,12 @@ class Scheduler:
                 if str(running.uuid) == task_uuid:
                     running.pause()
 
+    def save_now(self, task_uuid):
+        with self._queue_mutex:
+            for running in self.runnings:
+                if str(running.uuid) == task_uuid:
+                    running.save_now()
+
     def run_now(self, task_uuid):
         with self._queue_mutex:
             for task in self.queue:

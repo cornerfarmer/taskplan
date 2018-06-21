@@ -64,6 +64,11 @@ def run(projects, max_running):
         scheduler.pause(task_uuid)
         return ""
 
+    @app.route('/save_now/<string:task_uuid>')
+    def save_now(task_uuid):
+        scheduler.save_now(task_uuid)
+        return ""
+
     @app.route('/cancel/<string:task_uuid>')
     def cancel(task_uuid):
         removed_task = scheduler.cancel(task_uuid)

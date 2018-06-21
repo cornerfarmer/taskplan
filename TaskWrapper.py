@@ -42,6 +42,7 @@ class TaskWrapper:
         self.try_number = try_number
         self._is_running = Value('b', False)
         self._had_error = Value('b', False)
+        self._save_now = Value('b', False)
         self.queue_index = 0
         self.code_version = code_version
 
@@ -50,7 +51,7 @@ class TaskWrapper:
         self._pause_computation.value = False
         self._is_running.value = True
         self._had_error.value = False
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), self.preset_pipe_recv, wakeup_sem, self._finished_subtasks, self._total_subtasks, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self.build_save_dir(), self._is_running, self._had_error))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), self.preset_pipe_recv, wakeup_sem, self._finished_subtasks, self._total_subtasks, self._finished_iterations, self._iteration_update_time, self._total_iterations, self._pause_computation, self._save_now, self.build_save_dir(), self._is_running, self._had_error))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -89,7 +90,7 @@ class TaskWrapper:
                 return self._finished_iterations.value, self._iteration_update_time.value
 
     @staticmethod
-    def _run(task_dir, class_name, preset, preset_pipe, wakeup_sem, finished_subtasks, total_subtasks, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, is_running, had_error):
+    def _run(task_dir, class_name, preset, preset_pipe, wakeup_sem, finished_subtasks, total_subtasks, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, save_dir, is_running, had_error):
 
         logger = Logger(save_dir, "main")
         try:
@@ -123,7 +124,7 @@ class TaskWrapper:
 
                 if finished_iterations.value > 0:
                     task.load(save_dir)
-                task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_dir, save_func)
+                task.run(finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, save_dir, save_func)
 
                 if total_subtasks.value > 1 and finished_iterations.value >= total_iterations.value:
                     finished_subtasks.value += 1
@@ -199,3 +200,7 @@ class TaskWrapper:
 
     def __str__(self):
         return self.project.name + ": " + self.preset.name + " (try " + str(self.try_number) + ")"
+
+    def save_now(self):
+        if self.state == State.RUNNING:
+            self._save_now.value = True

@@ -48,6 +48,7 @@ class TaskToolbar extends React.Component {
     constructor(props) {
         super(props);
         this.pause = this.pause.bind(this);
+        this.saveNow = this.saveNow.bind(this);
         this.cancel = this.cancel.bind(this);
         this.runNow = this.runNow.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
@@ -59,6 +60,19 @@ class TaskToolbar extends React.Component {
 
     pause() {
         fetch("/pause/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+    saveNow() {
+        fetch("/save_now/" + this.props.task.uuid)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -115,6 +129,9 @@ class TaskToolbar extends React.Component {
                     <span>
                         <div className="action" onClick={this.pause}>
                             <i className="fa fa-pause"></i><span>Pause</span>
+                        </div>
+                        < div className="action" onClick={this.saveNow}>
+                            <i className="fas fa-save"></i><span>Save now!</span>
                         </div>
                         < div className="action" onClick={this.openExtraDialog}>
                             <i className="fa fa-edit"></i><span>Change</span>
