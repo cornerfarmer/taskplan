@@ -67,7 +67,7 @@ class TaskWrapper:
         self._shared.pause_computation.value = False
         self._shared.is_running.value = True
         self._shared.had_error.value = False
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._shared, self.build_save_dir(), self.code_version))
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._shared, self.build_save_dir(), self.code_version, self.uuid))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
@@ -106,7 +106,7 @@ class TaskWrapper:
                 return self._shared.finished_iterations.value, self._shared.iteration_update_time.value
 
     @staticmethod
-    def _run(task_dir, class_name, preset, wakeup_sem, shared, save_dir, code_version):
+    def _run(task_dir, class_name, preset, wakeup_sem, shared, save_dir, code_version, task_uuid):
 
         logger = Logger(save_dir, "main")
         try:
@@ -118,7 +118,7 @@ class TaskWrapper:
 
             if subtask_presets is not None:
                 shared.total_subtasks.value = number_of_subtasks
-                TaskWrapper._run_task_with_subtasks(task_dir, class_name, subtask_presets, shared, save_dir, code_version, preset, task_class)
+                TaskWrapper._run_task_with_subtasks(task_dir, class_name, subtask_presets, shared, save_dir, code_version, preset, task_class, logger, task_uuid)
             else:
                 shared.total_subtasks.value = 1
                 TaskWrapper._run_subtask(task_class, preset, shared, save_dir)
@@ -131,7 +131,7 @@ class TaskWrapper:
         wakeup_sem.release()
 
     @staticmethod
-    def _run_task_with_subtasks(task_dir, class_name, presets, shared, save_dir, code_version, root_preset, task_class):
+    def _run_task_with_subtasks(task_dir, class_name, presets, shared, save_dir, code_version, root_preset, task_class, logger, task_uuid):
         shared.finished_subtasks.value = 0
         original_save_dir = save_dir
         wakeup_sem = Semaphore(0)
@@ -149,9 +149,11 @@ class TaskWrapper:
             subtask_wrapper = TaskWrapper(task_dir, class_name, preset, "", None, shared.total_iterations.value, 0, code_version, save_dir, shared)
             if save_dir.is_dir():
                 subtask_wrapper.load_metadata(save_dir, True)
+                logger.log("Continuing subtask '" + preset_name + "':" + str(task_uuid) + " (" + str(shared.finished_iterations.value) + " -> " + str(shared.total_iterations.value) + ")")
             else:
                 shared.finished_iterations.value = 0
                 subtask_wrapper.save_metadata()
+                logger.log("Starting subtask '" + preset_name + "':" + str(task_uuid) + " (" + str(shared.finished_iterations.value) + " -> " + str(shared.total_iterations.value) + ")")
 
             subtask_wrapper.start(wakeup_sem)
             wakeup_sem.acquire()

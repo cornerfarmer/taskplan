@@ -103,7 +103,13 @@
 <body>
     <div id="container">
         <h1>{{ preset_name }}</h1>
-        <h2>Try: {{ try_number }} - Started: {{ created }}</h2>
+        <h2>
+            {% if sub_task %}
+                Subtask: {{ sub_task }}
+            {% else %}
+                Try: {{ try_number }} - Started: {{ created }}
+            {% endif %}
+        </h2>
 
         <div id="file">
             <div id="line-numbers">
@@ -121,7 +127,7 @@
     </div>
 
     <script>
-        var evtSource = new EventSource("/read_log/" + "{{ task_uuid }}");
+        var evtSource = new EventSource("/read_log/" + "{{ task_uuid }}" + "{% if sub_task %}/{{ sub_task }} {% endif %}");
         var line = 1;
         var lines = document.querySelector('#line-numbers');
         var content = document.querySelector('#content');
@@ -135,7 +141,9 @@
             lines.appendChild(newLine);
 
             var newContent = document.createElement("pre");
-            newContent.textContent = (e.data !== "" ? e.data : " ");
+            var data = e.data;
+            data = data.replace(/'(.*?)':([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/g, '<a href="/log/$2/$1">$1</a>');
+            newContent.innerHTML = (data !== "" ? data : " ");
             content.appendChild(newContent);
 
             line++;

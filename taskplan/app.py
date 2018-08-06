@@ -149,19 +149,24 @@ def run(projects, max_running):
 
     @app.route('/log')
     @app.route('/log/<string:task_uuid>')
-    def log(task_uuid=""):
+    @app.route('/log/<string:task_uuid>/<string:sub_task>')
+    def log(task_uuid="", sub_task=""):
         if task_uuid is "":
             return render_template('log.html', preset_name="Global")
         else:
             task = project_manager.find_task_by_uuid(task_uuid)
-            return render_template('log.html', task_uuid=task_uuid, preset_name=task.preset.name, try_number=task.try_number, created=str(task.creation_time))
+            return render_template('log.html', task_uuid=task_uuid, sub_task=sub_task, preset_name=task.preset.name, try_number=task.try_number, created=str(task.creation_time))
 
     @app.route('/read_log/')
     @app.route('/read_log/<string:task_uuid>')
-    def read_log(task_uuid=""):
+    @app.route('/read_log/<string:task_uuid>/<string:sub_task>')
+    def read_log(task_uuid="", sub_task=""):
         if task_uuid is not "":
             task = project_manager.find_task_by_uuid(task_uuid)
-            log_path = str(task.build_save_dir() / "main.log")
+            path = task.build_save_dir()
+            if sub_task is not "":
+                path /= Path(sub_task)
+            log_path = str(path / "main.log")
         else:
             log_path = str(Path('.') / "global.log")
 
