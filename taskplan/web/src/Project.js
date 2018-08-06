@@ -12,12 +12,14 @@ class Project extends React.Component {
             presets: [],
             tasks: [],
             showAbstract: true,
+            currentCodeVersionOnly: true,
             activeTab: 0,
             sorting: [0, 0, 0],
             sortingDescending: [true, true, true]
         };
         this.presetChanged = this.presetChanged.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
+        this.toggleCurrentCodeVersionOnly = this.toggleCurrentCodeVersionOnly.bind(this);
         this.showTab = this.showTab.bind(this);
         this.addPreset = this.addPreset.bind(this);
         this.onChangeSorting = this.onChangeSorting.bind(this);
@@ -88,6 +90,11 @@ class Project extends React.Component {
         });
     }
 
+    toggleCurrentCodeVersionOnly() {
+        this.setState({
+          currentCodeVersionOnly: !this.state.currentCodeVersionOnly,
+        });
+    }
 
     toggleShowAbstract() {
         this.setState({
@@ -196,7 +203,7 @@ class Project extends React.Component {
                     </div>
                 </div>
                 <ul className="paused-tasks" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                    {this.state.tasks.filter(task => task.finished_iterations !== task.total_iterations).sort(function (a, b) {
+                    {this.state.tasks.filter(task => (task.finished_iterations !== task.total_iterations && (!this.state.currentCodeVersionOnly || task.version === this.props.project.version))).sort(function (a, b) {
                         switch(project.state.sorting[1]) {
                             case 0:
                                 s = a.saved_time - b.saved_time; break;
@@ -221,7 +228,7 @@ class Project extends React.Component {
                     ))}
                 </ul>
                 <ul className="finished-tasks" style={{'display': (this.state.activeTab === 2 ? 'block' : 'none')}}>
-                    {this.state.tasks.filter(task => task.finished_iterations === task.total_iterations).sort(function (a, b) {
+                    {this.state.tasks.filter(task => (task.finished_iterations === task.total_iterations && (!this.state.currentCodeVersionOnly || task.version === this.props.project.version))).sort(function (a, b) {
                         switch(project.state.sorting[2]) {
                             case 0:
                                 s = a.saved_time - b.saved_time; break;
@@ -245,6 +252,12 @@ class Project extends React.Component {
                         />
                     ))}
                 </ul>
+                <div className="presets-toolbar" style={{'display': (this.state.activeTab !== 0 ? 'flex' : 'none')}}>
+                    <label>
+                        <input type="checkbox" defaultChecked={this.state.currentCodeVersionOnly} onChange={this.toggleCurrentCodeVersionOnly} />
+                        <span>Show only tasks from current code version</span>
+                    </label>
+                </div>
             </div>
         );
     }

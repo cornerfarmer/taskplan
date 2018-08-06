@@ -37,6 +37,7 @@ class ServerSentEvent(object):
                 data_client['had_error'] = data.had_error()
                 data_client['total_subtasks'] = data.total_subtasks()
                 data_client['finished_subtasks'] = data.finished_subtasks()
+                data_client['version'] = data.code_version
         elif event_type is EventType.PRESET_CHANGED:
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.name
