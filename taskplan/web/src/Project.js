@@ -11,7 +11,7 @@ class Project extends React.Component {
         this.state = {
             presets: [],
             tasks: [],
-            showAbstract: false,
+            showAbstract: true,
             activeTab: 0,
             sorting: [0, 0, 0],
             sortingDescending: [true, true, true]

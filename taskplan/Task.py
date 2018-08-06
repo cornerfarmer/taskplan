@@ -56,10 +56,7 @@ class Task:
 
     def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, result_dir, save_func):
         tensorboard_writer = tf.summary.FileWriter(str(result_dir))
-        try:
-            save_interval = self.preset.get_int('save_interval')
-        except:
-            save_interval = 0
+        save_interval = self.preset.get_int('save_interval')
 
         while finished_iterations.value < total_iterations.value:
             preset_available = self.preset_pipe.poll(timeout=0)

@@ -12,10 +12,16 @@ import time
 
 class Project:
 
-    def __init__(self, task_dir, task_class_name, name="", result_dir="results", config_dir="config"):
+    def __init__(self, task_dir, task_class_name, name="", result_dir="results", config_dir="config", config_file_name="taskplan"):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
-        self.configuration = Configuration(str(self.task_dir / Path(config_dir)))
+        self.config_file_name = config_file_name
+        config_dir = self.task_dir / Path(config_dir)
+        if not config_dir.exists() or len(list(config_dir.iterdir())) == 0:
+            config_dir.mkdir(exist_ok=True)
+            with open(str(config_dir / Path(self.config_file_name + ".json")), 'w') as handle:
+                handle.write('[{"config": {"save_interval": 0},"abstract": true,"name": "Default"}]')
+        self.configuration = Configuration(str(config_dir))
         self.configuration.save()
         self.name = task_class_name if name is "" else name
         self.result_dir = self.task_dir / Path(result_dir)
