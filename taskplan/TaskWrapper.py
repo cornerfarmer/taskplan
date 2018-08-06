@@ -84,7 +84,7 @@ class TaskWrapper:
     def stop(self):
         self.state = State.STOPPED
         if self.process is not None:
-            self.process.join()
+            self.process.join(timeout=10)
         self.saved_time = datetime.datetime.now()
         self.save_metadata()
 
@@ -92,7 +92,7 @@ class TaskWrapper:
         return self._shared.had_error.value
 
     def is_running(self):
-        return self._shared.is_running.value
+        return self.process.is_alive() and self._shared.is_running.value
 
     def finished_subtasks(self):
         return self._shared.finished_subtasks.value
