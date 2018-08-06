@@ -19,10 +19,10 @@ class ControlBar extends React.Component {
                     <h1 id="title">
                         TaskPlan
                     </h1>
-                    <div className="action" >
+                    <div className="action" title="Pause all running tasks">
                         <i className="fa fa-pause"></i>
                     </div>
-                    <div className="action" onClick={this.openGlobalLog}>
+                    <div className="action" onClick={this.openGlobalLog} title="Open the global log">
                         <i className="far fa-file-alt"></i>
                     </div>
                 </div>

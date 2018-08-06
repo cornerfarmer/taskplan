@@ -133,8 +133,8 @@ class ProjectManager extends React.Component {
                     }
                     {this.state.projects.length > 0 &&
                         <span id="project-toolbar">
-                            <div id="code-version" >{this.state.projects[this.state.currentProject].version} <i className="fas fa-plus" id="add-version" onClick={this.addVersion}></i></div>
-                            <div id="tb-link" onClick={this.gotoTB}>TB</div>
+                            <div id="code-version" title="Add new code version">{this.state.projects[this.state.currentProject].version} <i className="fas fa-plus" id="add-version" onClick={this.addVersion}></i></div>
+                            <div id="tb-link" onClick={this.gotoTB} title="Start and open tensorboard">TB</div>
                             <Prompt ref={this.promptRefs} header="Create code version" text="Specify the name of the new code version:" url={"/addVersion/" + this.state.projects[this.state.currentProject].name}/>
                         </span>
                     }

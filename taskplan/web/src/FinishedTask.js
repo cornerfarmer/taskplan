@@ -30,18 +30,18 @@ class FinishedTask extends React.Component {
                     </div>
                 </div>
                 <div className="toolbar">
-                    <div className="action" onClick={() => this.props.rerunTask(this.props.task)}>
+                    <div className="action" onClick={() => this.props.rerunTask(this.props.task)} title="Run new task with the exact same config">
                         <i className="fa fa-redo"></i>
                     </div>
-                    <div className="action" onClick={this.openExtraDialog}>
+                    <div className="action" onClick={this.openExtraDialog} title="Run for more iterations">
                         <i className="fa fa-plus"></i>
                     </div>
                     <div className="dropdown">
-                        <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                        <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="fas fa-ellipsis-h"></i>
                         </div>
                         <div className="dropdown-menu">
-                            <div className="action" onClick={this.openLog}>
+                            <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
                             </div>
                         </div>

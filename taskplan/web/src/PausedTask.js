@@ -50,10 +50,10 @@ class PausedTask extends React.Component {
                     </div>
                 </div>
                 <div className="toolbar">
-                    <div className="action" onClick={this.continue}>
+                    <div className="action" onClick={this.continue} title="Continue task">
                         <i className="fa fa-play"></i>
                     </div>
-                    <div className="action" onClick={this.finish}>
+                    <div className="action" onClick={this.finish} title="Mark task as finished">
                         <i className="fas fa-flag-checkered"></i>
                     </div>
                     <div className="dropdown">
@@ -61,7 +61,7 @@ class PausedTask extends React.Component {
                             <i className="fas fa-ellipsis-h"></i>
                         </div>
                         <div className="dropdown-menu">
-                            <div className="action" onClick={this.openLog}>
+                            <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
                             </div>
                         </div>

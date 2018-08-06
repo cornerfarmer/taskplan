@@ -127,35 +127,35 @@ class TaskToolbar extends React.Component {
             <div className="toolbar">
                 {this.props.task.state === State.RUNNING &&
                     <span>
-                        <div className="action" onClick={this.pause}>
+                        <div className="action" onClick={this.pause} title="Pause the task after the current iteration">
                             <i className="fa fa-pause"></i><span>Pause</span>
                         </div>
-                        < div className="action" onClick={this.saveNow}>
+                        < div className="action" onClick={this.saveNow} title="Force the task to save after the current iteration">
                             <i className="fas fa-save"></i><span>Save now!</span>
                         </div>
-                        < div className="action" onClick={this.openExtraDialog}>
+                        < div className="action" onClick={this.openExtraDialog} title="Change the scheduled number of total iterations">
                             <i className="fa fa-edit"></i><span>Change</span>
                         </div>
-                        <div className="action" onClick={this.openLog}>
+                        <div className="action" onClick={this.openLog} title="View the log">
                             <i className="far fa-file-alt"></i><span>Log</span>
                         </div>
-                        < div className="action" onClick={this.openPresetDialog}>
+                        < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
                             <i className="fas fa-code"></i><span>Config</span>
                         </div>
                     </span>
                 }
                 {this.props.task.state === State.QUEUED &&
                     <span>
-                        <div className="action" onClick={this.runNow}>
+                        <div className="action" onClick={this.runNow} title="Pause one of the running tasks and start this one instead">
                             <i className="fas fa-exclamation-triangle"></i><span>Run now!</span>
                         </div>
-                        < div className="action" onClick={this.openExtraDialog}>
+                        < div className="action" onClick={this.openExtraDialog} title="Change the scheduled number of total iterations">
                             <i className="fa fa-edit"></i><span>Change</span>
                         </div>
-                        <div className="action" onClick={this.cancel}>
+                        <div className="action" onClick={this.cancel} title="Remove this task from the queue">
                             <i className="fas fa-times"></i><span>Cancel</span>
                         </div>
-                        < div className="action" onClick={this.openPresetDialog}>
+                        < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
                             <i className="fas fa-code"></i><span>Config</span>
                         </div>
                     </span>
