@@ -4,9 +4,9 @@ import pickle
 import threading
 from pathlib import Path
 
-from TaskPlan.EventManager import EventType
-from TaskPlan.TaskWrapper import TaskWrapper, State
-from TaskConf.config.Configuration import Configuration
+from taskplan.EventManager import EventType
+from taskplan.TaskWrapper import TaskWrapper, State
+from taskconf.config.Configuration import Configuration
 import subprocess
 import time
 

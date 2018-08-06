@@ -4,7 +4,7 @@ from enum import Enum
 from pathlib import Path
 from queue import Queue
 
-from TaskConf.util.Logger import Logger
+from taskconf.util.Logger import Logger
 
 
 class FlashMessage:

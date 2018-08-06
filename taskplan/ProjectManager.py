@@ -1,4 +1,4 @@
-from TaskPlan.EventManager import EventType
+from taskplan.EventManager import EventType
 
 
 class ProjectManager:

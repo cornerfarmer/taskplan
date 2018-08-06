@@ -1,7 +1,7 @@
 [
   {
-    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "creation_time": 1528499228.59067,
+    "uuid": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "name": "Default",
     "abstract": true,
     "config": {
@@ -10,8 +10,8 @@
   },
   {
     "creation_time": 1533476288.064474,
-    "name": "iterate",
     "uuid": "fae14192-341b-4415-b015-2cbedd4e789f",
+    "name": "iterate",
     "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "config": {
       "iterate": {
@@ -25,8 +25,8 @@
   },
   {
     "creation_time": 1533476336.478335,
-    "name": "Duplicated iterator/step: [1, 2, 4]",
     "uuid": "b1c84af5-922c-4b9f-af2a-6168c8221d26",
+    "name": "Duplicated iterator/step: [1, 2, 4]",
     "base": "8825ae43-bc45-4978-a56e-0068eade9f09",
     "config": {
       "iterate": {

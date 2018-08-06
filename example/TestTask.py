@@ -1,11 +1,12 @@
 import pickle
 from pathlib import Path
 
-from TaskPlan.Task import Task
 import tensorflow as tf
 import time
 
-class TestTask(Task):
+import taskplan
+
+class TestTask(taskplan.Task):
 
     def __init__(self, preset, preset_pipe, logger):
         super().__init__(preset, preset_pipe, logger)

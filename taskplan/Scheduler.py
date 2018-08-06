@@ -2,8 +2,8 @@ import threading
 from multiprocessing import Semaphore
 from threading import RLock
 
-import TaskPlan.EventManager as EventManager
-from TaskPlan.TaskWrapper import State
+import taskplan.EventManager as EventManager
+from taskplan.TaskWrapper import State
 from queue import Queue
 import logging
 

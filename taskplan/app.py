@@ -1,17 +1,13 @@
 from flask import Flask, jsonify, Response
 
-from TaskPlan.EventManager import EventManager, ServerSentEvent, EventType
-from TaskPlan.Project import Project
-from TaskPlan.ProjectManager import ProjectManager
-from TaskPlan.Scheduler import Scheduler
+from taskplan.EventManager import EventManager, EventType
+from taskplan.ProjectManager import ProjectManager
+from taskplan.Scheduler import Scheduler
 import time
 import threading
 from flask import request, render_template
 import json
 from pathlib import Path
-
-from TaskConf.config.Preset import Preset
-
 
 def run(projects, max_running):
     event_manager = EventManager()
@@ -253,7 +249,3 @@ def run(projects, max_running):
         return ""
 
     return app
-
-
-def create_app():
-    return run([Project(".", "TestTask")], 1)
