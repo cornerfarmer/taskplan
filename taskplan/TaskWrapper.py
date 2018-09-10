@@ -5,7 +5,10 @@ import importlib
 from enum import Enum
 import uuid
 import datetime
-from pathlib import Path
+try:
+  from pathlib2 import Path
+except ImportError:
+  from pathlib import Path
 from taskconf.util.Logger import Logger
 import shutil
 import traceback

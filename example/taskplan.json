@@ -1,0 +1,14 @@
+{
+  "config": {
+    "projects": {
+      "test": {
+        "task_class_name": "TestTask",
+        "use_project_subfolder": true
+      },
+      "mnist": {
+        "task_class_name": "MnistFashionTask",
+        "use_project_subfolder": true
+      }
+    }
+  }
+}

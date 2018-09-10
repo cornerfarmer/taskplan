@@ -2,7 +2,10 @@ import taskplan
 
 import tensorflow as tf
 from tensorflow import keras
-from pathlib import Path
+try:
+  from pathlib2 import Path
+except ImportError:
+  from pathlib import Path
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +13,7 @@ import matplotlib.pyplot as plt
 class MnistFashionTask(taskplan.Task):
 
     def __init__(self, preset, preset_pipe, logger):
-        super().__init__(preset, preset_pipe, logger)
+        super(MnistFashionTask, self).__init__(preset, preset_pipe, logger)
         self.sum = 0
         self.fashion_mnist = keras.datasets.fashion_mnist
         (self.train_images, self.train_labels), (self.test_images, self.test_labels) = keras.datasets.fashion_mnist.load_data()

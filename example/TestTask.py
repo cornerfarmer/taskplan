@@ -1,5 +1,8 @@
 import pickle
-from pathlib import Path
+try:
+  from pathlib2 import Path
+except ImportError:
+  from pathlib import Path
 
 import tensorflow as tf
 import time
@@ -9,7 +12,7 @@ import taskplan
 class TestTask(taskplan.Task):
 
     def __init__(self, preset, preset_pipe, logger):
-        super().__init__(preset, preset_pipe, logger)
+        super(TestTask, self).__init__(preset, preset_pipe, logger)
         self.sum = 0
 
     def save(self, path):

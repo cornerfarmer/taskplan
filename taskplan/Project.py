@@ -2,13 +2,17 @@ import copy
 import os
 import pickle
 import threading
-from pathlib import Path
+try:
+  from pathlib2 import Path
+except ImportError:
+  from pathlib import Path
 
 from taskplan.EventManager import EventType
 from taskplan.TaskWrapper import TaskWrapper, State
 from taskconf.config.Configuration import Configuration
 import subprocess
 import time
+import json
 
 class Project:
 
@@ -129,3 +133,22 @@ class Project:
     def add_version(self, new_version):
         self.versions.append(new_version)
         self._save_metadata()
+
+    @staticmethod
+    def load_projects(global_config):
+        project_names = global_config.get_keys('projects')
+        projects = []
+        for project_name in project_names:
+            config_prefix = "projects/" + project_name + "/"
+            fallback_prefix = "projects/default/"
+            projects.append(Project(
+                global_config.get_string(config_prefix + "task_dir", fallback_prefix + "task_dir"),
+                global_config.get_string(config_prefix + "task_class_name", fallback_prefix + "task_class_name"),
+                global_config.get_string(config_prefix + "name", fallback_prefix + "name"),
+                global_config.get_string(config_prefix + "result_dir", fallback_prefix + "result_dir"),
+                global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
+                global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
+                global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
+            ))
+
+        return projects

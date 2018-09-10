@@ -1,11 +1,17 @@
 import json
 import logging
 from enum import Enum
-from pathlib import Path
-from queue import Queue
+try:
+  from pathlib2 import Path
+except ImportError:
+  from pathlib import Path
+try:
+    from Queue import Queue
+except ImportError:
+    from queue import Queue
 
 from taskconf.util.Logger import Logger
-
+from datetime import datetime
 
 class FlashMessage:
     def __init__(self, message, short, level):
@@ -26,9 +32,9 @@ class ServerSentEvent(object):
             if event_type is not EventType.TASK_REMOVED:
                 data_client['state'] = data.state.value
                 data_client['preset_name'] = data.preset.name
-                data_client['start_time'] = 0 if data.start_time is None else data.start_time.timestamp()
-                data_client['creation_time'] = 0 if data.creation_time is None else data.creation_time.timestamp()
-                data_client['saved_time'] = 0 if data.saved_time is None else data.saved_time.timestamp()
+                data_client['start_time'] = 0 if data.start_time is None else (data.start_time - datetime.fromtimestamp(0)).total_seconds()
+                data_client['creation_time'] = 0 if data.creation_time is None else (data.creation_time - datetime.fromtimestamp(0)).total_seconds()
+                data_client['saved_time'] = 0 if data.saved_time is None else (data.saved_time - datetime.fromtimestamp(0)).total_seconds()
                 data_client['total_iterations'] = data.total_iterations()
                 data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
                 data_client['preset_dynamic'] = data.preset.dynamic
@@ -47,7 +53,7 @@ class ServerSentEvent(object):
             data_client['abstract'] = data.abstract
             data_client['dynamic'] = data.dynamic
             data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
-            data_client['creation_time'] = data.creation_time.timestamp()
+            data_client['creation_time'] = (data.creation_time - datetime.fromtimestamp(0)).total_seconds()
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
             data_client['default_preset'] = data.configuration.default_preset_uuid

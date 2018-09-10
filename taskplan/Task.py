@@ -1,7 +1,8 @@
 import datetime
 import tensorflow as tf
+from datetime import datetime
 
-class Task:
+class Task(object):
 
     def __init__(self, preset, preset_pipe, logger):
         self.preset = preset
@@ -59,12 +60,12 @@ class Task:
         save_interval = self.preset.get_int('save_interval')
 
         while finished_iterations.value < total_iterations.value:
-            preset_available = self.preset_pipe.poll(timeout=0)
+            preset_available = self.preset_pipe.poll(0)
             while preset_available:
                 new_preset = self.preset_pipe.recv()
                 new_preset.set_logger(self.preset.logger, self.preset.printed_settings)
                 self.preset = new_preset
-                preset_available = self.preset_pipe.poll(timeout=0)
+                preset_available = self.preset_pipe.poll(0)
 
             self.preset.iteration_cursor = finished_iterations.value
             self.step(tensorboard_writer, finished_iterations.value)
@@ -72,7 +73,7 @@ class Task:
             with finished_iterations.get_lock():
                 with iteration_update_time.get_lock():
                     finished_iterations.value = finished_iterations.value + 1
-                    iteration_update_time.value = datetime.datetime.now().timestamp()
+                    iteration_update_time.value = (datetime.now() - datetime.fromtimestamp(0)).total_seconds()
 
             if pause_computation.value:
                 break

@@ -4,7 +4,6 @@ from threading import RLock
 
 import taskplan.EventManager as EventManager
 from taskplan.TaskWrapper import State
-from queue import Queue
 import logging
 
 class Scheduler:
@@ -17,8 +16,9 @@ class Scheduler:
         self.wakeup_sem = Semaphore(0)
         self._max_running = max_running
 
-        t = threading.Thread(target=self._schedule)
-        t.start()
+        self.run_scheduler = True
+        self.thread = threading.Thread(target=self._schedule)
+        self.thread.start()
 
     def enqueue(self, task):
         with self._queue_mutex:
@@ -31,7 +31,7 @@ class Scheduler:
             self.wakeup_sem.release()
 
     def _schedule(self):
-        while True:
+        while self.run_scheduler:
             self.wakeup_sem.acquire()
 
             with self._queue_mutex:
@@ -141,3 +141,8 @@ class Scheduler:
 
     def max_running(self):
         return self._max_running
+
+    def stop(self):
+        self.run_scheduler = False
+        self.wakeup_sem.release()
+        self.thread.join()
