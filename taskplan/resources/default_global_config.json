@@ -1,0 +1,15 @@
+{
+  "config": {
+    "projects": {
+      "default": {
+        "name": "",
+        "task_dir": ".",
+        "result_dir": "results",
+        "config_dir": "config",
+        "config_file_name": "taskplan",
+        "use_project_subfolder": false
+      }
+    },
+    "max_running_tasks": 1
+  }
+}
