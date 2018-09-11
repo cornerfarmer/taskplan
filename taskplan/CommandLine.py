@@ -31,7 +31,7 @@ def start(obj, project_name, preset_uuid, total_iterations):
 
     controller.start()
     task = controller.start_new_task(project_name, preset_uuid, total_iterations)
-    print("Starting preset \"" + task.preset.name + "\"")
+    print("Starting preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ")")
 
     console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
     console_ui.run()
