@@ -24,6 +24,8 @@ class Controller:
         self.project_manager = ProjectManager(projects, event_manager)
         self.event_manager = event_manager
 
+    def start(self):
+        self.scheduler.start()
         self.run_update_thread = True
         self.update_thread = threading.Thread(target=self._update_clients)
         self.update_thread.start()

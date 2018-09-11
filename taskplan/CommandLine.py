@@ -15,8 +15,9 @@ def cli(ctx):
 
 
 @cli.command()
-def init(ctx):
-    ctx.obj['controller'].stop()
+@click.pass_obj
+def init(obj):
+    pass
 
 
 @cli.command()
@@ -28,6 +29,7 @@ def start(obj, project_name, preset_uuid, total_iterations):
     controller = obj['controller']
     event_manager = obj['event_manager']
 
+    controller.start()
     task = controller.start_new_task(project_name, preset_uuid, total_iterations)
     print("Starting preset \"" + task.preset.name + "\"")
 
@@ -44,6 +46,7 @@ def continue_task(obj, task_uuid, total_iterations=0):
     controller = obj['controller']
     event_manager = obj['event_manager']
 
+    controller.start()
     task = controller.continue_task(task_uuid, total_iterations)
     if task is not None:
         print("Continuing preset \"" + task.preset.name + "\"")

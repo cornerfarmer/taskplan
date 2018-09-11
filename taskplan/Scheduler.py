@@ -16,6 +16,7 @@ class Scheduler:
         self.wakeup_sem = Semaphore(0)
         self._max_running = max_running
 
+    def start(self):
         self.run_scheduler = True
         self.thread = threading.Thread(target=self._schedule)
         self.thread.start()
