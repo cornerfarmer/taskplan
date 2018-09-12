@@ -31,7 +31,7 @@ def start(obj, project_name, preset_uuid, total_iterations):
 
     controller.start()
     task = controller.start_new_task(project_name, preset_uuid, total_iterations)
-    print("Starting preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ")")
+    print("Starting preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
 
     console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
     console_ui.run()
@@ -49,7 +49,7 @@ def continue_task(obj, task_uuid, total_iterations=0):
     controller.start()
     task = controller.continue_task(task_uuid, total_iterations)
     if task is not None:
-        print("Continuing preset \"" + task.preset.name + "\"")
+        print("Continuing preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
 
         console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
         console_ui.run()
