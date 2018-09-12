@@ -11,18 +11,22 @@ from pkg_resources import resource_stream
 
 class Controller:
     def __init__(self, event_manager):
+        self.global_config = Controller.load_global_config()
+        projects = Project.load_projects(self.global_config)
+
+        self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"))
+        self.project_manager = ProjectManager(projects, event_manager)
+        self.event_manager = event_manager
+
+    @staticmethod
+    def load_global_config():
         with resource_stream('taskplan.resources', 'default_global_config.json') as f:
             default_config = json.load(f)
         default_preset = Preset(default_config)
 
         with open('taskplan.json') as f:
             config = json.load(f)
-        self.global_config = Preset(config, default_preset)
-        projects = Project.load_projects(self.global_config)
-
-        self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"))
-        self.project_manager = ProjectManager(projects, event_manager)
-        self.event_manager = event_manager
+        return Preset(config, default_preset)
 
     def start(self):
         self.scheduler.start()
