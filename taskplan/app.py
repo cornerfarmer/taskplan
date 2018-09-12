@@ -14,7 +14,8 @@ except ImportError:
 def run(projects, max_running):
     event_manager = EventManager()
 
-    controller = Controller(projects, max_running, event_manager)
+    controller = Controller(event_manager)
+    controller.start()
 
     app = Flask(__name__, static_folder="web/dist", static_url_path="/static", template_folder="web/dist")
 
@@ -201,6 +202,12 @@ def run(projects, max_running):
     def adjust_task_preset(task_uuid):
         new_data = json.loads(request.form.get('data'))
         controller.adjust_task_preset(task_uuid, new_data)
+
+        return ""
+
+    @app.route('/clone_task/<string:task_uuid>')
+    def clone_task(task_uuid):
+        controller.clone_task(task_uuid)
 
         return ""
 

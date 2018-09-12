@@ -222,7 +222,7 @@ class TaskWrapper:
             pickle.dump(data, handle)
 
     def load_metadata(self, path, ignore_total_iterations=False):
-        with open(str(path / Path("metadata.pk")), 'rb') as handle   :
+        with open(str(path / Path("metadata.pk")), 'rb') as handle:
             data = pickle.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
             if not self.is_subtask:

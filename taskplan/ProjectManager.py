@@ -40,6 +40,11 @@ class ProjectManager:
                 return task
         return None
 
+    def clone_task(self, task):
+        cloned_task = task.project.clone_task(task)
+        self.event_manager.throw(EventType.PRESET_CHANGED, task.project.configuration.presets_by_uuid[task.original_preset_uuid], task.project)
+        return cloned_task
+
     def remove_task(self, task):
         task.project.remove_task(task)
         self.event_manager.throw(EventType.TASK_REMOVED, task)

@@ -129,6 +129,13 @@ class Controller:
         task = self.project_manager.find_task_by_uuid(task_uuid)
         task.adjust_config(new_config)
 
+    def clone_task(self, task_uuid):
+        task = self.project_manager.find_task_by_uuid(task_uuid)
+        cloned_task = self.project_manager.clone_task(task)
+        self.event_manager.throw(EventType.TASK_CHANGED, cloned_task)
+
+        self.event_manager.log("Task \"" + str(task) + "\" has been cloned", "Task has been cloned")
+
     def stop(self):
         self.run_update_thread = False
         self.update_thread.join()

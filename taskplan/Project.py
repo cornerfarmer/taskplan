@@ -2,6 +2,8 @@ import copy
 import os
 import pickle
 import threading
+from datetime import datetime
+
 try:
   from pathlib2 import Path
 except ImportError:
@@ -13,6 +15,7 @@ from taskconf.config.Configuration import Configuration
 import subprocess
 import time
 import json
+import shutil
 
 class Project:
 
@@ -77,9 +80,13 @@ class Project:
         preset_data['config'] = preset.compose_config()
         if 'base' in preset_data:
             del preset_data['base']
+
+        return self._create_task_from_preset(preset, preset_data, total_iterations)
+
+    def _create_task_from_preset(self, original_preset, preset_data, total_iterations):
         task_preset = self.configuration.add_preset(preset_data, None)
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, preset.uuid, self, total_iterations, self.maximal_try_of_preset(preset) + 1, self.versions[-1])
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, original_preset.uuid, self, total_iterations, self.maximal_try_of_preset(original_preset) + 1, self.versions[-1])
         task.save_metadata()
         self.tasks.append(task)
 
@@ -152,3 +159,28 @@ class Project:
             ))
 
         return projects
+
+    def clone_task(self, task):
+        if task in self.tasks:
+            original_preset = self.configuration.presets_by_uuid[task.original_preset_uuid]
+
+            preset_data = copy.deepcopy(task.preset.data)
+            preset_data['uuid'] = None
+
+            cloned_task = self._create_task_from_preset(original_preset, preset_data, task.total_iterations())
+            new_uuid = cloned_task.uuid
+            new_try_number = cloned_task.try_number
+
+            shutil.rmtree(cloned_task.build_save_dir())
+            shutil.copytree(task.build_save_dir(), cloned_task.build_save_dir())
+
+            cloned_task.load_metadata(cloned_task.build_save_dir())
+
+            cloned_task.state = State.STOPPED
+            cloned_task.uuid = new_uuid
+            cloned_task.creation_time = datetime.now()
+            cloned_task.try_number = new_try_number
+            cloned_task.save_metadata()
+
+
+            return cloned_task

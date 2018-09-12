@@ -8,6 +8,7 @@ class FinishedTask extends React.Component {
         this.promptExtraRefs = React.createRef();
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.openLog = this.openLog.bind(this);
+        this.clone = this.clone.bind(this);
     }
 
     openExtraDialog() {
@@ -16,6 +17,19 @@ class FinishedTask extends React.Component {
 
     openLog() {
         window.open("/log/" + this.props.task.uuid, '_blank');
+    }
+
+     clone() {
+        fetch("/clone_task/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
     }
 
     render() {
@@ -43,6 +57,9 @@ class FinishedTask extends React.Component {
                         <div className="dropdown-menu">
                             <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
+                            </div>
+                            <div className="action" onClick={this.clone} title="Clone task">
+                                <i className="far fa-copy"></i>
                             </div>
                         </div>
                     </div>
