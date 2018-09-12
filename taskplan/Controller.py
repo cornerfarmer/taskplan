@@ -130,7 +130,7 @@ class Controller:
         task.adjust_config(new_config)
 
     def stop(self):
-        self.scheduler.stop()
-
         self.run_update_thread = False
         self.update_thread.join()
+
+        self.scheduler.stop()
