@@ -13,8 +13,10 @@ from taskconf.util.Logger import Logger
 import shutil
 import traceback
 import logging
-
+import json
 import os
+import time
+
 class State(Enum):
     INIT = 0
     QUEUED = 1
@@ -210,20 +212,24 @@ class TaskWrapper:
         data['finished_subtasks'] = self._shared.finished_subtasks.value
         data['total_iterations'] = self._shared.total_iterations.value
         data['try_number'] = self.try_number
-        data['creation_time'] = self.creation_time
-        data['saved_time'] = self.saved_time
+        data['creation_time'] = time.mktime(self.creation_time.timetuple())
+        data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
         data['had_error'] = self._shared.had_error.value
         data['preset'] = self.preset.data
         data['original_preset_uuid'] = self.original_preset_uuid
         data['code_version'] = self.code_version
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
-        with open(str(path / Path("metadata.pk")), 'wb') as handle:
-            pickle.dump(data, handle)
+        with open(str(path / Path("metadata.json")), 'w') as handle:
+            json.dump(data, handle, indent=2, separators=(',', ': '))
 
     def load_metadata(self, path, ignore_total_iterations=False):
-        with open(str(path / Path("metadata.pk")), 'rb') as handle:
-            data = pickle.load(handle)
+        use_pickle = not (path / Path("metadata.json")).exists()
+        with open(str(path / Path("metadata.pk" if use_pickle else "metadata.json")), 'rb' if use_pickle else "r") as handle:
+            if use_pickle:
+                data = pickle.load(handle)
+            else:
+                data = json.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
             if not self.is_subtask:
                 self.preset = self.project.configuration.add_preset(data['preset'], None)
@@ -232,8 +238,12 @@ class TaskWrapper:
             if not ignore_total_iterations:
                 self._shared.total_iterations.value = data['total_iterations']
             self.try_number = data['try_number']
-            self.creation_time = data['creation_time']
-            self.saved_time = data['saved_time']
+            if use_pickle:
+                self.creation_time = data['creation_time']
+                self.saved_time = data['saved_time']
+            else:
+                self.creation_time = datetime.datetime.fromtimestamp(data['creation_time'])
+                self.saved_time = datetime.datetime.fromtimestamp(data['saved_time']) if data['saved_time'] is not "" else None
             self.original_preset_uuid = data['original_preset_uuid']
             self._shared.had_error.value = data['had_error']
             self.code_version = data['code_version']

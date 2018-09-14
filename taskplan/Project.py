@@ -67,7 +67,7 @@ class Project:
                             task.state = State.STOPPED
                             self.tasks.append(task)
                         except:
-                            pass
+                            raise
 
     def create_task(self, preset_uuid, total_iterations):
         if preset_uuid in self.configuration.presets_by_uuid:

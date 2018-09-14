@@ -7,7 +7,7 @@ from taskplan.Scheduler import Scheduler
 import time
 import threading
 import json
-from pkg_resources import resource_stream
+from pkg_resources import resource_filename
 
 class Controller:
     def __init__(self, event_manager):
@@ -20,7 +20,7 @@ class Controller:
 
     @staticmethod
     def load_global_config():
-        with resource_stream('taskplan.resources', 'default_global_config.json') as f:
+        with open(resource_filename('taskplan.resources', 'default_global_config.json'), 'r') as f:
             default_config = json.load(f)
         default_preset = Preset(default_config)
 

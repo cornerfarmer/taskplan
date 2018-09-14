@@ -1,6 +1,7 @@
 import datetime
 import tensorflow as tf
 from datetime import datetime
+import time
 
 class Task(object):
 
@@ -73,7 +74,7 @@ class Task(object):
             with finished_iterations.get_lock():
                 with iteration_update_time.get_lock():
                     finished_iterations.value = finished_iterations.value + 1
-                    iteration_update_time.value = (datetime.now() - datetime.fromtimestamp(0)).total_seconds()
+                    iteration_update_time.value = time.mktime(datetime.now().timetuple())
 
             if pause_computation.value:
                 break
