@@ -9,7 +9,7 @@ class ControlBar extends React.Component {
     }
 
     openGlobalLog() {
-        window.open("/log/", '_blank');
+        window.open("/log", '_blank');
     }
 
     render() {
