@@ -184,14 +184,14 @@ class TaskWrapper:
 
         def save_func():
             task.save(save_dir)
-            with open(str(save_dir / Path("metadata.pk")), 'rb') as handle:
-                data = pickle.load(handle)
+            with open(str(save_dir / Path("metadata.json")), 'r') as handle:
+                data = json.load(handle)
 
-            with open(str(save_dir / Path("metadata.pk")), 'wb') as handle:
-                data['saved_time'] = datetime.datetime.now()
+            with open(str(save_dir / Path("metadata.json")), 'w') as handle:
+                data['saved_time'] = time.mktime(datetime.datetime.now().timetuple())
                 data['finished_iterations'] = shared.finished_iterations.value
                 data['finished_subtasks'] = shared.finished_subtasks.value
-                pickle.dump(data, handle)
+                json.dump(data, handle)
 
         if shared.finished_iterations.value > 0:
             task.load(save_dir)

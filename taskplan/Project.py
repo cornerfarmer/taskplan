@@ -171,8 +171,8 @@ class Project:
             new_uuid = cloned_task.uuid
             new_try_number = cloned_task.try_number
 
-            shutil.rmtree(cloned_task.build_save_dir())
-            shutil.copytree(task.build_save_dir(), cloned_task.build_save_dir())
+            shutil.rmtree(str(cloned_task.build_save_dir()))
+            shutil.copytree(str(task.build_save_dir()), str(cloned_task.build_save_dir()))
 
             cloned_task.load_metadata(cloned_task.build_save_dir())
 
