@@ -123,6 +123,12 @@ class TaskToolbar extends React.Component {
     }
 
     render() {
+        let currentAction = "";
+        if (this.props.task.is_pausing) {
+            currentAction = "pausing..."
+        } else if (this.props.task.is_saving) {
+            currentAction = "saving..."
+        }
         return (
             <div className="toolbar">
                 {this.props.task.state === State.RUNNING &&
@@ -148,6 +154,9 @@ class TaskToolbar extends React.Component {
                                     <i className="fas fa-code"></i><span>Config</span>
                                 </div>
                             </div>
+                        </div>
+                        <div className="current-action">
+                            {currentAction}
                         </div>
                     </span>
                 }

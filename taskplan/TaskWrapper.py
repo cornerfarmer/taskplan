@@ -273,3 +273,9 @@ class TaskWrapper:
     def save_now(self):
         if self.state == State.RUNNING:
             self._shared.save_now.value = True
+
+    def is_saving(self):
+        return self._shared.save_now.value
+
+    def is_pausing(self):
+        return self._shared.pause_computation.value

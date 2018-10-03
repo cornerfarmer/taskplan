@@ -130,6 +130,12 @@ h2 {
     border: 1px solid rgba(0,0,0,.1);
 }
 
+
+.tasks .task .toolbar span {
+    display: flex;
+    align-items: center;
+}
+
 .tasks .task .toolbar .action {
     background: #3f51b5;
     padding: 0 10px;
@@ -157,13 +163,18 @@ h2 {
 
 .tasks .task .toolbar .dropdown {
     display: inline-flex;
+    margin-bottom: 4px;
 }
 
 .tasks .task .toolbar .action.dropdown-toggle i {
     margin: 0;
 }
 
-
+.tasks .task .toolbar .current-action {
+    flex: 2 1 0;
+    text-align: right;
+    font-size: 12px;
+}
 
 .tasks .task.on-drag-over {
     border: 3px dashed #3f51b5;
