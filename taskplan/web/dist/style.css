@@ -125,7 +125,7 @@ h2 {
 
 .tasks .task .toolbar {
     background: rgba(158,158,158,.2);
-    padding: 5px 16px;
+    padding: 5px 16px 1px 16px;
     line-height: 1;
     border: 1px solid rgba(0,0,0,.1);
 }
@@ -144,6 +144,7 @@ h2 {
     font-size: 13px;
     cursor: pointer;
     margin-right: 5px;
+    margin-bottom: 4px;
 }
 
 .tasks .task .toolbar .action i {
@@ -152,6 +153,14 @@ h2 {
 
 .tasks .task .toolbar .action span {
     margin-top: 2px;
+}
+
+.tasks .task .toolbar .dropdown {
+    display: inline-flex;
+}
+
+.tasks .task .toolbar .action.dropdown-toggle i {
+    margin: 0;
 }
 
 
@@ -384,25 +393,39 @@ h2 {
     margin-bottom: 4px;
 }
 
+.tasks .task .toolbar .action.dropdown-toggle,
 #project-manager #projects .project ul .item .toolbar .action.dropdown-toggle {
-    height: 14px;
     margin: 0;
 }
 
+#project-manager #projects .project ul .item .toolbar .action.dropdown-toggle {
+    height: 14px;
+}
+
+.tasks .task .toolbar .action.dropdown-toggle:after,
 #project-manager #projects .project ul .item .toolbar .action.dropdown-toggle:after {
     display: none;
 }
 
+.tasks .task .toolbar .dropdown-menu,
 #project-manager #projects .project ul .item .toolbar .dropdown-menu {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
     min-width: auto;
     padding: 7px;
     border: 1px solid #E3E3E3;
     border-radius: 0;
-    left: 4px !important;
     margin-top: 5px;
 }
 
+.tasks .task .toolbar .dropdown-menu {
+    left: -42px !important;
+}
+
+#project-manager #projects .project ul .item .toolbar .dropdown-menu {
+    left: 4px !important;
+}
+
+.tasks .task .toolbar .dropdown-menu:after,
 #project-manager #projects .project ul .item .toolbar .dropdown-menu:after {
     content: " ";
     position: absolute;
@@ -413,6 +436,7 @@ h2 {
     border-bottom-color: white;
 }
 
+.tasks .task .toolbar .dropdown-menu .action:last-child,
 #project-manager #projects .project ul .item .toolbar .dropdown-menu .action:last-child {
     margin: 0;
 }

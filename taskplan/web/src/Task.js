@@ -136,11 +136,18 @@ class TaskToolbar extends React.Component {
                         < div className="action" onClick={this.openExtraDialog} title="Change the scheduled number of total iterations">
                             <i className="fa fa-edit"></i><span>Change</span>
                         </div>
-                        <div className="action" onClick={this.openLog} title="View the log">
-                            <i className="far fa-file-alt"></i><span>Log</span>
-                        </div>
-                        < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
-                            <i className="fas fa-code"></i><span>Config</span>
+                        <div className="dropdown">
+                            <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                <i className="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div className="dropdown-menu">
+                                <div className="action" onClick={this.openLog} title="View the log">
+                                    <i className="far fa-file-alt"></i><span>Log</span>
+                                </div>
+                                < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
+                                    <i className="fas fa-code"></i><span>Config</span>
+                                </div>
+                            </div>
                         </div>
                     </span>
                 }
@@ -152,11 +159,18 @@ class TaskToolbar extends React.Component {
                         < div className="action" onClick={this.openExtraDialog} title="Change the scheduled number of total iterations">
                             <i className="fa fa-edit"></i><span>Change</span>
                         </div>
-                        <div className="action" onClick={this.cancel} title="Remove this task from the queue">
-                            <i className="fas fa-times"></i><span>Cancel</span>
-                        </div>
                         < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
                             <i className="fas fa-code"></i><span>Config</span>
+                        </div>
+                        <div className="dropdown">
+                            <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                <i className="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div className="dropdown-menu">
+                                <div className="action" onClick={this.cancel} title="Remove this task from the queue">
+                                    <i className="fas fa-times"></i><span>Cancel</span>
+                                </div>
+                            </div>
                         </div>
                     </span>
                 }
