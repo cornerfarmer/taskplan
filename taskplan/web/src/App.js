@@ -3,12 +3,13 @@ import Scheduler from './Scheduler'
 import ProjectManager from "./ProjectManager";
 import FlashMessageManager from "./FlashMessageManager"
 import ControlBar from "./ControlBar";
+import ReconnectingEventSource from "reconnecting-eventsource";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.evtSource = new EventSource("/update");
+        this.evtSource = new ReconnectingEventSource("/update");
     }
 
     render() {
