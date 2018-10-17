@@ -131,7 +131,7 @@ h2 {
 }
 
 
-.tasks .task .toolbar span {
+.tasks .task .toolbar > span {
     display: flex;
     align-items: center;
 }
