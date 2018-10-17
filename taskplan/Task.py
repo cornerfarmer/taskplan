@@ -89,7 +89,8 @@ class Task(object):
                 save_func()
                 tensorboard_writer.flush()
 
-                checkpoint_func()
+                if checkpoint_interval > 0 and finished_iterations.value % checkpoint_interval == 0:
+                    checkpoint_func()
 
         tensorboard_writer.flush()
 
