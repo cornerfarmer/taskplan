@@ -193,9 +193,18 @@ class TaskWrapper:
                 data['finished_subtasks'] = shared.finished_subtasks.value
                 json.dump(data, handle)
 
+        def checkpoint_func():
+            checkpoint_dir = save_dir / Path("checkpoints")
+            checkpoint_dir.mkdir(exist_ok=True)
+            checkpoint_dir /= Path(str(shared.finished_iterations.value))
+
+            shutil.copytree(str(save_dir), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints'] if directory == str(save_dir) else [])
+            for file in checkpoint_dir.glob("events.out.tfevents.*"):
+                file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
+
         if shared.finished_iterations.value > 0:
             task.load(save_dir)
-        task.run(shared.finished_iterations, shared.iteration_update_time, shared.total_iterations, shared.pause_computation, shared.save_now, save_dir, save_func)
+        task.run(shared.finished_iterations, shared.iteration_update_time, shared.total_iterations, shared.pause_computation, shared.save_now, save_dir, save_func, checkpoint_func)
 
         save_func()
 

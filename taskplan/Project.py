@@ -33,7 +33,7 @@ class Project:
         if not config_dir.exists() or len(list(config_dir.iterdir())) == 0:
             config_dir.mkdir(exist_ok=True, parents=True)
             with open(str(config_dir / Path(self.config_file_name + ".json")), 'w') as handle:
-                handle.write('[{"config": {"save_interval": 0},"abstract": true,"name": "Default"}]')
+                handle.write('[{"config": {"save_interval": 0, "checkpoint_interval": 0},"abstract": true,"name": "Default"}]')
         self.configuration = Configuration(str(config_dir))
         self.configuration.save()
         self.result_dir = self.task_dir / Path(result_dir)

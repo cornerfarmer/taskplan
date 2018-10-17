@@ -56,9 +56,10 @@ class Task(object):
         else:
             return None, 0
 
-    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, result_dir, save_func):
+    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, result_dir, save_func, checkpoint_func):
         tensorboard_writer = tf.summary.FileWriter(str(result_dir))
         save_interval = self.preset.get_int('save_interval')
+        checkpoint_interval = self.preset.get_int('checkpoint_interval')
 
         while finished_iterations.value < total_iterations.value:
             preset_available = self.preset_pipe.poll(0)
@@ -79,7 +80,7 @@ class Task(object):
             if pause_computation.value:
                 break
 
-            if save_now.value or (save_interval > 0 and finished_iterations.value % save_interval == 0):
+            if save_now.value or (save_interval > 0 and finished_iterations.value % save_interval == 0) or (checkpoint_interval > 0 and finished_iterations.value % checkpoint_interval == 0):
                 if save_now.value:
                     self.logger.log("Doing a manual save after " + str(finished_iterations.value) + " iterations")
                 else:
@@ -87,6 +88,8 @@ class Task(object):
                 save_now.value = False
                 save_func()
                 tensorboard_writer.flush()
+
+                checkpoint_func()
 
         tensorboard_writer.flush()
 
