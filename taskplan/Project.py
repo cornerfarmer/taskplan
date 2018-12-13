@@ -102,7 +102,7 @@ class Project:
         else:
             force_save_dir = None
 
-        task = TaskWrapper(self.task_dir if not is_test else self.test_dir, self.task_class_name, task_preset, original_preset.uuid, self, total_iterations, self.maximal_try_of_preset(original_preset) + 1, self.versions[-1], force_save_dir=force_save_dir, is_test=is_test)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, original_preset.uuid, self, total_iterations, self.maximal_try_of_preset(original_preset) + 1, self.versions[-1], force_save_dir=force_save_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
 
