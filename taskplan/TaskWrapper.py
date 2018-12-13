@@ -252,7 +252,7 @@ class TaskWrapper:
                 self.saved_time = data['saved_time']
             else:
                 self.creation_time = datetime.datetime.fromtimestamp(data['creation_time'])
-                self.saved_time = datetime.datetime.fromtimestamp(data['saved_time']) if data['saved_time'] is not "" else None
+                self.saved_time = datetime.datetime.fromtimestamp(data['saved_time']) if data['saved_time'] != "" else None
             self.original_preset_uuid = data['original_preset_uuid']
             self._shared.had_error.value = data['had_error']
             self.code_version = data['code_version']

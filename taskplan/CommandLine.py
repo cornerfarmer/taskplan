@@ -5,7 +5,6 @@ from taskplan.Controller import Controller
 from taskplan.EventManager import EventManager
 import click
 
-
 @click.group()
 @click.pass_context
 def cli(ctx):
@@ -29,13 +28,15 @@ def start(obj, project_name, preset_uuid, total_iterations):
     controller = obj['controller']
     event_manager = obj['event_manager']
 
-    controller.start()
-    task = controller.start_new_task(project_name, preset_uuid, total_iterations)
-    print("Starting preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
+    try:
+        controller.start()
+        task = controller.start_new_task(project_name, preset_uuid, total_iterations)
+        print("Starting preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
 
-    console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
-    console_ui.run()
-    controller.stop()
+        console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
+        console_ui.run()
+    finally:
+        controller.stop()
 
 
 @cli.command(name="continue")
@@ -46,15 +47,28 @@ def continue_task(obj, task_uuid, total_iterations=0):
     controller = obj['controller']
     event_manager = obj['event_manager']
 
-    controller.start()
-    task = controller.continue_task(task_uuid, total_iterations)
-    if task is not None:
-        print("Continuing preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
+    try:
+        controller.start()
+        task = controller.continue_task(task_uuid, total_iterations)
+        if task is not None:
+            print("Continuing preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
 
-        console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
-        console_ui.run()
-    else:
-        print("Task not found or already finished.")
+            console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
+            console_ui.run()
+        else:
+            print("Task not found or already finished.")
+    finally:
+        controller.stop()
+
+
+@cli.command(name="add_version")
+@click.argument('project_name')
+@click.argument('version_name')
+@click.pass_obj
+def add_version(obj, project_name, version_name):
+    controller = obj['controller']
+
+    controller.add_version(project_name, version_name)
     controller.stop()
 
 if __name__ == '__main__':

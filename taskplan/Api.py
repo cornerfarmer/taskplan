@@ -14,3 +14,7 @@ class Api:
         task = self.project_manager.find_task_by_uuid(task_uuid)
 
         return task.build_save_dir(), task.preset
+
+    def load_preset(self, project_name, preset_uuid):
+        project = self.project_manager.project_by_name(project_name)
+        return project.configuration.presets_by_uuid[preset_uuid]

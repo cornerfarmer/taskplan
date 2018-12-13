@@ -32,28 +32,32 @@ class Scheduler:
             self.wakeup_sem.release()
 
     def _schedule(self):
+        print("Sched: " + str(os.getpid()))
         while self.run_scheduler:
-            self.wakeup_sem.acquire()
+            try:
+                self.wakeup_sem.acquire()
 
-            with self._queue_mutex:
-                for running in self.runnings[:]:
-                    if not running.is_running():
-                        running.stop()
-                        self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
-                        if running.had_error():
-                            self.event_manager.log("The task \"" + str(running) + "\" has been stopped due to an error after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Error occurred in task", logging.ERROR)
-                        elif running.finished_iterations_and_update_time()[0] < running.total_iterations():
-                            self.event_manager.log("The task \"" + str(running) + "\" has been paused after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been paused")
-                        else:
-                            self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been finished")
-                        self.runnings.remove(running)
+                with self._queue_mutex:
+                    for running in self.runnings[:]:
+                        if not running.is_running():
+                            running.stop()
+                            self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
+                            if running.had_error():
+                                self.event_manager.log("The task \"" + str(running) + "\" has been stopped due to an error after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Error occurred in task", logging.ERROR)
+                            elif running.finished_iterations_and_update_time()[0] < running.total_iterations():
+                                self.event_manager.log("The task \"" + str(running) + "\" has been paused after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been paused")
+                            else:
+                                self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been finished")
+                            self.runnings.remove(running)
 
-                if len(self.queue) > 0 and len(self.runnings) < self._max_running:
-                    self.runnings.append(self.queue.pop(0))
-                    self._update_indices()
-                    self.runnings[-1].start(self.wakeup_sem)
-                    self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.runnings[-1])
-                    self.event_manager.log("The task \"" + str(self.runnings[-1]) + "\" has been started, beginning with iteration " + str(self.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
+                    if len(self.queue) > 0 and len(self.runnings) < self._max_running:
+                        self.runnings.append(self.queue.pop(0))
+                        self._update_indices()
+                        self.runnings[-1].start(self.wakeup_sem)
+                        self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.runnings[-1])
+                        self.event_manager.log("The task \"" + str(self.runnings[-1]) + "\" has been started, beginning with iteration " + str(self.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
+            except KeyboardInterrupt:
+                print("schedule exit")
 
     def pause(self, task_uuid):
         with self._queue_mutex:
