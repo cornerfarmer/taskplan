@@ -32,7 +32,6 @@ class Scheduler:
             self.wakeup_sem.release()
 
     def _schedule(self):
-        print("Sched: " + str(os.getpid()))
         while self.run_scheduler:
             try:
                 self.wakeup_sem.acquire()

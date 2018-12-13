@@ -31,7 +31,6 @@ class ConsoleUI:
             self.ui_thread = threading.Thread(target=self._process_input)
             self.ui_thread.start()
 
-            print("CUI run: " + str(os.getpid()))
             with tqdm() as pbar:
                 pbar.write("Commands: (P)ause, (E)xtend")
                 while True:
