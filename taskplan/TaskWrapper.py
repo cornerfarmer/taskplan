@@ -47,7 +47,7 @@ class SharedMetaData:
         self.preset_pipe_recv, self.preset_pipe_send = Pipe(duplex=False)
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, preset, original_preset_uuid, project, total_iterations, try_number, code_version, force_save_dir=None, parent_shared_data=None):
+    def __init__(self, task_dir, class_name, preset, original_preset_uuid, project, total_iterations, try_number, code_version, force_save_dir=None, parent_shared_data=None, is_test=False):
         self.task_dir = task_dir
         self.class_name = class_name
         self.preset = preset
@@ -63,7 +63,8 @@ class TaskWrapper:
         self.queue_index = 0
         self.code_version = code_version
         self.force_save_dir = force_save_dir
-        self.is_subtask = force_save_dir is not None
+        self.is_subtask = False #force_save_dir is not None
+        self.is_test = is_test
 
         self._shared = SharedMetaData(total_iterations, parent_shared_data)
 

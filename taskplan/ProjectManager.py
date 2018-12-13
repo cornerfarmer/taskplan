@@ -7,9 +7,9 @@ class ProjectManager:
         self.projects = projects
         self.event_manager = event_manager
 
-    def create_task(self, project_name, preset_uuid, total_iterations):
+    def create_task(self, project_name, preset_uuid, total_iterations, is_test=False):
         project = self.project_by_name(project_name)
-        task = project.create_task(preset_uuid, total_iterations)
+        task = project.create_task(preset_uuid, total_iterations, is_test)
         self.event_manager.throw(EventType.PRESET_CHANGED, project.configuration.presets_by_uuid[preset_uuid], project)
         return task
 
@@ -39,6 +39,10 @@ class ProjectManager:
             if task is not None:
                 return task
         return None
+
+    def find_test_task_by_preset(self, project_name, preset_uuid):
+        project = self.project_by_name(project_name)
+        return project.find_test_task_by_preset(preset_uuid)
 
     def clone_task(self, task):
         cloned_task = task.project.clone_task(task)

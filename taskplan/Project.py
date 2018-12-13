@@ -19,7 +19,7 @@ import shutil
 
 class Project:
 
-    def __init__(self, task_dir, task_class_name, name="", result_dir="results", config_dir="config", config_file_name="taskplan", use_project_subfolder=False):
+    def __init__(self, task_dir, task_class_name, name="", result_dir="results", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests"):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.config_file_name = config_file_name
@@ -38,6 +38,8 @@ class Project:
         self.configuration.save()
         self.result_dir = self.task_dir / Path(result_dir)
         self.result_dir.mkdir(exist_ok=True, parents=True)
+        self.test_dir = self.task_dir / Path(test_dir)
+        self.test_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None
         self._load_saved_tasks()
@@ -57,19 +59,26 @@ class Project:
                 self.versions = data['versions']
 
     def _load_saved_tasks(self):
-        for checkpoint in self.result_dir.iterdir():
-            for task in checkpoint.iterdir():
+        for code_version in self.result_dir.iterdir():
+            for task in code_version.iterdir():
                 for path in task.iterdir():
                     if path.is_dir():
-                        try:
-                            task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0, None)
-                            task.load_metadata(path)
-                            task.state = State.STOPPED
-                            self.tasks.append(task)
-                        except:
-                            raise
+                        self._load_saved_task(path)
 
-    def create_task(self, preset_uuid, total_iterations):
+        for path in self.test_dir.iterdir():
+            if path.is_dir() and path.name in self.configuration.presets_by_uuid:
+                self._load_saved_task(path, is_test=True)
+
+    def _load_saved_task(self, path, is_test=False):
+        try:
+            task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0, None, is_test=is_test, force_save_dir=path)
+            task.load_metadata(path)
+            task.state = State.STOPPED
+            self.tasks.append(task)
+        except:
+            raise
+
+    def create_task(self, preset_uuid, total_iterations, is_test=False):
         if preset_uuid in self.configuration.presets_by_uuid:
             preset = self.configuration.presets_by_uuid[preset_uuid]
         else:
@@ -81,12 +90,19 @@ class Project:
         if 'base' in preset_data:
             del preset_data['base']
 
-        return self._create_task_from_preset(preset, preset_data, total_iterations)
+        return self._create_task_from_preset(preset, preset_data, total_iterations, is_test)
 
-    def _create_task_from_preset(self, original_preset, preset_data, total_iterations):
+    def _create_task_from_preset(self, original_preset, preset_data, total_iterations, is_test=False):
         task_preset = self.configuration.add_preset(preset_data, None)
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, original_preset.uuid, self, total_iterations, self.maximal_try_of_preset(original_preset) + 1, self.versions[-1])
+        if is_test:
+            force_save_dir = self.test_dir / Path(original_preset.uuid)
+            if (force_save_dir.exists()):
+                shutil.rmtree(str(force_save_dir))
+        else:
+            force_save_dir = None
+
+        task = TaskWrapper(self.task_dir if not is_test else self.test_dir, self.task_class_name, task_preset, original_preset.uuid, self, total_iterations, self.maximal_try_of_preset(original_preset) + 1, self.versions[-1], force_save_dir=force_save_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
 
@@ -95,7 +111,7 @@ class Project:
     def maximal_try_of_preset(self, preset):
         maximal_try = -1
         for task in self.tasks:
-            if task.original_preset_uuid == preset.uuid and task.code_version == self.versions[-1]:
+            if not task.is_test and task.original_preset_uuid == preset.uuid and task.code_version == self.versions[-1]:
                 maximal_try = max(maximal_try, task.try_number)
         return maximal_try
 
@@ -105,6 +121,12 @@ class Project:
     def find_task_by_uuid(self, uuid):
         for task in self.tasks:
             if str(task.uuid) == uuid:
+                return task
+        return None
+
+    def find_test_task_by_preset(self, preset_uuid):
+        for task in self.tasks:
+            if task.is_test and task.original_preset_uuid == preset_uuid:
                 return task
         return None
 

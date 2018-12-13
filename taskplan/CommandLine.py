@@ -60,6 +60,32 @@ def continue_task(obj, task_uuid, total_iterations=0):
     finally:
         controller.stop()
 
+@cli.command(name="test")
+@click.argument('project_name')
+@click.argument('preset_uuid')
+@click.argument('total_iterations', type=int)
+@click.option('--load', is_flag=True)
+@click.pass_obj
+def test_task(obj, project_name, preset_uuid, total_iterations, load):
+    controller = obj['controller']
+    event_manager = obj['event_manager']
+
+    try:
+        controller.start()
+
+        if not load:
+            task = controller.start_new_task(project_name, preset_uuid, total_iterations, is_test=True)
+        else:
+            task = controller.continue_test_task(project_name, preset_uuid, total_iterations)
+
+        if task is not None:
+            print("Testing preset \"" + task.preset.name + "\" - " + str(task.uuid))
+            console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
+            console_ui.run()
+        else:
+            print("Task not found or already finished.")
+    finally:
+        controller.stop()
 
 @cli.command(name="add_version")
 @click.argument('project_name')

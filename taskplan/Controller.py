@@ -45,8 +45,8 @@ class Controller:
         self.project_manager.update_new_client(client)
         self.scheduler.update_new_client(client)
 
-    def start_new_task(self, project_name, preset_uuid, total_iterations):
-        task = self.project_manager.create_task(project_name, preset_uuid, total_iterations)
+    def start_new_task(self, project_name, preset_uuid, total_iterations, is_test=False):
+        task = self.project_manager.create_task(project_name, preset_uuid, total_iterations, is_test)
         self.scheduler.enqueue(task)
         return task
 
@@ -75,6 +75,13 @@ class Controller:
         if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations():
             self.scheduler.enqueue(task)
             return task
+        else:
+            return None
+
+    def continue_test_task(self, project_name, preset_uuid, total_iterations):
+        task = self.project_manager.find_test_task_by_preset(project_name, preset_uuid)
+        if task is not None:
+            return self.continue_task(str(task.uuid), total_iterations)
         else:
             return None
 
