@@ -1,21 +1,18 @@
 import React from 'react';
 import Prompt from "./Prompt";
-import { JsonEditor as Editor } from 'jsoneditor-react';
-import 'jsoneditor-react/es/editor.min.css';
-import ace from 'brace';
-import 'brace/mode/json';
+import JsonEditor from './JsonEditor';
 
 class ConfigEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             config: {},
-            mode: 'code',
-            loadedUrl: ''
+            inheritedConfig: {},
+            loadedUrl: '',
+            forceUpdate: true
         };
 
         this.jsonEditor = React.createRef();
-        this.onModeChange = this.onModeChange.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -32,21 +29,21 @@ class ConfigEditor extends React.Component {
 
             this.setState({
                 config: {},
-                loadedUrl: this.props.url
+                inheritedConfig: {},
+                loadedUrl: this.props.url,
+                forceUpdate: true
             });
-            if (this.jsonEditor.current !== null)
-                this.jsonEditor.current.jsonEditor.set({});
         } else if (this.state.loadedUrl !== this.props.url) {
             fetch(this.props.url)
             .then(res => res.json())
             .then(
                 (result) => {
                     this.setState({
-                        config: result['config'],
-                        loadedUrl: this.props.url
+                        inheritedConfig: result['inherited_config'],
+                        config: result['config'] !== null ? result['config'] : this.state.config,
+                        loadedUrl: this.props.url,
+                        forceUpdate: true
                     });
-                    if (this.jsonEditor.current !== null)
-                        this.jsonEditor.current.jsonEditor.set(result['config']);
 
                     if (this.props.onDynamicChange !== undefined)
                         this.props.onDynamicChange(result['dynamic'])
@@ -58,22 +55,17 @@ class ConfigEditor extends React.Component {
         }
     }
 
-    onChange(data) {
+    onChange(data, forceUpdate=false) {
         this.setState({
-            config: data
-        });
-    }
-
-    onModeChange(mode) {
-        this.setState({
-            mode: mode
+            config: data,
+            forceUpdate: forceUpdate
         });
     }
 
     render() {
         if (this.state.loadedUrl === this.props.url)
             return (
-                <Editor ref={this.jsonEditor} mode={this.state.mode} allowedModes={['code', 'tree']} value={this.state.config} onModeChange={this.onModeChange} onChange={this.onChange} ace={ace} history={true}/>
+                <JsonEditor ref={this.jsonEditor} forceUpdate={this.state.forceUpdate} json={this.state.config} inheritedJson={this.state.inheritedConfig} onChange={this.onChange}/>
             );
         else
             return (

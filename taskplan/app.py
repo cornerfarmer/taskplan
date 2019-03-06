@@ -156,7 +156,7 @@ def run(projects, max_running):
         configuration = project.configuration
 
         if preset_base_uuid is None and preset_uuid is None:
-            return jsonify({'config': configuration.presets_by_uuid[configuration.default_preset_uuid].compose_config(), 'dynamic': False})
+            return jsonify({'inherited_config': {}, "config": configuration.presets_by_uuid[configuration.default_preset_uuid].compose_config(), 'dynamic': False})
 
         if preset_base_uuid in configuration.presets_by_uuid:
             preset_base = configuration.presets_by_uuid[preset_base_uuid]
@@ -164,13 +164,13 @@ def run(projects, max_running):
             if preset_uuid is not None:
                 if preset_uuid in configuration.presets_by_uuid:
                     preset = configuration.presets_by_uuid[preset_uuid]
-                    config = preset.compose_config(preset_base)
+                    config = preset.data['config']
                 else:
                     return ""
             else:
-                config = preset_base.compose_config()
+                config = None
 
-            return jsonify({'config': config, 'dynamic': preset_base.treat_dynamic()})
+            return jsonify({'inherited_config': preset_base.compose_config(), "config": config, 'dynamic': preset_base.treat_dynamic()})
         else:
             return ""
 
@@ -181,7 +181,7 @@ def run(projects, max_running):
         if task is not None:
             if iteration == -1:
                 iteration = task.finished_iterations_and_update_time()[0]
-            return jsonify({'config': task.preset.compose_config_for_timestep(iteration), 'dynamic': False})
+            return jsonify({'inherited_config': task.preset.compose_config_for_timestep(iteration), 'config': {}, 'dynamic': False})
         else:
             return ""
 
@@ -192,7 +192,7 @@ def run(projects, max_running):
             configuration = task.project.configuration
             if preset_base_uuid in configuration.presets_by_uuid:
                 preset_base = configuration.presets_by_uuid[preset_base_uuid]
-                return jsonify({'config': task.preset.compose_config(preset_base), 'dynamic': preset_base.treat_dynamic()})
+                return jsonify({'inherited_config': preset_base.compose_config(), 'config': task.preset.data['config'], 'dynamic': preset_base.treat_dynamic()})
             else:
                 return ""
         else:

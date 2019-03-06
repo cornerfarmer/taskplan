@@ -56,6 +56,7 @@ class TaskToolbar extends React.Component {
         this.promptExtraRefs = React.createRef();
         this.promptPresetRefs = React.createRef();
         this.openLog = this.openLog.bind(this);
+        this.clone = this.clone.bind(this);
     }
 
     pause() {
@@ -122,6 +123,19 @@ class TaskToolbar extends React.Component {
         window.open("/log/" + this.props.task.uuid, '_blank');
     }
 
+     clone() {
+        fetch("/clone_task/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
     render() {
         let currentAction = "";
         if (this.props.task.is_pausing) {
@@ -153,6 +167,9 @@ class TaskToolbar extends React.Component {
                                 < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
                                     <i className="fas fa-code"></i><span>Config</span>
                                 </div>
+                                <div className="action" onClick={this.clone} title="Clone task">
+                                    <i className="far fa-copy"></i><span>Clone</span>
+                                </div>
                             </div>
                         </div>
                         <div className="current-action">
@@ -178,6 +195,9 @@ class TaskToolbar extends React.Component {
                             <div className="dropdown-menu">
                                 <div className="action" onClick={this.cancel} title="Remove this task from the queue">
                                     <i className="fas fa-times"></i><span>Cancel</span>
+                                </div>
+                                <div className="action" onClick={this.clone} title="Clone task">
+                                    <i className="far fa-copy"></i><span>Clone</span>
                                 </div>
                             </div>
                         </div>

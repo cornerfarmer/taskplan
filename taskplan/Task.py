@@ -56,8 +56,15 @@ class Task(object):
         else:
             return None, 0
 
+    def _create_tensorboard_writer(self, result_dir):
+        return tf.summary.FileWriter(result_dir)
+
+    def _flush_tensorboard_writer(self, tensorboard_writer):
+        tensorboard_writer.flush()
+
     def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, result_dir, save_func, checkpoint_func):
-        tensorboard_writer = tf.summary.FileWriter(str(result_dir))
+        self.result_dir = result_dir
+        tensorboard_writer = self._create_tensorboard_writer(str(result_dir))
         save_interval = self.preset.get_int('save_interval')
         checkpoint_interval = self.preset.get_int('checkpoint_interval')
 
@@ -87,12 +94,12 @@ class Task(object):
                     self.logger.log("Auto-Saving after " + str(finished_iterations.value) + " iterations")
                 save_now.value = False
                 save_func()
-                tensorboard_writer.flush()
+                self._flush_tensorboard_writer(tensorboard_writer)
 
                 if checkpoint_interval > 0 and finished_iterations.value % checkpoint_interval == 0:
                     checkpoint_func()
 
-        tensorboard_writer.flush()
+        self._flush_tensorboard_writer(tensorboard_writer)
 
     def step(self, tensorboard_writer, current_iteration):
         raise NotImplementedError()
