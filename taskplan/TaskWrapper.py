@@ -273,9 +273,9 @@ class TaskWrapper:
 
     def adjust_config(self, new_config):
         with self._shared.finished_iterations.get_lock():
-            new_config = self.preset.diff_config(new_config, False, self._shared.finished_iterations.value + 1)
             self.preset.set_config_at_timestep(new_config, self._shared.finished_iterations.value + 1)
             self._shared.preset_pipe_send.send(self.preset.clone())
+            self.save_metadata()
 
     def __str__(self):
         return self.project.name + ": " + self.preset.name + " (try " + str(self.try_number) + ")"

@@ -47,7 +47,7 @@ class JsonEditor extends React.Component {
     componentDidMount() {
         const options = {};
         options.onModeChange = (mode) => {
-            this.updateValue(this.props.json, this.props.inheritedJson);
+            this.updateEditor();
             if (mode === "tree")
                 this.jsoneditor.expandAll();
         };
@@ -112,7 +112,8 @@ class JsonEditor extends React.Component {
                 }
             }
 
-            this.props.onChange(newJson, true);
+            this.props.onChange(newJson);
+            this.updateEditor();
         };
         options.mode = 'tree';
         options.modes = ['code', 'tree'];
@@ -124,7 +125,7 @@ class JsonEditor extends React.Component {
         this.jsoneditor = new JSONEditor(this.container, options);
 
         if ('json' in this.props) {
-            this.updateValue(this.props.json, this.props.inheritedJson);
+            this.updateEditor();
             this.jsoneditor.expandAll();
         }
     }
@@ -181,18 +182,14 @@ class JsonEditor extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.forceUpdate) {
-            this.updateValue(this.props.json, this.props.inheritedJson);
-        }
     }
 
-    updateValue(json, inheritedJson) {
-
+    updateEditor() {
         if (this.jsoneditor.getMode() === "code") {
-            this.jsoneditor.setText(stringify(json, { space: '  ' }));
+            this.jsoneditor.setText(stringify(this.props.json, { space: '  ' }));
         } else {
-            var mergedJson = cloneDeep(inheritedJson);
-            merge(mergedJson, json);
+            var mergedJson = cloneDeep(this.props.inheritedJson);
+            merge(mergedJson, this.props.json);
             this.jsoneditor.setText(stringify(mergedJson, { space: '  ' }));
         }
     }

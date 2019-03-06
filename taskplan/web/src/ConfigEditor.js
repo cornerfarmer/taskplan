@@ -8,8 +8,7 @@ class ConfigEditor extends React.Component {
         this.state = {
             config: {},
             inheritedConfig: {},
-            loadedUrl: '',
-            forceUpdate: true
+            loadedUrl: ''
         };
 
         this.jsonEditor = React.createRef();
@@ -30,9 +29,9 @@ class ConfigEditor extends React.Component {
             this.setState({
                 config: {},
                 inheritedConfig: {},
-                loadedUrl: this.props.url,
-                forceUpdate: true
+                loadedUrl: this.props.url
             });
+            this.jsonEditor.current.updateEditor();
         } else if (this.state.loadedUrl !== this.props.url) {
             fetch(this.props.url)
             .then(res => res.json())
@@ -41,9 +40,9 @@ class ConfigEditor extends React.Component {
                     this.setState({
                         inheritedConfig: result['inherited_config'],
                         config: result['config'] !== null ? result['config'] : this.state.config,
-                        loadedUrl: this.props.url,
-                        forceUpdate: true
+                        loadedUrl: this.props.url
                     });
+                    this.jsonEditor.current.updateEditor();
 
                     if (this.props.onDynamicChange !== undefined)
                         this.props.onDynamicChange(result['dynamic'])
@@ -55,17 +54,16 @@ class ConfigEditor extends React.Component {
         }
     }
 
-    onChange(data, forceUpdate=false) {
+    onChange(data) {
         this.setState({
-            config: data,
-            forceUpdate: forceUpdate
+            config: data
         });
     }
 
     render() {
         if (this.state.loadedUrl === this.props.url)
             return (
-                <JsonEditor ref={this.jsonEditor} forceUpdate={this.state.forceUpdate} json={this.state.config} inheritedJson={this.state.inheritedConfig} onChange={this.onChange}/>
+                <JsonEditor ref={this.jsonEditor} json={this.state.config} inheritedJson={this.state.inheritedConfig} onChange={this.onChange}/>
             );
         else
             return (

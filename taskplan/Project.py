@@ -35,7 +35,6 @@ class Project:
             with open(str(config_dir / Path(self.config_file_name + ".json")), 'w') as handle:
                 handle.write('[{"config": {"save_interval": 0, "checkpoint_interval": 0},"abstract": true,"name": "Default"}]')
         self.configuration = Configuration(str(config_dir))
-        self.configuration.save()
         self.result_dir = self.task_dir / Path(result_dir)
         self.result_dir.mkdir(exist_ok=True, parents=True)
         self.test_dir = self.task_dir / Path(test_dir)
