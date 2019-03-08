@@ -5,28 +5,37 @@ from taskplan.Controller import Controller
 from taskplan.EventManager import EventManager
 import click
 
+from taskplan.app import run
+
 @click.group()
-@click.pass_context
-def cli(ctx):
-    ctx.obj = {}
-    ctx.obj['event_manager'] = EventManager()
-    ctx.obj['controller'] = Controller(ctx.obj['event_manager'])
+def cli():
+    pass
+
+
+def _start_controller():
+    event_manager = EventManager()
+    controller = Controller(event_manager)
+    return event_manager, controller
 
 
 @cli.command()
-@click.pass_obj
-def init(obj):
-    pass
+def init():
+    _start_controller()
+
+
+@cli.command()
+def web():
+    app = run()
+
+    app.run(host='0.0.0.0', port='9999')
 
 
 @cli.command()
 @click.argument('project_name')
 @click.argument('preset_uuid')
 @click.argument('total_iterations', type=int)
-@click.pass_obj
-def start(obj, project_name, preset_uuid, total_iterations):
-    controller = obj['controller']
-    event_manager = obj['event_manager']
+def start(project_name, preset_uuid, total_iterations):
+    event_manager, controller = _start_controller()
 
     try:
         controller.start()
@@ -42,10 +51,8 @@ def start(obj, project_name, preset_uuid, total_iterations):
 @cli.command(name="continue")
 @click.argument('task_uuid')
 @click.argument('total_iterations', type=int, required=False)
-@click.pass_obj
-def continue_task(obj, task_uuid, total_iterations=0):
-    controller = obj['controller']
-    event_manager = obj['event_manager']
+def continue_task(task_uuid, total_iterations=0):
+    event_manager, controller = _start_controller()
 
     try:
         controller.start()
@@ -60,15 +67,14 @@ def continue_task(obj, task_uuid, total_iterations=0):
     finally:
         controller.stop()
 
+
 @cli.command(name="test")
 @click.argument('project_name')
 @click.argument('preset_uuid')
 @click.argument('total_iterations', type=int)
 @click.option('--load', is_flag=True)
-@click.pass_obj
-def test_task(obj, project_name, preset_uuid, total_iterations, load):
-    controller = obj['controller']
-    event_manager = obj['event_manager']
+def test_task(project_name, preset_uuid, total_iterations, load):
+    event_manager, controller = _start_controller()
 
     try:
         controller.start()
@@ -87,12 +93,12 @@ def test_task(obj, project_name, preset_uuid, total_iterations, load):
     finally:
         controller.stop()
 
+
 @cli.command(name="add_version")
 @click.argument('project_name')
 @click.argument('version_name')
-@click.pass_obj
-def add_version(obj, project_name, version_name):
-    controller = obj['controller']
+def add_version(project_name, version_name):
+    event_manager, controller = _start_controller()
 
     controller.add_version(project_name, version_name)
     controller.stop()

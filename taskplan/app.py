@@ -11,7 +11,7 @@ try:
 except ImportError:
   from pathlib import Path
 
-def run(projects, max_running):
+def run():
     event_manager = EventManager()
 
     controller = Controller(event_manager)

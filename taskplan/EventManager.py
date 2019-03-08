@@ -77,7 +77,7 @@ class ServerSentEvent(object):
         if not self.data:
             return ""
         lines = ""
-        print( str(self.event.value))
+        #print( str(self.event.value))
         lines += "event: " + str(self.event.value) + "\n"
         lines += "data: " + json.dumps(self.data) + "\n"
         return lines + "\n\n"
