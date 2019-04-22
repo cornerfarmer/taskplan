@@ -9,7 +9,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.evtSource = new ReconnectingEventSource("/update");
+        this.evtSource = new ReconnectingEventSource("/update", {});
     }
 
     render() {

@@ -558,7 +558,7 @@ h2 {
 }
 
 
-#preset-editor .buttons,
+.editor .buttons,
 .prompt-wrapper .prompt .buttons {
     display: flex;
     justify-content: flex-end;
@@ -582,35 +582,35 @@ h2 {
     margin-right: 10px;
 }
 
-#preset-editor .header {
+.editor .header {
     padding: 5px 16px;
     background: rgba(158,158,158,.2);
 }
 
-#preset-editor .field {
+.editor .field {
     margin: 10px 16px;
     display: flex;
     align-items: center;
     justify-content: stretch;
 }
 
-#preset-editor .field label {
+.editor .field label {
     margin: 0;
     width: 100px;
 }
 
-#preset-editor .field input,
-#preset-editor .field select {
+.editor .field input,
+.editor .field select {
     flex: 2 1 0;
     margin-left: 16px;
 }
 
-#preset-editor .field input[type="checkbox"] {
+.editor .field input[type="checkbox"] {
     flex: none;
 }
 
 
-#preset-editor .jsoneditor {
+.editor .jsoneditor {
     width: calc(100% - 32px);
     resize: vertical;
     margin: 16px;
@@ -618,7 +618,7 @@ h2 {
     border-color:  #3f51b5;
 }
 
-#preset-editor .editor-loading {
+.editor .editor-loading {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -630,7 +630,7 @@ h2 {
 
 
 
-#preset-editor .jsoneditor div.jsoneditor-menu {
+.editor .jsoneditor div.jsoneditor-menu {
     background-color: #3f51b5;
     border-color:  #3f51b5;
 }

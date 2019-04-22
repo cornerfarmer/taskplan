@@ -48,6 +48,19 @@ class ProjectManager extends React.Component {
             }
         });
 
+        this.props.evtSource.addEventListener("CHOICE_CHANGED", function (e) {
+            const changedChoice = JSON.parse(e.data);
+            const projectIndex = pm.state.projects.findIndex(function (e) {
+                return e.name === changedChoice.project_name
+            });
+
+            if (projectIndex >= 0) {
+                pm.projectsRefs[projectIndex].current.choiceChanged(changedChoice)
+            } else {
+                console.log("Undefined project: " + changedChoice.project_name)
+            }
+        });
+
         this.props.evtSource.addEventListener("TASK_CHANGED", function (e) {
             const changedTask = JSON.parse(e.data);
             const projectIndex = pm.state.projects.findIndex(function (e) {
@@ -143,7 +156,6 @@ class ProjectManager extends React.Component {
                     {this.state.projects.map((project, index) => (
                         <Project
                             key={project.name}
-                            default_preset={project.default_preset}
                             project={project}
                             evtSource={this.props.evtSource}
                             visible={index === this.state.currentProject}

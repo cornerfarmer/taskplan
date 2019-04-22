@@ -88,10 +88,16 @@ def run():
         controller.edit_preset(project_name, preset_uuid, new_data)
         return ""
 
-    @app.route('/add/<string:project_name>', methods=['POST'])
+    @app.route('/add_preset/<string:project_name>', methods=['POST'])
     def add_preset(project_name):
         new_data = json.loads(request.form.get('data'))
         controller.add_preset(project_name, new_data)
+        return ""
+
+    @app.route('/add_choice/<string:project_name>/<string:preset_uuid>', methods=['POST'])
+    def add_choice(project_name, preset_uuid):
+        new_data = json.loads(request.form.get('data'))
+        controller.add_choice(project_name, preset_uuid, new_data)
         return ""
 
     @app.route('/change/<string:task_uuid>/<int:total_iterations>')
@@ -148,31 +154,12 @@ def run():
         controller.add_version(project_name, version_name)
         return ""
 
-    @app.route('/config/preset/<string:project_name>')
-    @app.route('/config/preset/<string:project_name>/<string:preset_base_uuid>')
-    @app.route('/config/preset/<string:project_name>/<string:preset_base_uuid>/<string:preset_uuid>')
-    def config_preset(project_name, preset_base_uuid=None, preset_uuid=None):
-        project = controller.project_manager.project_by_name(project_name)
-        configuration = project.configuration
-
-        if preset_base_uuid is None and preset_uuid is None:
-            return jsonify({'inherited_config': {}, "config": configuration.presets_by_uuid[configuration.default_preset_uuid].compose_config(), 'dynamic': False})
-
-        if preset_base_uuid in configuration.presets_by_uuid:
-            preset_base = configuration.presets_by_uuid[preset_base_uuid]
-
-            if preset_uuid is not None:
-                if preset_uuid in configuration.presets_by_uuid:
-                    preset = configuration.presets_by_uuid[preset_uuid]
-                    config = preset.data['config']
-                else:
-                    return ""
-            else:
-                config = None
-
-            return jsonify({'inherited_config': preset_base.compose_config(), "config": config, 'dynamic': preset_base.treat_dynamic()})
-        else:
-            return ""
+    @app.route('/config/choice/new/<string:project_name>')
+    @app.route('/config/choice/new/<string:project_name>/<string:preset_base_uuid>')
+    @app.route('/config/choice/<string:project_name>/<string:preset_uuid>')
+    @app.route('/config/choice/<string:project_name>/<string:preset_uuid>/<string:preset_base_uuid>')
+    def config_choice(project_name, preset_base_uuid=None, preset_uuid=None):
+        return jsonify(controller.config(project_name, preset_base_uuid, preset_uuid))
 
     @app.route('/config/task_timestep/<string:task_uuid>')
     @app.route('/config/task_timestep/<string:task_uuid>/<int:iteration>')

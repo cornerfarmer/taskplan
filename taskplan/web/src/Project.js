@@ -4,12 +4,14 @@ import State from "./Global";
 import FinishedTask from "./FinishedTask";
 import PausedTask from "./PausedTask";
 import PresetEditor from "./PresetEditor";
+import ChoiceEditor from "./ChoiceEditor";
 
 class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             presets: [],
+            choices: [],
             tasks: [],
             showAbstract: true,
             currentCodeVersionOnly: true,
@@ -18,6 +20,7 @@ class Project extends React.Component {
             sortingDescending: [true, true, true]
         };
         this.presetChanged = this.presetChanged.bind(this);
+        this.choiceChanged = this.choiceChanged.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.toggleCurrentCodeVersionOnly = this.toggleCurrentCodeVersionOnly.bind(this);
         this.showTab = this.showTab.bind(this);
@@ -25,7 +28,8 @@ class Project extends React.Component {
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
-        this.presetEditor = React.createRef()
+        this.presetEditor = React.createRef();
+        this.choiceEditor = React.createRef();
     }
 
     presetChanged(changedPreset) {
@@ -44,6 +48,25 @@ class Project extends React.Component {
 
         this.setState({
             presets: presets
+        });
+    }
+
+    choiceChanged(changedChoice) {
+        const choices = this.state.choices.slice();
+
+        const previousIndex = choices.findIndex(function (e) {
+            return e.uuid === changedChoice.uuid
+        });
+        console.log(changedChoice);
+        changedChoice.creation_time = new Date(changedChoice.creation_time * 1000);
+        if (previousIndex >= 0) {
+            choices[previousIndex] = changedChoice;
+        } else {
+            choices.push(changedChoice);
+        }
+
+        this.setState({
+            choices: choices
         });
     }
 
@@ -110,6 +133,10 @@ class Project extends React.Component {
 
     addPreset() {
         this.presetEditor.current.new(this.props.project.name);
+    }
+
+    addChoice(preset) {
+        this.choiceEditor.current.new(preset);
     }
 
     onChangeSorting(e) {
@@ -188,11 +215,15 @@ class Project extends React.Component {
                         <Preset
                             key={preset.uuid}
                             preset={preset}
-                            editFunc={this.presetEditor.current.open}
+                            choices={this.state.choices.filter(choice => choice.preset === preset.uuid)}
+                            editPresetFunc={this.presetEditor.current.open}
+                            editChoiceFunc={this.choiceEditor.current.open}
+                            newChoiceFunc={this.choiceEditor.current.new}
                         />
                     ))}
                 </ul>
-                <PresetEditor ref={this.presetEditor} presets={this.state.presets} default_preset={this.props.default_preset}/>
+                <PresetEditor ref={this.presetEditor} />
+                <ChoiceEditor ref={this.choiceEditor} />
                 <div className="presets-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />

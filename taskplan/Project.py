@@ -4,6 +4,7 @@ import pickle
 import threading
 from datetime import datetime
 
+
 try:
   from pathlib2 import Path
 except ImportError:
@@ -11,7 +12,7 @@ except ImportError:
 
 from taskplan.EventManager import EventType
 from taskplan.TaskWrapper import TaskWrapper, State
-from taskconf.config.Configuration import Configuration
+from taskplan.ProjectConfiguration import ProjectConfiguration
 import subprocess
 import time
 import json
@@ -29,12 +30,13 @@ class Project:
             result_dir += "/" + self.name
             config_dir += "/" + self.name
 
-        config_dir = self.task_dir / Path(config_dir)
-        if not config_dir.exists() or len(list(config_dir.iterdir())) == 0:
-            config_dir.mkdir(exist_ok=True, parents=True)
-            with open(str(config_dir / Path(self.config_file_name + ".json")), 'w') as handle:
-                handle.write('[{"config": {"save_interval": 0, "checkpoint_interval": 0},"abstract": true,"name": "Default"}]')
-        self.configuration = Configuration(str(config_dir))
+        self.config_dir = self.task_dir / Path(config_dir)
+        if not self.config_dir.exists() or len(list(self.config_dir.iterdir())) == 0:
+            self.config_dir.mkdir(exist_ok=True, parents=True)
+            #with open(str(self.config_dir / Path(self.config_file_name + ".json")), 'w') as handle:
+            #    handle.write('[{"config": {"save_interval": 0, "checkpoint_interval": 0},"abstract": true,"name": "Default"}]')
+
+        self.configuration = ProjectConfiguration(self.config_dir)
         self.result_dir = self.task_dir / Path(result_dir)
         self.result_dir.mkdir(exist_ok=True, parents=True)
         self.test_dir = self.task_dir / Path(test_dir)
@@ -65,7 +67,7 @@ class Project:
                         self._load_saved_task(path)
 
         for path in self.test_dir.iterdir():
-            if path.is_dir() and path.name in self.configuration.presets_by_uuid:
+            if path.is_dir() and path.name in self.settings.configuration.presets_by_uuid:
                 self._load_saved_task(path, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
@@ -167,17 +169,18 @@ class Project:
         project_names = global_config.get_keys('projects')
         projects = []
         for project_name in project_names:
-            config_prefix = "projects/" + project_name + "/"
-            fallback_prefix = "projects/default/"
-            projects.append(Project(
-                global_config.get_string(config_prefix + "task_dir", fallback_prefix + "task_dir"),
-                global_config.get_string(config_prefix + "task_class_name", fallback_prefix + "task_class_name"),
-                global_config.get_string(config_prefix + "name", fallback_prefix + "name"),
-                global_config.get_string(config_prefix + "result_dir", fallback_prefix + "result_dir"),
-                global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
-                global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
-                global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
-            ))
+            if project_name != "default":
+                config_prefix = "projects/" + project_name + "/"
+                fallback_prefix = "projects/default/"
+                projects.append(Project(
+                    global_config.get_string(config_prefix + "task_dir", fallback_prefix + "task_dir"),
+                    global_config.get_string(config_prefix + "task_class_name", fallback_prefix + "task_class_name"),
+                    global_config.get_string(config_prefix + "name", fallback_prefix + "name"),
+                    global_config.get_string(config_prefix + "result_dir", fallback_prefix + "result_dir"),
+                    global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
+                    global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
+                    global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
+                ))
 
         return projects
 

@@ -26,7 +26,7 @@ class Controller:
 
         with open('taskplan.json') as f:
             config = json.load(f)
-        return Preset(config, default_preset)
+        return Preset(config, [default_preset])
 
     def start(self):
         self.scheduler.start()
@@ -110,10 +110,40 @@ class Controller:
     def add_preset(self, project_name, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        preset = project.configuration.add_preset(new_data, project.configuration.presets[-1].file)
+        preset = project.configuration.add_preset(new_data)
 
         self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-        self.event_manager.log("Preset \"" + preset.name + "\" has been added", "Preset has been added")
+        self.event_manager.log("Preset \"" + preset.uuid + "\" has been added", "Preset has been added")
+
+    def add_choice(self, project_name, preset_uuid, new_data):
+        project = self.project_manager.project_by_name(project_name)
+
+        choice = project.configuration.add_choice(preset_uuid, new_data)
+
+        self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
+        self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
+
+    def config(self, project_name, preset_base_uuid=None, preset_uuid=None):
+        project = self.project_manager.project_by_name(project_name)
+
+        if preset_base_uuid is None and preset_uuid is None:
+            return {'inherited_config': {}, "config": {}, 'dynamic': False}
+
+        if preset_base_uuid is not None:
+            preset_base = project.configuration.get_preset(preset_base_uuid)
+            inherited_config = preset_base.get_merged_config()
+            dynamic = preset_base.treat_dynamic()
+        else:
+            inherited_config = {}
+            dynamic = False
+
+        if preset_uuid is not None:
+            preset = project.configuration.get_preset(preset_uuid)
+            config = preset.data['config']
+        else:
+            config = None
+
+        return {'inherited_config': inherited_config, "config": config, 'dynamic': dynamic}
 
     def change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)

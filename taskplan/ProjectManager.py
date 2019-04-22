@@ -24,8 +24,11 @@ class ProjectManager:
         for project in self.projects:
             self.event_manager.throw_for_client(client, EventType.PROJECT_CHANGED, project)
 
-            for preset in project.configuration.presets:
+            for preset in project.configuration.get_presets():
                 self.event_manager.throw_for_client(client, EventType.PRESET_CHANGED, preset, project)
+
+            for choice in project.configuration.get_choices():
+                self.event_manager.throw_for_client(client, EventType.CHOICE_CHANGED, choice, project)
 
             for task in project.tasks:
                 self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, task, project)

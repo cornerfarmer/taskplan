@@ -49,17 +49,19 @@ class ServerSentEvent(object):
                 data_client['is_saving'] = data.is_saving()
         elif event_type is EventType.PRESET_CHANGED:
             data_client['uuid'] = str(data.uuid)
-            data_client['name'] = data.name
+            data_client['name'] = data.get_metadata("name")
             data_client['project_name'] = parent_data.name
-            data_client['base'] = data.base_preset.name if data.base_preset is not None else ""
-            data_client['base_uuid'] = data.base_preset.uuid if data.base_preset is not None else ""
+        elif event_type is EventType.CHOICE_CHANGED:
+            data_client['uuid'] = str(data.uuid)
+            data_client['name'] = data.get_metadata("name")
+            data_client['preset'] = data.get_metadata("preset")
+            data_client['project_name'] = parent_data.name
+            data_client['base_uuid'] = data.base_presets[0].uuid if len(data.base_presets) > 0 else ""
             data_client['abstract'] = data.abstract
             data_client['dynamic'] = data.dynamic
-            data_client['started_tries'] = parent_data.maximal_try_of_preset(data) + 1
             data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
-            data_client['default_preset'] = data.configuration.default_preset_uuid
             data_client['version'] = data.versions[-1]
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif event_type is EventType.SCHEDULER_OPTIONS:
@@ -87,6 +89,7 @@ class EventType(Enum):
     TASK_CHANGED = "TASK_CHANGED"
     TASK_REMOVED = "TASK_REMOVED"
     PRESET_CHANGED = "PRESET_CHANGED"
+    CHOICE_CHANGED = "CHOICE_CHANGED"
     PROJECT_CHANGED = "PROJECT_CHANGED"
     SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
     FLASH_MESSAGE = "FLASH_MESSAGE"
