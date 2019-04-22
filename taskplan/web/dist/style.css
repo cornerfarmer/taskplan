@@ -288,6 +288,7 @@ h2 {
 #project-manager #projects {
     overflow-y: hidden;
     flex: 1 1 auto;
+    height: 100px;
 }
 
 #project-manager #projects .project {
@@ -351,27 +352,53 @@ h2 {
 
 #project-manager #projects .project ul .item {
     list-style: none;
+}
+
+#project-manager #projects .project ul .item-preset .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    background: rgba(0,0,0,.05);
+}
+
+#project-manager #projects .project ul .item-preset .header .title {
+    font-weight: 300;
+    font-size: 18px;
+}
+
+#project-manager #projects .project ul .item-preset .header .toolbar {
+    display: flex;
+    align-items: center;
+}
+
+
+#project-manager #projects .project ul .item-choice {
     border-bottom: 1px solid rgba(0,0,0,.1);
     background: white;
     display: flex;
 }
 
-#project-manager #projects .project ul .item.item-abstract {
+#project-manager #projects .project ul .item-choice.item-abstract {
     font-style: italic;
 }
 
-#project-manager #projects .project ul .item .content {
+#project-manager #projects .project ul .item-choice .content {
     flex: 1 1 auto;
     padding: 16px;
 }
 
-#project-manager #projects .project ul .item .content .title {
+#project-manager #projects .project ul .item-choice .content .title {
     font-weight: 300;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
-#project-manager #projects .project ul .item .content .title .try-number {
+#project-manager #projects .project ul .item-choice .content .title .try-number {
     background: rgba(158,158,158,.2);
     padding: 4px 10px;
     margin-right: 10px;
@@ -381,7 +408,7 @@ h2 {
     vertical-align: top;
 }
 
-#project-manager #projects .project ul .item .content .footer {
+#project-manager #projects .project ul .item-choice .content .footer {
     font-size: 14px;
     font-weight: 300;
     border-top: 1px solid rgba(0,0,0,.1);
@@ -389,26 +416,26 @@ h2 {
     margin-top: 10px;
 }
 
-#project-manager #projects .project ul .item .content .footer .task-error {
+#project-manager #projects .project ul .item-choice .content .footer .task-error {
     color: #ef767a;
     font-weight: 400;
 }
 
-#project-manager #projects .project ul .item .content .footer span:not(.task-error):before {
+#project-manager #projects .project ul .item-choice .content .footer span:not(.task-error):before {
     content: "-";
     margin: 0 7px;
 }
 
-#project-manager #projects .project ul .item .content .footer span:first-child:before {
+#project-manager #projects .project ul .item-choice .content .footer span:first-child:before {
     content: "";
     margin: 0;
 }
 
-#project-manager #projects .project ul .item .content .footer span span {
+#project-manager #projects .project ul .item-choice .content .footer span span {
     font-weight: 400;
 }
 
-#project-manager #projects .project ul .item .toolbar {
+#project-manager #projects .project ul .item-choice .toolbar {
     border-left: 1px solid rgba(0,0,0,.1);
     padding: 10px;
     background: rgba(0,0,0,.05);
@@ -428,25 +455,32 @@ h2 {
     cursor: pointer;
     color: white;
     font-size: 12px;
+}
+
+#project-manager #projects .project ul .item-choice .toolbar .action {
     margin-bottom: 4px;
 }
 
+#project-manager #projects .project ul .item-preset .header .toolbar .action {
+    margin-left: 4px;
+}
+
 .tasks .task .toolbar .action.dropdown-toggle,
-#project-manager #projects .project ul .item .toolbar .action.dropdown-toggle {
+#project-manager #projects .project ul .item-choice .toolbar .action.dropdown-toggle {
     margin: 0;
 }
 
-#project-manager #projects .project ul .item .toolbar .action.dropdown-toggle {
+#project-manager #projects .project ul .item-choice .toolbar .action.dropdown-toggle {
     height: 14px;
 }
 
 .tasks .task .toolbar .action.dropdown-toggle:after,
-#project-manager #projects .project ul .item .toolbar .action.dropdown-toggle:after {
+#project-manager #projects .project ul .item-choice .toolbar .action.dropdown-toggle:after {
     display: none;
 }
 
 .tasks .task .toolbar .dropdown-menu,
-#project-manager #projects .project ul .item .toolbar .dropdown-menu {
+#project-manager #projects .project ul .item-choice .toolbar .dropdown-menu {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
     min-width: auto;
     padding: 7px;
@@ -479,7 +513,7 @@ h2 {
     margin: 0;
 }
 
-#project-manager #projects .project .presets-toolbar {
+#project-manager #projects .project .tab-toolbar {
     display: flex;
     padding: 5px 16px;
     background: rgba(158,158,158,.2);
@@ -487,17 +521,17 @@ h2 {
     justify-content: space-between;
 }
 
-#project-manager #projects .project .presets-toolbar label {
+#project-manager #projects .project .tab-toolbar label {
     margin-bottom: 0;
     display: flex;
     align-items: center;
 }
 
-#project-manager #projects .project .presets-toolbar label input {
+#project-manager #projects .project .tab-toolbar label input {
     margin-right: 10px;
 }
 
-#project-manager #projects .project .presets-toolbar .buttons div:last-child {
+#project-manager #projects .project .tab-toolbar .buttons div:last-child {
     margin-right: 0;
 }
 

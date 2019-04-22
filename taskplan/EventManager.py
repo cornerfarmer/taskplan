@@ -32,14 +32,13 @@ class ServerSentEvent(object):
             data_client['project_name'] = data.project.name
             if event_type is not EventType.TASK_REMOVED:
                 data_client['state'] = data.state.value
-                data_client['preset_name'] = data.preset.name
+                data_client['preset_name'] = ""
                 data_client['start_time'] = 0 if data.start_time is None else time.mktime(data.start_time.timetuple())
                 data_client['creation_time'] = 0 if data.creation_time is None else time.mktime(data.creation_time.timetuple())
                 data_client['saved_time'] = 0 if data.saved_time is None else time.mktime(data.saved_time.timetuple())
                 data_client['total_iterations'] = data.total_iterations()
                 data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
                 data_client['preset_dynamic'] = data.preset.dynamic
-                data_client['try'] = data.try_number
                 data_client['queue_index'] = data.queue_index
                 data_client['had_error'] = data.had_error()
                 data_client['total_subtasks'] = data.total_subtasks()

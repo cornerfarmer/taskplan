@@ -45,8 +45,8 @@ class Controller:
         self.project_manager.update_new_client(client)
         self.scheduler.update_new_client(client)
 
-    def start_new_task(self, project_name, preset_uuid, total_iterations, is_test=False):
-        task = self.project_manager.create_task(project_name, preset_uuid, total_iterations, is_test)
+    def start_new_task(self, project_name, choices, total_iterations, is_test=False):
+        task = self.project_manager.create_task(project_name, choices, total_iterations, is_test)
         self.scheduler.enqueue(task)
         return task
 

@@ -5,19 +5,19 @@ import FinishedTask from "./FinishedTask";
 import PausedTask from "./PausedTask";
 import PresetEditor from "./PresetEditor";
 import ChoiceEditor from "./ChoiceEditor";
+import TaskEditor from "./TaskEditor";
 
 class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             presets: [],
-            choices: [],
             tasks: [],
             showAbstract: true,
             currentCodeVersionOnly: true,
             activeTab: 0,
-            sorting: [0, 0, 0],
-            sortingDescending: [true, true, true]
+            sorting: [0, 0],
+            sortingDescending: [true, true]
         };
         this.presetChanged = this.presetChanged.bind(this);
         this.choiceChanged = this.choiceChanged.bind(this);
@@ -25,11 +25,13 @@ class Project extends React.Component {
         this.toggleCurrentCodeVersionOnly = this.toggleCurrentCodeVersionOnly.bind(this);
         this.showTab = this.showTab.bind(this);
         this.addPreset = this.addPreset.bind(this);
+        this.newTask = this.newTask.bind(this);
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.presetEditor = React.createRef();
         this.choiceEditor = React.createRef();
+        this.taskEditor = React.createRef();
     }
 
     presetChanged(changedPreset) {
@@ -39,10 +41,11 @@ class Project extends React.Component {
             return e.uuid === changedPreset.uuid
         });
         console.log(changedPreset);
-        changedPreset.creation_time = new Date(changedPreset.creation_time * 1000);
         if (previousIndex >= 0) {
+            changedPreset.choices = presets[previousIndex].choices;
             presets[previousIndex] = changedPreset;
         } else {
+            changedPreset.choices = [];
             presets.push(changedPreset);
         }
 
@@ -52,21 +55,25 @@ class Project extends React.Component {
     }
 
     choiceChanged(changedChoice) {
-        const choices = this.state.choices.slice();
+        const presets = this.state.presets.slice();
 
-        const previousIndex = choices.findIndex(function (e) {
+        const preset = presets.find(function (e) {
+            return e.uuid === changedChoice.preset
+        });
+
+        const previousIndex = preset.choices.findIndex(function (e) {
             return e.uuid === changedChoice.uuid
         });
         console.log(changedChoice);
         changedChoice.creation_time = new Date(changedChoice.creation_time * 1000);
         if (previousIndex >= 0) {
-            choices[previousIndex] = changedChoice;
+            preset.choices[previousIndex] = changedChoice;
         } else {
-            choices.push(changedChoice);
+            preset.choices.push(changedChoice);
         }
 
         this.setState({
-            choices: choices
+            presets: presets
         });
     }
 
@@ -139,6 +146,10 @@ class Project extends React.Component {
         this.choiceEditor.current.new(preset);
     }
 
+    newTask() {
+        this.taskEditor.current.new();
+    }
+
     onChangeSorting(e) {
         const sorting = this.state.sorting.slice();
         sorting[this.state.activeTab] = parseInt(e.target.value);
@@ -163,9 +174,8 @@ class Project extends React.Component {
         return (
             <div className="project" style={this.props.visible ? {} : {display: 'none'}}>
                 <div className="tabs">
-                    <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>New</div>
-                    <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Paused</div>
-                    <div className={this.state.activeTab === 2 ? "tab-active" : ""} onClick={() => this.showTab(2)}>Finished</div>
+                    <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>Presets</div>
+                    <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Tasks</div>
                 </div>
                 <div className="sorting">
                     <div>
@@ -179,14 +189,6 @@ class Project extends React.Component {
                         }
                         {this.state.activeTab === 1 &&
                             <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
-                                <option value="0">Paused</option>
-                                <option value="1">Name</option>
-                                <option value="2">Created</option>
-                                <option value="3">Iterations</option>
-                            </select>
-                        }
-                        {this.state.activeTab === 2 &&
-                            <select value={this.state.sorting[2]} onChange={this.onChangeSorting}>
                                 <option value="0">Finished</option>
                                 <option value="1">Name</option>
                                 <option value="2">Created</option>
@@ -215,7 +217,7 @@ class Project extends React.Component {
                         <Preset
                             key={preset.uuid}
                             preset={preset}
-                            choices={this.state.choices.filter(choice => choice.preset === preset.uuid)}
+                            choices={preset.choices}
                             editPresetFunc={this.presetEditor.current.open}
                             editChoiceFunc={this.choiceEditor.current.open}
                             newChoiceFunc={this.choiceEditor.current.new}
@@ -224,7 +226,8 @@ class Project extends React.Component {
                 </ul>
                 <PresetEditor ref={this.presetEditor} />
                 <ChoiceEditor ref={this.choiceEditor} />
-                <div className="presets-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
+                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} />
+                <div className="tab-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />
                         <span>Show abstract presets</span>
@@ -233,8 +236,8 @@ class Project extends React.Component {
                         <div onClick={this.addPreset}>Add preset</div>
                     </div>
                 </div>
-                <ul className="paused-tasks" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                    {this.state.tasks.filter(task => (task.finished_iterations !== task.total_iterations && (!this.state.currentCodeVersionOnly || task.version === this.props.project.version))).sort(function (a, b) {
+                <ul className="tasks" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                    {this.state.tasks.filter(task => (!this.state.currentCodeVersionOnly || task.version === this.props.project.version)).sort(function (a, b) {
                         switch(project.state.sorting[1]) {
                             case 0:
                                 s = a.saved_time - b.saved_time; break;
@@ -258,36 +261,14 @@ class Project extends React.Component {
                         />
                     ))}
                 </ul>
-                <ul className="finished-tasks" style={{'display': (this.state.activeTab === 2 ? 'block' : 'none')}}>
-                    {this.state.tasks.filter(task => (task.finished_iterations === task.total_iterations && (!this.state.currentCodeVersionOnly || task.version === this.props.project.version))).sort(function (a, b) {
-                        switch(project.state.sorting[2]) {
-                            case 0:
-                                s = a.saved_time - b.saved_time; break;
-                            case 1:
-                                s = a.preset_name.localeCompare(b.preset_name); break;
-                            case 2:
-                                s = a.creation_time - b.creation_time; break;
-                            case 3:
-                                s = a.finished_iterations - b.finished_iterations; break;
-                        }
-                        if (s === 0)
-                            s = a.try - b.try;
-                        if (project.state.sortingDescending[2])
-                            s *= -1;
-                        return s;
-                    }).map(task => (
-                        <FinishedTask
-                            rerunTask={this.rerunTask}
-                            key={task.uuid}
-                            task={task}
-                        />
-                    ))}
-                </ul>
-                <div className="presets-toolbar" style={{'display': (this.state.activeTab !== 0 ? 'flex' : 'none')}}>
+                <div className="tab-toolbar" style={{'display': (this.state.activeTab === 1 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.currentCodeVersionOnly} onChange={this.toggleCurrentCodeVersionOnly} />
                         <span>Show only tasks from current code version</span>
                     </label>
+                    <div className="buttons">
+                        <div onClick={this.newTask}>New task</div>
+                    </div>
                 </div>
             </div>
         );

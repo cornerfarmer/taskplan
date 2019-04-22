@@ -7,7 +7,7 @@ class Choice extends React.Component {
 
     render() {
         return (
-            <li className={this.props.choice.abstract ? "item item-abstract" : "item"}>
+            <li className={this.props.choice.abstract ? "item item-abstract item-choice" : "item item-choice"}>
                 <div className="content">
                     <div className="title">{this.props.choice.name}</div>
                     <div className="footer">

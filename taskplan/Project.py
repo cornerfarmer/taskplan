@@ -72,38 +72,36 @@ class Project:
 
     def _load_saved_task(self, path, is_test=False):
         try:
-            task = TaskWrapper(self.task_dir, self.task_class_name, None, None, self, 0, 0, None, is_test=is_test, force_save_dir=path)
+            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, result_dir=self.result_dir)
             task.load_metadata(path)
             task.state = State.STOPPED
             self.tasks.append(task)
         except:
             raise
 
-    def create_task(self, preset_uuid, total_iterations, is_test=False):
-        if preset_uuid in self.configuration.presets_by_uuid:
-            preset = self.configuration.presets_by_uuid[preset_uuid]
-        else:
-            raise LookupError("No preset with uuid " + preset_uuid)
+    def create_task(self, choices, total_iterations, is_test=False):
+        presets = self.configuration.get_presets()
 
-        preset_data = copy.deepcopy(preset.data)
-        preset_data['uuid'] = None
-        preset_data['config'] = preset.compose_config()
-        if 'base' in preset_data:
-            del preset_data['base']
+        base_presets = []
+        for preset in presets:
+            if str(preset.uuid) not in choices:
+                raise LookupError("No choice for the preset with uuid " + str(preset.uuid))
+            choice = self.configuration.get_preset(choices[str(preset.uuid)])
+            if choice.get_metadata("preset") != str(preset.uuid):
+                raise LookupError("Choice " + choices[preset] + " with wrong preset")
 
-        return self._create_task_from_preset(preset, preset_data, total_iterations, is_test)
+            base_presets.append(choices[str(preset.uuid)])
 
-    def _create_task_from_preset(self, original_preset, preset_data, total_iterations, is_test=False):
-        task_preset = self.configuration.add_preset(preset_data, None)
+        task_preset = self.configuration.add_task(base_presets)
+        return self._create_task_from_preset(task_preset, total_iterations, is_test)
 
+    def _create_task_from_preset(self, task_preset, total_iterations, is_test=False):
         if is_test:
-            force_save_dir = self.test_dir / Path(original_preset.uuid)
-            if (force_save_dir.exists()):
-                shutil.rmtree(str(force_save_dir))
+            result_dir = self.test_dir
         else:
-            force_save_dir = None
+            result_dir = self.result_dir
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, original_preset.uuid, self, total_iterations, self.maximal_try_of_preset(original_preset) + 1, self.versions[-1], force_save_dir=force_save_dir, is_test=is_test)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.versions[-1], result_dir=result_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
 

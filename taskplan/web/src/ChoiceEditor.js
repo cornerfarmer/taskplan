@@ -155,6 +155,7 @@ class ChoiceEditor extends React.Component {
         }
     }
 
+
     render() {
         if (this.state.choice !== null) {
             return (
@@ -167,6 +168,7 @@ class ChoiceEditor extends React.Component {
                     <div className="field">
                         <label>Base:</label>
                         <select value={this.state.base} onChange={this.onBaseChange}>
+                            <option value="">None</option>
                             {this.state.possible_base_choices.filter(choice => choice.uuid !== this.state.uuid_to_load).map(choice => (
                                 <option value={choice.uuid}>{choice.name}</option>
                             ))}
@@ -180,7 +182,7 @@ class ChoiceEditor extends React.Component {
                         <label>Dynamic:</label>
                         <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" disabled={this.state.forceDynamic} />
                     </div>
-                    <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/choice/" + (this.state.uuid_to_load === null ? "new/" : "") + this.state.choice.project_name + "/" + (this.state.uuid_to_load !== null ? this.state.uuid_to_load : "") + (this.state.base !== "" ? "/" + this.state.base : "")} base={this.state.base}/>
+                    <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/choice/" + (this.state.uuid_to_load === null ? "new/" : "") + this.state.choice.project_name + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "") + (this.state.base !== "" ? "/" + this.state.base : "")} base={this.state.base}/>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>

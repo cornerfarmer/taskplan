@@ -18,6 +18,18 @@ class ProjectConfiguration:
         choice = self.configuration.add_preset(new_data, self.choices_conf_path, {"preset": preset_uuid})
         return choice
 
+    def add_task(self, base_presets):
+        preset_data = {}
+        preset_data['uuid'] = None
+        preset_data['config'] = {}
+        preset_data['base'] = base_presets
+
+        task_preset = self.configuration.add_preset(preset_data, None)
+        preset_data['config'] = task_preset.get_merged_config()
+        task_preset.set_data(preset_data)
+
+        return task_preset
+
     def get_presets(self):
         return self.configuration.presets_by_file[self.presets_conf_path] if self.presets_conf_path in self.configuration.presets_by_file else []
 

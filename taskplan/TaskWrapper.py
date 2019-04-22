@@ -47,7 +47,7 @@ class SharedMetaData:
         self.preset_pipe_recv, self.preset_pipe_send = Pipe(duplex=False)
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, preset, original_preset_uuid, project, total_iterations, try_number, code_version, force_save_dir=None, parent_shared_data=None, is_test=False):
+    def __init__(self, task_dir, class_name, preset, project, total_iterations, code_version, result_dir, parent_shared_data=None, is_test=False):
         self.task_dir = task_dir
         self.class_name = class_name
         self.preset = preset
@@ -55,15 +55,13 @@ class TaskWrapper:
         self.state = State.INIT
         self.uuid = uuid.uuid4()
         self.project = project
-        self.original_preset_uuid = original_preset_uuid
         self.start_time = None
         self.creation_time = datetime.datetime.now()
         self.saved_time = None
-        self.try_number = try_number
         self.queue_index = 0
         self.code_version = code_version
-        self.force_save_dir = force_save_dir
-        self.is_subtask = False #force_save_dir is not None
+        self.result_dir = result_dir
+        self.is_subtask = False
         self.is_test = is_test
 
         self._shared = SharedMetaData(total_iterations, parent_shared_data)
@@ -152,7 +150,7 @@ class TaskWrapper:
 
             save_dir = original_save_dir / Path(str(preset_name))
 
-            subtask_wrapper = TaskWrapper(task_dir, class_name, preset, "", None, shared.total_iterations.value, 0, code_version, save_dir, shared)
+            subtask_wrapper = TaskWrapper(task_dir, class_name, preset, None, shared.total_iterations.value, code_version, save_dir, shared)
             if save_dir.is_dir():
                 subtask_wrapper.load_metadata(save_dir, True)
                 logger.log("Continuing subtask '" + preset_name + "':" + str(task_uuid) + " (" + str(shared.finished_iterations.value) + " -> " + str(shared.total_iterations.value) + ")")
@@ -210,10 +208,7 @@ class TaskWrapper:
         save_func()
 
     def build_save_dir(self):
-        if self.force_save_dir is None:
-            return self.project.result_dir / Path(self.code_version) / Path(self.preset.name) / Path(str(self.try_number))
-        else:
-            return self.force_save_dir
+        return self.result_dir / Path(str(self.preset.uuid))
 
     def save_metadata(self):
         data = {}
@@ -221,12 +216,10 @@ class TaskWrapper:
         data['finished_iterations'] = self._shared.finished_iterations.value
         data['finished_subtasks'] = self._shared.finished_subtasks.value
         data['total_iterations'] = self._shared.total_iterations.value
-        data['try_number'] = self.try_number
         data['creation_time'] = time.mktime(self.creation_time.timetuple())
         data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
         data['had_error'] = self._shared.had_error.value
         data['preset'] = self.preset.data
-        data['original_preset_uuid'] = self.original_preset_uuid
         data['code_version'] = self.code_version
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
@@ -247,14 +240,12 @@ class TaskWrapper:
             self._shared.finished_subtasks.value = data['finished_subtasks']
             if not ignore_total_iterations:
                 self._shared.total_iterations.value = data['total_iterations']
-            self.try_number = data['try_number']
             if use_pickle:
                 self.creation_time = data['creation_time']
                 self.saved_time = data['saved_time']
             else:
                 self.creation_time = datetime.datetime.fromtimestamp(data['creation_time'])
                 self.saved_time = datetime.datetime.fromtimestamp(data['saved_time']) if data['saved_time'] != "" else None
-            self.original_preset_uuid = data['original_preset_uuid']
             self._shared.had_error.value = data['had_error']
             self.code_version = data['code_version']
 
@@ -276,9 +267,6 @@ class TaskWrapper:
             self.preset.set_config_at_timestep(new_config, self._shared.finished_iterations.value + 1)
             self._shared.preset_pipe_send.send(self.preset.clone())
             self.save_metadata()
-
-    def __str__(self):
-        return self.project.name + ": " + self.preset.name + " (try " + str(self.try_number) + ")"
 
     def save_now(self):
         if self.state == State.RUNNING:

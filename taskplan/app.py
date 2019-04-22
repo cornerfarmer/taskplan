@@ -41,69 +41,70 @@ def run():
 
         return Response(gen(), mimetype="text/event-stream")
 
-    @app.route('/start/<string:project_name>/<string:preset_uuid>/<int:total_iterations>')
-    def start(project_name, preset_uuid, total_iterations):
-        controller.start_new_task(project_name, preset_uuid, total_iterations)
-        return ""
+    @app.route('/start/<string:project_name>/<int:total_iterations>', methods=['POST'])
+    def start(project_name, total_iterations):
+        data = json.loads(request.form.get('data'))
+        controller.start_new_task(project_name, data["choices"], total_iterations)
+        return jsonify({})
 
     @app.route('/pause/<string:task_uuid>')
     def pause(task_uuid):
         controller.pause_task(task_uuid)
-        return ""
+        return jsonify({})
 
     @app.route('/save_now/<string:task_uuid>')
     def save_now(task_uuid):
         controller.save_now_task(task_uuid)
-        return ""
+        return jsonify({})
 
     @app.route('/cancel/<string:task_uuid>')
     def cancel(task_uuid):
         controller.cancel_task(task_uuid)
-        return ""
+        return jsonify({})
 
     @app.route('/run_now/<string:task_uuid>')
     def run_now(task_uuid):
         controller.run_task_now(task_uuid)
-        return ""
+        return jsonify({})
 
     @app.route('/continue/<string:task_uuid>')
     @app.route('/continue/<string:task_uuid>/<int:total_iterations>')
     def continue_task(task_uuid, total_iterations=0):
         controller.continue_task(task_uuid, total_iterations)
-        return ""
+        return jsonify({})
 
     @app.route('/finish/<string:task_uuid>')
     def finish(task_uuid):
         controller.finish_task(task_uuid)
-        return ""
+        return jsonify({})
 
     @app.route('/reorder/<string:task_uuid>/<int:new_index>')
     def reorder_task(task_uuid, new_index):
         controller.reorder_task(task_uuid, new_index)
-        return ""
+        return jsonify({})
 
     @app.route('/edit/<string:project_name>/<string:preset_uuid>', methods=['POST'])
     def edit_preset(project_name, preset_uuid):
         new_data = json.loads(request.form.get('data'))
         controller.edit_preset(project_name, preset_uuid, new_data)
-        return ""
+        return jsonify({})
 
     @app.route('/add_preset/<string:project_name>', methods=['POST'])
     def add_preset(project_name):
         new_data = json.loads(request.form.get('data'))
         controller.add_preset(project_name, new_data)
-        return ""
+        return jsonify({})
 
     @app.route('/add_choice/<string:project_name>/<string:preset_uuid>', methods=['POST'])
     def add_choice(project_name, preset_uuid):
         new_data = json.loads(request.form.get('data'))
         controller.add_choice(project_name, preset_uuid, new_data)
-        return ""
+        return jsonify({})
 
     @app.route('/change/<string:task_uuid>/<int:total_iterations>')
     def change(task_uuid, total_iterations):
         controller.change_total_iterations(task_uuid, total_iterations)
-        return ""
+        return jsonify({})
 
     @app.route('/tensorboard/<string:project_name>')
     def open_tensorboard(project_name):
@@ -147,12 +148,12 @@ def run():
     @app.route('/change_max_running/<int:new_max_running>')
     def change_max_running(new_max_running):
         controller.change_max_running_tasks(new_max_running)
-        return ""
+        return jsonify({})
 
     @app.route('/addVersion/<string:project_name>/<string:version_name>')
     def add_version(project_name, version_name):
         controller.add_version(project_name, version_name)
-        return ""
+        return jsonify({})
 
     @app.route('/config/choice/new/<string:project_name>')
     @app.route('/config/choice/new/<string:project_name>/<string:preset_base_uuid>')
@@ -170,7 +171,7 @@ def run():
                 iteration = task.finished_iterations_and_update_time()[0]
             return jsonify({'inherited_config': task.preset.compose_config_for_timestep(iteration), 'config': {}, 'dynamic': False})
         else:
-            return ""
+            return jsonify({})
 
     @app.route('/config/task/<string:preset_base_uuid>/<string:task_uuid>')
     def config_task(preset_base_uuid, task_uuid):
@@ -181,21 +182,21 @@ def run():
                 preset_base = configuration.presets_by_uuid[preset_base_uuid]
                 return jsonify({'inherited_config': preset_base.compose_config(), 'config': task.preset.data['config'], 'dynamic': preset_base.treat_dynamic()})
             else:
-                return ""
+                return jsonify({})
         else:
-            return ""
+            return jsonify({})
 
     @app.route('/adjust_task_preset/<string:task_uuid>', methods=['POST'])
     def adjust_task_preset(task_uuid):
         new_data = json.loads(request.form.get('data'))
         controller.adjust_task_preset(task_uuid, new_data)
 
-        return ""
+        return jsonify({})
 
     @app.route('/clone_task/<string:task_uuid>')
     def clone_task(task_uuid):
         controller.clone_task(task_uuid)
 
-        return ""
+        return jsonify({})
 
     return app
