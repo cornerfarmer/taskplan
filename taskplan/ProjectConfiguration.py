@@ -18,10 +18,10 @@ class ProjectConfiguration:
         choice = self.configuration.add_preset(new_data, self.choices_conf_path, {"preset": preset_uuid})
         return choice
 
-    def add_task(self, base_presets):
+    def add_task(self, base_presets, config):
         preset_data = {}
         preset_data['uuid'] = None
-        preset_data['config'] = {}
+        preset_data['config'] = config
         preset_data['base'] = base_presets
 
         task_preset = self.configuration.add_preset(preset_data, None)
@@ -29,6 +29,9 @@ class ProjectConfiguration:
         task_preset.set_data(preset_data)
 
         return task_preset
+
+    def load_task(self, config):
+        return self.configuration.add_preset(config, None)
 
     def get_presets(self):
         return self.configuration.presets_by_file[self.presets_conf_path] if self.presets_conf_path in self.configuration.presets_by_file else []

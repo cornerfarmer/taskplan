@@ -7,9 +7,9 @@ class ProjectManager:
         self.projects = projects
         self.event_manager = event_manager
 
-    def create_task(self, project_name, choices, total_iterations, is_test=False):
+    def create_task(self, project_name, choices, config, total_iterations, is_test=False):
         project = self.project_by_name(project_name)
-        task = project.create_task(choices, total_iterations, is_test)
+        task = project.create_task(choices, config, total_iterations, is_test)
         return task
 
     def project_by_name(self, project_name):

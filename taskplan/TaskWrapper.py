@@ -208,7 +208,7 @@ class TaskWrapper:
         save_func()
 
     def build_save_dir(self):
-        return self.result_dir / Path(str(self.preset.uuid))
+        return self.result_dir / Path(str(self.uuid))
 
     def save_metadata(self):
         data = {}
@@ -235,7 +235,7 @@ class TaskWrapper:
                 data = json.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
             if not self.is_subtask:
-                self.preset = self.project.configuration.add_preset(data['preset'], None)
+                self.preset = self.project.configuration.load_task(data['preset'])
             self._shared.finished_iterations.value = data['finished_iterations']
             self._shared.finished_subtasks.value = data['finished_subtasks']
             if not ignore_total_iterations:

@@ -54,7 +54,7 @@ class PausedTask extends React.Component {
 
     render() {
         return (
-            <li className="item">
+            <li className="item item-task">
                 <div className="content">
                     <div className="title"><span className="try-number">{this.props.task.try}</span>{this.props.task.preset_name}</div>
                     <div className="footer">

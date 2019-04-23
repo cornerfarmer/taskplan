@@ -60,11 +60,9 @@ class Project:
                 self.versions = data['versions']
 
     def _load_saved_tasks(self):
-        for code_version in self.result_dir.iterdir():
-            for task in code_version.iterdir():
-                for path in task.iterdir():
-                    if path.is_dir():
-                        self._load_saved_task(path)
+        for task in self.result_dir.iterdir():
+            if task.is_dir():
+                self._load_saved_task(task)
 
         for path in self.test_dir.iterdir():
             if path.is_dir() and path.name in self.settings.configuration.presets_by_uuid:
@@ -79,7 +77,7 @@ class Project:
         except:
             raise
 
-    def create_task(self, choices, total_iterations, is_test=False):
+    def create_task(self, choices, config, total_iterations, is_test=False):
         presets = self.configuration.get_presets()
 
         base_presets = []
@@ -92,7 +90,7 @@ class Project:
 
             base_presets.append(choices[str(preset.uuid)])
 
-        task_preset = self.configuration.add_task(base_presets)
+        task_preset = self.configuration.add_task(base_presets, config)
         return self._create_task_from_preset(task_preset, total_iterations, is_test)
 
     def _create_task_from_preset(self, task_preset, total_iterations, is_test=False):

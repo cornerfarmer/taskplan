@@ -44,7 +44,7 @@ def run():
     @app.route('/start/<string:project_name>/<int:total_iterations>', methods=['POST'])
     def start(project_name, total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(project_name, data["choices"], total_iterations)
+        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations)
         return jsonify({})
 
     @app.route('/pause/<string:task_uuid>')
@@ -118,7 +118,7 @@ def run():
             return render_template('log.html', preset_name="Global")
         else:
             task = controller.project_manager.find_task_by_uuid(task_uuid)
-            return render_template('log.html', task_uuid=task_uuid, sub_task=sub_task, preset_name=task.preset.name, try_number=task.try_number, created=str(task.creation_time))
+            return render_template('log.html', task_uuid=task_uuid, sub_task=sub_task, preset_name="", created=str(task.creation_time))
 
     @app.route('/read_log/')
     @app.route('/read_log/<string:task_uuid>')

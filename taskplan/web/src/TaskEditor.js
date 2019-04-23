@@ -10,6 +10,8 @@ class TaskEditor extends React.Component {
             selected_choices: [],
             uuid_to_load: null,
             total_iterations: "",
+            save_interval: "0",
+            checkpoint_interval: "0",
             open: false
         };
 
@@ -77,6 +79,10 @@ class TaskEditor extends React.Component {
 
         var dataJson = {};
         dataJson['choices'] = this.state.selected_choices;
+        dataJson['config'] = {
+            "save_interval": this.state.save_interval,
+            "checkpoint_interval": this.state.checkpoint_interval
+        };
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -117,6 +123,18 @@ class TaskEditor extends React.Component {
         });
     }
 
+    onSaveIntervalChange(event) {
+        this.setState({
+            save_interval: event.target.value
+        });
+    }
+
+    onCheckpointIntervalChange(event) {
+        this.setState({
+            checkpoint_interval: event.target.value
+        });
+    }
+
     render() {
         if (this.state.open) {
             return (
@@ -125,6 +143,14 @@ class TaskEditor extends React.Component {
                     <div className="field">
                         <label>Total iterations:</label>
                         <input value={this.state.total_iterations} onChange={this.onTotalIterationsChange} />
+                    </div>
+                    <div className="field">
+                        <label>Save interval:</label>
+                        <input value={this.state.save_interval} onChange={this.onSaveIntervalChange} />
+                    </div>
+                    <div className="field">
+                        <label>Checkpoint interval:</label>
+                        <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} />
                     </div>
                     {this.props.presets.filter(preset => preset.choices.length > 1).sort(function (a, b) {
                         return a.name.localeCompare(b.name);

@@ -198,7 +198,7 @@ class Project extends React.Component {
                         <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
                     </div>
                 </div>
-                <ul className="presets" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
+                <ul className="presets-tab" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
                     {this.state.presets.filter(preset => (!preset.abstract || this.state.showAbstract)).sort(function (a, b) {
                         switch(project.state.sorting[0]) {
                             case 0:
@@ -236,7 +236,7 @@ class Project extends React.Component {
                         <div onClick={this.addPreset}>Add preset</div>
                     </div>
                 </div>
-                <ul className="tasks" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
                     {this.state.tasks.filter(task => (!this.state.currentCodeVersionOnly || task.version === this.props.project.version)).sort(function (a, b) {
                         switch(project.state.sorting[1]) {
                             case 0:

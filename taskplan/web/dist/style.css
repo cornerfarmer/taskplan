@@ -377,6 +377,7 @@ h2 {
 }
 
 
+#project-manager #projects .project ul .item-task,
 #project-manager #projects .project ul .item-choice {
     border-bottom: 1px solid rgba(0,0,0,.1);
     background: white;
@@ -387,17 +388,20 @@ h2 {
     font-style: italic;
 }
 
+#project-manager #projects .project ul .item-task .content,
 #project-manager #projects .project ul .item-choice .content {
     flex: 1 1 auto;
     padding: 16px;
 }
 
+#project-manager #projects .project ul .item-task .content .title,
 #project-manager #projects .project ul .item-choice .content .title {
     font-weight: 300;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
+#project-manager #projects .project ul .item-task .content .title .try-number,
 #project-manager #projects .project ul .item-choice .content .title .try-number {
     background: rgba(158,158,158,.2);
     padding: 4px 10px;
@@ -408,6 +412,7 @@ h2 {
     vertical-align: top;
 }
 
+#project-manager #projects .project ul .item-task .content .footer,
 #project-manager #projects .project ul .item-choice .content .footer {
     font-size: 14px;
     font-weight: 300;
@@ -416,25 +421,28 @@ h2 {
     margin-top: 10px;
 }
 
-#project-manager #projects .project ul .item-choice .content .footer .task-error {
+#project-manager #projects .project ul .item-task .content .footer .task-error {
     color: #ef767a;
     font-weight: 400;
 }
 
-#project-manager #projects .project ul .item-choice .content .footer span:not(.task-error):before {
+#project-manager #projects .project ul .item-task .content .footer span:not(.task-error):before {
     content: "-";
     margin: 0 7px;
 }
 
+#project-manager #projects .project ul .item-task .content .footer span:first-child:before,
 #project-manager #projects .project ul .item-choice .content .footer span:first-child:before {
     content: "";
     margin: 0;
 }
 
+#project-manager #projects .project ul .item-task .content .footer span span,
 #project-manager #projects .project ul .item-choice .content .footer span span {
     font-weight: 400;
 }
 
+#project-manager #projects .project ul .item-task .toolbar,
 #project-manager #projects .project ul .item-choice .toolbar {
     border-left: 1px solid rgba(0,0,0,.1);
     padding: 10px;
@@ -457,6 +465,7 @@ h2 {
     font-size: 12px;
 }
 
+#project-manager #projects .project ul .item-task .toolbar .action,
 #project-manager #projects .project ul .item-choice .toolbar .action {
     margin-bottom: 4px;
 }
@@ -466,20 +475,24 @@ h2 {
 }
 
 .tasks .task .toolbar .action.dropdown-toggle,
+#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle,
 #project-manager #projects .project ul .item-choice .toolbar .action.dropdown-toggle {
     margin: 0;
 }
 
+#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle,
 #project-manager #projects .project ul .item-choice .toolbar .action.dropdown-toggle {
     height: 14px;
 }
 
 .tasks .task .toolbar .action.dropdown-toggle:after,
+#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle:after,
 #project-manager #projects .project ul .item-choice .toolbar .action.dropdown-toggle:after {
     display: none;
 }
 
 .tasks .task .toolbar .dropdown-menu,
+#project-manager #projects .project ul .item-task .toolbar .dropdown-menu,
 #project-manager #projects .project ul .item-choice .toolbar .dropdown-menu {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
     min-width: auto;
