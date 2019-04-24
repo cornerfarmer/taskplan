@@ -1,25 +1,19 @@
 import React from 'react';
+import Prompt from "./Prompt";
 
 class PausedTask extends React.Component {
     constructor(props) {
         super(props);
-        this.continue = this.continue.bind(this);
+
+        this.promptExtraRefs = React.createRef();
+        this.openExtraDialog = this.openExtraDialog.bind(this);
         this.finish = this.finish.bind(this);
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
     }
 
-    continue() {
-        fetch("/continue/" + this.props.task.uuid)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-
-                }
-            )
+    openExtraDialog() {
+        this.promptExtraRefs.current.openDialog();
     }
 
     finish() {
@@ -64,7 +58,7 @@ class PausedTask extends React.Component {
                     </div>
                 </div>
                 <div className="toolbar">
-                    <div className="action" onClick={this.continue} title="Continue task">
+                    <div className="action" onClick={this.openExtraDialog} title="Run for more iterations">
                         <i className="fa fa-play"></i>
                     </div>
                     <div className="action" onClick={this.finish} title="Mark task as finished">
@@ -84,6 +78,7 @@ class PausedTask extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/continue/" + this.props.task.uuid}/>
             </li>
         );
     }

@@ -1,0 +1,43 @@
+
+#flash-messages {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#flash-messages .flash-message {
+    opacity: 1.0;
+    background: #3f51b5;
+    border-radius: 0 2px 2px 0;
+    color: white;
+    padding: 5px 10px;
+    max-width: 400px;
+    display: inline-block;
+    height: 26px;
+    margin-top: 10px;
+    -webkit-transition: margin 0.4s;
+    -moz-transition: margin 0.4s;
+    -ms-transition: margin 0.4s;
+    -o-transition: margin 0.4s;
+    transition: margin 0.4s;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+#flash-messages .flash-message:hover {
+    opacity: 1.0;
+}
+
+#flash-messages .flash-message.level-40 {
+    background: #ef767a;
+}
+
+#flash-messages .flash-message.level-30 {
+    background: #eeb868;
+}

@@ -1,6 +1,6 @@
 module.exports = {
   entry: [
-    './src/index.js'
+    './js/index.js'
   ],
   module: {
     rules: [
@@ -8,6 +8,10 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
+      },
+      {
+        test: /\.less$/,
+        loader: ['style-loader', 'css-loader', 'less-loader']
       },
       {
         test: /\.css$/,

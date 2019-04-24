@@ -1,0 +1,50 @@
+
+.editor .header {
+    padding: 5px 16px;
+    background: rgba(158,158,158,.2);
+}
+
+.editor .field {
+    margin: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+}
+
+.editor .field label {
+    margin: 0;
+    width: 100px;
+}
+
+.editor .field input,
+.editor .field select {
+    flex: 2 1 0;
+    margin-left: 16px;
+}
+
+.editor .field input[type="checkbox"] {
+    flex: none;
+}
+
+
+.editor .jsoneditor {
+    width: calc(100% - 32px);
+    resize: vertical;
+    margin: 16px;
+    height: 250px;
+    border-color:  #3f51b5;
+}
+
+.editor .editor-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    border: 1px solid rgba(0,0,0,.1);
+    margin: 16px;
+}
+
+.editor .jsoneditor div.jsoneditor-menu {
+    background-color: #3f51b5;
+    border-color:  #3f51b5;
+}

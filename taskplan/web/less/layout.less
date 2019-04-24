@@ -1,0 +1,29 @@
+
+body {
+    font-family: 'Roboto','Helvetica','Arial',sans-serif;
+    color: #757575;
+    line-height: 1.15;
+    background: #FAFAFA;
+}
+
+html,
+body,
+#root,
+#root > #page,
+#root > #page > .container >.row,
+#root > #page > .container >.row > div,
+#root > #page > .container >.row > div > #scheduler {
+    height: 100%;
+}
+
+#root > #page > .container {
+    height: calc(100% - 39px);
+}
+
+#root > #page > .container >.row > div:first-child {
+    padding-right: 0;
+}
+
+#root > .container >.row > div:last-child {
+    padding-left: 0;
+}
