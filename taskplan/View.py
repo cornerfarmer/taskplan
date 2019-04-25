@@ -1,5 +1,9 @@
 from taskplan.TaskWrapper import TaskWrapper
 import shutil
+try:
+  from pathlib2 import Path
+except ImportError:
+  from pathlib import Path
 
 class View:
 
@@ -10,6 +14,7 @@ class View:
 
         self.state = {
             "type": "root",
+            "parent": None,
             "children": {
                 "default": {
                     "type": "tasks",
@@ -17,7 +22,10 @@ class View:
                 }
             }
         }
+        self.state["children"]["default"]["parent"] = self.state
+        self.state["children"]["default"]["parent_key"] = "default"
         self.root = root
+        self.task_by_uuid = {}
 
     def initialize(self, tasks):
         for task in tasks:
@@ -26,9 +34,7 @@ class View:
 
     def add_task(self, task, change_dirs=True):
         current_path = self.root
-        parent_state = self.state
         current_state = self.state["children"]["default"]
-        last_key = "default"
         for preset in self.presets:
             suitable_choice = self._get_choice_to_preset(task, preset)
 
@@ -43,12 +49,14 @@ class View:
                     if former_choice == suitable_choice:
                         continue
 
-                    current_state = self._add_preset_after_state(parent_state, last_key, preset, former_choice)
+                    current_state = self._add_preset_before_state(current_state, preset, former_choice, current_path, change_dirs)
 
                 current_path = current_path / name
                 if name not in current_state["children"]:
                     current_state["children"][name] = {
                         "type": "preset",
+                        "parent": current_state,
+                        "parent_key": name,
                         "preset": preset,
                         "children": {}
                     }
@@ -56,28 +64,95 @@ class View:
                     if change_dirs:
                         current_path.mkdir()
 
-                last_key = name
-                parent_state = current_state
                 current_state = current_state["children"][name]
             else:
                 raise NotImplementedError()
 
+        current_state["type"] = "tasks"
         if "type" not in current_state:
-            current_state["type"] = "tasks"
             current_state["children"] = {}
 
         self._insert_task(current_state, current_path, task, change_dirs)
 
-    def _add_preset_after_state(self, state, child_key, preset, former_choice):
+    def remove_task(self, task):
+        state = self.task_by_uuid[str(task.uuid)]
+        path = self._path_of_state(state)
+        children = state["children"]
+        key = int(self._key_in_dict(children, task))
+
+        self._remove_path(path / str(key))
+        del children[str(key)]
+        for i in range(key, len(children)):
+            children[str(i)] = children[str(i + 1)]
+            (path / str(i + 1)).rename((path / str(i)))
+
+        self._check_state_for_removal(state, path)
+
+        del self.task_by_uuid[str(task.uuid)]
+
+    def _check_state_for_removal(self, state, path):
+        if len(state["children"]) == 0 and state["parent"]["type"] != "root":
+            del state["parent"]["children"][state["parent_key"]]
+            self._remove_path(path)
+            self._check_state_for_removal(state["parent"], path.parent)
+        elif len(state["children"]) == 1 and state["type"] == "preset":
+            self._remove_preset_at_state(state, path)
+
+    def _remove_preset_at_state(self, state, path):
+        assert(len(state["children"]) == 1)
+        parent = state["parent"]
+        key = list(state["children"].keys())[0]
+        path = path / key
+
+        child = state["children"][key]
+        parent["children"][state["parent_key"]] = child
+        child["parent"] = state["parent"]
+        child["parent_key"] = state["parent_key"]
+
+        for child_path in path.iterdir():
+            assert(child_path.name != path.name)
+            child_path.rename(path.parent / child_path.name)
+        self._remove_path(path)
+
+    def _path_of_state(self, state):
+        path = None
+        while state["type"] != "root" and state["parent"]["type"] != "root":
+            if path is None:
+                path = Path(state["parent_key"])
+            else:
+                path = state["parent_key"] / path
+            state = state["parent"]
+        return self.root if path is None else self.root / path
+
+    def _add_preset_before_state(self, state, preset, former_choice, path, change_dirs=True):
+        parent = state["parent"]
+        key = former_choice.get_metadata("name")
         new_state = {
             "type": "preset",
             "preset": preset,
+            "parent": parent,
+            "parent_key": state["parent_key"],
             "children": {
-                former_choice.get_metadata("name"): state["children"][child_key]
+                key: state
             }
         }
-        state["children"][child_key] = new_state
+        parent["children"][state["parent_key"]] = new_state
+        state["parent"] = new_state
+        state["parent_key"] = key
+
+        if change_dirs:
+            (path / key).mkdir()
+            for child_path in path.iterdir():
+                if child_path.name != key:
+                    child_path.rename(path / key / child_path.name)
+
         return new_state
+
+    def _key_in_dict(self, dictionary, value_to_find):
+        for key, value in dictionary.items():
+            if value == value_to_find:
+                return key
+        return None
 
     def _get_choice_to_preset(self, task, preset):
         suitable_choice = None
@@ -102,6 +177,7 @@ class View:
 
     def _insert_task(self, state, path, task, change_dirs=True):
         children = state["children"]
+        self.task_by_uuid[str(task.uuid)] = state
 
         target_key = len(children.keys())
         for i in range(len(children.keys())):

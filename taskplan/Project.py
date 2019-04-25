@@ -162,6 +162,7 @@ class Project:
 
     def remove_task(self, task):
         if task in self.tasks:
+            self.view.remove_task(task)
             self.tasks.remove(task)
             task.remove_data()
 

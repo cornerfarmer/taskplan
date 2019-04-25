@@ -60,9 +60,12 @@ class Controller:
         removed_task = self.scheduler.cancel(task_uuid)
         if removed_task is not None:
             if removed_task.finished_iterations_and_update_time()[0] == 0:
-                self.project_manager.remove_task(removed_task)
+                self.remove_task(removed_task)
             else:
                 self.event_manager.throw(EventType.TASK_CHANGED, removed_task)
+
+    def remove_task(self, task_uuid):
+        self.project_manager.remove_task(task_uuid)
 
     def run_task_now(self, task_uuid):
         self.scheduler.run_now(task_uuid)

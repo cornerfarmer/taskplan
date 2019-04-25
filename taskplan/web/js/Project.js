@@ -112,7 +112,7 @@ class Project extends React.Component {
             return e.uuid === taskUuid
         });
 
-        if (index > 0)
+        if (index >= 0)
             tasks.splice(index, 1);
 
         this.setState({

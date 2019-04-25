@@ -62,6 +62,11 @@ def run():
         controller.cancel_task(task_uuid)
         return jsonify({})
 
+    @app.route('/remove/<string:task_uuid>')
+    def remove(task_uuid):
+        controller.remove_task(task_uuid)
+        return jsonify({})
+
     @app.route('/run_now/<string:task_uuid>')
     def run_now(task_uuid):
         controller.run_task_now(task_uuid)
