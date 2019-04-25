@@ -4,7 +4,7 @@
       "default": {
         "name": "",
         "task_dir": ".",
-        "result_dir": "results",
+        "tasks_dir": "tasks",
         "config_dir": "config",
         "config_file_name": "taskplan",
         "use_project_subfolder": false

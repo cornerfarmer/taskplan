@@ -17,15 +17,15 @@ class Task(object):
     def subtasks(preset):
         return None, 0
 
-    def _create_tensorboard_writer(self, result_dir):
-        return tf.summary.FileWriter(result_dir)
+    def _create_tensorboard_writer(self, tasks_dir):
+        return tf.summary.FileWriter(tasks_dir)
 
     def _flush_tensorboard_writer(self, tensorboard_writer):
         tensorboard_writer.flush()
 
-    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, result_dir, save_func, checkpoint_func):
-        self.result_dir = result_dir
-        tensorboard_writer = self._create_tensorboard_writer(str(result_dir))
+    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, tasks_dir, save_func, checkpoint_func):
+        self.tasks_dir = tasks_dir
+        tensorboard_writer = self._create_tensorboard_writer(str(tasks_dir))
         save_interval = self.preset.get_int('save_interval')
         checkpoint_interval = self.preset.get_int('checkpoint_interval')
 

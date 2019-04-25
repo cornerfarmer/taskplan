@@ -4,6 +4,7 @@ import pickle
 import threading
 from datetime import datetime
 
+from taskplan.View import View
 
 try:
   from pathlib2 import Path
@@ -20,15 +21,17 @@ import shutil
 
 class Project:
 
-    def __init__(self, task_dir, task_class_name, name="", result_dir="results", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests"):
+    def __init__(self, task_dir, task_class_name, name="", tasks_dir="tasks", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests", view_dir="results"):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.config_file_name = config_file_name
         self.name = task_class_name if name is "" else name
 
         if use_project_subfolder:
-            result_dir += "/" + self.name
+            tasks_dir += "/" + self.name
             config_dir += "/" + self.name
+            view_dir += "/" + self.name
+
 
         self.config_dir = self.task_dir / Path(config_dir)
         if not self.config_dir.exists() or len(list(self.config_dir.iterdir())) == 0:
@@ -37,12 +40,15 @@ class Project:
             #    handle.write('[{"config": {"save_interval": 0, "checkpoint_interval": 0},"abstract": true,"name": "Default"}]')
 
         self.configuration = ProjectConfiguration(self.config_dir)
-        self.result_dir = self.task_dir / Path(result_dir)
-        self.result_dir.mkdir(exist_ok=True, parents=True)
+        self.tasks_dir = self.task_dir / Path(tasks_dir)
+        self.tasks_dir.mkdir(exist_ok=True, parents=True)
         self.test_dir = self.task_dir / Path(test_dir)
         self.test_dir.mkdir(exist_ok=True, parents=True)
+        self.view_dir = self.task_dir / view_dir
+        self.view_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None
+        self.view = View(self.configuration.get_presets(), self.view_dir)
         self._load_saved_tasks()
         self.versions = ["initial"]
         self._load_metadata()
@@ -60,17 +66,18 @@ class Project:
                 self.versions = data['versions']
 
     def _load_saved_tasks(self):
-        for task in self.result_dir.iterdir():
+        for task in self.tasks_dir.iterdir():
             if task.is_dir():
                 self._load_saved_task(task)
 
+        self.view.initialize(self.tasks)
         for path in self.test_dir.iterdir():
             if path.is_dir() and path.name in self.settings.configuration.presets_by_uuid:
                 self._load_saved_task(path, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
         try:
-            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, result_dir=self.result_dir)
+            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.tasks_dir)
             task.load_metadata(path)
             task.state = State.STOPPED
             self.tasks.append(task)
@@ -95,13 +102,15 @@ class Project:
 
     def _create_task_from_preset(self, task_preset, total_iterations, is_test=False):
         if is_test:
-            result_dir = self.test_dir
+            tasks_dir = self.test_dir
         else:
-            result_dir = self.result_dir
+            tasks_dir = self.tasks_dir
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.versions[-1], result_dir=result_dir, is_test=is_test)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.versions[-1], tasks_dir=tasks_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
+
+        self.view.add_task(task)
 
         return task
 
@@ -142,7 +151,7 @@ class Project:
     def _run_tensorboard(self):
         self.tensorboard_port = 6006
         while True:
-            process = subprocess.Popen(["tensorboard", "--logdir", str(self.result_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
+            process = subprocess.Popen(["tensorboard", "--logdir", str(self.tasks_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
             output, error = process.communicate()
 
             if output.startswith(b'TensorBoard attempted to bind to port'):
@@ -172,7 +181,7 @@ class Project:
                     global_config.get_string(config_prefix + "task_dir", fallback_prefix + "task_dir"),
                     global_config.get_string(config_prefix + "task_class_name", fallback_prefix + "task_class_name"),
                     global_config.get_string(config_prefix + "name", fallback_prefix + "name"),
-                    global_config.get_string(config_prefix + "result_dir", fallback_prefix + "result_dir"),
+                    global_config.get_string(config_prefix + "tasks_dir", fallback_prefix + "tasks_dir"),
                     global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
                     global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
                     global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
