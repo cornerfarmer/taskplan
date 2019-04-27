@@ -95,7 +95,7 @@ class ChoiceEditor extends React.Component {
 
         var url = "";
         if (this.state.choice.uuid)
-            url = "/edit_choice/" + this.state.choice.uuid;
+            url = "/edit_choice/" + this.state.preset.project_name  + "/" + this.state.preset.uuid + "/" + this.state.choice.uuid;
         else
             url = "/add_choice/" + this.state.preset.project_name + "/" + this.state.preset.uuid;
 

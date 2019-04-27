@@ -99,16 +99,19 @@ class Controller:
 
     def edit_preset(self, project_name, preset_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
-        configuration = project.configuration
-        if preset_uuid in configuration.presets_by_uuid:
-            preset = configuration.presets_by_uuid[preset_uuid]
-            new_data['uuid'] = preset.uuid
-            new_data['creation_time'] = preset.data['creation_time']
-            preset.set_data(new_data)
 
-            configuration.save()
-            self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-            self.event_manager.log("Preset \"" + preset.name + "\" has been changed", "Preset has been changed")
+        preset = project.configuration.edit_preset(preset_uuid, new_data)
+
+        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+        self.event_manager.log("Preset \"" + preset.name + "\" has been changed", "Preset has been changed")
+
+    def edit_choice(self, project_name, preset_uuid, choice_uuid, new_data):
+        project = self.project_manager.project_by_name(project_name)
+
+        choice = project.configuration.edit_choice(preset_uuid, choice_uuid, new_data)
+
+        self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
+        self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
 
     def add_preset(self, project_name, new_data):
         project = self.project_manager.project_by_name(project_name)

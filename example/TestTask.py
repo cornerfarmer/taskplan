@@ -13,7 +13,7 @@ class TestTask(taskplan.Task):
 
     def __init__(self, preset, preset_pipe, logger):
         super(TestTask, self).__init__(preset, preset_pipe, logger)
-        self.sum = 0
+        self.sum = self.preset.get_int('offset')
 
     def save(self, path):
         with open(str(path / Path("model.pk")), 'wb') as handle:

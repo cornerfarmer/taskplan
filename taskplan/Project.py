@@ -48,7 +48,7 @@ class Project:
         self.view_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None
-        self.view = View(self.configuration.get_presets(), self.view_dir)
+        self.view = View(self.configuration, self.view_dir)
         self._load_saved_tasks()
         self.versions = ["initial"]
         self._load_metadata()

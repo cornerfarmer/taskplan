@@ -88,10 +88,16 @@ def run():
         controller.reorder_task(task_uuid, new_index)
         return jsonify({})
 
-    @app.route('/edit/<string:project_name>/<string:preset_uuid>', methods=['POST'])
+    @app.route('/edit_preset/<string:project_name>/<string:preset_uuid>', methods=['POST'])
     def edit_preset(project_name, preset_uuid):
         new_data = json.loads(request.form.get('data'))
         controller.edit_preset(project_name, preset_uuid, new_data)
+        return jsonify({})
+
+    @app.route('/edit_choice/<string:project_name>/<string:preset_uuid>/<string:choice_uuid>', methods=['POST'])
+    def edit_choice(project_name, preset_uuid, choice_uuid):
+        new_data = json.loads(request.form.get('data'))
+        controller.edit_choice(project_name, preset_uuid, choice_uuid, new_data)
         return jsonify({})
 
     @app.route('/add_preset/<string:project_name>', methods=['POST'])
