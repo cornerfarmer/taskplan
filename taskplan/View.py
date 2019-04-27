@@ -11,10 +11,30 @@ class Node:
         self.parent = None
         self.parent_key = ""
 
-    def add_child(self, key, child):
+    def set_child(self, key, child):
         self.children[key] = child
         child.parent = self
         child.parent_key = key
+
+    def insert_as_parent(self, key, new_parent):
+        self.parent.set_child(self.parent_key, new_parent)
+        new_parent.set_child(key, self)
+
+    def remove(self):
+        assert (len(self.children) == 1)
+        key = list(self.children.keys())[0]
+
+        child = self.children[key]
+        self.parent.children[self.parent_key] = child
+        child.parent = self.parent
+        child.parent_key = self.parent_key
+        return key
+
+    def get_first_task_in(self):
+        if len(self.children.keys()) > 0:
+            return self.children[list(self.children.keys())[0]].get_first_task_in()
+        else:
+            return None
 
 class RootNode(Node):
     def __init__(self):
@@ -29,6 +49,12 @@ class TasksNode(Node):
     def __init__(self):
         Node.__init__(self)
 
+    def get_first_task_in(self):
+        if len(self.children.keys()) > 0:
+            return self.children["0"]
+        else:
+            return None
+
 
 class View:
 
@@ -37,7 +63,7 @@ class View:
         self.presets = self.configuration.get_presets()
 
         self.root_node = RootNode()
-        self.root_node.add_child("default", TasksNode())
+        self.root_node.set_child("default", TasksNode())
         self.root_path = root
         self.task_by_uuid = {}
 
@@ -55,7 +81,7 @@ class View:
 
                 name = suitable_choice.get_metadata("name")
                 if type(current_node) == TasksNode or current_node.preset != preset:
-                    first_task = self._get_first_task_in(current_node)
+                    first_task = current_node.get_first_task_in()
                     if first_task is None:
                         continue
 
@@ -67,7 +93,7 @@ class View:
 
                 current_path = current_path / name
                 if name not in current_node.children:
-                    current_node.add_child(name, TasksNode())
+                    current_node.set_child(name, TasksNode())
 
                     if change_dirs:
                         current_path.mkdir()
@@ -101,15 +127,8 @@ class View:
             self._remove_preset_at_node(node, path)
 
     def _remove_preset_at_node(self, node, path):
-        assert(len(node.children) == 1)
-        parent = node.parent
-        key = list(node.children.keys())[0]
+        key = node.remove()
         path = path / key
-
-        child = node.children[key]
-        parent.children[node.parent.key] = child
-        child.parent = node.parent
-        child.parent_key = node.parent_key
 
         for child_path in path.iterdir():
             assert(child_path.name != path.name)
@@ -127,12 +146,10 @@ class View:
         return self.root_path if path is None else self.root_path / path
 
     def _add_preset_before_node(self, node, preset, former_choice, path, change_dirs=True):
-        parent = node.parent
         key = former_choice.get_metadata("name")
 
         new_node = PresetNode(preset)
-        parent.add_child(node.parent_key, new_node)
-        new_node.add_child(key, node)
+        node.insert_as_parent(key, new_node)
 
         if change_dirs:
             (path / key).mkdir()
@@ -154,20 +171,11 @@ class View:
             if choice.get_metadata("preset") == str(preset.uuid):
                 suitable_choice = choice
                 break
+
         if suitable_choice is None:
             return self.configuration.get_preset(preset.get_metadata("deprecated_choice"))
         else:
             return suitable_choice
-
-    def _get_first_task_in(self, node):
-        if type(node) == TaskWrapper:
-            return node
-
-        children = node.children
-        if len(children.keys()) > 0:
-            return self._get_first_task_in(children[list(children.keys())[0]])
-        else:
-            return None
 
     def _comp_tasks(self, first_task, second_task):
         return first_task.creation_time < second_task.creation_time

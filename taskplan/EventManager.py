@@ -46,10 +46,12 @@ class ServerSentEvent(object):
                 data_client['version'] = data.code_version
                 data_client['is_pausing'] = data.is_pausing()
                 data_client['is_saving'] = data.is_saving()
+                data_client['choices'] = [str(preset.uuid) for preset in data.preset.base_presets]
         elif event_type is EventType.PRESET_CHANGED:
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.get_metadata("name")
             data_client['project_name'] = parent_data.name
+            data_client['deprecated_choice'] = data.get_metadata("deprecated_choice")
         elif event_type is EventType.CHOICE_CHANGED:
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.get_metadata("name")

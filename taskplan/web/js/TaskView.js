@@ -2,41 +2,87 @@
 import React from 'react';
 import PausedTask from "./PausedTask";
 
-class TaskView extends React.Component {
+class PresetNode extends React.Component {
+    render() {
+        return (
+            <div>
+                <div>{this.props.presets[0].name}</div>
+                <ul>
+                    {Object.keys(this.props.tasksPerChoice).map(choiceUuid => (
+                        <li>
+                            <div>{this.props.presets[0].choices.find(choice => choice.uuid === choiceUuid).name}</div>
+                            <Node presets={this.props.presets.slice(1)} tasks={this.props.tasksPerChoice[choiceUuid]} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+    }
+}
+
+class TasksNode extends React.Component {
+    render() {
+        return (
+            <div>
+                {this.props.tasks.map(task => (
+                    <PausedTask
+                        rerunTask={this.rerunTask}
+                        key={task.uuid}
+                        task={task}
+                    />
+                ))}
+            </div>
+        );
+    }
+}
+
+class Node extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tree: {}
-        };
     }
 
     render() {
-        var project = this;
-        var s;
+        let presets = this.props.presets.slice(0);
+        let tasksPerChoice = {};
+        while (presets.length > 0) {
+            let preset = presets[0];
+            if (preset.deprecatedChoice === "")
+                continue;
+
+            tasksPerChoice = {};
+            for (const task of this.props.tasks) {
+                let choice = task.choices.find(e => e.preset === preset.uuid);
+                if (choice === undefined)
+                    choice = preset.deprecatedChoice;
+                else
+                    choice = choice.uuid;
+
+                if (!tasksPerChoice.hasOwnProperty(choice))
+                    tasksPerChoice[choice] = [];
+                tasksPerChoice[choice].push(task);
+            }
+            if (Object.keys(tasksPerChoice).length > 1)
+                break;
+            presets.shift();
+        }
+
+        if (presets.length > 0) {
+            return <PresetNode tasksPerChoice={tasksPerChoice} presets={presets} />
+        } else {
+            return <TasksNode tasks={this.props.tasks}/>
+        }
+    }
+}
+
+
+class TaskView extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
         return (
-            {this.state.tasks.filter(task => (!this.state.currentCodeVersionOnly || task.version === this.props.project.version)).sort(function (a, b) {
-                switch(project.state.sorting[1]) {
-                    case 0:
-                        s = a.saved_time - b.saved_time; break;
-                    case 1:
-                        s = a.preset_name.localeCompare(b.preset_name); break;
-                    case 2:
-                        s = a.creation_time - b.creation_time; break;
-                    case 3:
-                        s = a.finished_iterations - b.finished_iterations; break;
-                }
-                if (s === 0)
-                    s = a.try - b.try;
-                if (project.state.sortingDescending[1])
-                    s *= -1;
-                return s;
-            }).map(task => (
-                <PausedTask
-                    rerunTask={this.rerunTask}
-                    key={task.uuid}
-                    task={task}
-                />
-            ))}
+            <Node presets={this.props.presets} tasks={this.props.tasks} />
         );
     }
 }

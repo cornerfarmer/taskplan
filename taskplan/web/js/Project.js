@@ -6,6 +6,7 @@ import PausedTask from "./PausedTask";
 import PresetEditor from "./PresetEditor";
 import ChoiceEditor from "./ChoiceEditor";
 import TaskEditor from "./TaskEditor";
+import TaskView from "./TaskView";
 
 class Project extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class Project extends React.Component {
         this.presetEditor = React.createRef();
         this.choiceEditor = React.createRef();
         this.taskEditor = React.createRef();
+        this.choicesByUuid = {};
     }
 
     presetChanged(changedPreset) {
@@ -72,6 +74,8 @@ class Project extends React.Component {
             preset.choices.push(changedChoice);
         }
 
+        this.choicesByUuid[changedChoice.uuid] = changedChoice;
+
         this.setState({
             presets: presets
         });
@@ -87,6 +91,7 @@ class Project extends React.Component {
         if (changedTask.state === State.STOPPED) {
             changedTask.creation_time = new Date(changedTask.creation_time * 1000);
             changedTask.saved_time = new Date(changedTask.saved_time * 1000);
+            changedTask.choices = changedTask.choices.map(e => this.choicesByUuid[e]);
 
             if (previousIndex >= 0) {
                 tasks[previousIndex] = changedTask;
@@ -236,31 +241,9 @@ class Project extends React.Component {
                         <div onClick={this.addPreset}>Add preset</div>
                     </div>
                 </div>
-                <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                    {this.state.tasks.filter(task => (!this.state.currentCodeVersionOnly || task.version === this.props.project.version)).sort(function (a, b) {
-                        switch(project.state.sorting[1]) {
-                            case 0:
-                                s = a.saved_time - b.saved_time; break;
-                            case 1:
-                                s = a.preset_name.localeCompare(b.preset_name); break;
-                            case 2:
-                                s = a.creation_time - b.creation_time; break;
-                            case 3:
-                                s = a.finished_iterations - b.finished_iterations; break;
-                        }
-                        if (s === 0)
-                            s = a.try - b.try;
-                        if (project.state.sortingDescending[1])
-                            s *= -1;
-                        return s;
-                    }).map(task => (
-                        <PausedTask
-                            rerunTask={this.rerunTask}
-                            key={task.uuid}
-                            task={task}
-                        />
-                    ))}
-                </ul>
+                <div className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                    <TaskView presets={this.state.presets} tasks={this.state.tasks} />
+                </div>
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 1 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.currentCodeVersionOnly} onChange={this.toggleCurrentCodeVersionOnly} />
