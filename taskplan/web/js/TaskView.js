@@ -46,14 +46,14 @@ class Node extends React.Component {
         let tasksPerChoice = {};
         while (presets.length > 0) {
             let preset = presets[0];
-            if (preset.deprecatedChoice === "")
+            if (preset.deprecated_choice === "")
                 continue;
 
             tasksPerChoice = {};
             for (const task of this.props.tasks) {
                 let choice = task.choices.find(e => e.preset === preset.uuid);
                 if (choice === undefined)
-                    choice = preset.deprecatedChoice;
+                    choice = preset.deprecated_choice.uuid;
                 else
                     choice = choice.uuid;
 

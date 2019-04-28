@@ -1,5 +1,6 @@
 import State from "./Global";
 import Scheduler from "./Scheduler";
+import View from "./View";
 
 class Repository {
     constructor(evtSource) {
@@ -8,7 +9,19 @@ class Repository {
         this.projects = {};
         this.choices = {};
         this.tasks = {};
-        this.onChangeListener = {
+        this.onChangeListeners = {
+            "presets": [],
+            "projects": [],
+            "choices": [],
+            "tasks": []
+        };
+        this.onAddListeners = {
+            "presets": [],
+            "projects": [],
+            "choices": [],
+            "tasks": []
+        };
+        this.onRemoveListeners = {
             "presets": [],
             "projects": [],
             "choices": [],
@@ -28,6 +41,8 @@ class Repository {
             } else {
                 changedPreset.choices = [];
             }
+            if (changedPreset.deprecated_choice in this.choices)
+                changedPreset.deprecated_choice = this.choices[changedPreset.deprecated_choice];
 
             this.updateEntity(this.presets, changedPreset, "presets");
         });
@@ -39,7 +54,7 @@ class Repository {
 
             this.updateEntity(this.choices, changedChoice, "choices");
 
-            const preset = this.presets[changedChoice.preset];
+            let preset = this.presets[changedChoice.preset];
             const previousIndex = preset.choices.findIndex(function (e) {
                 return e.uuid === changedChoice.uuid
             });
@@ -49,8 +64,13 @@ class Repository {
             } else {
                 preset.choices.push(changedChoice);
             }
-
             this.updateEntity(this.presets, preset, "presets");
+
+            preset = Object.values(this.presets).find((preset) => preset.deprecated_choice === changedChoice.uuid);
+            if (preset !== undefined) {
+                preset.deprecated_choice = changedChoice;
+                this.updateEntity(this.presets, preset, "presets");
+            }
         });
 
         this.evtSource.addEventListener("TASK_CHANGED", (e) => {
@@ -75,6 +95,11 @@ class Repository {
                 Scheduler.refreshRunTime(changedTask);
             }
 
+            if (changedTask.uuid in this.tasks) {
+                changedTask.name = this.tasks[changedTask.uuid].name;
+                changedTask.try = this.tasks[changedTask.uuid].try;
+            }
+
             this.updateEntity(this.tasks, changedTask, "tasks");
         });
 
@@ -82,34 +107,77 @@ class Repository {
             const changedTask = JSON.parse(e.data);
             this.removeEntity(this.tasks, changedTask, "tasks")
         });
+
+
+        this.standardView = new View();
+        this.onAdd("tasks", (task) => {
+            this.standardView.addTask(task);
+
+            for (const key of Object.keys(this.tasks)) {
+                let node = this.standardView.taskByUuid[key];
+                this.tasks[key].name = this.standardView.getNodePath(node);
+                this.tasks[key].try = this.standardView.keyInDict(node.children, this.tasks[key]);
+            }
+        });
+        this.onRemove("tasks", (task) => {
+            this.standardView.removeTask(task);
+        });
+        this.onChange("presets", (presets) => {
+            this.standardView.updatePresets(Object.values(presets));
+        });
     }
 
-    
     updateEntity(entities, newEntity, entityType, key="uuid") {
+        const isNew = !(newEntity[key] in entities);
         entities[newEntity[key]] = newEntity;
+
+        if (isNew)
+            this.throwOnAddEvent(newEntity, entityType);
         this.throwOnChangeEvent(entities, entityType);
     }
 
     removeEntity(entities, entityToRemove, entityType, key="uuid") {
         delete entities[entityToRemove[key]];
+
+        this.throwOnRemoveEvent(entityToRemove, entityType);
         this.throwOnChangeEvent(entities, entityType);
     }
 
     throwOnChangeEvent(entities, entityType) {
         let entitiesClone = Object.assign({}, entities);
-        for (let listener of this.onChangeListener[entityType]) {
+        for (let listener of this.onChangeListeners[entityType]) {
             listener(entitiesClone);
         }
     }
 
+    throwOnAddEvent(entity, entityType) {
+        for (let listener of this.onAddListeners[entityType]) {
+            listener(entity);
+        }
+    }
+
+    throwOnRemoveEvent(entity, entityType) {
+        for (let listener of this.onRemoveListeners[entityType]) {
+            listener(entity);
+        }
+    }
+
     onChange(entityType, listener) {
-        this.onChangeListener[entityType].push(listener);
+        this.onChangeListeners[entityType].push(listener);
     }
 
     removeOnChange(entityType, listener) {
-        const listenerIndex = this.onChangeListener[entityType].findIndex(listener);
+        const listenerIndex = this.onChangeListeners[entityType].findIndex(listener);
         if (listenerIndex >= 0)
-            this.onChangeListener[entityType].splice(listenerIndex, 1);
+            this.onChangeListeners[entityType].splice(listenerIndex, 1);
+    }
+
+    onAdd(entityType, listener) {
+        this.onAddListeners[entityType].push(listener);
+    }
+
+    onRemove(entityType, listener) {
+        this.onRemoveListeners[entityType].push(listener);
     }
 }
 

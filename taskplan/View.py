@@ -73,15 +73,15 @@ class View:
         self._check_filesystem(self.root_node.children["default"], self.root_path)
 
     def add_task(self, task, change_dirs=True):
-        current_path = self.root_path
-        current_node = self.root_node.children["default"]
+        path = self.root_path
+        node = self.root_node.children["default"]
         for preset in self.presets:
             if preset.get_metadata("deprecated_choice") != "":
                 suitable_choice = self._get_choice_to_preset(task, preset)
 
                 name = suitable_choice.get_metadata("name")
-                if type(current_node) == TasksNode or current_node.preset != preset:
-                    first_task = current_node.get_first_task_in()
+                if type(node) == TasksNode or node.preset != preset:
+                    first_task = node.get_first_task_in()
                     if first_task is None:
                         continue
 
@@ -89,18 +89,18 @@ class View:
                     if former_choice == suitable_choice:
                         continue
 
-                    current_node = self._add_preset_before_node(current_node, preset, former_choice, current_path, change_dirs)
+                    node = self._add_preset_before_node(node, preset, former_choice, path, change_dirs)
 
-                current_path = current_path / name
-                if name not in current_node.children:
-                    current_node.set_child(name, TasksNode())
+                path = path / name
+                if name not in node.children:
+                    node.set_child(name, TasksNode())
 
                     if change_dirs:
-                        current_path.mkdir()
+                        path.mkdir()
 
-                current_node = current_node.children[name]
+                node = node.children[name]
 
-        self._insert_task(current_node, current_path, task, change_dirs)
+        self._insert_task(node, path, task, change_dirs)
 
     def remove_task(self, task):
         node = self.task_by_uuid[str(task.uuid)]

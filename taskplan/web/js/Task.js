@@ -291,7 +291,7 @@ class Task extends React.Component {
                     </div>
                     <TaskProgress state={this.props.task.state} total_subtasks={this.props.task.total_subtasks} finished_subtasks={this.props.task.finished_subtasks} />
                     <SubTaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
-                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span>{this.props.task.preset_name}</div>
+                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span>{this.props.task.name}</div>
                 </div>
                 <TaskToolbar task={this.props.task}/>
             </li>
