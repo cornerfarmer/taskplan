@@ -152,7 +152,7 @@ class TaskEditor extends React.Component {
                         <label>Checkpoint interval:</label>
                         <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} />
                     </div>
-                    {this.props.presets.filter(preset => preset.choices.length > 1).sort(function (a, b) {
+                    {this.props.presets.filter(preset => Object.keys(preset.choices).length > 0).sort(function (a, b) {
                         return a.name.localeCompare(b.name);
                     }).map(preset => (
                         <Option

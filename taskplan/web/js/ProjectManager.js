@@ -9,88 +9,24 @@ class ProjectManager extends React.Component {
             projects: [],
             currentProject: 0
         };
-        this.projectsRefs = [];
         this.gotoTB = this.gotoTB.bind(this);
         this.addVersion = this.addVersion.bind(this);
+        this.updateProjects = this.updateProjects.bind(this);
         this.promptRefs = React.createRef();
-
-        var pm = this;
-        this.props.evtSource.addEventListener("PROJECT_CHANGED", function (e) {
-            const projects = pm.state.projects.slice();
-            const changedProject = JSON.parse(e.data);
-
-            const projectIndex = pm.state.projects.findIndex(function (e) {
-                return e.name === changedProject.name
-            });
-
-            if (projectIndex >= 0) {
-                projects[projectIndex] = changedProject
-            } else {
-                projects.push(changedProject);
-                pm.projectsRefs.push(React.createRef());
-            }
-
-            pm.setState({
-                projects: projects
-            });
-        });
-
-        this.props.evtSource.addEventListener("PRESET_CHANGED", function (e) {
-            const changedPreset = JSON.parse(e.data);
-            const projectIndex = pm.state.projects.findIndex(function (e) {
-                return e.name === changedPreset.project_name
-            });
-
-            if (projectIndex >= 0) {
-                pm.projectsRefs[projectIndex].current.presetChanged(changedPreset)
-            } else {
-                console.log("Undefined project: " + changedPreset.project_name)
-            }
-        });
-
-        this.props.evtSource.addEventListener("CHOICE_CHANGED", function (e) {
-            const changedChoice = JSON.parse(e.data);
-            const projectIndex = pm.state.projects.findIndex(function (e) {
-                return e.name === changedChoice.project_name
-            });
-
-            if (projectIndex >= 0) {
-                pm.projectsRefs[projectIndex].current.choiceChanged(changedChoice)
-            } else {
-                console.log("Undefined project: " + changedChoice.project_name)
-            }
-        });
-
-        this.props.evtSource.addEventListener("TASK_CHANGED", function (e) {
-            const changedTask = JSON.parse(e.data);
-            const projectIndex = pm.state.projects.findIndex(function (e) {
-                return e.name === changedTask.project_name
-            });
-
-            if (projectIndex >= 0) {
-                pm.projectsRefs[projectIndex].current.taskChanged(changedTask)
-            } else {
-                console.log("Undefined project: " + changedTask.project_name)
-            }
-        });
-
-        this.props.evtSource.addEventListener("TASK_REMOVED", function (e) {
-            const changedTask = JSON.parse(e.data);
-            const projectIndex = pm.state.projects.findIndex(function (e) {
-                return e.name === changedTask.project_name
-            });
-
-            if (projectIndex >= 0) {
-                pm.projectsRefs[projectIndex].current.removeTask(changedTask.uuid)
-            } else {
-                console.log("Undefined project: " + changedTask.project_name)
-            }
-        });
     }
 
-    setProject(currentProject) {
+    componentDidMount() {
+        this.props.repository.onChange("projects", this.updateProjects);
+        this.updateProjects(this.props.repository.projects);
+    }
+
+    componentWillUnmount() {
+        this.props.repository.removeOnChange("projects", this.updateProjects);
+    }
+
+    updateProjects(projects) {
         this.setState({
-            currentProject: currentProject
+            projects: Object.values(projects)
         });
     }
 
@@ -157,9 +93,8 @@ class ProjectManager extends React.Component {
                         <Project
                             key={project.name}
                             project={project}
-                            evtSource={this.props.evtSource}
+                            repository={this.props.repository}
                             visible={index === this.state.currentProject}
-                            ref={this.projectsRefs[index]}
                         />
                     ))}
                 </div>

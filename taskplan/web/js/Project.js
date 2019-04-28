@@ -20,8 +20,8 @@ class Project extends React.Component {
             sorting: [0, 0],
             sortingDescending: [true, true]
         };
-        this.presetChanged = this.presetChanged.bind(this);
-        this.choiceChanged = this.choiceChanged.bind(this);
+        this.updateTasks = this.updateTasks.bind(this);
+        this.updatePresets = this.updatePresets.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.toggleCurrentCodeVersionOnly = this.toggleCurrentCodeVersionOnly.bind(this);
         this.showTab = this.showTab.bind(this);
@@ -33,95 +33,29 @@ class Project extends React.Component {
         this.presetEditor = React.createRef();
         this.choiceEditor = React.createRef();
         this.taskEditor = React.createRef();
-        this.choicesByUuid = {};
     }
 
-    presetChanged(changedPreset) {
-        const presets = this.state.presets.slice();
+    componentDidMount() {
+        this.props.repository.onChange("tasks", this.updateTasks);
+        this.props.repository.onChange("presets", this.updatePresets);
+        this.updatePresets(this.props.repository.presets);
+        this.updateTasks(this.props.repository.tasks);
+    }
 
-        const previousIndex = presets.findIndex(function (e) {
-            return e.uuid === changedPreset.uuid
-        });
-        console.log(changedPreset);
-        if (previousIndex >= 0) {
-            changedPreset.choices = presets[previousIndex].choices;
-            presets[previousIndex] = changedPreset;
-        } else {
-            changedPreset.choices = [];
-            presets.push(changedPreset);
-        }
+    componentWillUnmount() {
+        this.props.repository.removeOnChange("tasks", this.updateTasks);
+        this.props.repository.removeOnChange("presets", this.updatePresets);
+    }
 
+    updatePresets(presets) {
         this.setState({
-            presets: presets
+            presets: Object.values(presets)
         });
     }
 
-    choiceChanged(changedChoice) {
-        const presets = this.state.presets.slice();
-
-        const preset = presets.find(function (e) {
-            return e.uuid === changedChoice.preset
-        });
-
-        const previousIndex = preset.choices.findIndex(function (e) {
-            return e.uuid === changedChoice.uuid
-        });
-        console.log(changedChoice);
-        changedChoice.creation_time = new Date(changedChoice.creation_time * 1000);
-        if (previousIndex >= 0) {
-            preset.choices[previousIndex] = changedChoice;
-        } else {
-            preset.choices.push(changedChoice);
-        }
-
-        this.choicesByUuid[changedChoice.uuid] = changedChoice;
-
+    updateTasks(tasks) {
         this.setState({
-            presets: presets
-        });
-    }
-
-    taskChanged(changedTask) {
-        const tasks = this.state.tasks.slice();
-
-        const previousIndex = tasks.findIndex(function (e) {
-            return e.uuid === changedTask.uuid
-        });
-
-        if (changedTask.state === State.STOPPED) {
-            changedTask.creation_time = new Date(changedTask.creation_time * 1000);
-            changedTask.saved_time = new Date(changedTask.saved_time * 1000);
-            changedTask.choices = changedTask.choices.map(e => this.choicesByUuid[e]);
-
-            if (previousIndex >= 0) {
-                tasks[previousIndex] = changedTask;
-            } else {
-                tasks.push(changedTask);
-            }
-
-            this.setState({
-                tasks: tasks
-            });
-        } else if (previousIndex !== -1) {
-            tasks.splice(previousIndex, 1);
-            this.setState({
-                tasks: tasks
-            });
-        }
-    }
-
-    removeTask(taskUuid) {
-        const tasks = this.state.tasks.slice();
-
-        const index = tasks.findIndex(function (e) {
-            return e.uuid === taskUuid
-        });
-
-        if (index >= 0)
-            tasks.splice(index, 1);
-
-        this.setState({
-            tasks: tasks
+            tasks: Object.values(tasks)
         });
     }
 
@@ -222,7 +156,6 @@ class Project extends React.Component {
                         <Preset
                             key={preset.uuid}
                             preset={preset}
-                            choices={preset.choices}
                             editPresetFunc={this.presetEditor.current.open}
                             editChoiceFunc={this.choiceEditor.current.open}
                             newChoiceFunc={this.choiceEditor.current.new}

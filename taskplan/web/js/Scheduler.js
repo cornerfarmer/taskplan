@@ -11,77 +11,19 @@ class Scheduler extends React.Component {
             max_running: 1
         };
 
-        var pm = this;
-        this.props.evtSource.addEventListener("TASK_CHANGED", function (e) {
-            const tasks = pm.state.tasks.slice();
-            const changedTask = JSON.parse(e.data);
-
-            const previousIndex = tasks.findIndex(function (e) {
-                return e.uuid === changedTask.uuid
-            });
-            console.log(changedTask);
-
-            if (changedTask.state === State.RUNNING || changedTask.state === State.QUEUED) {
-                if (changedTask.state === State.RUNNING) {
-                    if (previousIndex >= 0) {
-                        if (changedTask.finished_iterations !== tasks[previousIndex].finished_iterations) {
-                            changedTask.mean_iteration_time = (changedTask.iteration_update_time - (tasks[previousIndex].iteration_update_time === 0 ? changedTask.start_time : tasks[previousIndex].iteration_update_time)) / (changedTask.finished_iterations - tasks[previousIndex].finished_iterations);
-                            changedTask.total_time = parseInt(changedTask.iteration_update_time - changedTask.start_time + changedTask.mean_iteration_time * (changedTask.total_iterations - changedTask.finished_iterations));
-                        } else {
-                            changedTask.mean_iteration_time = tasks[previousIndex].mean_iteration_time;
-                            changedTask.total_time = tasks[previousIndex].total_time;
-                        }
-                    }
-                    changedTask.start_time_timestamp = changedTask.start_time;
-                    changedTask.start_time = new Date(changedTask.start_time * 1000);
-                    pm.refreshRunTime(changedTask);
-                }
-
-                if (previousIndex >= 0) {
-                    tasks[previousIndex] = changedTask;
-                } else {
-                    tasks.push(changedTask);
-                }
-
-                pm.setState({
-                    tasks: tasks
-                });
-            } else if (previousIndex !== -1) {
-                tasks.splice(previousIndex, 1);
-                pm.setState({
-                    tasks: tasks
-                });
-            }
-        });
-
-        this.props.evtSource.addEventListener("TASK_REMOVED", function (e) {
-            const tasks = pm.state.tasks.slice();
-            const changedTask = JSON.parse(e.data);
-
-            const index = tasks.findIndex(function (e) {
-                return e.uuid === changedTask.uuid;
-            });
-
-            if (index > 0)
-                tasks.splice(index, 1);
-
-            pm.setState({
-                tasks: tasks
-            });
-        });
-
-        this.props.evtSource.addEventListener("SCHEDULER_OPTIONS", function (e) {
+        this.props.evtSource.addEventListener("SCHEDULER_OPTIONS", (e) => {
             const options = JSON.parse(e.data);
-            pm.setState({
+            this.setState({
                 max_running: options.max_running
             });
         });
 
         this.openMaxRunningDialogRefs = React.createRef();
+        this.updateTasks = this.updateTasks.bind(this);
         this.openMaxRunningDialog = this.openMaxRunningDialog.bind(this);
     }
 
-    refreshRunTime(task) {
+    static refreshRunTime(task) {
         task.run_time = parseInt((Date.now() - task.start_time) / 1000);
     }
 
@@ -90,17 +32,26 @@ class Scheduler extends React.Component {
         this.timerID = setInterval(
             function() {
                 const tasks = pm.state.tasks.slice();
-                tasks.filter(task => task.state === State.RUNNING).forEach(task => pm.refreshRunTime(task));
+                tasks.filter(task => task.state === State.RUNNING).forEach(task => Scheduler.refreshRunTime(task));
                 pm.setState({
                     tasks: tasks
                 });
             },
             1000
         );
+        this.props.repository.onChange("tasks", this.updateTasks);
+        this.updateTasks(this.props.repository.tasks);
     }
 
     componentWillUnmount() {
         clearInterval(this.timerID);
+        this.props.repository.removeOnChange("tasks", this.updateTasks);
+    }
+
+    updateTasks(tasks) {
+        this.setState({
+            tasks: Object.values(tasks).filter(task => task.state === State.RUNNING || task.state === State.QUEUED)
+        });
     }
 
     openMaxRunningDialog() {

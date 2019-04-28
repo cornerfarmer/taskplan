@@ -16,10 +16,10 @@ class Choice extends React.Component {
                     </div>
                 </div>
                 <div className="toolbar">
-                    <div className="action" onClick={() => this.props.editFunc(this.props.choice, true, this.props.preset, this.props.choices)} title="Clone choice">
+                    <div className="action" onClick={() => this.props.editFunc(this.props.choice, true, this.props.preset, this.props.preset.choices)} title="Clone choice">
                         <i className="far fa-copy"></i>
                     </div>
-                    <div className="action" onClick={() => this.props.editFunc(this.props.choice, false, this.props.preset, this.props.choices)} title="Edit choice">
+                    <div className="action" onClick={() => this.props.editFunc(this.props.choice, false, this.props.preset, this.props.preset.choices)} title="Edit choice">
                         <i className="fa fa-edit"></i>
                     </div>
                     <div className="dropdown">
