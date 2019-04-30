@@ -40,8 +40,6 @@ class SharedMetaData:
             self.iteration_update_time = parent_data.iteration_update_time
             self.save_now = parent_data.save_now
 
-        self.total_subtasks = Value('i', 0)
-        self.finished_subtasks = Value('i', 0)
         self.is_running = Value('b', False)
         self.had_error = Value('b', False)
         self.preset_pipe_recv, self.preset_pipe_send = Pipe(duplex=False)
@@ -61,7 +59,6 @@ class TaskWrapper:
         self.queue_index = 0
         self.code_version = code_version
         self.tasks_dir = tasks_dir
-        self.is_subtask = False
         self.is_test = is_test
 
         self._shared = SharedMetaData(total_iterations, parent_shared_data)
@@ -98,12 +95,6 @@ class TaskWrapper:
     def is_running(self):
         return self.process.is_alive() and self._shared.is_running.value
 
-    def finished_subtasks(self):
-        return self._shared.finished_subtasks.value
-
-    def total_subtasks(self):
-        return self._shared.total_subtasks.value
-
     def finished_iterations_and_update_time(self):
         with self._shared.finished_iterations.get_lock():
             with self._shared.iteration_update_time.get_lock():
@@ -118,14 +109,7 @@ class TaskWrapper:
             os.chdir(str(task_dir))
             task_class = getattr(importlib.import_module(class_name), class_name)
 
-            subtask_presets, number_of_subtasks = task_class.subtasks(preset)
-
-            if subtask_presets is not None:
-                shared.total_subtasks.value = number_of_subtasks
-                TaskWrapper._run_task_with_subtasks(task_dir, class_name, subtask_presets, shared, save_dir, code_version, preset, task_class, logger, task_uuid)
-            else:
-                shared.total_subtasks.value = 1
-                TaskWrapper._run_subtask(task_class, preset, shared, save_dir)
+            TaskWrapper._run_subtask(task_class, preset, shared, save_dir)
 
         except:
             logger.log(traceback.format_exc(), logging.ERROR)
@@ -133,45 +117,6 @@ class TaskWrapper:
 
         shared.is_running.value = False
         wakeup_sem.release()
-
-    @staticmethod
-    def _run_task_with_subtasks(task_dir, class_name, presets, shared, save_dir, code_version, root_preset, task_class, logger, task_uuid):
-        shared.finished_subtasks.value = 0
-        original_save_dir = save_dir
-        wakeup_sem = Semaphore(0)
-        original_total_iterations = shared.total_iterations.value
-
-        presets_iter = iter(presets)
-        while True:
-            try:
-                preset_name, preset = next(presets_iter)
-            except StopIteration:
-                break
-
-            save_dir = original_save_dir / Path(str(preset_name))
-
-            subtask_wrapper = TaskWrapper(task_dir, class_name, preset, None, shared.total_iterations.value, code_version, save_dir, shared)
-            if save_dir.is_dir():
-                subtask_wrapper.load_metadata(save_dir, True)
-                logger.log("Continuing subtask '" + preset_name + "':" + str(task_uuid) + " (" + str(shared.finished_iterations.value) + " -> " + str(shared.total_iterations.value) + ")")
-            else:
-                shared.finished_iterations.value = 0
-                subtask_wrapper.save_metadata()
-                logger.log("Starting subtask '" + preset_name + "':" + str(task_uuid) + " (" + str(shared.finished_iterations.value) + " -> " + str(shared.total_iterations.value) + ")")
-
-            subtask_wrapper.start(wakeup_sem)
-            wakeup_sem.acquire()
-
-            if shared.pause_computation.value or subtask_wrapper.had_error():
-                break
-
-            shared.finished_subtasks.value += 1
-
-            if original_total_iterations != shared.total_iterations.value:
-                presets, _ = task_class.subtasks(root_preset)
-                presets_iter = iter(presets)
-                shared.finished_subtasks.value = 0
-                original_total_iterations = shared.total_iterations.value
 
     @staticmethod
     def _run_subtask(task_class, preset, shared, save_dir):
@@ -189,7 +134,6 @@ class TaskWrapper:
             with open(str(save_dir / Path("metadata.json")), 'w') as handle:
                 data['saved_time'] = time.mktime(datetime.datetime.now().timetuple())
                 data['finished_iterations'] = shared.finished_iterations.value
-                data['finished_subtasks'] = shared.finished_subtasks.value
                 json.dump(data, handle)
 
         def checkpoint_func():
@@ -214,7 +158,6 @@ class TaskWrapper:
         data = {}
         data['uuid'] = str(self.uuid)
         data['finished_iterations'] = self._shared.finished_iterations.value
-        data['finished_subtasks'] = self._shared.finished_subtasks.value
         data['total_iterations'] = self._shared.total_iterations.value
         data['creation_time'] = time.mktime(self.creation_time.timetuple())
         data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
@@ -234,10 +177,8 @@ class TaskWrapper:
             else:
                 data = json.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
-            if not self.is_subtask:
-                self.preset = self.project.configuration.load_task(data['preset'])
+            self.preset = self.project.configuration.load_task(data['preset'])
             self._shared.finished_iterations.value = data['finished_iterations']
-            self._shared.finished_subtasks.value = data['finished_subtasks']
             if not ignore_total_iterations:
                 self._shared.total_iterations.value = data['total_iterations']
             if use_pickle:

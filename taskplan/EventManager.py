@@ -41,8 +41,6 @@ class ServerSentEvent(object):
                 data_client['preset_dynamic'] = data.preset.dynamic
                 data_client['queue_index'] = data.queue_index
                 data_client['had_error'] = data.had_error()
-                data_client['total_subtasks'] = data.total_subtasks()
-                data_client['finished_subtasks'] = data.finished_subtasks()
                 data_client['version'] = data.code_version
                 data_client['is_pausing'] = data.is_pausing()
                 data_client['is_saving'] = data.is_saving()

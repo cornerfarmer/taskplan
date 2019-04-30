@@ -13,10 +13,6 @@ class Task(object):
     def load(self, path):
         raise NotImplementedError()
 
-    @staticmethod
-    def subtasks(preset):
-        return None, 0
-
     def _create_tensorboard_writer(self, tasks_dir):
         return tf.summary.FileWriter(tasks_dir)
 
