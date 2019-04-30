@@ -29,7 +29,7 @@ class ChoiceEditor extends React.Component {
     }
 
     open(choice, duplicate, preset, possible_base_choices) {
-
+        this.props.closeEditors();
         if (duplicate) {
             this.setState({
                 choice: {name: choice.name, project_name: choice.project_name},
@@ -58,6 +58,7 @@ class ChoiceEditor extends React.Component {
     }
 
     new(preset, possible_base_choices) {
+        this.props.closeEditors();
         this.setState({
             choice: {name: 'New choice', project_name: preset.project_name},
             name: '',

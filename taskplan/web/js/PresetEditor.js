@@ -19,6 +19,7 @@ class PresetEditor extends React.Component {
     }
 
     open(preset) {
+        this.props.closeEditors();
         this.setState({
             preset: preset,
             name: preset.name,
@@ -27,6 +28,7 @@ class PresetEditor extends React.Component {
     }
 
     new(project_name) {
+        this.props.closeEditors();
         this.setState({
             preset: {name: 'New preset', project_name: project_name, choices: []},
             name: '',

@@ -30,6 +30,7 @@ class Project extends React.Component {
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
+        this.closeEditors = this.closeEditors.bind(this);
         this.presetEditor = React.createRef();
         this.choiceEditor = React.createRef();
         this.taskEditor = React.createRef();
@@ -72,9 +73,16 @@ class Project extends React.Component {
     }
 
     showTab(tab) {
+        this.closeEditors();
         this.setState({
           activeTab: tab,
         });
+    }
+
+    closeEditors() {
+        this.presetEditor.current.close();
+        this.choiceEditor.current.close();
+        this.taskEditor.current.close();
     }
 
     addPreset() {
@@ -162,9 +170,8 @@ class Project extends React.Component {
                         />
                     ))}
                 </ul>
-                <PresetEditor ref={this.presetEditor} />
-                <ChoiceEditor ref={this.choiceEditor} />
-                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} />
+                <PresetEditor ref={this.presetEditor} closeEditors={this.closeEditors} />
+                <ChoiceEditor ref={this.choiceEditor} closeEditors={this.closeEditors} />
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />
@@ -177,6 +184,7 @@ class Project extends React.Component {
                 <div className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
                     <TaskView presets={this.state.presets} tasks={this.state.tasks} />
                 </div>
+                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} />
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 1 ? 'flex' : 'none')}}>
                     <label>
                         <input type="checkbox" defaultChecked={this.state.currentCodeVersionOnly} onChange={this.toggleCurrentCodeVersionOnly} />
