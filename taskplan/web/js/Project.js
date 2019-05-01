@@ -7,6 +7,8 @@ import PresetEditor from "./PresetEditor";
 import ChoiceEditor from "./ChoiceEditor";
 import TaskEditor from "./TaskEditor";
 import TaskView from "./TaskView";
+import PresetFilter from "./PresetFilter";
+import View from "./View";
 
 class Project extends React.Component {
     constructor(props) {
@@ -15,15 +17,18 @@ class Project extends React.Component {
             presets: [],
             tasks: [],
             showAbstract: true,
-            currentCodeVersionOnly: true,
             activeTab: 0,
             sorting: [0, 0],
-            sortingDescending: [true, true]
+            sortingDescending: [true, true],
+            selectedChoices: {},
+            selectedTasks: [],
+            presetFilterEnabled: true
         };
         this.updateTasks = this.updateTasks.bind(this);
         this.updatePresets = this.updatePresets.bind(this);
+        this.addTask = this.addTask.bind(this);
+        this.removeTask = this.removeTask.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
-        this.toggleCurrentCodeVersionOnly = this.toggleCurrentCodeVersionOnly.bind(this);
         this.showTab = this.showTab.bind(this);
         this.addPreset = this.addPreset.bind(this);
         this.newTask = this.newTask.bind(this);
@@ -31,14 +36,18 @@ class Project extends React.Component {
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
+        this.onSelectionChange = this.onSelectionChange.bind(this);
         this.presetEditor = React.createRef();
         this.choiceEditor = React.createRef();
         this.taskEditor = React.createRef();
+        this.filterView = new View();
     }
 
     componentDidMount() {
         this.props.repository.onChange("tasks", this.updateTasks);
         this.props.repository.onChange("presets", this.updatePresets);
+        this.props.repository.onAdd("tasks", this.addTask);
+        this.props.repository.onRemove("tasks", this.removeTask);
         this.updatePresets(this.props.repository.presets);
         this.updateTasks(this.props.repository.tasks);
     }
@@ -46,23 +55,56 @@ class Project extends React.Component {
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
         this.props.repository.removeOnChange("presets", this.updatePresets);
+        this.props.repository.removeOnAdd("tasks", this.addTask);
+        this.props.repository.removeOnRemove("tasks", this.removeTask);
+    }
+
+    addTask(task) {
+        this.filterView.addTask(task);
+        this.updateVisibleTasks();
+    }
+
+    removeTask(task) {
+        this.filterView.removeTask(task);
+        this.updateVisibleTasks();
+    }
+
+    updateVisibleTasks(selectedChoices=null, presetFilterEnabled=null) {
+        if (selectedChoices === null)
+            selectedChoices = this.state.selectedChoices;
+        if (presetFilterEnabled === null)
+            presetFilterEnabled = this.state.presetFilterEnabled;
+
+        let selectedTasks;
+        if (presetFilterEnabled) {
+            selectedTasks = this.filterView.getSelectedTask(selectedChoices);
+        } else {
+            selectedTasks = this.state.tasks;
+        }
+        this.setState({
+            selectedTasks: selectedTasks
+        });
     }
 
     updatePresets(presets) {
+        this.filterView.updatePresets(Object.values(presets));
+
+        let selectedChoices = Object.assign({}, this.state.selectedChoices);
+
+        for (const preset of Object.values(presets)) {
+            if (!(preset.uuid in selectedChoices) && preset.choices.length > 0)
+                selectedChoices[preset.uuid] = preset.choices[0];
+        }
+
         this.setState({
-            presets: Object.values(presets)
+            presets: Object.values(presets),
+            selectedChoices: selectedChoices
         });
     }
 
     updateTasks(tasks) {
         this.setState({
             tasks: Object.values(tasks)
-        });
-    }
-
-    toggleCurrentCodeVersionOnly() {
-        this.setState({
-          currentCodeVersionOnly: !this.state.currentCodeVersionOnly,
         });
     }
 
@@ -115,6 +157,25 @@ class Project extends React.Component {
         this.presetEditor.current.open(preset, true, task.uuid);
     }
 
+    onSelectionChange(preset, choice) {
+        const selectedChoices = Object.assign({}, this.state.selectedChoices);
+
+        selectedChoices[preset.uuid] = choice;
+
+        this.updateVisibleTasks(selectedChoices);
+        this.setState({
+            selectedChoices: selectedChoices
+        });
+    }
+
+    togglePresetFilter() {
+        let presetFilterEnabled = !this.state.presetFilterEnabled;
+        this.setState({
+            presetFilterEnabled: presetFilterEnabled
+        });
+        this.updateVisibleTasks(null, presetFilterEnabled);
+    }
+
     render() {
         var project = this;
         var s;
@@ -143,6 +204,9 @@ class Project extends React.Component {
                             </select>
                         }
                         <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
+                        {this.state.activeTab === 1 &&
+                            <span className="fas fa-sliders-h"onClick={() => this.togglePresetFilter()}></span>
+                        }
                     </div>
                 </div>
                 <ul className="presets-tab" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
@@ -181,14 +245,37 @@ class Project extends React.Component {
                         <div onClick={this.addPreset}>Add preset</div>
                     </div>
                 </div>
-                <div className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                    <TaskView presets={this.state.presets} tasks={this.state.tasks} />
-                </div>
+                {this.state.activeTab === 1 && this.state.presetFilterEnabled &&
+                    <PresetFilter presets={this.state.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
+                }
+                <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                    {this.state.selectedTasks.sort(function (a, b) {
+                        switch(project.state.sorting[1]) {
+                            case 0:
+                                s = a.saved_time - b.saved_time; break;
+                            case 1:
+                                s = a.preset_name.localeCompare(b.preset_name); break;
+                            case 2:
+                                s = a.creation_time - b.creation_time; break;
+                            case 3:
+                                s = a.finished_iterations - b.finished_iterations; break;
+                        }
+                        if (s === 0)
+                            s = a.try - b.try;
+                        if (project.state.sortingDescending[1])
+                            s *= -1;
+                        return s;
+                    }).map(task => (
+                        <PausedTask
+                            rerunTask={this.rerunTask}
+                            key={task.uuid}
+                            task={task}
+                        />
+                    ))}
+                </ul>
                 <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} />
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 1 ? 'flex' : 'none')}}>
                     <label>
-                        <input type="checkbox" defaultChecked={this.state.currentCodeVersionOnly} onChange={this.toggleCurrentCodeVersionOnly} />
-                        <span>Show only tasks from current code version</span>
                     </label>
                     <div className="buttons">
                         <div onClick={this.newTask}>New task</div>

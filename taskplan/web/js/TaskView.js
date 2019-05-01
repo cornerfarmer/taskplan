@@ -5,7 +5,7 @@ import PausedTask from "./PausedTask";
 class PresetNode extends React.Component {
     render() {
         return (
-            <div>su
+            <div>
                 <div>{this.props.presets[0].name}</div>
                 <ul>
                     {Object.keys(this.props.tasksPerChoice).map(choiceUuid => (

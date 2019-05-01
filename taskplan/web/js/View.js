@@ -182,6 +182,38 @@ class View {
         return path;
     }
 
+    getSelectedTask(selectedChoices) {
+        let node = this.root.children["default"];
+
+        for (const preset of this.presets) {
+            if (preset.deprecated_choice !== '') {
+                const suitableChoice = selectedChoices[preset.uuid];
+
+                if (node instanceof TasksNode || node.preset !== preset) {
+                    const firstTask = node.getFirstTaskIn();
+                    if (firstTask === null)
+                        return [];
+
+                    const formerChoice = this.getChoiceToPreset(firstTask, preset);
+                    if (formerChoice === suitableChoice)
+                        continue;
+                    else
+                        return [];
+                }
+
+                if (!(suitableChoice.name in node.children)) {
+                    return [];
+                }
+
+                node = node.children[suitableChoice.name]
+            }
+        }
+
+        if (!(node instanceof TasksNode))
+            throw Exception("Error in selecting tasks");
+
+        return Object.values(node.children);
+    }
 
 
 }

@@ -2,18 +2,28 @@ import React from 'react';
 import ConfigEditor from "./ConfigEditor";
 import Preset from "./Preset";
 import Option from "./Option";
+import PresetFilter from "./PresetFilter";
 
 class TaskEditor extends React.Component {
     constructor(props) {
         super(props);
+
+        let selectedChoices = {};
+
+        for (const preset of props.presets) {
+            if (preset.choices.length > 0)
+                selectedChoices[preset.uuid] = preset.choices[0].uuid;
+        }
+
         this.state = {
-            selected_choices: [],
+            selectedChoices: selectedChoices,
             uuid_to_load: null,
             total_iterations: "",
             save_interval: "0",
             checkpoint_interval: "0",
             open: false
         };
+
 
         this.configEditor = React.createRef();
         this.open = this.open.bind(this);
@@ -54,15 +64,15 @@ class TaskEditor extends React.Component {
     }
 
     new() {
-        let selected_choices = {};
+        let selectedChoices = Object.assign({}, this.state.selectedChoices);
 
         for (const preset of this.props.presets) {
-            if (preset.choices.length > 0)
-                selected_choices[preset.uuid] = preset.choices[0].uuid;
+            if (!(preset.uuid in selectedChoices))
+                selectedChoices[preset.uuid] = preset.choices[0].uuid;
         }
 
         this.setState({
-            selected_choices: selected_choices,
+            selectedChoices: selectedChoices,
             open: true
         });
     }
@@ -78,7 +88,7 @@ class TaskEditor extends React.Component {
         var data = new FormData();
 
         var dataJson = {};
-        dataJson['choices'] = this.state.selected_choices;
+        dataJson['choices'] = this.state.selectedChoices;
         dataJson['config'] = {
             "save_interval": this.state.save_interval,
             "checkpoint_interval": this.state.checkpoint_interval
@@ -106,13 +116,13 @@ class TaskEditor extends React.Component {
         this.close();
     }
 
-    onSelectionChange(preset, event) {
-        const selected_choices = Object.assign({}, this.state.selected_choices);
+    onSelectionChange(preset, choice) {
+        const selectedChoices = Object.assign({}, this.state.selectedChoices);
 
-        selected_choices[preset.uuid] = event.target.value;
+        selectedChoices[preset.uuid] = choice.uuid;
 
         this.setState({
-            selected_choices: selected_choices
+            selectedChoices: selectedChoices
         });
     }
 
@@ -152,16 +162,7 @@ class TaskEditor extends React.Component {
                         <label>Checkpoint interval:</label>
                         <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} />
                     </div>
-                    {this.props.presets.filter(preset => Object.keys(preset.choices).length > 0).sort(function (a, b) {
-                        return a.name.localeCompare(b.name);
-                    }).map(preset => (
-                        <Option
-                            key={preset.uuid}
-                            preset={preset}
-                            selection={this.state.selected_choices[preset.uuid]}
-                            onSelectionChangeFunc={this.onSelectionChange}
-                        />
-                    ))}
+                    <PresetFilter presets={this.props.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                     <div className="buttons">
                         <div onClick={this.run}>Run</div>
                         <div onClick={this.close}>Cancel</div>

@@ -20,13 +20,13 @@ class Preset extends React.Component {
     render() {
         return (
             <li className="item item-preset">
-                <div className="header">
-                    <div className="title" onClick={() => this.toggleHideChoices()}>{this.props.preset.name}</div>
+                <div className="header" onClick={() => this.toggleHideChoices()}>
+                    <div className="title">{this.props.preset.name}</div>
                     <div className="toolbar">
-                        <div className="action" onClick={() => this.props.newChoiceFunc(this.props.preset, this.props.preset.choices)} title="New choice">
+                        <div className="action" onClick={(e) => {this.props.newChoiceFunc(this.props.preset, this.props.preset.choices); e.stopPropagation();}} title="New choice">
                             <i className="fas fa-plus"></i>
                         </div>
-                        <div className="action" onClick={() => this.props.editPresetFunc(this.props.preset)} title="Edit preset">
+                        <div className="action" onClick={(e) => {this.props.editPresetFunc(this.props.preset); e.stopPropagation();}} title="Edit preset">
                             <i className="fa fa-edit"></i>
                         </div>
                     </div>

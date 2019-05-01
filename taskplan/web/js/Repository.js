@@ -176,9 +176,22 @@ class Repository {
         this.onAddListeners[entityType].push(listener);
     }
 
+    removeOnAdd(entityType, listener) {
+        const listenerIndex = this.onAddListeners[entityType].findIndex(listener);
+        if (listenerIndex >= 0)
+            this.onAddListeners[entityType].splice(listenerIndex, 1);
+    }
+
     onRemove(entityType, listener) {
         this.onRemoveListeners[entityType].push(listener);
     }
+
+    removeOnRemove(entityType, listener) {
+        const listenerIndex = this.onRemoveListeners[entityType].findIndex(listener);
+        if (listenerIndex >= 0)
+            this.onRemoveListeners[entityType].splice(listenerIndex, 1);
+    }
+
 }
 
 export default Repository;
