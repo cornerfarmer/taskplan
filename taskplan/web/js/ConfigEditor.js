@@ -8,7 +8,8 @@ class ConfigEditor extends React.Component {
         this.state = {
             config: {},
             inheritedConfig: {},
-            loadedUrl: ''
+            loadedUrl: '',
+            dataJsonString: ''
         };
 
         this.jsonEditor = React.createRef();
@@ -32,25 +33,39 @@ class ConfigEditor extends React.Component {
                 loadedUrl: this.props.url
             });
             this.jsonEditor.current.updateEditor();
-        } else if (this.state.loadedUrl !== this.props.url) {
-            fetch(this.props.url)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        inheritedConfig: result['inherited_config'],
-                        config: result['config'] !== null ? result['config'] : this.state.config,
-                        loadedUrl: this.props.url
-                    });
-                    this.jsonEditor.current.updateEditor();
+        } else {
+            var dataJson = {};
+            dataJson['bases'] = this.props.bases;
+            let dataJsonString = JSON.stringify(dataJson);
+            if (this.state.loadedUrl !== this.props.url || this.state.dataJsonString !== dataJsonString) {
+                var data = new FormData();
 
-                    if (this.props.onDynamicChange !== undefined)
-                        this.props.onDynamicChange(result['dynamic'])
-                },
-                (error) => {
+                data.append("data", dataJsonString);
 
-                }
-            )
+                fetch(this.props.url,
+                    {
+                        method: "POST",
+                        body: data
+                    })
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            this.setState({
+                                inheritedConfig: result['inherited_config'],
+                                config: result['config'] !== null ? result['config'] : this.state.config,
+                                loadedUrl: this.props.url,
+                                dataJsonString: dataJsonString
+                            });
+                            this.jsonEditor.current.updateEditor();
+
+                            if (this.props.onDynamicChange !== undefined)
+                                this.props.onDynamicChange(result['dynamic'])
+                        },
+                        (error) => {
+
+                        }
+                    )
+            }
         }
     }
 

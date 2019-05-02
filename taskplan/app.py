@@ -166,12 +166,11 @@ def run():
         controller.add_version(project_name, version_name)
         return jsonify({})
 
-    @app.route('/config/choice/new/<string:project_name>')
-    @app.route('/config/choice/new/<string:project_name>/<string:preset_base_uuid>')
-    @app.route('/config/choice/<string:project_name>/<string:preset_uuid>')
-    @app.route('/config/choice/<string:project_name>/<string:preset_uuid>/<string:preset_base_uuid>')
-    def config_choice(project_name, preset_base_uuid=None, preset_uuid=None):
-        return jsonify(controller.config(project_name, preset_base_uuid, preset_uuid))
+    @app.route('/config/choice/<string:project_name>', methods=['POST'])
+    @app.route('/config/choice/<string:project_name>/<string:preset_uuid>', methods=['POST'])
+    def config_choice(project_name, preset_uuid=None):
+        base_presets_uuid = json.loads(request.form.get('data'))["bases"]
+        return jsonify(controller.choice_config(project_name, base_presets_uuid[0] if len(base_presets_uuid) > 0 and base_presets_uuid[0] != "" else None, preset_uuid))
 
     @app.route('/config/task_timestep/<string:task_uuid>')
     @app.route('/config/task_timestep/<string:task_uuid>/<int:iteration>')
@@ -184,18 +183,10 @@ def run():
         else:
             return jsonify({})
 
-    @app.route('/config/task/<string:preset_base_uuid>/<string:task_uuid>')
-    def config_task(preset_base_uuid, task_uuid):
-        task = controller.project_manager.find_task_by_uuid(task_uuid)
-        if task is not None:
-            configuration = task.project.configuration
-            if preset_base_uuid in configuration.presets_by_uuid:
-                preset_base = configuration.presets_by_uuid[preset_base_uuid]
-                return jsonify({'inherited_config': preset_base.compose_config(), 'config': task.preset.data['config'], 'dynamic': preset_base.treat_dynamic()})
-            else:
-                return jsonify({})
-        else:
-            return jsonify({})
+    @app.route('/config/task/<string:project_name>', methods=['POST'])
+    def config_task(project_name):
+        base_presets_uuid = json.loads(request.form.get('data'))["bases"]
+        return jsonify(controller.task_config(project_name, base_presets_uuid))
 
     @app.route('/adjust_task_preset/<string:task_uuid>', methods=['POST'])
     def adjust_task_preset(task_uuid):

@@ -1,3 +1,4 @@
+from taskconf.config.ConfigurationBlock import ConfigurationBlock
 from taskconf.config.Preset import Preset
 
 from taskplan.Project import Project
@@ -129,7 +130,7 @@ class Controller:
         self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
         self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
 
-    def config(self, project_name, preset_base_uuid=None, preset_uuid=None):
+    def choice_config(self, project_name, preset_base_uuid=None, preset_uuid=None):
         project = self.project_manager.project_by_name(project_name)
 
         if preset_base_uuid is None and preset_uuid is None:
@@ -150,6 +151,14 @@ class Controller:
             config = None
 
         return {'inherited_config': inherited_config, "config": config, 'dynamic': dynamic}
+
+    def task_config(self, project_name, base_presets_uuid):
+        project = self.project_manager.project_by_name(project_name)
+        base_presets = [project.configuration.get_preset(uuid) for uuid in base_presets_uuid]
+
+        config = Preset({"config": {}}, base_presets)
+
+        return {'inherited_config': config.get_merged_config(), "config": {}, 'dynamic': config.treat_dynamic()}
 
     def change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)

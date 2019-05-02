@@ -159,6 +159,7 @@ class TaskEditor extends React.Component {
                         <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} />
                     </div>
                     <PresetFilter presets={this.props.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)}/>
                     <div className="buttons">
                         <div onClick={this.run}>Run</div>
                         <div onClick={this.close}>Cancel</div>
