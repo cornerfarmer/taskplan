@@ -78,19 +78,19 @@ class PausedTask extends React.Component {
                     <div className="action" onClick={this.openExtraDialog} title="Run for more iterations">
                         <i className="fa fa-play"></i>
                     </div>
-                    <div className="action" onClick={this.finish} title="Mark task as finished">
-                        <i className="fas fa-flag-checkered"></i>
+                    <div className="action" onClick={() => this.props.rerunTask(this.props.task)} title="Run new task with the exact same config">
+                        <i className="fa fa-redo"></i>
                     </div>
                     <div className="dropdown">
                         <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                             <i className="fas fa-ellipsis-h"></i>
                         </div>
                         <div className="dropdown-menu">
-                            <div className="action" onClick={this.openLog} title="View log">
-                                <i className="far fa-file-alt"></i>
-                            </div>
                             <div className="action" onClick={this.clone} title="Clone task">
                                 <i className="far fa-copy"></i>
+                            </div>
+                            <div className="action" onClick={this.openLog} title="View log">
+                                <i className="far fa-file-alt"></i>
                             </div>
                             <div className="action" onClick={this.remove} title="Remove task">
                                 <i className="far fa-trash-alt"></i>

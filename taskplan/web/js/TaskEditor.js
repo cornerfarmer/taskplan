@@ -34,33 +34,29 @@ class TaskEditor extends React.Component {
         this.onTotalIterationsChange = this.onTotalIterationsChange.bind(this);
     }
 
-    open(choice, duplicate, preset, possible_base_choices) {
+    open(task) {
 
-        if (duplicate) {
-            this.setState({
-                choice: {name: choice.name, project_name: choice.project_name},
-                name: choice.name,
-                base: choice.base_uuid,
-                uuid_to_load: choice.uuid,
-                abstract: choice.abstract,
-                dynamic: choice.dynamic,
-                forceDynamic: false,
-                preset: preset,
-                possible_base_choices: possible_base_choices
-            });
-        } else {
-            this.setState({
-                choice: choice,
-                name: choice.name,
-                base: choice.base_uuid,
-                uuid_to_load: choice.uuid,
-                abstract: choice.abstract,
-                dynamic: choice.dynamic,
-                forceDynamic: false,
-                preset: preset,
-                possible_base_choices: possible_base_choices
-            });
+        let selectedChoices = Object.assign({}, this.state.selectedChoices);
+
+        for (const preset of this.props.presets) {
+            let suitableChoice = null;
+            for (const choice of task.choices) {
+                if (choice.preset === preset.uuid) {
+                    suitableChoice = choice;
+                    break;
+                }
+            }
+
+            if (suitableChoice === null)
+                selectedChoices[preset.uuid] = preset.deprecated_choice.uuid;
+            else
+                selectedChoices[preset.uuid] = suitableChoice.uuid;
         }
+
+        this.setState({
+            selectedChoices: selectedChoices,
+            open: true
+        });
     }
 
     new() {

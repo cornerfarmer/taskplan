@@ -157,7 +157,7 @@ class View {
     }
 
     compTasks(firstTask, secondTask) {
-        return firstTask.creationTime < secondTask.creationTime;
+        return this.tasks[firstTask].creation_time < this.tasks[secondTask].creation_time;
     }
 
     insertTask(node, task) {
