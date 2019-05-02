@@ -79,7 +79,7 @@ class Project extends React.Component {
         if (presetFilterEnabled) {
             selectedTasks = this.filterView.getSelectedTask(selectedChoices);
         } else {
-            selectedTasks = this.state.tasks;
+            selectedTasks = Object.keys(this.state.tasks);
         }
         this.setState({
             selectedTasks: selectedTasks
@@ -103,8 +103,10 @@ class Project extends React.Component {
     }
 
     updateTasks(tasks) {
+        this.filterView.updateTasks(tasks);
+
         this.setState({
-            tasks: Object.values(tasks)
+            tasks: tasks
         });
     }
 
@@ -249,7 +251,7 @@ class Project extends React.Component {
                     <PresetFilter presets={this.state.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                 }
                 <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                    {this.state.selectedTasks.sort(function (a, b) {
+                    {this.state.selectedTasks.filter(uuid => uuid in this.state.tasks).map(uuid => this.state.tasks[uuid]).sort(function (a, b) {
                         switch(project.state.sorting[1]) {
                             case 0:
                                 s = a.saved_time - b.saved_time; break;

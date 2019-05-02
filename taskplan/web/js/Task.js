@@ -3,6 +3,32 @@ import State from "./Global";
 import Prompt from "./Prompt";
 
 
+export class TaskName extends React.Component {
+
+    componentDidMount() {
+        window.$('[data-toggle="tooltip"]').tooltip();
+    }
+
+    componentDidUpdate() {
+        window.$('[data-toggle="tooltip"]').tooltip();
+    }
+
+
+    render() {
+        return (
+            this.props.nameChoices.map((choicePreset, i) => (
+                <span>
+                    {i !== 0 &&
+                    <span className="separator">/</span>
+                    }
+                    <span data-toggle="tooltip" data-placement="bottom" data-original-title={choicePreset[0].name + ": " + choicePreset[1].name}>{choicePreset[1].name}</span>
+                </span>
+            ))
+        );
+    }
+}
+
+
 function TaskStatus(props) {
     if (props.state === State.RUNNING) {
         function pad(n) {
@@ -281,7 +307,7 @@ class Task extends React.Component {
                         </div>
                     </div>
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
-                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span>{this.props.task.name}</div>
+                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span><TaskName nameChoices={this.props.task.nameChoices ? this.props.task.nameChoices : []}/></div>
                 </div>
                 <TaskToolbar task={this.props.task}/>
             </li>

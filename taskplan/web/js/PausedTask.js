@@ -1,5 +1,6 @@
 import React from 'react';
 import Prompt from "./Prompt";
+import {TaskName} from "./Task";
 
 class PausedTask extends React.Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class PausedTask extends React.Component {
     openExtraDialog() {
         this.promptExtraRefs.current.openDialog();
     }
+
 
     finish() {
         fetch("/finish/" + this.props.task.uuid)
@@ -60,11 +62,12 @@ class PausedTask extends React.Component {
             )
     }
 
+
     render() {
         return (
             <li className="item item-task">
                 <div className="content">
-                    <div className="title"><span className="try-number">{this.props.task.try}</span>{this.props.task.name}</div>
+                    <div className="title"><span className="try-number">{this.props.task.try}</span><TaskName nameChoices={this.props.task.nameChoices}/></div>
                     <div className="footer">
                         <span><span>Iterations:</span> {this.props.task.finished_iterations} / {this.props.task.total_iterations}</span>
                         <span><span>Started:</span> {this.props.task.creation_time.toShortStr()}</span>

@@ -59,11 +59,16 @@ class View {
         this.root = new RootNode();
         this.root.setChild("default", new TasksNode());
         this.taskByUuid = {};
+        this.tasks = {};
         this.presets = [];
     }
 
     updatePresets(presets) {
         this.presets = presets;
+    }
+
+    updateTasks(tasks) {
+        this.tasks = tasks;
     }
 
     addTasks(tasks) {
@@ -72,6 +77,7 @@ class View {
     }
 
     addTask(task) {
+        this.tasks[task.uuid] = task;
         let node = this.root.children["default"];
 
         for (const preset of this.presets) {
@@ -83,7 +89,7 @@ class View {
                     if (firstTask === null)
                         continue;
 
-                    const formerChoice = this.getChoiceToPreset(firstTask, preset);
+                    const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], preset);
                     if (formerChoice === suitableChoice)
                         continue;
 
@@ -160,7 +166,7 @@ class View {
 
         let targetKey = keys.length;
         for (let i = 0; i < keys.length; i++) {
-            if (!this.compTasks(node.children[i], task)) {
+            if (!this.compTasks(node.children[i], task.uuid)) {
                 targetKey = i;
                 break;
             }
@@ -170,16 +176,16 @@ class View {
             node.children[i + 1] = node.children[i];
         }
 
-        node.children[targetKey] = task;
+        node.children[targetKey] = task.uuid;
     }
 
-    getNodePath(node) {
-        let path = "";
+    getNodeChoicePath(node, task) {
+        let choices = [];
         while (!(node instanceof RootNode) && !(node.parent instanceof RootNode)) {
-            path = node.parentKey + (path.length > 0 ? " / " : "") + path;
+            choices.unshift([node.parent.preset, this.getChoiceToPreset(task, node.parent.preset)]);
             node = node.parent;
         }
-        return path;
+        return choices;
     }
 
     getSelectedTask(selectedChoices) {
@@ -194,7 +200,7 @@ class View {
                     if (firstTask === null)
                         return [];
 
-                    const formerChoice = this.getChoiceToPreset(firstTask, preset);
+                    const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], preset);
                     if (formerChoice === suitableChoice)
                         continue;
                     else

@@ -98,6 +98,7 @@ class Repository {
             if (changedTask.uuid in this.tasks) {
                 changedTask.name = this.tasks[changedTask.uuid].name;
                 changedTask.try = this.tasks[changedTask.uuid].try;
+                changedTask.nameChoices = this.tasks[changedTask.uuid].nameChoices;
             }
 
             this.updateEntity(this.tasks, changedTask, "tasks");
@@ -115,8 +116,8 @@ class Repository {
 
             for (const key of Object.keys(this.tasks)) {
                 let node = this.standardView.taskByUuid[key];
-                this.tasks[key].name = this.standardView.getNodePath(node);
-                this.tasks[key].try = this.standardView.keyInDict(node.children, this.tasks[key]);
+                this.tasks[key].nameChoices = this.standardView.getNodeChoicePath(node, this.tasks[key]);
+                this.tasks[key].try = this.standardView.keyInDict(node.children, key);
             }
         });
         this.onRemove("tasks", (task) => {
@@ -124,6 +125,9 @@ class Repository {
         });
         this.onChange("presets", (presets) => {
             this.standardView.updatePresets(Object.values(presets));
+        });
+        this.onChange("tasks", (tasks) => {
+            this.standardView.updateTasks(tasks);
         });
     }
 
