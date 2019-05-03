@@ -9,12 +9,14 @@ import TaskEditor from "./TaskEditor";
 import TaskView from "./TaskView";
 import PresetFilter from "./PresetFilter";
 import View from "./View";
+import PresetGroup from "./PresetGroup";
 
 class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             presets: [],
+            presetsByGroup: {},
             tasks: [],
             showAbstract: true,
             activeTab: 0,
@@ -71,7 +73,7 @@ class Project extends React.Component {
         this.updateVisibleTasks();
     }
 
-    updateVisibleTasks(selectedChoices=null, presetFilterEnabled=null) {
+    updateVisibleTasks(selectedChoices = null, presetFilterEnabled = null) {
         if (selectedChoices === null)
             selectedChoices = this.state.selectedChoices;
         if (presetFilterEnabled === null)
@@ -92,15 +94,21 @@ class Project extends React.Component {
         this.filterView.updatePresets(Object.values(presets));
 
         let selectedChoices = Object.assign({}, this.state.selectedChoices);
-
+        let presetsByGroup = {};
         for (const preset of Object.values(presets)) {
             if (!(preset.uuid in selectedChoices) && preset.choices.length > 0)
                 selectedChoices[preset.uuid] = preset.choices[0];
+
+            const group = preset.group.length > 0 ? preset.group[0] : '';
+            if (!(group in presetsByGroup))
+                presetsByGroup[group] = [];
+            presetsByGroup[group].push(preset);
         }
 
         this.setState({
             presets: Object.values(presets),
-            selectedChoices: selectedChoices
+            selectedChoices: selectedChoices,
+            presetsByGroup: presetsByGroup
         });
     }
 
@@ -114,14 +122,14 @@ class Project extends React.Component {
 
     toggleShowAbstract() {
         this.setState({
-          showAbstract: !this.state.showAbstract,
+            showAbstract: !this.state.showAbstract,
         });
     }
 
     showTab(tab) {
         this.closeEditors();
         this.setState({
-          activeTab: tab,
+            activeTab: tab,
         });
     }
 
@@ -203,56 +211,44 @@ class Project extends React.Component {
                     <div>
                         <label>Sorting:</label>
                         {this.state.activeTab === 0 &&
-                            <select value={this.state.sorting[0]} onChange={this.onChangeSorting}>
-                                <option value="0">Created</option>
-                                <option value="1">Name</option>
-                                <option value="2">Tries</option>
-                            </select>
+                        <select value={this.state.sorting[0]} onChange={this.onChangeSorting}>
+                            <option value="0">Created</option>
+                            <option value="1">Name</option>
+                            <option value="2">Tries</option>
+                        </select>
                         }
                         {this.state.activeTab === 1 &&
-                            <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
-                                <option value="0">Finished</option>
-                                <option value="1">Name</option>
-                                <option value="2">Created</option>
-                                <option value="3">Iterations</option>
-                            </select>
+                        <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
+                            <option value="0">Finished</option>
+                            <option value="1">Name</option>
+                            <option value="2">Created</option>
+                            <option value="3">Iterations</option>
+                        </select>
                         }
                         <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
                         {this.state.activeTab === 1 &&
-                            <span className="fas fa-sliders-h"onClick={() => this.togglePresetFilter()}></span>
+                        <span className="fas fa-sliders-h" onClick={() => this.togglePresetFilter()}></span>
                         }
                     </div>
                 </div>
                 <ul className="presets-tab" style={{'display': (this.state.activeTab === 0 ? 'block' : 'none')}}>
-                    {this.state.presets.filter(preset => (!preset.abstract || this.state.showAbstract)).sort(function (a, b) {
-                        switch(project.state.sorting[0]) {
-                            case 0:
-                                s = a.creation_time - b.creation_time; break;
-                            case 1:
-                                s = a.name.localeCompare(b.name); break;
-                            case 2:
-                                s = a.started_tries - b.started_tries; break;
-                        }
-                        if (s === 0)
-                            s = a.base.localeCompare(b.base);
-                        if (project.state.sortingDescending[0])
-                            s *= -1;
-                        return s;
-                    }).map(preset => (
-                        <Preset
-                            key={preset.uuid}
-                            preset={preset}
+                    {Object.keys(this.state.presetsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
+                        <PresetGroup
+                            presets={this.state.presetsByGroup[group]}
+                            group={group}
+                            sorting={this.state.sorting[0]}
+                            sortingDescending={this.state.sortingDescending[0]}
                             editPresetFunc={this.presetEditor.current.open}
                             editChoiceFunc={this.choiceEditor.current.open}
                             newChoiceFunc={this.choiceEditor.current.new}
                         />
                     ))}
                 </ul>
-                <PresetEditor ref={this.presetEditor} closeEditors={this.closeEditors} />
-                <ChoiceEditor ref={this.choiceEditor} closeEditors={this.closeEditors} />
+                <PresetEditor ref={this.presetEditor} closeEditors={this.closeEditors}/>
+                <ChoiceEditor ref={this.choiceEditor} closeEditors={this.closeEditors}/>
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 0 ? 'flex' : 'none')}}>
                     <label>
-                        <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />
+                        <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract}/>
                         <span>Show abstract presets</span>
                     </label>
                     <div className="buttons">
@@ -260,40 +256,40 @@ class Project extends React.Component {
                     </div>
                 </div>
                 {this.state.activeTab === 1 && this.state.presetFilterEnabled && !this.state.taskEditorOpen &&
-                    <PresetFilter presets={this.state.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
+                <PresetFilter presets={this.state.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                 }
                 {!this.state.taskEditorOpen &&
-                    <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                        {this.state.selectedTasks.filter(uuid => uuid in this.state.tasks).map(uuid => this.state.tasks[uuid]).sort(function (a, b) {
-                            switch (project.state.sorting[1]) {
-                                case 0:
-                                    s = a.saved_time - b.saved_time;
-                                    break;
-                                case 1:
-                                    s = a.preset_name.localeCompare(b.preset_name);
-                                    break;
-                                case 2:
-                                    s = a.creation_time - b.creation_time;
-                                    break;
-                                case 3:
-                                    s = a.finished_iterations - b.finished_iterations;
-                                    break;
-                            }
-                            if (s === 0)
-                                s = a.try - b.try;
-                            if (project.state.sortingDescending[1])
-                                s *= -1;
-                            return s;
-                        }).map(task => (
-                            <PausedTask
-                                rerunTask={this.rerunTask}
-                                key={task.uuid}
-                                task={task}
-                            />
-                        ))}
-                    </ul>
+                <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                    {this.state.selectedTasks.filter(uuid => uuid in this.state.tasks).map(uuid => this.state.tasks[uuid]).sort(function (a, b) {
+                        switch (project.state.sorting[1]) {
+                            case 0:
+                                s = a.saved_time - b.saved_time;
+                                break;
+                            case 1:
+                                s = a.preset_name.localeCompare(b.preset_name);
+                                break;
+                            case 2:
+                                s = a.creation_time - b.creation_time;
+                                break;
+                            case 3:
+                                s = a.finished_iterations - b.finished_iterations;
+                                break;
+                        }
+                        if (s === 0)
+                            s = a.try - b.try;
+                        if (project.state.sortingDescending[1])
+                            s *= -1;
+                        return s;
+                    }).map(task => (
+                        <PausedTask
+                            rerunTask={this.rerunTask}
+                            key={task.uuid}
+                            task={task}
+                        />
+                    ))}
+                </ul>
                 }
-                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} onClose={this.onTaskEditorClose} />
+                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} onClose={this.onTaskEditorClose}/>
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 1 ? 'flex' : 'none')}}>
                     <label>
                     </label>

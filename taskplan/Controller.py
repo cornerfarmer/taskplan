@@ -109,9 +109,10 @@ class Controller:
     def edit_choice(self, project_name, preset_uuid, choice_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        choice = project.configuration.edit_choice(preset_uuid, choice_uuid, new_data)
+        preset, choice = project.configuration.edit_choice(preset_uuid, choice_uuid, new_data)
 
         self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
+        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
         self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
 
     def add_preset(self, project_name, new_data):
@@ -125,9 +126,10 @@ class Controller:
     def add_choice(self, project_name, preset_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        choice = project.configuration.add_choice(preset_uuid, new_data)
+        preset, choice = project.configuration.add_choice(preset_uuid, new_data)
 
         self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
+        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
         self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
 
     def choice_config(self, project_name, preset_base_uuid=None, preset_uuid=None):
