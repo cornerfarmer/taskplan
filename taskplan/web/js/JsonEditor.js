@@ -115,18 +115,25 @@ class JsonEditor extends React.Component {
             this.props.onChange(newJson);
             this.updateEditor();
         };
-        options.mode = 'tree';
-        options.modes = ['code', 'tree'];
+        options.mode = 'mode' in this.props.options ? this.props.options.mode : 'tree';
+        options.modes = 'modes' in this.props.options ? this.props.options.modes : ['code', 'tree'];
         options.ace = ace;
         options.history = false;
         options.enableSort = false;
         options.enableTransform = false;
+        options.mainMenuBar = 'mainMenuBar' in this.props.options ? this.props.options.mainMenuBar : true;
+        options.statusBar = 'statusBar' in this.props.options ? this.props.options.statusBar : true;
 
         this.jsoneditor = new JSONEditor(this.container, options);
 
+        if ('readOnly' in this.props.options && this.props.options.readOnly) {
+            this.jsoneditor.aceEditor.setReadOnly(true);
+        }
+
         if ('json' in this.props) {
             this.updateEditor();
-            this.jsoneditor.expandAll();
+            if (options.mode === 'tree')
+                this.jsoneditor.expandAll();
         }
     }
 
@@ -202,7 +209,7 @@ class JsonEditor extends React.Component {
 
     render() {
         return (
-            <div className="jsoneditor-react-container" ref={elem => this.container = elem}/>
+            <div className={"jsoneditor-react-container" + ('readOnly' in this.props.options && this.props.options.readOnly ? ' jsoneditor-readOnly' : '')} ref={elem => this.container = elem}/>
         );
     }
 }

@@ -78,7 +78,7 @@ class ConfigEditor extends React.Component {
     render() {
         if (this.state.loadedUrl === this.props.url)
             return (
-                <JsonEditor ref={this.jsonEditor} json={this.state.config} inheritedJson={this.state.inheritedConfig} onChange={this.onChange}/>
+                <JsonEditor ref={this.jsonEditor} json={this.state.config} inheritedJson={this.state.inheritedConfig} onChange={this.onChange} options={this.props.preview ? {mode: 'code', modes: ['code'], readOnly: true, mainMenuBar: false, statusBar: false} : {}} />
             );
         else
             return (

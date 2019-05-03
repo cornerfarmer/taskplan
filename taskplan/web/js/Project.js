@@ -22,7 +22,8 @@ class Project extends React.Component {
             sortingDescending: [true, true],
             selectedChoices: {},
             selectedTasks: [],
-            presetFilterEnabled: true
+            presetFilterEnabled: true,
+            taskEditorOpen: false
         };
         this.updateTasks = this.updateTasks.bind(this);
         this.updatePresets = this.updatePresets.bind(this);
@@ -37,6 +38,7 @@ class Project extends React.Component {
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
+        this.onTaskEditorClose = this.onTaskEditorClose.bind(this);
         this.presetEditor = React.createRef();
         this.choiceEditor = React.createRef();
         this.taskEditor = React.createRef();
@@ -139,6 +141,9 @@ class Project extends React.Component {
 
     newTask() {
         this.taskEditor.current.new();
+        this.setState({
+            taskEditorOpen: true
+        })
     }
 
     onChangeSorting(e) {
@@ -155,6 +160,15 @@ class Project extends React.Component {
 
     rerunTask(task) {
         this.taskEditor.current.open(task);
+        this.setState({
+            taskEditorOpen: true
+        })
+    }
+
+    onTaskEditorClose() {
+        this.setState({
+            taskEditorOpen: false
+        })
     }
 
     onSelectionChange(preset, choice) {
@@ -245,35 +259,41 @@ class Project extends React.Component {
                         <div onClick={this.addPreset}>Add preset</div>
                     </div>
                 </div>
-                {this.state.activeTab === 1 && this.state.presetFilterEnabled &&
+                {this.state.activeTab === 1 && this.state.presetFilterEnabled && !this.state.taskEditorOpen &&
                     <PresetFilter presets={this.state.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                 }
-                <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
-                    {this.state.selectedTasks.filter(uuid => uuid in this.state.tasks).map(uuid => this.state.tasks[uuid]).sort(function (a, b) {
-                        switch(project.state.sorting[1]) {
-                            case 0:
-                                s = a.saved_time - b.saved_time; break;
-                            case 1:
-                                s = a.preset_name.localeCompare(b.preset_name); break;
-                            case 2:
-                                s = a.creation_time - b.creation_time; break;
-                            case 3:
-                                s = a.finished_iterations - b.finished_iterations; break;
-                        }
-                        if (s === 0)
-                            s = a.try - b.try;
-                        if (project.state.sortingDescending[1])
-                            s *= -1;
-                        return s;
-                    }).map(task => (
-                        <PausedTask
-                            rerunTask={this.rerunTask}
-                            key={task.uuid}
-                            task={task}
-                        />
-                    ))}
-                </ul>
-                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} />
+                {!this.state.taskEditorOpen &&
+                    <ul className="tasks-tab" style={{'display': (this.state.activeTab === 1 ? 'block' : 'none')}}>
+                        {this.state.selectedTasks.filter(uuid => uuid in this.state.tasks).map(uuid => this.state.tasks[uuid]).sort(function (a, b) {
+                            switch (project.state.sorting[1]) {
+                                case 0:
+                                    s = a.saved_time - b.saved_time;
+                                    break;
+                                case 1:
+                                    s = a.preset_name.localeCompare(b.preset_name);
+                                    break;
+                                case 2:
+                                    s = a.creation_time - b.creation_time;
+                                    break;
+                                case 3:
+                                    s = a.finished_iterations - b.finished_iterations;
+                                    break;
+                            }
+                            if (s === 0)
+                                s = a.try - b.try;
+                            if (project.state.sortingDescending[1])
+                                s *= -1;
+                            return s;
+                        }).map(task => (
+                            <PausedTask
+                                rerunTask={this.rerunTask}
+                                key={task.uuid}
+                                task={task}
+                            />
+                        ))}
+                    </ul>
+                }
+                <TaskEditor ref={this.taskEditor} presets={this.state.presets} project_name={this.props.project.name} onClose={this.onTaskEditorClose} />
                 <div className="tab-toolbar" style={{'display': (this.state.activeTab === 1 ? 'flex' : 'none')}}>
                     <label>
                     </label>

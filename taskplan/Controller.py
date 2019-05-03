@@ -158,7 +158,7 @@ class Controller:
 
         config = Preset({"config": {}}, base_presets)
 
-        return {'inherited_config': config.get_merged_config(), "config": {}, 'dynamic': config.treat_dynamic()}
+        return {'inherited_config': {}, "config": config.get_merged_config(), 'dynamic': config.treat_dynamic()}
 
     def change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)

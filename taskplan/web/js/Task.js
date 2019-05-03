@@ -1,29 +1,36 @@
 import React from 'react';
 import State from "./Global";
 import Prompt from "./Prompt";
-
+import $ from 'jquery';
 
 export class TaskName extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.wrapperRef = React.createRef();
+    }
+
     componentDidMount() {
-        window.$('[data-toggle="tooltip"]').tooltip();
+        $(this.wrapperRef.current).find('[data-toggle="tooltip"]').tooltip();
     }
 
     componentDidUpdate() {
-        window.$('[data-toggle="tooltip"]').tooltip();
+        $(this.wrapperRef.current).find('[data-toggle="tooltip"]').tooltip();
     }
 
 
     render() {
         return (
-            this.props.nameChoices.map((choicePreset, i) => (
-                <span>
-                    {i !== 0 &&
-                    <span className="separator">/</span>
-                    }
-                    <span data-toggle="tooltip" data-placement="bottom" data-original-title={choicePreset[0].name + ": " + choicePreset[1].name}>{choicePreset[1].name}</span>
-                </span>
-            ))
+            <span ref={this.wrapperRef} >
+                {this.props.nameChoices.map((choicePreset, i) => (
+                    <span>
+                        {i !== 0 &&
+                        <span className="separator">/</span>
+                        }
+                        <span data-toggle="tooltip" data-placement="bottom" data-original-title={choicePreset[0].name + ": " + choicePreset[1].name}>{choicePreset[1].name}</span>
+                    </span>
+                ))}
+            </span>
         );
     }
 }

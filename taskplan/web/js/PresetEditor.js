@@ -95,7 +95,7 @@ class PresetEditor extends React.Component {
                     <div className="header">{this.state.preset.name}</div>
                     <div className="field">
                         <label>Name:</label>
-                        <input value={this.state.name} onChange={this.onNameChange} placeholder="<generate name>" />
+                        <input value={this.state.name} onChange={this.onNameChange} required="required" />
                     </div>
                     {this.state.preset.choices.length > 0 &&
                     <div className="field">
