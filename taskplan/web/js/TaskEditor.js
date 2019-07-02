@@ -3,6 +3,7 @@ import ConfigEditor from "./ConfigEditor";
 import Preset from "./Preset";
 import Option from "./Option";
 import PresetFilter from "./PresetFilter";
+import JsonEditor from "./JsonEditor";
 
 class TaskEditor extends React.Component {
     constructor(props) {
@@ -78,6 +79,8 @@ class TaskEditor extends React.Component {
             choice: null,
             open: false
         });
+
+        this.props.onClose();
     }
 
     run() {
@@ -148,18 +151,18 @@ class TaskEditor extends React.Component {
                     <div className="header">Start task</div>
                     <div className="field">
                         <label>Total iterations:</label>
-                        <input value={this.state.total_iterations} onChange={this.onTotalIterationsChange} />
+                        <input value={this.state.total_iterations} onChange={this.onTotalIterationsChange} required="required" />
                     </div>
                     <div className="field">
                         <label>Save interval:</label>
-                        <input value={this.state.save_interval} onChange={this.onSaveIntervalChange} />
+                        <input value={this.state.save_interval} onChange={this.onSaveIntervalChange} required="required" />
                     </div>
                     <div className="field">
                         <label>Checkpoint interval:</label>
-                        <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} />
+                        <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} required="required" />
                     </div>
                     <PresetFilter presets={this.props.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
-                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true}/>
                     <div className="buttons">
                         <div onClick={this.run}>Run</div>
                         <div onClick={this.close}>Cancel</div>

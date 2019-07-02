@@ -1,12 +1,18 @@
+.editor.task-editor {
+    flex: 1 1 0;
+}
 
 .editor .header {
     padding: 5px 16px;
     background: rgba(158,158,158,.2);
 }
 
-.editor .field,
-.editor .preset-filter {
+.editor .field {
     margin: 10px 16px;
+}
+
+.editor .preset-filter {
+    margin: 30px 16px;
 }
 
 .editor .field {
@@ -17,7 +23,7 @@
 
 .editor .field label {
     margin: 0;
-    width: 100px;
+    width: 150px;
 }
 
 .editor .field input,
@@ -38,6 +44,25 @@
     margin: 16px;
     height: 250px;
     border-color:  #3f51b5;
+}
+
+
+.editor .jsoneditor-readOnly .jsoneditor {
+    border-color: rgba(158,158,158,.2);
+    height: auto;
+}
+
+.editor .jsoneditor-readOnly .ace-jsoneditor .ace_marker-layer .ace_active-line,
+.editor .jsoneditor-readOnly .ace-jsoneditor .ace_gutter-active-line {
+    background-color: inherit;
+}
+
+.editor .jsoneditor-readOnly .ace-jsoneditor .ace_scroller {
+    background-color: rgba(158,158,158,.1);
+}
+
+.editor .jsoneditor-readOnly .ace_cursor-layer {
+    display: none;
 }
 
 .editor .editor-loading {

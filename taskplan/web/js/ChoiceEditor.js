@@ -79,6 +79,7 @@ class ChoiceEditor extends React.Component {
     }
 
     save() {
+
         var data = new FormData();
 
         var dataJson = {};
@@ -164,7 +165,7 @@ class ChoiceEditor extends React.Component {
                     <div className="header">{this.state.choice.name}</div>
                     <div className="field">
                         <label>Name:</label>
-                        <input value={this.state.name} onChange={this.onNameChange} placeholder="<generate name>" />
+                        <input value={this.state.name} onChange={this.onNameChange}  required="required" />
                     </div>
                     <div className="field">
                         <label>Base:</label>

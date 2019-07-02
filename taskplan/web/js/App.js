@@ -1,3 +1,6 @@
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
 import React from 'react';
 import Scheduler from './Scheduler'
 import ProjectManager from "./ProjectManager";
@@ -5,6 +8,7 @@ import FlashMessageManager from "./FlashMessageManager"
 import ControlBar from "./ControlBar";
 import ReconnectingEventSource from "reconnecting-eventsource";
 import Repository from "./Repository";
+
 
 class App extends React.Component {
     constructor(props) {

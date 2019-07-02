@@ -50,6 +50,7 @@ class ServerSentEvent(object):
             data_client['name'] = data.get_metadata("name")
             data_client['project_name'] = parent_data.name
             data_client['deprecated_choice'] = data.get_metadata("deprecated_choice")
+            data_client['group'] = parent_data.configuration.get_preset_group(data)
         elif event_type is EventType.CHOICE_CHANGED:
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.get_metadata("name")

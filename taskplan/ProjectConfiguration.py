@@ -1,4 +1,5 @@
 from taskconf.config.Configuration import Configuration
+import collections
 
 
 class ProjectConfiguration:
@@ -8,8 +9,43 @@ class ProjectConfiguration:
         self.choices_conf_path = "taskplan_choices.json"
         self.settings = []
 
+        self.preset_groups = {}
+        for preset in self.get_presets():
+            self._recalc_preset_group(preset)
+
+    def _recalc_preset_group(self, preset):
+        merged_config = {}
+
+        for choice in self.get_choices():
+            if choice.get_metadata('preset') == str(preset.uuid):
+                self._deep_update(merged_config, choice.get_merged_config(True))
+
+        merged_timesteps = {}
+        for timestep in merged_config.keys():
+            self._deep_update(merged_timesteps, merged_config[timestep])
+
+        unique_keys = []
+        while len(merged_timesteps.keys()) == 1 and type(list(merged_timesteps.values())[0]) == dict:
+            unique_keys.append(list(merged_timesteps.keys())[0])
+            merged_timesteps = list(merged_timesteps.values())[0]
+
+        self.preset_groups[str(preset.uuid)] = unique_keys
+
+    def get_preset_group(self, preset):
+        return self.preset_groups[preset.uuid]
+
+    def _deep_update(self, d, u):
+        for k, v in u.items():
+            if isinstance(v, collections.Mapping):
+                d[k] = self._deep_update(d.get(k, {}), v)
+            else:
+                d[k] = v
+        return d
+
     def add_preset(self, new_data):
-        return self.configuration.add_preset(new_data, self.presets_conf_path)
+        preset = self.configuration.add_preset(new_data, self.presets_conf_path)
+        self.preset_groups[str(preset.uuid)] = []
+        return preset
 
     def add_preset_batch(self, config):
         added_presets = []
@@ -46,11 +82,12 @@ class ProjectConfiguration:
         choice = self.configuration.add_preset(new_data, self.choices_conf_path, {"preset": preset_uuid})
 
         preset = self.get_preset(preset_uuid)
+        self._recalc_preset_group(preset)
         if preset.get_metadata("deprecated_choice") == "":
             preset.set_metadata("deprecated_choice", str(choice.uuid))
             self.configuration.save()
 
-        return choice
+        return preset, choice
 
     def edit_preset(self, preset_uuid, new_data):
         preset = self.get_preset(preset_uuid)
@@ -68,8 +105,11 @@ class ProjectConfiguration:
         new_data['preset'] = preset_uuid
         choice.set_data(new_data)
 
+        preset = self.get_preset(preset_uuid)
+        self._recalc_preset_group(preset)
+
         self.configuration.save()
-        return choice
+        return preset, choice
 
     def add_task(self, base_presets, config):
         preset_data = {}
