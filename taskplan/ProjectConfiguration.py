@@ -11,6 +11,34 @@ class ProjectConfiguration:
     def add_preset(self, new_data):
         return self.configuration.add_preset(new_data, self.presets_conf_path)
 
+    def add_preset_batch(self, config):
+        added_presets = []
+        added_choices = []
+        self._add_preset_batch(config, added_presets, added_choices)
+        return added_presets, added_choices
+
+    def _add_preset_batch(self, config, added_presets, added_choices, prefix=[]):
+        for key in config.keys():
+            if type(config[key]) == dict:
+                self._add_preset_batch(config[key], added_presets, added_choices, prefix + [key])
+            else:
+                data = {}
+                data["name"] = key
+                data["config"] = {}
+                data["deprecated_choice"] = ""
+
+                added_presets.append(self.add_preset(data))
+
+                data = {}
+                data["name"] = key + "_" + str(config[key])
+                data["config"] = {}
+                sub_config = data["config"]
+                for sub_key in prefix:
+                    sub_config[sub_key] = {}
+                    sub_config = sub_config[sub_key]
+                sub_config[key] = config[key]
+                added_choices.append(self.add_choice(added_presets[-1].uuid, data))
+
     def add_choice(self, preset_uuid, new_data):
         if preset_uuid not in self.configuration.presets_by_uuid or self.configuration.presets_by_uuid[preset_uuid] not in self.get_presets():
             raise LookupError("No preset with uuid " + preset_uuid)

@@ -122,6 +122,19 @@ class Controller:
         self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
         self.event_manager.log("Preset \"" + preset.uuid + "\" has been added", "Preset has been added")
 
+    def add_preset_batch(self, project_name, config):
+        project = self.project_manager.project_by_name(project_name)
+
+        added_presets, added_choices = project.configuration.add_preset_batch(config)
+
+        for preset in added_presets:
+            self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+            self.event_manager.log("Preset \"" + preset.uuid + "\" has been added", "Preset has been added")
+
+        for choice in added_choices:
+            self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
+            self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
+
     def add_choice(self, project_name, preset_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 

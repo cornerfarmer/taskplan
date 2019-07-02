@@ -27,7 +27,7 @@ def init():
 def web():
     app = run()
 
-    app.run(host='0.0.0.0', port='9999')
+    app.run(host='0.0.0.0', port='9998')
 
 
 @cli.command()

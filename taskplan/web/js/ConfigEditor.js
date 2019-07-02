@@ -8,7 +8,7 @@ class ConfigEditor extends React.Component {
         this.state = {
             config: {},
             inheritedConfig: {},
-            loadedUrl: '',
+            loadedUrl: null,
             dataJsonString: ''
         };
 
@@ -21,18 +21,24 @@ class ConfigEditor extends React.Component {
     }
 
     componentDidMount() {
+        this.setState({
+            loadedUrl: null
+        });
         this.reload();
     }
 
     reload() {
-        if (this.props.url === "" && this.state.loadedUrl !== this.props.url) {
+        if (this.props.url === "") {
 
-            this.setState({
-                config: {},
-                inheritedConfig: {},
-                loadedUrl: this.props.url
-            });
-            this.jsonEditor.current.updateEditor();
+            if (this.state.loadedUrl !== this.props.url) {
+                this.setState({
+                    config: {},
+                    inheritedConfig: {},
+                    loadedUrl: this.props.url
+                });
+                if (this.jsonEditor.current !== null)
+                    this.jsonEditor.current.updateEditor();
+            }
         } else {
             var dataJson = {};
             dataJson['bases'] = this.props.bases;

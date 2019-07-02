@@ -142,8 +142,8 @@ class TaskEditor extends React.Component {
     }
 
     render() {
-        if (this.state.open) {
-            return (
+        return (
+            <div style={{'display': (this.props.active ? 'block' : 'none')}}>
                 <div className="task-editor editor">
                     <div className="header">Start task</div>
                     <div className="field">
@@ -165,10 +165,8 @@ class TaskEditor extends React.Component {
                         <div onClick={this.close}>Cancel</div>
                     </div>
                 </div>
-            );
-        } else {
-            return "";
-        }
+            </div>
+        );
     }
 }
 

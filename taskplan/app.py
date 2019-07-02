@@ -106,6 +106,12 @@ def run():
         controller.add_preset(project_name, new_data)
         return jsonify({})
 
+    @app.route('/add_preset_batch/<string:project_name>', methods=['POST'])
+    def add_preset_batch(project_name):
+        config = json.loads(request.form.get('data'))["config"]
+        controller.add_preset_batch(project_name, config)
+        return jsonify({})
+
     @app.route('/add_choice/<string:project_name>/<string:preset_uuid>', methods=['POST'])
     def add_choice(project_name, preset_uuid):
         new_data = json.loads(request.form.get('data'))

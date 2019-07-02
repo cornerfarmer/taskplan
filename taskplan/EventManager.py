@@ -59,6 +59,7 @@ class ServerSentEvent(object):
             data_client['abstract'] = data.abstract
             data_client['dynamic'] = data.dynamic
             data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
+            data_client['path'] = data.path()
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
             data_client['version'] = data.versions[-1]
