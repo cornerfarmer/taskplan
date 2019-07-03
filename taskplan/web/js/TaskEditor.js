@@ -65,7 +65,7 @@ class TaskEditor extends React.Component {
 
         for (const preset of this.props.presets) {
             if (!(preset.uuid in selectedChoices))
-                selectedChoices[preset.uuid] = preset.choices[0].uuid;
+                selectedChoices[preset.uuid] = preset.default_choice.uuid;
         }
 
         this.setState({
@@ -146,7 +146,7 @@ class TaskEditor extends React.Component {
 
     render() {
         return (
-            <div style={{'display': (this.props.active ? 'block' : 'none')}}>
+            <div style={{'display': (this.state.open ? 'block' : 'none')}}>
                 <div className="task-editor editor">
                     <div className="header">Start task</div>
                     <div className="field">

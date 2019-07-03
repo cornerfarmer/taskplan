@@ -19,6 +19,7 @@ class TaskTab extends React.Component {
         this.newTask = this.newTask.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
+        this.taskEditor = React.createRef();
     }
 
     closeEditors() {

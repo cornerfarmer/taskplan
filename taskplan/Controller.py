@@ -104,7 +104,7 @@ class Controller:
         preset = project.configuration.edit_preset(preset_uuid, new_data)
 
         self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-        self.event_manager.log("Preset \"" + preset.name + "\" has been changed", "Preset has been changed")
+        self.event_manager.log("Preset \"" + preset.uuid + "\" has been changed", "Preset has been changed")
 
     def edit_choice(self, project_name, preset_uuid, choice_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)

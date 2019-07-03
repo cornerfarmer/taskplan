@@ -11,7 +11,7 @@ class PresetFilter extends React.Component {
     render() {
         return (
             <div className="preset-filter">
-                {this.props.presets.filter(preset => Object.keys(preset.choices).length > 0).map(preset => (
+                {this.props.presets.filter(preset => Object.keys(preset.choices).length > 1).map(preset => (
                     <div className="preset">
                         <div className="preset-name">
                             {preset.name}

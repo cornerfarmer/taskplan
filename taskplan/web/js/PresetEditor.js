@@ -6,7 +6,8 @@ class PresetEditor extends React.Component {
         this.state = {
             preset: null,
             name: '',
-            deprecatedChoice: ''
+            deprecatedChoice: '',
+            defaultChoice: ''
         };
 
         this.configEditor = React.createRef();
@@ -16,6 +17,7 @@ class PresetEditor extends React.Component {
         this.new = this.new.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
         this.onDeprecatedChoiceChange = this.onDeprecatedChoiceChange.bind(this);
+        this.onDefaultChoiceChange = this.onDefaultChoiceChange.bind(this);
     }
 
     open(preset) {
@@ -23,7 +25,8 @@ class PresetEditor extends React.Component {
         this.setState({
             preset: preset,
             name: preset.name,
-            deprecatedChoice: preset.deprecatedChoice
+            deprecatedChoice: preset.deprecated_choice.uuid,
+            defaultChoice: preset.default_choice.uuid
         });
     }
 
@@ -32,7 +35,8 @@ class PresetEditor extends React.Component {
         this.setState({
             preset: {name: 'New preset', project_name: project_name, choices: []},
             name: '',
-            deprecatedChoice: ''
+            deprecatedChoice: '',
+            defaultChoice: ''
         });
     }
 
@@ -48,6 +52,7 @@ class PresetEditor extends React.Component {
         var dataJson = {};
         dataJson['name'] = this.state.name;
         dataJson['deprecated_choice'] = this.state.deprecatedChoice;
+        dataJson['default_choice'] = this.state.defaultChoice;
         dataJson['config'] = {};
 
         data.append("data", JSON.stringify(dataJson));
@@ -88,6 +93,12 @@ class PresetEditor extends React.Component {
         });
     }
 
+    onDefaultChoiceChange(event) {
+        this.setState({
+            defaultChoice: event.target.value
+        });
+    }
+
     render() {
         if (this.state.preset !== null) {
             return (
@@ -101,6 +112,16 @@ class PresetEditor extends React.Component {
                     <div className="field">
                         <label>Choice for deprecated tasks:</label>
                         <select value={this.state.deprecatedChoice} onChange={this.onDeprecatedChoiceChange}>
+                            {this.state.preset.choices.map(choice => (
+                                <option value={choice.uuid}>{choice.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    }
+                    {this.state.preset.choices.length > 0 &&
+                    <div className="field">
+                        <label>Default choice for new tasks:</label>
+                        <select value={this.state.defaultChoice} onChange={this.onDefaultChoiceChange}>
                             {this.state.preset.choices.map(choice => (
                                 <option value={choice.uuid}>{choice.name}</option>
                             ))}

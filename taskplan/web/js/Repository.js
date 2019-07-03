@@ -43,6 +43,8 @@ class Repository {
             }
             if (changedPreset.deprecated_choice in this.choices)
                 changedPreset.deprecated_choice = this.choices[changedPreset.deprecated_choice];
+            if (changedPreset.default_choice in this.choices)
+                changedPreset.default_choice = this.choices[changedPreset.default_choice];
 
             this.updateEntity(this.presets, changedPreset, "presets");
         });
@@ -69,6 +71,11 @@ class Repository {
             preset = Object.values(this.presets).find((preset) => preset.deprecated_choice === changedChoice.uuid);
             if (preset !== undefined) {
                 preset.deprecated_choice = changedChoice;
+                this.updateEntity(this.presets, preset, "presets");
+            }
+            preset = Object.values(this.presets).find((preset) => preset.default_choice === changedChoice.uuid);
+            if (preset !== undefined) {
+                preset.default_choice = changedChoice;
                 this.updateEntity(this.presets, preset, "presets");
             }
         });

@@ -11,12 +11,14 @@ import PresetFilter from "./PresetFilter";
 import View from "./View";
 import PresetTab from "./PresetTab";
 import TaskTab from "./TaskTab";
+import PresetGroup from "./PresetGroup";
 
 class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             presets: [],
+            presetsByGroup: {},
             tasks: [],
             activeTab: 0,
             sorting: [0, 0],
@@ -34,9 +36,6 @@ class Project extends React.Component {
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
-        this.presetEditor = React.createRef();
-        this.choiceEditor = React.createRef();
-        this.taskEditor = React.createRef();
         this.filterView = new View();
     }
 
@@ -88,14 +87,21 @@ class Project extends React.Component {
 
         let selectedChoices = Object.assign({}, this.state.selectedChoices);
 
+        let presetsByGroup = {};
         for (const preset of Object.values(presets)) {
             if (!(preset.uuid in selectedChoices) && preset.choices.length > 0)
                 selectedChoices[preset.uuid] = preset.choices[0];
+
+            const group = preset.group.length > 0 ? preset.group[0] : '';
+            if (!(group in presetsByGroup))
+                presetsByGroup[group] = [];
+            presetsByGroup[group].push(preset);
         }
 
         this.setState({
             presets: Object.values(presets),
-            selectedChoices: selectedChoices
+            selectedChoices: selectedChoices,
+            presetsByGroup: presetsByGroup
         });
     }
 
@@ -183,7 +189,7 @@ class Project extends React.Component {
                 </div>
                 <PresetTab
                     active={this.state.activeTab === 0}
-                    presets={this.state.presets}
+                    presetsByGroup={this.state.presetsByGroup}
                     sorting={this.state.sorting}
                     project={this.props.project}
                     sortingDescending={this.state.sortingDescending}

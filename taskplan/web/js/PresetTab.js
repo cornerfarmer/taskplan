@@ -10,6 +10,7 @@ import TaskView from "./TaskView";
 import PresetFilter from "./PresetFilter";
 import View from "./View";
 import PresetBatchEditor from "./PresetBatchEditor";
+import PresetGroup from "./PresetGroup";
 
 class PresetTab extends React.Component {
     constructor(props) {
@@ -54,25 +55,12 @@ class PresetTab extends React.Component {
         return (
             <div className="tab" style={{'display': (this.props.active ? 'flex' : 'none')}}>
                 <ul className="presets-tab" >
-                    {this.props.presets.filter(preset => (!preset.abstract || this.state.showAbstract)).sort((a, b) => {
-                        let s;
-                        switch(this.props.sorting[0]) {
-                            case 0:
-                                s = a.creation_time - b.creation_time; break;
-                            case 1:
-                                s = a.name.localeCompare(b.name); break;
-                            case 2:
-                                s = a.started_tries - b.started_tries; break;
-                        }
-                        if (s === 0)
-                            s = a.base.localeCompare(b.base);
-                        if (this.props.sortingDescending[0])
-                            s *= -1;
-                        return s;
-                    }).map(preset => (
-                        <Preset
-                            key={preset.uuid}
-                            preset={preset}
+                    {Object.keys(this.props.presetsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
+                        <PresetGroup
+                            presets={this.props.presetsByGroup[group]}
+                            group={group}
+                            sorting={this.props.sorting[0]}
+                            sortingDescending={this.props.sortingDescending[0]}
                             editPresetFunc={this.presetEditor.current.open}
                             editChoiceFunc={this.choiceEditor.current.open}
                             newChoiceFunc={this.choiceEditor.current.new}

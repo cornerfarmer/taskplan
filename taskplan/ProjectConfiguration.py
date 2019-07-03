@@ -62,6 +62,7 @@ class ProjectConfiguration:
                 data["name"] = key
                 data["config"] = {}
                 data["deprecated_choice"] = ""
+                data["default_choice"] = ""
 
                 added_presets.append(self.add_preset(data))
 
@@ -73,7 +74,7 @@ class ProjectConfiguration:
                     sub_config[sub_key] = {}
                     sub_config = sub_config[sub_key]
                 sub_config[key] = config[key]
-                added_choices.append(self.add_choice(added_presets[-1].uuid, data))
+                added_choices.append(self.add_choice(added_presets[-1].uuid, data)[1])
 
     def add_choice(self, preset_uuid, new_data):
         if preset_uuid not in self.configuration.presets_by_uuid or self.configuration.presets_by_uuid[preset_uuid] not in self.get_presets():
@@ -86,6 +87,9 @@ class ProjectConfiguration:
         if preset.get_metadata("deprecated_choice") == "":
             preset.set_metadata("deprecated_choice", str(choice.uuid))
             self.configuration.save()
+        if preset.get_metadata("default_choice") == "":
+            preset.set_metadata("default_choice", str(choice.uuid))
+            self.configuration.save()
 
         return preset, choice
 
@@ -94,6 +98,8 @@ class ProjectConfiguration:
         new_data['uuid'] = preset.uuid
         new_data['creation_time'] = preset.data['creation_time']
         preset.set_data(new_data)
+        preset.set_metadata("deprecated_choice", new_data["deprecated_choice"])
+        preset.set_metadata("default_choice", new_data["default_choice"])
 
         self.configuration.save()
         return preset
