@@ -32,15 +32,25 @@ def web():
 
 @cli.command()
 @click.argument('project_name')
-@click.argument('preset_uuid')
 @click.argument('total_iterations', type=int)
-def start(project_name, preset_uuid, total_iterations):
+@click.argument('choices', nargs=-1)
+@click.option('--save', type=int, default=0)
+@click.option('--checkpoint', type=int, default=0)
+def start(project_name, total_iterations, choices, save, checkpoint):
     event_manager, controller = _start_controller()
 
     try:
         controller.start()
-        task = controller.start_new_task(project_name, preset_uuid, total_iterations)
-        print("Starting preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
+        config = {
+            "save_interval": save,
+            "checkpoint_interval": checkpoint
+        }
+        choices_per_preset = {}
+        for i in range(0, len(choices), 2):
+            choices_per_preset[choices[i]] = choices[i + 1]
+
+        task = controller.start_new_task(project_name, choices_per_preset, config, total_iterations)
+        print("Starting task \"" + str(task.uuid))
 
         console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
         console_ui.run()
@@ -58,7 +68,7 @@ def continue_task(task_uuid, total_iterations=0):
         controller.start()
         task = controller.continue_task(task_uuid, total_iterations)
         if task is not None:
-            print("Continuing preset \"" + task.preset.name + "\" (try " + str(task.try_number) + ") - " + str(task.uuid))
+            print("Continuing task" + str(task.uuid))
 
             console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
             console_ui.run()
@@ -70,22 +80,31 @@ def continue_task(task_uuid, total_iterations=0):
 
 @cli.command(name="test")
 @click.argument('project_name')
-@click.argument('preset_uuid')
 @click.argument('total_iterations', type=int)
+@click.argument('choices', nargs=-1)
+@click.option('--save', type=int, default=0)
+@click.option('--checkpoint', type=int, default=0)
 @click.option('--load', is_flag=True)
-def test_task(project_name, preset_uuid, total_iterations, load):
+def test_task(project_name, total_iterations, choices, save, checkpoint, load):
     event_manager, controller = _start_controller()
 
     try:
         controller.start()
+        config = {
+            "save_interval": save,
+            "checkpoint_interval": checkpoint
+        }
+        choices_per_preset = {}
+        for i in range(0, len(choices), 2):
+            choices_per_preset[choices[i]] = choices[i + 1]
 
         if not load:
-            task = controller.start_new_task(project_name, preset_uuid, total_iterations, is_test=True)
+            task = controller.start_new_task(project_name, choices_per_preset, config, total_iterations, is_test=True)
         else:
-            task = controller.continue_test_task(project_name, preset_uuid, total_iterations)
+            task = controller.continue_test_task(project_name, choices_per_preset, config, total_iterations)
 
         if task is not None:
-            print("Testing preset \"" + task.preset.name + "\" - " + str(task.uuid))
+            print("Testing task \"" + str(task.uuid))
             console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
             console_ui.run()
         else:

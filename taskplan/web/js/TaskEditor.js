@@ -4,6 +4,7 @@ import Preset from "./Preset";
 import Option from "./Option";
 import PresetFilter from "./PresetFilter";
 import JsonEditor from "./JsonEditor";
+import $ from "jquery";
 
 class TaskEditor extends React.Component {
     constructor(props) {
@@ -22,7 +23,9 @@ class TaskEditor extends React.Component {
             total_iterations: "",
             save_interval: "0",
             checkpoint_interval: "0",
-            open: false
+            open: false,
+            command: "",
+            commandHint: ""
         };
 
 
@@ -33,6 +36,9 @@ class TaskEditor extends React.Component {
         this.new = this.new.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
         this.onTotalIterationsChange = this.onTotalIterationsChange.bind(this);
+        this.copyCommand = this.copyCommand.bind(this);
+        this.wrapperRef = React.createRef();
+        this.commandInput = React.createRef();
     }
 
     open(task) {
@@ -58,6 +64,7 @@ class TaskEditor extends React.Component {
             selectedChoices: selectedChoices,
             open: true
         });
+        this.updatecommand(selectedChoices);
     }
 
     new() {
@@ -72,6 +79,7 @@ class TaskEditor extends React.Component {
             selectedChoices: selectedChoices,
             open: true
         });
+        this.updatecommand(selectedChoices);
     }
 
     close() {
@@ -123,6 +131,7 @@ class TaskEditor extends React.Component {
         this.setState({
             selectedChoices: selectedChoices
         });
+        this.updatecommand(selectedChoices);
     }
 
 
@@ -130,6 +139,7 @@ class TaskEditor extends React.Component {
         this.setState({
             total_iterations: event.target.value
         });
+        this.updatecommand(null, event.target.value);
     }
 
     onSaveIntervalChange(event) {
@@ -144,9 +154,50 @@ class TaskEditor extends React.Component {
         });
     }
 
+    updatecommand(selectedChoices = null, total_iterations = null) {
+        if (selectedChoices === null)
+            selectedChoices = this.state.selectedChoices;
+        if (total_iterations === null)
+            total_iterations = this.state.total_iterations;
+        let choices = "";
+
+        for (const preset of this.props.presets) {
+            if (preset.uuid in selectedChoices)
+                choices += preset.uuid + " " + selectedChoices[preset.uuid] + " ";
+        }
+
+        if (total_iterations !== "") {
+            this.setState({
+                command: "taskplan start " + this.props.project_name + " " + total_iterations + " " + choices,
+                commandHint: "Click to copy"
+            });
+        } else {
+            this.setState({
+                command: "",
+                commandHint: "Total iterations missing"
+            });
+        }
+    }
+
+    componentDidMount() {
+        $(this.wrapperRef.current).find('[data-toggle="tooltip"]').tooltip();
+    }
+
+    componentDidUpdate() {
+        $(this.wrapperRef.current).find('[data-toggle="tooltip"]').tooltip();
+    }
+
+    copyCommand() {
+        this.commandInput.current.select();
+        document.execCommand("copy");
+        this.setState({
+            commandHint: "Copied!"
+        }, () => $(this.commandInput.current).tooltip('show'));
+    }
+
     render() {
         return (
-            <div style={{'display': (this.state.open ? 'block' : 'none')}}>
+            <div ref={this.wrapperRef} style={{'display': (this.state.open ? 'block' : 'none')}}>
                 <div className="task-editor editor">
                     <div className="header">Start task</div>
                     <div className="field">
@@ -163,6 +214,10 @@ class TaskEditor extends React.Component {
                     </div>
                     <PresetFilter presets={this.props.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                     <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true}/>
+                    <div className="field">
+                        <label>Command:</label>
+                        <input className="command" ref={this.commandInput} onClick={this.copyCommand} data-toggle="tooltip" data-placement="bottom" data-original-title={this.state.commandHint} value={this.state.command} readOnly={true} />
+                    </div>
                     <div className="buttons">
                         <div onClick={this.run}>Run</div>
                         <div onClick={this.close}>Cancel</div>

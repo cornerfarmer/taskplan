@@ -72,8 +72,7 @@ class Project:
 
         self.view.initialize(self.tasks)
         for path in self.test_dir.iterdir():
-            if path.is_dir() and path.name in self.settings.configuration.presets_by_uuid:
-                self._load_saved_task(path, is_test=True)
+            self._load_saved_task(path, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
         try:
@@ -192,14 +191,10 @@ class Project:
 
     def clone_task(self, task):
         if task in self.tasks:
-            original_preset = self.configuration.presets_by_uuid[task.original_preset_uuid]
+            task_preset = self.configuration.add_task([preset.uuid for preset in task.preset.base_presets], task.preset.data["config"])
 
-            preset_data = copy.deepcopy(task.preset.data)
-            preset_data['uuid'] = None
-
-            cloned_task = self._create_task_from_preset(original_preset, preset_data, task.total_iterations())
+            cloned_task = self._create_task_from_preset(task_preset, task.total_iterations())
             new_uuid = cloned_task.uuid
-            new_try_number = cloned_task.try_number
 
             shutil.rmtree(str(cloned_task.build_save_dir()))
             shutil.copytree(str(task.build_save_dir()), str(cloned_task.build_save_dir()))
@@ -209,7 +204,6 @@ class Project:
             cloned_task.state = State.STOPPED
             cloned_task.uuid = new_uuid
             cloned_task.creation_time = datetime.now()
-            cloned_task.try_number = new_try_number
             cloned_task.save_metadata()
 
 

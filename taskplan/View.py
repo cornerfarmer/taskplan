@@ -202,7 +202,7 @@ class View:
             (path / str(target_key)).symlink_to(task.build_save_dir(), True)
 
     def _check_filesystem(self, node, path):
-        if type(node) == dict:
+        if type(node) == PresetNode or type(node) == TasksNode:
             if path.exists() and not path.is_dir():
                 self._remove_path(path)
 
