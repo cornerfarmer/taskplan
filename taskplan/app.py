@@ -178,16 +178,10 @@ def run():
         base_presets_uuid = json.loads(request.form.get('data'))["bases"]
         return jsonify(controller.choice_config(project_name, base_presets_uuid[0] if len(base_presets_uuid) > 0 and base_presets_uuid[0] != "" else None, preset_uuid))
 
-    @app.route('/config/task_timestep/<string:task_uuid>')
-    @app.route('/config/task_timestep/<string:task_uuid>/<int:iteration>')
+    @app.route('/config/task_timestep/<string:task_uuid>', methods=['POST'])
+    @app.route('/config/task_timestep/<string:task_uuid>/<int:iteration>', methods=['POST'])
     def config_task_timestep(task_uuid, iteration=-1):
-        task = controller.project_manager.find_task_by_uuid(task_uuid)
-        if task is not None:
-            if iteration == -1:
-                iteration = task.finished_iterations_and_update_time()[0]
-            return jsonify({'inherited_config': task.preset.compose_config_for_timestep(iteration), 'config': {}, 'dynamic': False})
-        else:
-            return jsonify({})
+        return jsonify(controller.existing_task_config(task_uuid, iteration))
 
     @app.route('/config/task/<string:project_name>', methods=['POST'])
     def config_task(project_name):

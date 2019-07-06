@@ -1,5 +1,10 @@
 import datetime
-import tensorflow as tf
+
+try:
+    import tensorflow as tf
+except ImportError:
+    tf = None
+
 from datetime import datetime
 import time
 
@@ -14,11 +19,15 @@ class Task(object):
         raise NotImplementedError()
 
     def _create_tensorboard_writer(self, tasks_dir):
-        return tf.summary.FileWriter(tasks_dir)
+        if tf is not None: 
+            return tf.summary.FileWriter(tasks_dir)
+        else:
+            return None
 
     def _flush_tensorboard_writer(self, tensorboard_writer):
-        tensorboard_writer.flush()
-
+        if tensorboard_writer is not None:
+            tensorboard_writer.flush()
+  
     def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, tasks_dir, save_func, checkpoint_func):
         self.tasks_dir = tasks_dir
         tensorboard_writer = self._create_tensorboard_writer(str(tasks_dir))

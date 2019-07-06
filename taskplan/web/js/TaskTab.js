@@ -8,6 +8,7 @@ import ChoiceEditor from "./ChoiceEditor";
 import TaskEditor from "./TaskEditor";
 import TaskView from "./TaskView";
 import PresetFilter from "./PresetFilter";
+import TaskViewer from "./TaskViewer";
 import View from "./View";
 import PresetTab from "./PresetTab";
 
@@ -19,7 +20,9 @@ class TaskTab extends React.Component {
         this.newTask = this.newTask.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
+        this.showTask = this.showTask.bind(this);
         this.taskEditor = React.createRef();
+        this.taskViewer = React.createRef();
     }
 
     closeEditors() {
@@ -32,6 +35,10 @@ class TaskTab extends React.Component {
 
     rerunTask(task) {
         this.taskEditor.current.open(task);
+    }
+
+    showTask(task) {
+        this.taskViewer.current.open(task);
     }
 
     render() {
@@ -63,9 +70,11 @@ class TaskTab extends React.Component {
                             rerunTask={this.rerunTask}
                             key={task.uuid}
                             task={task}
+                            showTask={this.showTask}
                         />
                     ))}
                 </ul>
+                <TaskViewer ref={this.taskViewer} presets={this.props.presets} />
                 <TaskEditor ref={this.taskEditor} presets={this.props.presets} project_name={this.props.project.name} />
                 <div className="tab-toolbar">
                     <label>

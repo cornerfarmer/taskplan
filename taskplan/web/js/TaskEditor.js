@@ -87,8 +87,6 @@ class TaskEditor extends React.Component {
             choice: null,
             open: false
         });
-
-        this.props.onClose();
     }
 
     run() {

@@ -175,6 +175,15 @@ class Controller:
 
         return {'inherited_config': {}, "config": config.get_merged_config(), 'dynamic': config.treat_dynamic()}
 
+
+    def existing_task_config(self, task_uuid, iteration=-1):
+        task = self.project_manager.find_task_by_uuid(task_uuid)
+
+        if iteration == -1:
+            iteration = task.finished_iterations_and_update_time()[0]
+
+        return {'inherited_config': {}, 'config': task.preset.get_merged_config(), 'dynamic': task.preset.treat_dynamic()}
+        
     def change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)
 

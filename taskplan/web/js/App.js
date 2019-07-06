@@ -24,10 +24,10 @@ class App extends React.Component {
                 <FlashMessageManager evtSource={this.evtSource}/>
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-6">
+                        <div className="col-sm-8">
                             <Scheduler evtSource={this.evtSource} repository={this.repository}/>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-4">
                             <ProjectManager repository={this.repository}/>
                         </div>
                     </div>
