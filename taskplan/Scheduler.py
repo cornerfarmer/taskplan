@@ -41,9 +41,9 @@ class Scheduler:
                         if not running.is_running():
                             running.stop()
                             self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
-                            if running.had_error():
+                            if running.had_error:
                                 self.event_manager.log("The task \"" + str(running) + "\" has been stopped due to an error after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Error occurred in task", logging.ERROR)
-                            elif running.finished_iterations_and_update_time()[0] < running.total_iterations():
+                            elif running.finished_iterations_and_update_time()[0] < running.total_iterations:
                                 self.event_manager.log("The task \"" + str(running) + "\" has been paused after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been paused")
                             else:
                                 self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been finished")
@@ -52,7 +52,7 @@ class Scheduler:
                     if len(self.queue) > 0 and len(self.runnings) < self._max_running:
                         self.runnings.append(self.queue.pop(0))
                         self._update_indices()
-                        self.runnings[-1].start(self.wakeup_sem)
+                        self.runnings[-1].start()
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, self.runnings[-1])
                         self.event_manager.log("The task \"" + str(self.runnings[-1]) + "\" has been started, beginning with iteration " + str(self.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
             except KeyboardInterrupt:
@@ -120,7 +120,10 @@ class Scheduler:
     def update_clients(self):
         with self._queue_mutex:
             for running in self.runnings:
+                running.receive_updates()
                 self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
+                if not running.is_running():
+                    self.wakeup_sem.release()
 
     def change_total_iterations(self, task_uuid, total_iterations):
         with self._queue_mutex:

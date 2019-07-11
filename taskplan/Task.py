@@ -1,5 +1,7 @@
 import datetime
 
+from taskplan.TaskWrapper import PipeMsg
+
 try:
     import tensorflow as tf
 except ImportError:
@@ -10,60 +12,83 @@ import time
 
 class Task(object):
 
-    def __init__(self, preset, preset_pipe, logger):
+    def __init__(self, preset, logger, metadata):
         self.preset = preset
-        self.preset_pipe = preset_pipe
         self.logger = logger
+        self.finished_iterations = metadata["finished_iterations"]
+        self.total_iterations = metadata["total_iterations"]
+        self.pipe = metadata["pipe"]
+        self.task_dir = metadata["task_dir"]
+        self.iteration_update_time = 0
+        self.pause_computation = False
+        self.save_now = False
 
     def load(self, path):
         raise NotImplementedError()
 
-    def _create_tensorboard_writer(self, tasks_dir):
+    def _create_tensorboard_writer(self, task_dir):
         if tf is not None: 
-            return tf.summary.FileWriter(tasks_dir)
+            return tf.summary.FileWriter(task_dir)
         else:
             return None
 
     def _flush_tensorboard_writer(self, tensorboard_writer):
         if tensorboard_writer is not None:
             tensorboard_writer.flush()
+
+    def receive_updates(self):
+        update_available = self.pipe.poll(0)
+        while update_available:
+            msg_type, arg = self.pipe.recv()
+
+            if msg_type == PipeMsg.PRESET_CHANGED:
+                arg.set_logger(self.preset.logger, self.preset.printed_settings)
+                self.preset = arg
+            elif msg_type == PipeMsg.TOTAL_ITERATIONS:
+                if self.finished_iterations + 1 <= arg:
+                    self.total_iterations = arg
+                    self.pipe.send(PipeMsg.TOTAL_ITERATIONS, self.total_iterations)
+            elif msg_type == PipeMsg.PAUSING:
+                self.pause_computation = arg
+                self.pipe.send(PipeMsg.PAUSING, arg)
+            elif msg_type == PipeMsg.SAVING:
+                self.save_now = arg
+                self.pipe.send(PipeMsg.SAVING, arg)
+
+            update_available = self.pipe.poll(0)
   
-    def run(self, finished_iterations, iteration_update_time, total_iterations, pause_computation, save_now, tasks_dir, save_func, checkpoint_func):
-        self.tasks_dir = tasks_dir
-        tensorboard_writer = self._create_tensorboard_writer(str(tasks_dir))
+    def run(self, save_func, checkpoint_func):
+        tensorboard_writer = self._create_tensorboard_writer(str(self.task_dir))
         save_interval = self.preset.get_int('save_interval')
         checkpoint_interval = self.preset.get_int('checkpoint_interval')
 
-        while finished_iterations.value < total_iterations.value:
-            preset_available = self.preset_pipe.poll(0)
-            while preset_available:
-                new_preset = self.preset_pipe.recv()
-                new_preset.set_logger(self.preset.logger, self.preset.printed_settings)
-                self.preset = new_preset
-                preset_available = self.preset_pipe.poll(0)
+        while self.finished_iterations < self.total_iterations:
+            self.receive_updates()
 
-            self.preset.iteration_cursor = finished_iterations.value
-            self.step(tensorboard_writer, finished_iterations.value)
+            self.preset.iteration_cursor = self.finished_iterations
+            self.step(tensorboard_writer, self.finished_iterations)
 
-            with finished_iterations.get_lock():
-                with iteration_update_time.get_lock():
-                    finished_iterations.value = finished_iterations.value + 1
-                    iteration_update_time.value = time.mktime(datetime.now().timetuple())
+            self.finished_iterations = self.finished_iterations + 1
+            self.iteration_update_time = time.mktime(datetime.now().timetuple())
+            self.pipe.send(PipeMsg.FINISHED_ITERATIONS, {"finished_iterations": self.finished_iterations, "iteration_update_time": self.iteration_update_time})
 
-            if pause_computation.value:
+            if self.pause_computation:
                 break
 
-            if save_now.value or (save_interval > 0 and finished_iterations.value % save_interval == 0) or (checkpoint_interval > 0 and finished_iterations.value % checkpoint_interval == 0):
-                if save_now.value:
-                    self.logger.log("Doing a manual save after " + str(finished_iterations.value) + " iterations")
+            if self.save_now or (save_interval > 0 and self.finished_iterations % save_interval == 0) or (checkpoint_interval > 0 and self.finished_iterations % checkpoint_interval == 0):
+                if self.save_now:
+                    self.logger.log("Doing a manual save after " + str(self.finished_iterations) + " iterations")
                 else:
-                    self.logger.log("Auto-Saving after " + str(finished_iterations.value) + " iterations")
-                save_now.value = False
-                save_func()
+                    self.logger.log("Auto-Saving after " + str(self.finished_iterations) + " iterations")
+
+                save_func(self.finished_iterations)
                 self._flush_tensorboard_writer(tensorboard_writer)
 
-                if checkpoint_interval > 0 and finished_iterations.value % checkpoint_interval == 0:
-                    checkpoint_func()
+                if checkpoint_interval > 0 and self.finished_iterations % checkpoint_interval == 0:
+                    checkpoint_func(self.finished_iterations)
+
+                self.save_now = False
+                self.pipe.send(PipeMsg.SAVING, False)
 
         self._flush_tensorboard_writer(tensorboard_writer)
 

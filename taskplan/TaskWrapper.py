@@ -1,5 +1,5 @@
 import pickle
-from multiprocessing import Process, Value, Pipe, Semaphore
+from multiprocessing import Process, Value, Pipe, Lock
 import sys
 import importlib
 from enum import Enum
@@ -23,6 +23,14 @@ class State(Enum):
     RUNNING = 2
     STOPPED = 3
 
+class PipeMsg(Enum):
+    HAD_ERROR = 0
+    PRESET_CHANGED = 1
+    TOTAL_ITERATIONS = 2
+    PAUSING = 3
+    SAVING = 4
+    FINISHED_ITERATIONS = 5
+    IS_RUNNING = 6
 
 class SharedMetaData:
 
@@ -30,22 +38,40 @@ class SharedMetaData:
         if parent_data is None:
             self.total_iterations = Value('i', total_iterations)
             self.finished_iterations = Value('i', 0)
-            self.pause_computation = Value('b', False)
+            self.pausing = Value('b', False)
             self.iteration_update_time = Value('d', 0.0)
-            self.save_now = Value('b', False)
+            self.saving = Value('b', False)
         else:
             self.total_iterations = parent_data.total_iterations
             self.finished_iterations = parent_data.finished_iterations
-            self.pause_computation = parent_data.pause_computation
+            self.pausing = parent_data.pausing
             self.iteration_update_time = parent_data.iteration_update_time
-            self.save_now = parent_data.save_now
+            self.saving = parent_data.saving
 
         self.is_running = Value('b', False)
         self.had_error = Value('b', False)
-        self.preset_pipe_recv, self.preset_pipe_send = Pipe(duplex=False)
+
+class PipeEnd:
+    def __init__(self, pipe):
+        self.lock = Lock()
+        self.pipe = pipe
+
+    def send(self, msg_type, arg=None):
+        self.lock.acquire()
+        self.pipe.send({"name": msg_type, "arg": arg})
+        self.lock.release()
+
+    def recv(self):
+        self.lock.acquire()
+        data = self.pipe.recv()
+        self.lock.release()
+        return data["name"], data["arg"]
+
+    def poll(self, arg):
+        return self.pipe.poll(arg)
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, preset, project, total_iterations, code_version, tasks_dir, parent_shared_data=None, is_test=False):
+    def __init__(self, task_dir, class_name, preset, project, total_iterations, code_version, tasks_dir, is_test=False):
         self.task_dir = task_dir
         self.class_name = class_name
         self.preset = preset
@@ -60,26 +86,44 @@ class TaskWrapper:
         self.code_version = code_version
         self.tasks_dir = tasks_dir
         self.is_test = is_test
+        self.checkpoints = []
+        self.total_iterations = total_iterations
+        self.finished_iterations = 0
+        self.had_error = False
+        self._is_running = False
+        self.iteration_update_time = 0.0
+        self.pausing = False
+        self.saving = False
 
-        self._shared = SharedMetaData(total_iterations, parent_shared_data)
+        pipe_recv, pipe_send = Pipe(duplex=True)
+        self.wrapper_pipe = PipeEnd(pipe_recv)
+        self.task_pipe = PipeEnd(pipe_send)
 
-    def start(self, wakeup_sem):
+        #self._shared = SharedMetaData(total_iterations, parent_shared_data)
+
+    def start(self):
         sys.stdout.flush()
-        self._shared.pause_computation.value = False
-        self._shared.is_running.value = True
-        self._shared.had_error.value = False
-        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), wakeup_sem, self._shared, self.build_save_dir(), self.code_version, self.uuid))
+        self.pausing = False
+        self._is_running = True
+        self.had_error = False
+        metadata = {
+            "task_dir": self.build_save_dir(),
+            "pipe": self.task_pipe,
+            "finished_iterations": self.finished_iterations,
+            "total_iterations": self.total_iterations
+        }
+        self.process = Process(target=TaskWrapper._run, args=(self.task_dir, self.class_name, self.preset.clone(), metadata))
         self.start_time = datetime.datetime.now()
         self.process.start()
         self.state = State.RUNNING
 
     def pause(self):
         if self.state == State.RUNNING:
-            self._shared.pause_computation.value = True
+            self.wrapper_pipe.send(PipeMsg.PAUSING, True)
 
     def finish(self):
         if self.state == State.STOPPED:
-            self._shared.total_iterations.value = self._shared.finished_iterations.value
+            self.total_iterations = self.finished_iterations
             self.save_metadata()
 
     def stop(self):
@@ -89,67 +133,60 @@ class TaskWrapper:
         self.saved_time = datetime.datetime.now()
         self.save_metadata()
 
-    def had_error(self):
-        return self._shared.had_error.value
-
     def is_running(self):
-        return self.process.is_alive() and self._shared.is_running.value
+        return self.process.is_alive() and self._is_running
 
     def finished_iterations_and_update_time(self):
-        with self._shared.finished_iterations.get_lock():
-            with self._shared.iteration_update_time.get_lock():
-                return self._shared.finished_iterations.value, self._shared.iteration_update_time.value
+        return self.finished_iterations, self.iteration_update_time
 
     @staticmethod
-    def _run(task_dir, class_name, preset, wakeup_sem, shared, save_dir, code_version, task_uuid):
+    def _run(task_dir, class_name, preset, metadata):
 
-        logger = Logger(save_dir, "main")
+        logger = Logger(metadata["task_dir"], "main")
         try:
             sys.path.append(str(task_dir))
             os.chdir(str(task_dir))
             task_class = getattr(importlib.import_module(class_name), class_name)
 
-            TaskWrapper._run_subtask(task_class, preset, shared, save_dir)
+            TaskWrapper._run_task(task_class, preset, logger, metadata)
 
         except:
             logger.log(traceback.format_exc(), logging.ERROR)
-            shared.had_error.value = True
+            metadata["pipe"].send(PipeMsg.HAD_ERROR, True)
 
-        shared.is_running.value = False
-        wakeup_sem.release()
+        metadata["pipe"].send(PipeMsg.IS_RUNNING, False)
 
     @staticmethod
-    def _run_subtask(task_class, preset, shared, save_dir):
-        logger = Logger(save_dir, "main")
+    def _run_task(task_class, preset, logger, metadata):
         preset.set_logger(logger.get_with_module('config'))
-        preset.iteration_cursor = shared.finished_iterations.value
+        preset.iteration_cursor = metadata["finished_iterations"]
 
-        task = task_class(preset, shared.preset_pipe_recv, logger.get_with_module('task'))
+        task = task_class(preset, logger.get_with_module('task'), metadata)
 
-        def save_func():
-            task.save(save_dir)
-            with open(str(save_dir / Path("metadata.json")), 'r') as handle:
+        def save_func(finished_iterations):
+            task.save(metadata["task_dir"])
+            with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
                 data = json.load(handle)
 
-            with open(str(save_dir / Path("metadata.json")), 'w') as handle:
+            with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
                 data['saved_time'] = time.mktime(datetime.datetime.now().timetuple())
-                data['finished_iterations'] = shared.finished_iterations.value
+                data['finished_iterations'] = finished_iterations
                 json.dump(data, handle)
 
-        def checkpoint_func():
-            checkpoint_dir = save_dir / Path("checkpoints")
+        def checkpoint_func(finished_iterations):
+            checkpoint_dir = metadata["task_dir"] / Path("checkpoints")
             checkpoint_dir.mkdir(exist_ok=True)
-            checkpoint_dir /= Path(str(shared.finished_iterations.value))
+            checkpoint_dir /= Path(str(finished_iterations))
 
-            shutil.copytree(str(save_dir), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints'] if directory == str(save_dir) else [])
+            shutil.copytree(str(metadata["task_dir"]), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints'] if directory == str(metadata["task_dir"]) else [])
             for file in checkpoint_dir.glob("events.out.tfevents.*"):
                 file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
 
-        if shared.finished_iterations.value > 0:
-            task.load(save_dir)
-        task.run(shared.finished_iterations, shared.iteration_update_time, shared.total_iterations, shared.pause_computation, shared.save_now, save_dir, save_func, checkpoint_func)
+        if metadata["finished_iterations"] > 0:
+            task.load(metadata["task_dir"])
+        task.run(save_func, checkpoint_func)
 
-        save_func()
+        save_func(task.finished_iterations)
 
     def build_save_dir(self):
         return self.tasks_dir / Path(str(self.uuid))
@@ -157,13 +194,14 @@ class TaskWrapper:
     def save_metadata(self):
         data = {}
         data['uuid'] = str(self.uuid)
-        data['finished_iterations'] = self._shared.finished_iterations.value
-        data['total_iterations'] = self._shared.total_iterations.value
+        data['finished_iterations'] = self.finished_iterations
+        data['total_iterations'] = self.total_iterations
         data['creation_time'] = time.mktime(self.creation_time.timetuple())
         data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
-        data['had_error'] = self._shared.had_error.value
+        data['had_error'] = self.had_error
         data['preset'] = self.preset.data
         data['code_version'] = self.code_version
+        data['checkpoints'] = self.checkpoints
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
         with open(str(path / Path("metadata.json")), 'w') as handle:
@@ -178,43 +216,52 @@ class TaskWrapper:
                 data = json.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
             self.preset = self.project.configuration.load_task(data['preset'])
-            self._shared.finished_iterations.value = data['finished_iterations']
+            self.finished_iterations = data['finished_iterations']
             if not ignore_total_iterations:
-                self._shared.total_iterations.value = data['total_iterations']
+                self.total_iterations = data['total_iterations']
             if use_pickle:
                 self.creation_time = data['creation_time']
                 self.saved_time = data['saved_time']
             else:
                 self.creation_time = datetime.datetime.fromtimestamp(data['creation_time'])
                 self.saved_time = datetime.datetime.fromtimestamp(data['saved_time']) if data['saved_time'] != "" else None
-            self._shared.had_error.value = data['had_error']
+            self.had_error = data['had_error']
             self.code_version = data['code_version']
-
-    def total_iterations(self):
-        return self._shared.total_iterations.value
+            self.checkpoints = data['checkpoints']
 
     def set_total_iterations(self, total_iterations):
-        with self._shared.finished_iterations.get_lock():
-            with self._shared.total_iterations.get_lock():
-                if total_iterations > self._shared.finished_iterations.value + (1 if self.state == State.RUNNING else 0):
-                    self._shared.total_iterations.value = total_iterations
+        if self.state == State.RUNNING:
+            self.wrapper_pipe.send(PipeMsg.TOTAL_ITERATIONS, total_iterations)
+        elif total_iterations > self.finished_iterations:
+            self.total_iterations = total_iterations
 
     def remove_data(self):
         save_dir = self.build_save_dir()
         shutil.rmtree(save_dir)
 
+    def receive_updates(self):
+        update_available = self.wrapper_pipe.poll(0)
+        while update_available:
+            msg_type, arg = self.wrapper_pipe.recv()
+
+            if msg_type == PipeMsg.PAUSING:
+                self.pausing = arg
+            elif msg_type == PipeMsg.SAVING:
+                self.saving = arg
+            elif msg_type == PipeMsg.HAD_ERROR:
+                self.had_error = arg
+            elif msg_type == PipeMsg.IS_RUNNING:
+                self._is_running = arg
+            elif msg_type == PipeMsg.FINISHED_ITERATIONS:
+                self.finished_iterations, self.iteration_update_time = arg["finished_iterations"], arg["iteration_update_time"]
+
+            update_available = self.wrapper_pipe.poll(0)
+
     def adjust_config(self, new_config):
-        with self._shared.finished_iterations.get_lock():
-            self.preset.set_config_at_timestep(new_config, self._shared.finished_iterations.value + 1)
-            self._shared.preset_pipe_send.send(self.preset.clone())
-            self.save_metadata()
+        self.preset.set_config_at_timestep(new_config, self.finished_iterations + 1)
+        self.wrapper_pipe.send(self.preset.clone())
+        self.save_metadata()
 
     def save_now(self):
         if self.state == State.RUNNING:
-            self._shared.save_now.value = True
-
-    def is_saving(self):
-        return self._shared.save_now.value
-
-    def is_pausing(self):
-        return self._shared.pause_computation.value
+            self.wrapper_pipe.send(PipeMsg.SAVING, True)

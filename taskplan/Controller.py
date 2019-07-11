@@ -76,7 +76,7 @@ class Controller:
         if total_iterations > 0:
             task.set_total_iterations(total_iterations)
 
-        if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations():
+        if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations:
             self.scheduler.enqueue(task)
             return task
         else:
@@ -92,7 +92,7 @@ class Controller:
     def finish_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         task.finish()
-        self.event_manager.log("The total iterations of task \"" + str(task) + "\" has decreased to " + str(task.total_iterations()) + ", so the task is now considered finished", "The task has been finished")
+        self.event_manager.log("The total iterations of task \"" + str(task) + "\" has decreased to " + str(task.total_iterations) + ", so the task is now considered finished", "The task has been finished")
         self.event_manager.throw(EventType.TASK_CHANGED, task)
 
     def reorder_task(self, task_uuid, new_index):

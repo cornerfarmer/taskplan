@@ -95,8 +95,8 @@ class TaskEditor extends React.Component {
         var dataJson = {};
         dataJson['choices'] = this.state.selectedChoices;
         dataJson['config'] = {
-            "save_interval": this.state.save_interval,
-            "checkpoint_interval": this.state.checkpoint_interval
+            "save_interval": parseInt(this.state.save_interval),
+            "checkpoint_interval": parseInt(this.state.checkpoint_interval)
         };
 
         data.append("data", JSON.stringify(dataJson));

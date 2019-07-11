@@ -193,7 +193,7 @@ class Project:
         if task in self.tasks:
             task_preset = self.configuration.add_task([preset.uuid for preset in task.preset.base_presets], task.preset.data["config"])
 
-            cloned_task = self._create_task_from_preset(task_preset, task.total_iterations())
+            cloned_task = self._create_task_from_preset(task_preset, task.total_iterations)
             new_uuid = cloned_task.uuid
 
             shutil.rmtree(str(cloned_task.build_save_dir()))

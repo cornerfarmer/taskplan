@@ -36,14 +36,14 @@ class ServerSentEvent(object):
                 data_client['start_time'] = 0 if data.start_time is None else time.mktime(data.start_time.timetuple())
                 data_client['creation_time'] = 0 if data.creation_time is None else time.mktime(data.creation_time.timetuple())
                 data_client['saved_time'] = 0 if data.saved_time is None else time.mktime(data.saved_time.timetuple())
-                data_client['total_iterations'] = data.total_iterations()
+                data_client['total_iterations'] = data.total_iterations
                 data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
                 data_client['preset_dynamic'] = data.preset.dynamic
                 data_client['queue_index'] = data.queue_index
-                data_client['had_error'] = data.had_error()
+                data_client['had_error'] = data.had_error
                 data_client['version'] = data.code_version
-                data_client['is_pausing'] = data.is_pausing()
-                data_client['is_saving'] = data.is_saving()
+                data_client['is_pausing'] = data.pausing
+                data_client['is_saving'] = data.saving
                 data_client['choices'] = [str(preset.uuid) for preset in data.preset.base_presets]
         elif event_type is EventType.PRESET_CHANGED:
             data_client['uuid'] = str(data.uuid)
