@@ -36,6 +36,8 @@ class TaskEditor extends React.Component {
         this.new = this.new.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
         this.onTotalIterationsChange = this.onTotalIterationsChange.bind(this);
+        this.onCheckpointIntervalChange = this.onCheckpointIntervalChange.bind(this);
+        this.onSaveIntervalChange = this.onSaveIntervalChange.bind(this);
         this.copyCommand = this.copyCommand.bind(this);
         this.wrapperRef = React.createRef();
         this.commandInput = React.createRef();

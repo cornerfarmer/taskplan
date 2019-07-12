@@ -14,6 +14,7 @@ class TaskViewer extends React.Component {
         this.configEditor = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.extractCheckpoint = this.extractCheckpoint.bind(this);
     }
 
     open(task) {
@@ -45,6 +46,18 @@ class TaskViewer extends React.Component {
         });
     }
 
+    extractCheckpoint(i) {
+        fetch("/extract_checkpoint/" + this.state.task.uuid + "/" + i)
+        .then(res => res.json())
+        .then(
+            (result) => {
+            },
+            (error) => {
+
+            }
+        );
+    }
+
     render() {
         if (this.state.task !== null) {
             return (
@@ -57,12 +70,29 @@ class TaskViewer extends React.Component {
                         <div><span>Paused:</span> {this.state.task.saved_time.toShortStr()} {this.state.task.had_error == true && <span className="task-error">(Error)</span>}</div>
                     </div>
                     <ConfigEditor ref={this.configEditor} url={"/config/task_timestep/" + this.state.task.uuid + "/0"} bases={[]} preview={true}/>
+                    <h2>Presets</h2>
                     <div className="presets">
                         {this.props.presets.sort((a, b) => {
                             return a.name.localeCompare(b.name);
                         }).map(preset => (
                             <div><span>{preset.name}:</span>{this.state.selectedChoices[preset.uuid]}</div>
                         ))}
+                    </div>
+                    <h2>Checkpoints</h2>
+                    <div className="checkpoints">
+                        {this.state.task.checkpoints.length > 0 ?
+                                this.state.task.checkpoints.map((checkpoint, i) => (
+                                    <div>
+                                        <span className="iteration">{checkpoint.finished_iterations}</span>
+                                        <span className="time">{checkpoint.time.toShortStr()}</span>
+                                        <div className="action" onClick={() => this.extractCheckpoint(i)} title="Add task based on checkpoint">
+                                            <i className="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                ))
+                            :
+                            <span>No checkpoints exist</span>
+                        }
                     </div>
                 </div>
             );

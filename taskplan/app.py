@@ -201,4 +201,10 @@ def run():
 
         return jsonify({})
 
+    @app.route('/extract_checkpoint/<string:task_uuid>/<int:checkpoint_id>')
+    def extract_checkpoint(task_uuid, checkpoint_id):
+        controller.extract_checkpoint(task_uuid, checkpoint_id)
+
+        return jsonify({})
+
     return app

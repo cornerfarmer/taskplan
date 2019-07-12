@@ -86,6 +86,9 @@ class Repository {
             changedTask.creation_time = new Date(changedTask.creation_time * 1000);
             changedTask.saved_time = new Date(changedTask.saved_time * 1000);
             changedTask.choices = changedTask.choices.map(e => this.choices[e]);
+            for (let checkpoint of changedTask.checkpoints) {
+                checkpoint.time = new Date(checkpoint.time * 1000);
+            }
 
             if (changedTask.state === State.RUNNING) {
                 if (changedTask.uuid in this.tasks) {

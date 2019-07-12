@@ -191,7 +191,7 @@ class Project:
 
     def clone_task(self, task):
         if task in self.tasks:
-            task_preset = self.configuration.add_task([preset.uuid for preset in task.preset.base_presets], task.preset.data["config"])
+            task_preset = self.configuration.add_task([], {})
 
             cloned_task = self._create_task_from_preset(task_preset, task.total_iterations)
             new_uuid = cloned_task.uuid
@@ -206,5 +206,28 @@ class Project:
             cloned_task.creation_time = datetime.now()
             cloned_task.save_metadata()
 
-
             return cloned_task
+
+    def extract_checkpoint(self, task, checkpoint_id):
+        if task in self.tasks:
+            checkpoint_dir = task.build_checkpoint_dir(checkpoint_id)
+            task_preset = self.configuration.add_task([], {})
+
+            new_task = self._create_task_from_preset(task_preset, task.total_iterations)
+            new_uuid = new_task.uuid
+
+            new_task_dir = new_task.build_save_dir()
+            shutil.rmtree(str(new_task_dir))
+            shutil.copytree(str(checkpoint_dir), str(new_task_dir))
+            for file in new_task_dir.glob("events.out.checkpoint.*"):
+                file.rename(str(file).replace("events.out.checkpoint", "events.out.tfevents"))
+
+            new_task.load_metadata(new_task.build_save_dir())
+
+            new_task.state = State.STOPPED
+            new_task.uuid = new_uuid
+            new_task.creation_time = datetime.now()
+            new_task.checkpoints = []
+            new_task.save_metadata()
+
+            return new_task

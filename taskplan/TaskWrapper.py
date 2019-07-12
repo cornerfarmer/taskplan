@@ -31,6 +31,8 @@ class PipeMsg(Enum):
     SAVING = 4
     FINISHED_ITERATIONS = 5
     IS_RUNNING = 6
+    NEW_CHECKPOINT = 7
+
 
 class SharedMetaData:
 
@@ -174,6 +176,8 @@ class TaskWrapper:
                 json.dump(data, handle)
 
         def checkpoint_func(finished_iterations):
+            save_func(finished_iterations)
+
             checkpoint_dir = metadata["task_dir"] / Path("checkpoints")
             checkpoint_dir.mkdir(exist_ok=True)
             checkpoint_dir /= Path(str(finished_iterations))
@@ -182,6 +186,20 @@ class TaskWrapper:
             for file in checkpoint_dir.glob("events.out.tfevents.*"):
                 file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
 
+            checkpoint = {
+                "finished_iterations": finished_iterations,
+                "time": time.mktime(datetime.datetime.now().timetuple())
+            }
+
+            with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
+                data = json.load(handle)
+            with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
+                data['checkpoints'].append(checkpoint)
+                data['finished_iterations'] = finished_iterations
+                json.dump(data, handle)
+
+            return checkpoint
+
         if metadata["finished_iterations"] > 0:
             task.load(metadata["task_dir"])
         task.run(save_func, checkpoint_func)
@@ -189,7 +207,10 @@ class TaskWrapper:
         save_func(task.finished_iterations)
 
     def build_save_dir(self):
-        return self.tasks_dir / Path(str(self.uuid))
+        return self.tasks_dir / str(self.uuid)
+
+    def build_checkpoint_dir(self, checkpoint_id):
+        return self.build_save_dir() / "checkpoints" / str(self.checkpoints[checkpoint_id]["finished_iterations"])
 
     def save_metadata(self):
         data = {}
@@ -254,6 +275,10 @@ class TaskWrapper:
                 self._is_running = arg
             elif msg_type == PipeMsg.FINISHED_ITERATIONS:
                 self.finished_iterations, self.iteration_update_time = arg["finished_iterations"], arg["iteration_update_time"]
+            elif msg_type == PipeMsg.NEW_CHECKPOINT:
+                self.checkpoints.append(arg)
+            elif msg_type == PipeMsg.TOTAL_ITERATIONS:
+                self.total_iterations = arg
 
             update_available = self.wrapper_pipe.poll(0)
 

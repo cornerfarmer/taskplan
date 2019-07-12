@@ -207,10 +207,17 @@ class Controller:
 
     def clone_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
-        cloned_task = self.project_manager.clone_task(task)
+        cloned_task = task.project.clone_task(task)
         self.event_manager.throw(EventType.TASK_CHANGED, cloned_task)
 
         self.event_manager.log("Task \"" + str(task) + "\" has been cloned", "Task has been cloned")
+
+    def extract_checkpoint(self, task_uuid, checkpoint_id):
+        task = self.project_manager.find_task_by_uuid(task_uuid)
+        new_task = task.project.extract_checkpoint(task, checkpoint_id)
+        self.event_manager.throw(EventType.TASK_CHANGED, new_task)
+
+        self.event_manager.log("Task \"" + str(new_task) + "\" has been created based on checkpoint " + str(checkpoint_id) + "of task " + str(task), "Checkpoint has been extracted")
 
     def stop(self):
         self.run_update_thread = False

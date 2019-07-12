@@ -75,7 +75,7 @@ class Task(object):
             if self.pause_computation:
                 break
 
-            if self.save_now or (save_interval > 0 and self.finished_iterations % save_interval == 0) or (checkpoint_interval > 0 and self.finished_iterations % checkpoint_interval == 0):
+            if self.save_now or (save_interval > 0 and self.finished_iterations % save_interval == 0):
                 if self.save_now:
                     self.logger.log("Doing a manual save after " + str(self.finished_iterations) + " iterations")
                 else:
@@ -84,11 +84,16 @@ class Task(object):
                 save_func(self.finished_iterations)
                 self._flush_tensorboard_writer(tensorboard_writer)
 
-                if checkpoint_interval > 0 and self.finished_iterations % checkpoint_interval == 0:
-                    checkpoint_func(self.finished_iterations)
+                if self.save_now:
+                    self.save_now = False
+                    self.pipe.send(PipeMsg.SAVING, False)
 
-                self.save_now = False
-                self.pipe.send(PipeMsg.SAVING, False)
+            if checkpoint_interval > 0 and self.finished_iterations % checkpoint_interval == 0:
+                self.logger.log("Creating checkpoint after " + str(self.finished_iterations) + " iterations")
+
+                self._flush_tensorboard_writer(tensorboard_writer)
+                checkpoint = checkpoint_func(self.finished_iterations)
+                self.pipe.send(PipeMsg.NEW_CHECKPOINT, checkpoint)
 
         self._flush_tensorboard_writer(tensorboard_writer)
 

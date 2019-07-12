@@ -46,10 +46,6 @@ class ProjectManager:
         project = self.project_by_name(project_name)
         return project.find_test_task_by_preset(preset_uuid)
 
-    def clone_task(self, task):
-        cloned_task = task.project.clone_task(task)
-        return cloned_task
-
     def remove_task(self, task_uuid):
         task = self.find_task_by_uuid(task_uuid)
         task.project.remove_task(task)
