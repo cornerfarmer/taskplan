@@ -199,12 +199,30 @@
     overflow: auto;
 }
 
+.code-version-viewer .code-versions .code-version-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.code-version-viewer .code-versions .code-version-row .code-version-branch-arrow {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .code-version-viewer .code-versions .code-version {
     background: rgba(158, 158, 158, 0.1);
-    margin: 5px 50px;
+    margin: 5px 0;
+    max-width: 300px;
     border-radius: 5px;
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    flex: 1 1 auto;
 }
 
 .code-version-viewer .code-versions .code-version.current-code-version  {

@@ -36,7 +36,7 @@ class Project extends React.Component {
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
-        this.filterView = new View();
+        this.filterViews = {};
     }
 
     componentDidMount() {
@@ -55,14 +55,26 @@ class Project extends React.Component {
         this.props.repository.removeOnRemove("tasks", this.removeTask);
     }
 
+    filterView(code_version_uuid) {
+        if (!(code_version_uuid in this.filterViews)) {
+            this.filterViews[code_version_uuid] = new View();
+            this.filterViews[code_version_uuid].updatePresets(this.state.presets);
+        }
+        return this.filterViews[code_version_uuid];
+    }
+
     addTask(task) {
-        this.filterView.addTask(task);
-        this.updateVisibleTasks();
+        if (task.project_name === this.props.project.name) {
+            this.filterView(task.version).addTask(task);
+            this.updateVisibleTasks();
+        }
     }
 
     removeTask(task) {
-        this.filterView.removeTask(task);
-        this.updateVisibleTasks();
+        if (task.project_name === this.props.project.name) {
+            this.filterView(task.version).removeTask(task);
+            this.updateVisibleTasks();
+        }
     }
 
     updateVisibleTasks(selectedChoices=null, presetFilterEnabled=null) {
@@ -73,9 +85,9 @@ class Project extends React.Component {
 
         let selectedTasks;
         if (presetFilterEnabled) {
-            selectedTasks = this.filterView.getSelectedTask(selectedChoices);
+            selectedTasks = this.filterView(this.props.project.current_code_version).getSelectedTask(selectedChoices);
         } else {
-            selectedTasks = Object.keys(this.state.tasks);
+            selectedTasks = Object.keys(this.state.tasks).filter(task => this.state.tasks[task].version === this.props.project.current_code_version);
         }
         this.setState({
             selectedTasks: selectedTasks
@@ -83,7 +95,8 @@ class Project extends React.Component {
     }
 
     updatePresets(presets) {
-        this.filterView.updatePresets(Object.values(presets));
+        for (let key in this.filterViews)
+            this.filterViews[key].updatePresets(Object.values(presets));
 
         let selectedChoices = Object.assign({}, this.state.selectedChoices);
 
@@ -106,7 +119,10 @@ class Project extends React.Component {
     }
 
     updateTasks(tasks) {
-        this.filterView.updateTasks(tasks);
+        for (let key in tasks) {
+            if (tasks[key].project_name === this.props.project.name)
+                this.filterView(tasks[key].version).updateTask(tasks[key]);
+        }
 
         this.setState({
             tasks: tasks
@@ -154,6 +170,11 @@ class Project extends React.Component {
             presetFilterEnabled: presetFilterEnabled
         });
         this.updateVisibleTasks(null, presetFilterEnabled);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.project.current_code_version !== this.props.project.current_code_version)
+            this.updateVisibleTasks();
     }
 
     render() {

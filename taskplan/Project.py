@@ -107,20 +107,13 @@ class Project:
         else:
             tasks_dir = self.tasks_dir
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.versions[-1], tasks_dir=tasks_dir, is_test=is_test)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
 
         self.view.add_task(task)
 
         return task
-
-    def maximal_try_of_preset(self, preset):
-        maximal_try = -1
-        for task in self.tasks:
-            if not task.is_test and task.original_preset_uuid == preset.uuid and task.code_version == self.versions[-1]:
-                maximal_try = max(maximal_try, task.try_number)
-        return maximal_try
 
     def possible_presets(self):
         return [preset for preset in self.configuration.presets if not preset.abstract]

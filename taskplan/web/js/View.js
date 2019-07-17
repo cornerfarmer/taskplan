@@ -71,6 +71,10 @@ class View {
         this.tasks = tasks;
     }
 
+    updateTask(task) {
+        this.tasks[task.uuid] = task;
+    }
+
     addTasks(tasks) {
         for (const task of tasks)
             this.addTask(task);

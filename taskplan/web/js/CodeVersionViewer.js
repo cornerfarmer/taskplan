@@ -17,6 +17,7 @@ class CodeVersionViewer extends React.Component {
         this.onNewNameChange = this.onNewNameChange.bind(this);
         this.addCodeVersion = this.addCodeVersion.bind(this);
         this.selectCodeVersion = this.selectCodeVersion.bind(this);
+        this.selectCodeVersion = this.selectCodeVersion.bind(this);
     }
 
     open() {
@@ -81,6 +82,16 @@ class CodeVersionViewer extends React.Component {
         return null;
     }
 
+    selectBranch(codeVersion, child_index) {
+        let choices = Object.assign({}, this.state.choices);
+
+        choices[codeVersion.uuid] = child_index;
+
+        this.setState({
+            choices: choices
+        })
+    }
+
     render() {
         if (this.state.open && this.props.codeVersionTree !== null) {
             let selectedNode = this.findCodeVersionInTree(this.props.codeVersionTree, this.props.currentCodeVersion);
@@ -91,28 +102,47 @@ class CodeVersionViewer extends React.Component {
                 selectedNode = selectedNode.base;
             }
 
-            let codeVersions = [this.props.codeVersionTree];
+            let codeVersions = [{"version": this.props.codeVersionTree,  "child_index": 0, "total_children": 1}];
             let currentCodeVersion = this.props.codeVersionTree;
             while (currentCodeVersion.children.length > 0) {
+                let index = 0;
                 if (currentCodeVersion.uuid in this.state.choices) {
-                    currentCodeVersion = currentCodeVersion.children[this.state.choices[currentCodeVersion.uuid]];
+                    index = this.state.choices[currentCodeVersion.uuid];
                 } else if (currentCodeVersion.uuid in choicesToSelected) {
-                    currentCodeVersion = currentCodeVersion.children[choicesToSelected[currentCodeVersion.uuid]];
-                } else {
-                    currentCodeVersion = currentCodeVersion.children[0];
+                    index = choicesToSelected[currentCodeVersion.uuid];
                 }
-                codeVersions.push(currentCodeVersion)
+
+                codeVersions.push({"version": currentCodeVersion.children[index], "child_index": index, "total_children": currentCodeVersion.children.length});
+                currentCodeVersion = currentCodeVersion.children[index];
             }
 
             return (
                 <div className="code-version-viewer slide-editor editor" >
                     <div className="header">Code versions<i class="fas fa-times" onClick={this.close}></i></div>
                     <div className="code-versions">
-                        {codeVersions.map((codeVersion, i) => (
+                        {codeVersions.map((entry, i) => (
                             <div>
-                                <div className={this.props.currentCodeVersion === codeVersion.uuid ? "code-version current-code-version" : "code-version"} onClick={() => this.selectCodeVersion(codeVersion.uuid)}>
-                                    <div className="name">{codeVersion.name}</div>
-                                    <div className="time">{codeVersion.time.toShortStr()}</div>
+                                <div className="code-version-row">
+                                    {entry.child_index > 0 ?
+                                        <div className="code-version-branch-arrow" onClick={() => this.selectBranch(entry.version.base, entry.child_index - 1)}>
+                                            <i className="fas fa-chevron-left"></i>
+                                        </div>
+                                        :
+                                        <div className="code-version-branch-arrow">
+                                        </div>
+                                    }
+                                    <div className={this.props.currentCodeVersion === entry.version.uuid ? "code-version current-code-version" : "code-version"} onClick={() => this.selectCodeVersion(entry.version.uuid)}>
+                                        <div className="name">{entry.version.name}</div>
+                                        <div className="time">{entry.version.time.toShortStr()}</div>
+                                    </div>
+                                    {entry.child_index < entry.total_children - 1 ?
+                                        <div className="code-version-branch-arrow" onClick={() => this.selectBranch(entry.version.base, entry.child_index + 1)}>
+                                            <i className="fas fa-chevron-right"></i>
+                                        </div>
+                                        :
+                                        <div className="code-version-branch-arrow">
+                                        </div>
+                                    }
                                 </div>
                                 {i < codeVersions.length - 1 &&
                                     <div className="arrow">
