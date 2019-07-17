@@ -9,28 +9,38 @@ class Repository {
         this.projects = {};
         this.choices = {};
         this.tasks = {};
+        this.codeVersions = {};
         this.onChangeListeners = {
             "presets": [],
             "projects": [],
             "choices": [],
-            "tasks": []
+            "tasks": [],
+            "codeVersions": []
         };
         this.onAddListeners = {
             "presets": [],
             "projects": [],
             "choices": [],
-            "tasks": []
+            "tasks": [],
+            "codeVersions": []
         };
         this.onRemoveListeners = {
             "presets": [],
             "projects": [],
             "choices": [],
-            "tasks": []
+            "tasks": [],
+            "codeVersions": []
         };
         
         this.evtSource.addEventListener("PROJECT_CHANGED", (e) => {
             const changedProject = JSON.parse(e.data);
             this.updateEntity(this.projects, changedProject, "projects", "name");
+        });
+
+        this.evtSource.addEventListener("CODE_VERSION_CHANGED", (e) => {
+            const changedCodeVersion = JSON.parse(e.data);
+            changedCodeVersion.time = new Date(changedCodeVersion.time * 1000);
+            this.updateEntity(this.codeVersions, changedCodeVersion, "codeVersions");
         });
 
         this.evtSource.addEventListener("PRESET_CHANGED", (e) => {

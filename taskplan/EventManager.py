@@ -64,8 +64,11 @@ class ServerSentEvent(object):
             data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
-            data_client['version'] = data.versions[-1]
+            data_client['current_code_version'] = data.current_code_version
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
+        elif event_type is EventType.CODE_VERSION_CHANGED:
+            data_client = data.copy()
+            data_client['project_name'] = parent_data.name
         elif event_type is EventType.SCHEDULER_OPTIONS:
             data_client['max_running'] = data.max_running()
         elif event_type is EventType.FLASH_MESSAGE:
@@ -95,6 +98,7 @@ class EventType(Enum):
     PROJECT_CHANGED = "PROJECT_CHANGED"
     SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
     FLASH_MESSAGE = "FLASH_MESSAGE"
+    CODE_VERSION_CHANGED = "CODE_VERSION_CHANGED"
 
 class EventManager:
     def __init__(self):

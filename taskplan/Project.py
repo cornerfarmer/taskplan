@@ -18,6 +18,8 @@ import subprocess
 import time
 import json
 import shutil
+import uuid
+import datetime
 
 class Project:
 
@@ -50,20 +52,20 @@ class Project:
         self.tensorboard_port = None
         self.view = View(self.configuration, self.view_dir)
         self._load_saved_tasks()
-        self.versions = ["initial"]
-        self._load_metadata()
 
-    def _save_metadata(self):
-        data = {}
-        data['versions'] = self.versions
-        with open(str(self.task_dir / Path("metadata.pk")), 'wb') as handle:
-            pickle.dump(data, handle)
+        self.code_versions = []
+        self.current_code_version = None
+        self.add_code_version("initial")
 
-    def _load_metadata(self):
-        if (self.task_dir / Path("metadata.pk")).exists():
-            with open(str(self.task_dir / Path("metadata.pk")), 'rb') as handle:
-                data = pickle.load(handle)
-                self.versions = data['versions']
+    def save_metadata(self):
+        return {
+            'code_versions': self.code_versions,
+            "current_code_version": self.current_code_version
+        }
+
+    def load_metadata(self, metadata):
+        self.code_versions = metadata['code_versions']
+        self.current_code_version = metadata['current_code_version']
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -165,9 +167,23 @@ class Project:
             self.tasks.remove(task)
             task.remove_data()
 
-    def add_version(self, new_version):
-        self.versions.append(new_version)
-        self._save_metadata()
+    def add_code_version(self, name):
+        code_version_uuid = str(uuid.uuid4())
+        self.code_versions.append({
+            "name": name,
+            "uuid": code_version_uuid,
+            "base": self.current_code_version,
+            "time": time.mktime(datetime.datetime.now().timetuple())
+        })
+        if self.current_code_version is None:
+            self.current_code_version = code_version_uuid
+        return self.code_versions[-1]
+
+    def select_code_version(self, code_version_uuid):
+        for code_version in self.code_versions:
+            if code_version["uuid"] == code_version_uuid:
+                self.current_code_version = code_version_uuid
+                break
 
     @staticmethod
     def load_projects(global_config):

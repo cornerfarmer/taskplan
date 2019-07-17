@@ -167,9 +167,14 @@ def run():
         controller.change_max_running_tasks(new_max_running)
         return jsonify({})
 
-    @app.route('/addVersion/<string:project_name>/<string:version_name>')
-    def add_version(project_name, version_name):
-        controller.add_version(project_name, version_name)
+    @app.route('/add_code_version/<string:project_name>/<string:version_name>')
+    def add_code_version(project_name, version_name):
+        controller.add_code_version(project_name, version_name)
+        return jsonify({})
+
+    @app.route('/select_code_version/<string:project_name>/<string:version_uuid>')
+    def select_code_version(project_name, version_uuid):
+        controller.select_code_version(project_name, version_uuid)
         return jsonify({})
 
     @app.route('/config/choice/<string:project_name>', methods=['POST'])

@@ -7,6 +7,7 @@ class ProjectConfiguration:
         self.configuration = Configuration(str(config_dir))
         self.presets_conf_path = "taskplan_presets.json"
         self.choices_conf_path = "taskplan_choices.json"
+        self.code_versions_conf_path = "taskplan_codeversions.json"
         self.settings = []
 
         self.preset_groups = {}
@@ -93,6 +94,9 @@ class ProjectConfiguration:
 
         return preset, choice
 
+    def add_code_version(self, data):
+        self.configuration.add_preset(data, self.code_versions_conf_path)
+
     def edit_preset(self, preset_uuid, new_data):
         preset = self.get_preset(preset_uuid)
         new_data['uuid'] = preset.uuid
@@ -137,6 +141,9 @@ class ProjectConfiguration:
 
     def get_choices(self):
         return self.configuration.presets_by_file[self.choices_conf_path] if self.choices_conf_path in self.configuration.presets_by_file else []
+
+    def get_code_versions(self):
+        return self.configuration.presets_by_file[self.code_versions_conf_path] if self.code_versions_conf_path in self.configuration.presets_by_file else []
 
     def get_preset(self, preset_uuid):
         if preset_uuid not in self.configuration.presets_by_uuid:

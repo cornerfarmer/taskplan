@@ -196,9 +196,19 @@ class Controller:
     def change_max_running_tasks(self, new_max_running):
         self.scheduler.set_max_running(new_max_running)
 
-    def add_version(self, project_name, version_name):
+    def add_code_version(self, project_name, version_name):
+        if version_name != "":
+            project = self.project_manager.project_by_name(project_name)
+            code_version = project.add_code_version(version_name)
+            self.project_manager.save_metadata()
+            self.event_manager.throw(EventType.CODE_VERSION_CHANGED, code_version, project)
+            self.event_manager.throw(EventType.PROJECT_CHANGED, project)
+            self.select_code_version(project_name, code_version["uuid"])
+
+    def select_code_version(self, project_name, version_uuid):
         project = self.project_manager.project_by_name(project_name)
-        project.add_version(version_name)
+        project.select_code_version(version_uuid)
+        self.project_manager.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, project)
 
     def adjust_task_preset(self, task_uuid, new_config):
