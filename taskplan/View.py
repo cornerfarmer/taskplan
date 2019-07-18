@@ -1,3 +1,4 @@
+from taskconf.config.Preset import Preset
 from taskplan.TaskWrapper import TaskWrapper
 import shutil
 try:
@@ -45,6 +46,10 @@ class PresetNode(Node):
         Node.__init__(self)
         self.preset = preset
 
+class CodeVersionNode(Node):
+    def __init__(self):
+        Node.__init__(self)
+
 class TasksNode(Node):
     def __init__(self):
         Node.__init__(self)
@@ -66,6 +71,16 @@ class View:
         self.root_node.set_child("default", TasksNode())
         self.root_path = root
         self.task_by_uuid = {}
+        self.code_versions = []
+
+    def update_code_versions(self, code_versions):
+        self.code_versions = code_versions
+
+    def code_version_key(self, code_version_uuid):
+        for code_version in self.code_versions:
+            if code_version["uuid"] == code_version_uuid:
+                return code_version["name"]
+        raise IndexError("No code version with uuid " + code_version_uuid)
 
     def initialize(self, tasks):
         for task in tasks:
@@ -75,30 +90,51 @@ class View:
     def add_task(self, task, change_dirs=True):
         path = self.root_path
         node = self.root_node.children["default"]
-        for preset in self.presets:
-            if preset.get_metadata("deprecated_choice") != "":
-                suitable_choice = self._get_choice_to_preset(task, preset)
+        for branching_option in ["code_version"] + self.presets:
 
-                name = suitable_choice.get_metadata("name")
-                if type(node) == TasksNode or node.preset != preset:
-                    first_task = node.get_first_task_in()
-                    if first_task is None:
-                        continue
+            if type(branching_option) == Preset:
+                if branching_option.get_metadata("deprecated_choice") == "":
+                    continue
+                suitable_choice = self._get_choice_to_preset(task, branching_option)
+                key = suitable_choice.get_metadata("name")
+                node_exists = type(node) == PresetNode and node.preset == branching_option
+            elif branching_option == "code_version":
+                key = self.code_version_key(task.code_version)
+                node_exists = type(node) == CodeVersionNode
+            else:
+                raise Exception("")
 
-                    former_choice = self._get_choice_to_preset(first_task, preset)
+            if not node_exists:
+                first_task = node.get_first_task_in()
+                if first_task is None:
+                    continue
+
+                if type(branching_option) == Preset:
+                    former_choice = self._get_choice_to_preset(first_task, branching_option)
                     if former_choice == suitable_choice:
                         continue
+                    else:
+                        new_node = PresetNode(branching_option)
+                        former_key = former_choice.get_metadata("name")
+                elif branching_option == "code_version":
+                    if self.code_version_key(first_task.code_version) == key:
+                        continue
+                    else:
+                        new_node = CodeVersionNode()
+                        former_key = self.code_version_key(first_task.code_version)
+                else:
+                    raise Exception("")
 
-                    node = self._add_preset_before_node(node, preset, former_choice, path, change_dirs)
+                node = self._add_node_before_node(node, new_node, former_key, path, change_dirs)
 
-                path = path / name
-                if name not in node.children:
-                    node.set_child(name, TasksNode())
+            path = path / key
+            if key not in node.children:
+                node.set_child(key, TasksNode())
 
-                    if change_dirs:
-                        path.mkdir()
+                if change_dirs:
+                    path.mkdir()
 
-                node = node.children[name]
+            node = node.children[key]
 
         self._insert_task(node, path, task, change_dirs)
 
@@ -123,7 +159,7 @@ class View:
             del node.parent.children[node.parent_key]
             self._remove_path(path)
             self._check_node_for_removal(node.parent, path.parent)
-        elif len(node.children) == 1 and type(node.parent) == PresetNode:
+        elif len(node.children) == 1 and type(node.parent) in [PresetNode, CodeVersionNode]:
             self._remove_preset_at_node(node, path)
 
     def _remove_preset_at_node(self, node, path):
@@ -145,10 +181,7 @@ class View:
             node = node.parent
         return self.root_path if path is None else self.root_path / path
 
-    def _add_preset_before_node(self, node, preset, former_choice, path, change_dirs=True):
-        key = former_choice.get_metadata("name")
-
-        new_node = PresetNode(preset)
+    def _add_node_before_node(self, node, new_node, key, path, change_dirs=True):
         node.insert_as_parent(key, new_node)
 
         if change_dirs:
@@ -202,7 +235,7 @@ class View:
             (path / str(target_key)).symlink_to(task.build_save_dir(), True)
 
     def _check_filesystem(self, node, path):
-        if type(node) == PresetNode or type(node) == TasksNode:
+        if type(node) in [PresetNode, CodeVersionNode] or type(node) == TasksNode:
             if path.exists() and not path.is_dir():
                 self._remove_path(path)
 

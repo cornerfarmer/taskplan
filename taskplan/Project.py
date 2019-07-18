@@ -23,8 +23,9 @@ import datetime
 
 class Project:
 
-    def __init__(self, task_dir, task_class_name, name="", tasks_dir="tasks", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests", view_dir="results"):
+    def __init__(self, metadata, key, task_dir, task_class_name, name="", tasks_dir="tasks", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests", view_dir="results"):
         self.task_dir = Path(task_dir).resolve()
+        self.key = key
         self.task_class_name = task_class_name
         self.config_file_name = config_file_name
         self.name = task_class_name if name is "" else name
@@ -50,12 +51,16 @@ class Project:
         self.view_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None
-        self.view = View(self.configuration, self.view_dir)
-        self._load_saved_tasks()
 
         self.code_versions = []
         self.current_code_version = None
+
+        self.view = View(self.configuration, self.view_dir)
+
         self.add_code_version("initial")
+        self.load_metadata(metadata)
+
+        self._load_saved_tasks()
 
     def save_metadata(self):
         return {
@@ -64,8 +69,10 @@ class Project:
         }
 
     def load_metadata(self, metadata):
-        self.code_versions = metadata['code_versions']
-        self.current_code_version = metadata['current_code_version']
+        if metadata is not None:
+            self.code_versions = metadata['code_versions']
+            self.current_code_version = metadata['current_code_version']
+            self.view.update_code_versions(self.code_versions)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -170,6 +177,9 @@ class Project:
         })
         if self.current_code_version is None:
             self.current_code_version = code_version_uuid
+
+        self.view.update_code_versions(self.code_versions)
+
         return self.code_versions[-1]
 
     def select_code_version(self, code_version_uuid):
@@ -177,26 +187,6 @@ class Project:
             if code_version["uuid"] == code_version_uuid:
                 self.current_code_version = code_version_uuid
                 break
-
-    @staticmethod
-    def load_projects(global_config):
-        project_names = global_config.get_keys('projects')
-        projects = []
-        for project_name in project_names:
-            if project_name != "default":
-                config_prefix = "projects/" + project_name + "/"
-                fallback_prefix = "projects/default/"
-                projects.append(Project(
-                    global_config.get_string(config_prefix + "task_dir", fallback_prefix + "task_dir"),
-                    global_config.get_string(config_prefix + "task_class_name", fallback_prefix + "task_class_name"),
-                    global_config.get_string(config_prefix + "name", fallback_prefix + "name"),
-                    global_config.get_string(config_prefix + "tasks_dir", fallback_prefix + "tasks_dir"),
-                    global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
-                    global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
-                    global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
-                ))
-
-        return projects
 
     def clone_task(self, task):
         if task in self.tasks:

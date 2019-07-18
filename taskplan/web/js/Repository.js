@@ -130,7 +130,7 @@ class Repository {
         });
 
 
-        this.standardView = new View();
+        this.standardView = new View(true);
         this.onAdd("tasks", (task) => {
             this.standardView.addTask(task);
 

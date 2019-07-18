@@ -1,3 +1,4 @@
+from taskplan.Project import Project
 from taskplan.EventManager import EventType
 import json
 
@@ -8,27 +9,46 @@ except ImportError:
 
 class ProjectManager:
 
-    def __init__(self, projects, event_manager):
-        self.projects = projects
+    def __init__(self, event_manager):
+        self.projects = []
         self.event_manager = event_manager
-        self.load_metadata()
+
+    def load_projects(self, global_config):
+        if Path("taskplan_metadata.json").exists():
+            with open('taskplan_metadata.json') as f:
+                metadata = json.load(f)
+
+        project_keys = global_config.get_keys('projects')
+        for key in project_keys:
+            if key != "default":
+                config_prefix = "projects/" + key + "/"
+                fallback_prefix = "projects/default/"
+
+                if key in metadata:
+                    project_metadata = metadata[key]
+                else:
+                    project_metadata = None
+
+                self.projects.append(Project(
+                    project_metadata,
+                    key,
+                    global_config.get_string(config_prefix + "task_dir", fallback_prefix + "task_dir"),
+                    global_config.get_string(config_prefix + "task_class_name", fallback_prefix + "task_class_name"),
+                    global_config.get_string(config_prefix + "name", fallback_prefix + "name"),
+                    global_config.get_string(config_prefix + "tasks_dir", fallback_prefix + "tasks_dir"),
+                    global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
+                    global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
+                    global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
+                ))
+
         self.save_metadata()
 
     def save_metadata(self):
         metadata = {}
         for project in self.projects:
-            metadata[project.name] = project.save_metadata()
+            metadata[project.key] = project.save_metadata()
         with open('taskplan_metadata.json', "w") as f:
             json.dump(metadata, f)
-
-    def load_metadata(self):
-        if Path("taskplan_metadata.json").exists():
-            with open('taskplan_metadata.json') as f:
-                metadata = json.load(f)
-
-            for project in self.projects:
-                if project.name in metadata:
-                    project.load_metadata(metadata[project.name])
 
     def create_task(self, project_name, choices, config, total_iterations, is_test=False):
         project = self.project_by_name(project_name)

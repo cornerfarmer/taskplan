@@ -13,10 +13,11 @@ from pkg_resources import resource_filename
 class Controller:
     def __init__(self, event_manager):
         self.global_config = Controller.load_global_config()
-        projects = Project.load_projects(self.global_config)
 
         self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"))
-        self.project_manager = ProjectManager(projects, event_manager)
+        self.project_manager = ProjectManager(event_manager)
+        self.project_manager.load_projects(self.global_config)
+
         self.event_manager = event_manager
 
     @staticmethod

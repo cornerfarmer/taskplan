@@ -45,6 +45,13 @@ class PresetNode extends Node {
     }
 }
 
+
+class CodeVersionNode extends Node {
+    constructor(preset) {
+        super();
+    }
+}
+
 class TasksNode extends Node {
     getFirstTaskIn() {
         if (Object.keys(this.children).length > 0)
@@ -55,12 +62,13 @@ class TasksNode extends Node {
 }
 
 class View {
-    constructor() {
+    constructor(includeCodeVersion) {
         this.root = new RootNode();
         this.root.setChild("default", new TasksNode());
         this.taskByUuid = {};
         this.tasks = {};
         this.presets = [];
+        this.includeCodeVersion = includeCodeVersion;
     }
 
     updatePresets(presets) {
@@ -83,29 +91,61 @@ class View {
     addTask(task) {
         this.tasks[task.uuid] = task;
         let node = this.root.children["default"];
+        let branching_options = [];
+        if (this.includeCodeVersion)
+            branching_options.push("code_version");
+        branching_options = branching_options.concat(this.presets);
 
-        for (const preset of this.presets) {
-            if (preset.deprecated_choice !== '') {
-                const suitableChoice = this.getChoiceToPreset(task, preset);
+        for (const branching_option of branching_options) {
+            let key, nodeExists, suitableChoice;
+            if (typeof branching_option === "object") {
+                if (branching_option.deprecated_choice === '')
+                    continue;
 
-                if (node instanceof TasksNode || node.preset !== preset) {
-                    const firstTask = node.getFirstTaskIn();
-                    if (firstTask === null)
-                        continue;
+                suitableChoice = this.getChoiceToPreset(task, branching_option);
+                key = suitableChoice.name;
+                nodeExists = node instanceof PresetNode && node.preset === branching_option;
 
-                    const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], preset);
+            } else if (branching_option === "code_version") {
+                key = task.version;
+                nodeExists = node instanceof CodeVersionNode
+            } else {
+                throw "";
+            }
+
+            if (!nodeExists) {
+                const firstTask = node.getFirstTaskIn();
+                if (firstTask === null)
+                    continue;
+
+                let newNode, formerKey;
+                if (typeof branching_option === "object") {
+                    const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], branching_option);
                     if (formerChoice === suitableChoice)
                         continue;
-
-                    node = this.addPresetBeforeNode(node, preset, formerChoice)
+                    else {
+                        newNode = new PresetNode(branching_option);
+                        formerKey = formerChoice.name;
+                    }
+                } else if (branching_option === "code_version") {
+                    if (this.tasks[firstTask].version === key)
+                        continue;
+                    else {
+                        newNode = new CodeVersionNode();
+                        formerKey = this.tasks[firstTask].version;
+                    }
+                } else {
+                    throw "";
                 }
 
-                if (!(suitableChoice.name in node.children)) {
-                    node.setChild(suitableChoice.name, new TasksNode())
-                }
-
-                node = node.children[suitableChoice.name]
+                node = this.addPresetBeforeNode(node, newNode, formerKey)
             }
+
+            if (!(key in node.children)) {
+                node.setChild(key, new TasksNode())
+            }
+
+            node = node.children[key]
         }
 
         this.insertTask(node, task)
@@ -139,9 +179,8 @@ class View {
         }
     }
 
-    addPresetBeforeNode(node, preset, formerChoice) {
-        let newNode = new PresetNode(preset);
-        node.insertAsParent(formerChoice.name, newNode);
+    addPresetBeforeNode(node, newNode, formerKey) {
+        node.insertAsParent(formerKey, newNode);
         return newNode;
     }
 
@@ -185,15 +224,22 @@ class View {
 
     getNodeChoicePath(node, task) {
         let choices = [];
-        while (!(node instanceof RootNode) && !(node.parent instanceof RootNode)) {
+        while (!(node instanceof RootNode) && !(node.parent instanceof RootNode) && !(node instanceof CodeVersionNode) && !(node.parent instanceof CodeVersionNode)) {
             choices.unshift([node.parent.preset, this.getChoiceToPreset(task, node.parent.preset)]);
             node = node.parent;
         }
         return choices;
     }
 
-    getSelectedTask(selectedChoices) {
+    getSelectedTask(selectedChoices, codeVersion=null) {
         let node = this.root.children["default"];
+
+        if (node instanceof CodeVersionNode) {
+            if (!(codeVersion in node.children)) {
+                return [];
+            }
+            node = node.children[codeVersion]
+        }
 
         for (const preset of this.presets) {
             if (preset.deprecated_choice !== '') {

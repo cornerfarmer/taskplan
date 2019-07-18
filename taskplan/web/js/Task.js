@@ -20,8 +20,9 @@ export class TaskName extends React.Component {
 
 
     render() {
-        return (
-            <span ref={this.wrapperRef} >
+        if (this.props.nameChoices.length > 0) {
+            return (
+                <span ref={this.wrapperRef}>
                 {this.props.nameChoices.map((choicePreset, i) => (
                     <span>
                         {i !== 0 &&
@@ -31,7 +32,12 @@ export class TaskName extends React.Component {
                     </span>
                 ))}
             </span>
-        );
+            );
+        } else {
+            return (
+                <span ref={this.wrapperRef}>Initial try</span>
+            );
+        }
     }
 }
 
