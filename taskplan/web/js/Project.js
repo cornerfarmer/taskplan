@@ -12,6 +12,7 @@ import View from "./View";
 import PresetTab from "./PresetTab";
 import TaskTab from "./TaskTab";
 import PresetGroup from "./PresetGroup";
+import PresetViewer from "./PresetViewer";
 
 class Project extends React.Component {
     constructor(props) {
@@ -35,8 +36,11 @@ class Project extends React.Component {
         this.showTab = this.showTab.bind(this);
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
+        this.openPresetViewer = this.openPresetViewer.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
+        this.togglePresetFilter = this.togglePresetFilter.bind(this);
         this.filterView = new View(true);
+        this.presetViewerRef = React.createRef();
     }
 
     componentDidMount() {
@@ -168,6 +172,11 @@ class Project extends React.Component {
             this.updateVisibleTasks();
     }
 
+    openPresetViewer() {
+        this.props.closeViewer();
+        this.presetViewerRef.current.open();
+    }
+
     render() {
         return (
             <div className="project" style={this.props.visible ? {} : {display: 'none'}}>
@@ -195,7 +204,7 @@ class Project extends React.Component {
                         }
                         <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
                         {this.state.activeTab === 1 &&
-                            <span className="fas fa-sliders-h"onClick={() => this.togglePresetFilter()}></span>
+                            <span className="fas fa-sliders-h"onClick={this.openPresetViewer}></span>
                         }
                     </div>
                 </div>
@@ -217,7 +226,10 @@ class Project extends React.Component {
                     sorting={this.state.sorting}
                     sortingDescending={this.state.sortingDescending}
                     onSelectionChange={this.onSelectionChange}
+                    showTask={this.props.showTask}
+                    presetsByGroup={this.state.presetsByGroup}
                 />
+                <PresetViewer ref={this.presetViewerRef} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
             </div>
         );
     }

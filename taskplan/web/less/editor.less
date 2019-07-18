@@ -93,6 +93,16 @@
     border-right: 1px solid rgba(0,0,0,.1);
     background: #fafafa;
     height: 100%;
+    animation: slide-in 0.4s ease;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateX(400px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .slide-editor .header {
@@ -246,4 +256,19 @@
 .code-version-viewer .code-versions .arrow {
     text-align: center;
     font-size: 20px;
+}
+
+
+.preset-viewer label {
+    display: flex;
+    align-items: center;
+    margin: 10px 16px;
+}
+
+.preset-viewer label input {
+    margin-right: 10px;
+}
+
+.preset-viewer .preset-filter {
+    margin: 10px 16px;
 }

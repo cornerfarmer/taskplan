@@ -212,7 +212,7 @@ class TaskEditor extends React.Component {
                         <label>Checkpoint interval:</label>
                         <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} required="required" />
                     </div>
-                    <PresetFilter presets={this.props.presets} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
+                    <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                     <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true}/>
                     <div className="field">
                         <label>Command:</label>

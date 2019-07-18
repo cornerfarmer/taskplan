@@ -2,6 +2,7 @@ import React from 'react';
 import Project from "./Project";
 import Prompt from "./Prompt";
 import CodeVersionViewer from "./CodeVersionViewer";
+import TaskViewer from "./TaskViewer";
 
 class ProjectManager extends React.Component {
     constructor(props) {
@@ -15,8 +16,12 @@ class ProjectManager extends React.Component {
         this.addVersion = this.addVersion.bind(this);
         this.updateProjects = this.updateProjects.bind(this);
         this.addCodeVersions = this.addCodeVersions.bind(this);
+        this.openTaskViewer = this.openTaskViewer.bind(this);
+        this.openCodeVersionViewer = this.openCodeVersionViewer.bind(this);
+        this.closeViewer = this.closeViewer.bind(this);
         this.promptRefs = React.createRef();
         this.codeVersionViewerRef = React.createRef();
+        this.taskViewerRef = React.createRef();
     }
 
     componentDidMount() {
@@ -117,6 +122,20 @@ class ProjectManager extends React.Component {
         this.promptRefs.current.openDialog();
     }
 
+    closeViewer() {
+        this.codeVersionViewerRef.current.close();
+        this.taskViewerRef.current.close();
+    }
+
+    openTaskViewer(task) {
+        this.closeViewer();
+        this.taskViewerRef.current.open(task);
+    }
+
+    openCodeVersionViewer() {
+        this.closeViewer();
+        this.codeVersionViewerRef.current.open();
+    }
 
     render() {
         return (
@@ -137,7 +156,7 @@ class ProjectManager extends React.Component {
                     }
                     {this.state.projects.length > 0 && this.state.projects[this.state.currentProject].current_code_version in this.props.repository.codeVersions &&
                         <span id="project-toolbar">
-                            <div id="code-version" title="Add new code version" onClick={() => this.codeVersionViewerRef.current.open()}>{this.props.repository.codeVersions[this.state.projects[this.state.currentProject].current_code_version].name}</div>
+                            <div id="code-version" title="Add new code version" onClick={this.openCodeVersionViewer}>{this.props.repository.codeVersions[this.state.projects[this.state.currentProject].current_code_version].name}</div>
                             <div id="tb-link" onClick={this.gotoTB} title="Start and open tensorboard">TB</div>
                         </span>
                     }
@@ -149,6 +168,8 @@ class ProjectManager extends React.Component {
                             project={project}
                             repository={this.props.repository}
                             visible={index === this.state.currentProject}
+                            showTask={this.openTaskViewer}
+                            closeViewer={this.closeViewer}
                         />
                     ))}
                 </div>
@@ -160,6 +181,7 @@ class ProjectManager extends React.Component {
                         project_name={this.state.projects[this.state.currentProject].name}
                     />
                 }
+                <TaskViewer ref={this.taskViewerRef} presets={Object.values(this.props.repository.presets)} codeVersions={this.props.repository.codeVersions} />
             </div>
         );
     }

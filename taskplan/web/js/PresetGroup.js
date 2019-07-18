@@ -27,22 +27,7 @@ class PresetGroup extends React.Component {
                 }
                 {!this.state.hideChoices &&
                     <ul>
-                        {this.props.presets.sort((a, b) => {
-                            let s;
-                            switch(this.props.sorting) {
-                                case 0:
-                                    s = a.creation_time - b.creation_time; break;
-                                case 1:
-                                    s = a.name.localeCompare(b.name); break;
-                                case 2:
-                                    s = a.started_tries - b.started_tries; break;
-                            }
-                            if (s === 0)
-                                s = a.base.localeCompare(b.base);
-                            if (this.props.sortingDescending)
-                                s *= -1;
-                            return s;
-                        }).map(preset => (
+                        {this.props.presets.sort((a, b) => a.name.localeCompare(b.name)).map(preset => (
                             <Preset
                                 key={preset.uuid}
                                 preset={preset}

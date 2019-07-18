@@ -11,6 +11,7 @@ import PresetFilter from "./PresetFilter";
 import TaskViewer from "./TaskViewer";
 import View from "./View";
 import PresetTab from "./PresetTab";
+import PresetViewer from "./PresetViewer";
 
 class TaskTab extends React.Component {
     constructor(props) {
@@ -20,9 +21,7 @@ class TaskTab extends React.Component {
         this.newTask = this.newTask.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
-        this.showTask = this.showTask.bind(this);
         this.taskEditor = React.createRef();
-        this.taskViewer = React.createRef();
     }
 
     closeEditors() {
@@ -37,16 +36,9 @@ class TaskTab extends React.Component {
         this.taskEditor.current.open(task);
     }
 
-    showTask(task) {
-        this.taskViewer.current.open(task);
-    }
-
     render() {
         return (
             <div className="tab" style={{'display': (this.props.active ? 'flex' : 'none')}}>
-                {this.props.presetFilterEnabled &&
-                    <PresetFilter presets={this.props.presets} selectedChoices={this.props.selectedChoices} onSelectionChange={this.props.onSelectionChange}/>
-                }
                 <ul className="tasks-tab" >
                     {this.props.selectedTasks.filter(uuid => uuid in this.props.tasks).map(uuid => this.props.tasks[uuid]).sort((a, b) => {
                         let s;
@@ -70,12 +62,11 @@ class TaskTab extends React.Component {
                             rerunTask={this.rerunTask}
                             key={task.uuid}
                             task={task}
-                            showTask={this.showTask}
+                            showTask={this.props.showTask}
                         />
                     ))}
                 </ul>
-                <TaskViewer ref={this.taskViewer} presets={this.props.presets} />
-                <TaskEditor ref={this.taskEditor} presets={this.props.presets} project_name={this.props.project.name} />
+                <TaskEditor ref={this.taskEditor} presets={this.props.presets} presetsByGroup={this.props.presetsByGroup} project_name={this.props.project.name} />
                 <div className="tab-toolbar">
                     <label>
                     </label>
