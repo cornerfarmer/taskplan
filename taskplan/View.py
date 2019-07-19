@@ -242,7 +242,7 @@ class View:
             path.mkdir(exist_ok=True)
 
             for child in path.iterdir():
-                if not path.is_dir() or path.name not in node.children.keys():
+                if not child.is_dir() or child.name not in node.children.keys():
                     self._remove_path(child)
 
             for dir in node.children.keys():
@@ -255,7 +255,7 @@ class View:
                 path.symlink_to(node.build_save_dir(), True)
 
     def _remove_path(self, path):
-        if path.exists():
+        if path.is_symlink() or path.exists():
             if path.is_file() or path.is_symlink():
                 path.unlink()
             else:

@@ -96,6 +96,7 @@ class TaskWrapper:
         self.iteration_update_time = 0.0
         self.pausing = False
         self.saving = False
+        self.notes = ""
 
         pipe_recv, pipe_send = Pipe(duplex=True)
         self.wrapper_pipe = PipeEnd(pipe_recv)
@@ -223,6 +224,7 @@ class TaskWrapper:
         data['preset'] = self.preset.data
         data['code_version'] = self.code_version
         data['checkpoints'] = self.checkpoints
+        data['notes'] = self.notes
         path = self.build_save_dir()
         path.mkdir(parents=True, exist_ok=True)
         with open(str(path / Path("metadata.json")), 'w') as handle:
@@ -249,6 +251,7 @@ class TaskWrapper:
             self.had_error = data['had_error']
             self.code_version = data['code_version']
             self.checkpoints = data['checkpoints']
+            self.notes = data['notes']
 
     def set_total_iterations(self, total_iterations):
         if self.state == State.RUNNING:

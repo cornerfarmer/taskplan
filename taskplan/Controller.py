@@ -223,6 +223,12 @@ class Controller:
 
         self.event_manager.log("Task \"" + str(task) + "\" has been cloned", "Task has been cloned")
 
+    def set_task_notes(self, task_uuid, new_notes):
+        task = self.project_manager.find_task_by_uuid(task_uuid)
+        task.notes = new_notes
+        task.save_metadata()
+        self.event_manager.throw(EventType.TASK_CHANGED, task)
+
     def extract_checkpoint(self, task_uuid, checkpoint_id):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         new_task = task.project.extract_checkpoint(task, checkpoint_id)

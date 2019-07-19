@@ -8,13 +8,17 @@ class TaskViewer extends React.Component {
 
         this.state = {
             task: null,
-            selectedChoices: {}
+            selectedChoices: {},
+            notes: ""
         };
 
         this.configEditor = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.extractCheckpoint = this.extractCheckpoint.bind(this);
+        this.notesTextarea = React.createRef();
+        this.updateNotes = this.updateNotes.bind(this);
+        this.timer = null;
     }
 
     open(task) {
@@ -36,7 +40,8 @@ class TaskViewer extends React.Component {
 
         this.setState({
             task: task,
-            selectedChoices: selectedChoices
+            selectedChoices: selectedChoices,
+            notes: task.notes
         });
     }
 
@@ -58,6 +63,45 @@ class TaskViewer extends React.Component {
         );
     }
 
+
+    updateNotes(evt) {
+        const newValue = evt.target.value;
+        const task_uuid = this.state.task.uuid;
+        if (this.timer !== null)
+            clearTimeout(this.timer);
+
+        this.timer = setTimeout(() => {
+            var data = new FormData();
+
+            var dataJson = {};
+            dataJson['notes'] = newValue;
+
+            data.append("data", JSON.stringify(dataJson));
+
+            var url = "set_task_notes/" + task_uuid;
+
+            fetch(url,
+                {
+                    method: "POST",
+                    body: data
+                })
+                .then(res => res.json())
+                .then(
+                    (result) => {
+
+                    },
+                    (error) => {
+
+                    }
+                );
+        }, 1000);
+
+
+        this.setState({
+            notes: newValue
+        });
+    }
+
     render() {
         if (this.state.task !== null) {
             return (
@@ -72,6 +116,10 @@ class TaskViewer extends React.Component {
                         <div><span>Code version:</span> {this.props.codeVersions[this.state.task.version].name}</div>
                     </div>
                     <ConfigEditor ref={this.configEditor} url={"/config/task_timestep/" + this.state.task.uuid + "/0"} bases={[]} preview={true}/>
+                    <h2>Notes:</h2>
+                    <div className="notes">
+                        <textarea ref={this.notesTextarea} value={this.state.notes} onChange={evt => this.updateNotes(evt)}/>
+                    </div>
                     <h2>Presets</h2>
                     <div className="presets">
                         {this.props.presets.sort((a, b) => {

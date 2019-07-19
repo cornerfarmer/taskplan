@@ -94,6 +94,7 @@
     background: #fafafa;
     height: 100%;
     animation: slide-in 0.4s ease;
+    overflow-y: auto;
 }
 
 @keyframes slide-in {
@@ -115,6 +116,7 @@
 .task-viewer .title,
 .task-viewer .metadata,
 .task-viewer h2,
+.task-viewer .notes,
 .task-viewer .presets,
 .task-viewer .checkpoints {
     margin: 10px 16px;
@@ -198,6 +200,10 @@
     font-weight: 300;
 }
 
+.task-viewer textarea {
+    min-height: 150px;
+    width: 100%;
+}
 
 
 .code-version-viewer {
