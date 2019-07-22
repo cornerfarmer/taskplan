@@ -46,6 +46,7 @@ class ServerSentEvent(object):
                 data_client['is_saving'] = data.saving
                 data_client['choices'] = [str(preset.uuid) for preset in data.preset.base_presets]
                 data_client['checkpoints'] = data.checkpoints
+                data_client['notes'] = data.notes
         elif event_type is EventType.PRESET_CHANGED:
             data_client['uuid'] = str(data.uuid)
             data_client['name'] = data.get_metadata("name")

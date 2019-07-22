@@ -206,6 +206,13 @@ def run():
 
         return jsonify({})
 
+    @app.route('/set_task_notes/<string:task_uuid>', methods=['POST'])
+    def set_task_notes(task_uuid):
+        new_notes = json.loads(request.form.get('data'))["notes"]
+        controller.set_task_notes(task_uuid, new_notes)
+
+        return jsonify({})
+
     @app.route('/extract_checkpoint/<string:task_uuid>/<int:checkpoint_id>')
     def extract_checkpoint(task_uuid, checkpoint_id):
         controller.extract_checkpoint(task_uuid, checkpoint_id)
