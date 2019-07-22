@@ -26,7 +26,7 @@ class Project extends React.Component {
             sortingDescending: [true, true],
             selectedChoices: {},
             selectedTasks: [],
-            presetFilterEnabled: true
+            presetFilterEnabled: false
         };
         this.updateTasks = this.updateTasks.bind(this);
         this.updatePresets = this.updatePresets.bind(this);
@@ -185,28 +185,20 @@ class Project extends React.Component {
                     <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Tasks</div>
                 </div>
                 <div className="sorting">
-                    <div>
-                        <label>Sorting:</label>
-                        {this.state.activeTab === 0 &&
-                            <select value={this.state.sorting[0]} onChange={this.onChangeSorting}>
-                                <option value="0">Created</option>
-                                <option value="1">Name</option>
-                                <option value="2">Tries</option>
-                            </select>
-                        }
                         {this.state.activeTab === 1 &&
-                            <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
-                                <option value="0">Finished</option>
-                                <option value="1">Name</option>
-                                <option value="2">Created</option>
-                                <option value="3">Iterations</option>
-                            </select>
+                            <div>
+                                <label>Sorting:</label>
+                                <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
+                                    <option value="0">Finished</option>
+                                    <option value="1">Name</option>
+                                    <option value="2">Created</option>
+                                    <option value="3">Iterations</option>
+                                </select>
+                                <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
+
+                                <span className="fas fa-sliders-h"onClick={this.openPresetViewer}></span>
+                            </div>
                         }
-                        <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
-                        {this.state.activeTab === 1 &&
-                            <span className="fas fa-sliders-h"onClick={this.openPresetViewer}></span>
-                        }
-                    </div>
                 </div>
                 <PresetTab
                     active={this.state.activeTab === 0}

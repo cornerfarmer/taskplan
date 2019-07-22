@@ -1,6 +1,7 @@
 import React from 'react';
 import ConfigEditor from "./ConfigEditor";
 import {TaskName} from "./Task";
+import State from "./Global";
 
 class TaskViewer extends React.Component {
     constructor(props) {
@@ -14,8 +15,18 @@ class TaskViewer extends React.Component {
         this.configEditor = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.updateTasks = this.updateTasks.bind(this);
         this.extractCheckpoint = this.extractCheckpoint.bind(this);
     }
+
+    componentDidMount() {
+        this.props.repository.onChange("tasks", this.updateTasks);
+    }
+
+    componentWillUnmount() {
+        this.props.repository.removeOnChange("tasks", this.updateTasks);
+    }
+
 
     open(task) {
         let selectedChoices = {};
@@ -38,6 +49,14 @@ class TaskViewer extends React.Component {
             task: task,
             selectedChoices: selectedChoices
         });
+    }
+
+    updateTasks(tasks) {
+        if (this.state.task !== null) {
+            this.setState({
+                task: this.state.task.uuid in tasks ? tasks[this.state.task.uuid] : null
+            });
+        }
     }
 
     close() {
@@ -65,6 +84,7 @@ class TaskViewer extends React.Component {
                     <div className="header">Task details<i class="fas fa-times" onClick={this.close}></i></div>
                     <div className="title"><span className="try-number">{this.state.task.try}</span><TaskName nameChoices={this.state.task.nameChoices}/></div>
                     <div className="metadata">
+                        <div><span>Status:</span> {this.state.task.state === State.RUNNING ? "Running" : (this.state.task.state === State.QUEUED ? "Queued": "Stopped")}</div>
                         <div><span>Iterations:</span> {this.state.task.finished_iterations} / {this.state.task.total_iterations}</div>
                         <div><span>Started:</span> {this.state.task.creation_time.toShortStr()}</div>
                         <div><span>Paused:</span> {this.state.task.saved_time.toShortStr()} {this.state.task.had_error == true && <span className="task-error">(Error)</span>}</div>
