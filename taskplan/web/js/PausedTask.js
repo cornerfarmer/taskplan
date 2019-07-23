@@ -1,6 +1,7 @@
 import React from 'react';
 import Prompt from "./Prompt";
 import {TaskName} from "./Task";
+import State from "./Global";
 
 class PausedTask extends React.Component {
     constructor(props) {
@@ -61,6 +62,8 @@ class PausedTask extends React.Component {
                 }
             )
     }
+
+
 
 
     render() {

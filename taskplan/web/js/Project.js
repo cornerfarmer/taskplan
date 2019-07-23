@@ -26,7 +26,8 @@ class Project extends React.Component {
             sortingDescending: [true, true],
             selectedChoices: {},
             selectedTasks: [],
-            presetFilterEnabled: false
+            presetFilterEnabled: false,
+            presetSortingMode: false
         };
         this.updateTasks = this.updateTasks.bind(this);
         this.updatePresets = this.updatePresets.bind(this);
@@ -39,6 +40,7 @@ class Project extends React.Component {
         this.openPresetViewer = this.openPresetViewer.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
         this.togglePresetFilter = this.togglePresetFilter.bind(this);
+        this.togglePresetSortingMode = this.togglePresetSortingMode.bind(this);
         this.filterView = new View(true);
         this.presetViewerRef = React.createRef();
     }
@@ -177,6 +179,12 @@ class Project extends React.Component {
         this.presetViewerRef.current.open();
     }
 
+    togglePresetSortingMode() {
+        this.setState({
+            presetSortingMode: !this.state.presetSortingMode
+        });
+    }
+
     render() {
         return (
             <div className="project" style={this.props.visible ? {} : {display: 'none'}}>
@@ -185,6 +193,11 @@ class Project extends React.Component {
                     <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Tasks</div>
                 </div>
                 <div className="sorting">
+                        {this.state.activeTab === 0 &&
+                            <div>
+                                <span onClick={this.togglePresetSortingMode} className={"fas fa-sort"}></span>
+                            </div>
+                        }
                         {this.state.activeTab === 1 &&
                             <div>
                                 <label>Sorting:</label>
@@ -206,6 +219,8 @@ class Project extends React.Component {
                     sorting={this.state.sorting}
                     project={this.props.project}
                     sortingDescending={this.state.sortingDescending}
+                    presetSortingMode={this.state.presetSortingMode}
+                    presets={this.state.presets}
                 />
                 <TaskTab
                     active={this.state.activeTab === 1}

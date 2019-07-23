@@ -55,17 +55,28 @@ class PresetTab extends React.Component {
         return (
             <div className="tab" style={{'display': (this.props.active ? 'flex' : 'none')}}>
                 <ul className="presets-tab" >
-                    {Object.keys(this.props.presetsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
-                        <PresetGroup
-                            presets={this.props.presetsByGroup[group]}
-                            group={group}
-                            sorting={this.props.sorting[0]}
-                            sortingDescending={this.props.sortingDescending[0]}
-                            editPresetFunc={this.presetEditor.current.open}
-                            editChoiceFunc={this.choiceEditor.current.open}
-                            newChoiceFunc={this.choiceEditor.current.new}
-                        />
-                    ))}
+                    {this.props.presetSortingMode ?
+                        this.props.presets.sort((a, b) => a.sorting - b.sorting).map((preset) => (
+                            <Preset
+                                key={preset.uuid}
+                                preset={preset}
+                                sortMode={true}
+                                project_name={this.props.project.name}
+                            />
+                        ))
+                        :
+                        Object.keys(this.props.presetsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
+                            <PresetGroup
+                                presets={this.props.presetsByGroup[group]}
+                                group={group}
+                                sorting={this.props.sorting[0]}
+                                sortingDescending={this.props.sortingDescending[0]}
+                                editPresetFunc={this.presetEditor.current.open}
+                                editChoiceFunc={this.choiceEditor.current.open}
+                                newChoiceFunc={this.choiceEditor.current.new}
+                            />
+                        ))
+                    }
                 </ul>
                 <PresetEditor ref={this.presetEditor} closeEditors={this.closeEditors} />
                 <ChoiceEditor ref={this.choiceEditor} closeEditors={this.closeEditors} />

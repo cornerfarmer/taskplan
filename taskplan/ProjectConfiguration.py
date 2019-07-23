@@ -13,6 +13,57 @@ class ProjectConfiguration:
         self.preset_groups = {}
         for preset in self.get_presets():
             self._recalc_preset_group(preset)
+        self._correct_sorting()
+
+    def _correct_sorting(self):
+        save_necessary = False
+
+        for preset in self.get_presets():
+            if not preset.has_metadata("sorting"):
+                preset.set_metadata("sorting", self._max_sorting() + 1)
+                save_necessary = True
+
+        for i, preset in enumerate(self.sorted_presets()):
+            if preset.get_metadata("sorting") != i:
+                preset.set_metadata("sorting", i)
+                save_necessary = True
+
+        if save_necessary:
+            self.configuration.save()
+
+    def _max_sorting(self):
+        max_sorting = 0
+        for preset in self.get_presets():
+            if preset.has_metadata("sorting"):
+                max_sorting = max(max_sorting, preset.get_metadata("sorting"))
+        return max_sorting
+
+    def sorted_presets(self):
+        return sorted(self.get_presets(), key=lambda preset: preset.get_metadata("sorting"))
+
+    def change_sorting(self, preset_uuid, new_sorting):
+        preset = self.get_preset(preset_uuid)
+        changed_presets = []
+
+        if not preset.has_metadata("sorting"):
+            preset.set_metadata("sorting", self._max_sorting() + 1)
+        else:
+            old_sorting = preset.get_metadata("sorting")
+            dir = -1 if new_sorting > old_sorting else 1
+            sorted_presets = self.sorted_presets()
+            for i in range(new_sorting, old_sorting, dir):
+                self._swap_sorting(sorted_presets[i], sorted_presets[i + dir])
+                changed_presets.append(sorted_presets[i])
+
+        changed_presets.append(preset)
+        self.configuration.save()
+
+        return changed_presets
+
+    def _swap_sorting(self, first_preset, second_preset):
+        first_sorting = first_preset.get_metadata("sorting")
+        first_preset.set_metadata("sorting", second_preset.get_metadata("sorting"))
+        second_preset.set_metadata("sorting", first_sorting)
 
     def _recalc_preset_group(self, preset):
         merged_config = {}
@@ -44,6 +95,7 @@ class ProjectConfiguration:
         return d
 
     def add_preset(self, new_data):
+        new_data["sorting"] = self._max_sorting() + 1
         preset = self.configuration.add_preset(new_data, self.presets_conf_path)
         self.preset_groups[str(preset.uuid)] = []
         return preset

@@ -83,7 +83,7 @@ def run():
         controller.finish_task(task_uuid)
         return jsonify({})
 
-    @app.route('/reorder/<string:task_uuid>/<int:new_index>')
+    @app.route('/reorder_task/<string:task_uuid>/<int:new_index>')
     def reorder_task(task_uuid, new_index):
         controller.reorder_task(task_uuid, new_index)
         return jsonify({})
@@ -217,6 +217,12 @@ def run():
     def extract_checkpoint(task_uuid, checkpoint_id):
         controller.extract_checkpoint(task_uuid, checkpoint_id)
 
+        return jsonify({})
+
+
+    @app.route('/reorder_preset/<string:project_name>/<string:preset_uuid>/<int:new_index>')
+    def reorder_preset(project_name, preset_uuid, new_index):
+        controller.reorder_preset(project_name, preset_uuid, new_index)
         return jsonify({})
 
     return app

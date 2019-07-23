@@ -275,7 +275,7 @@ class Task extends React.Component {
     onDrop(e) {
         if (this.props.task.state === State.QUEUED && this.props.task.uuid !== e.dataTransfer.getData("text/plain")) {
             e.preventDefault();
-            fetch("/reorder/" + e.dataTransfer.getData("text/plain") + "/" + this.props.index)
+            fetch("/reorder_task/" + e.dataTransfer.getData("text/plain") + "/" + this.props.index)
             .then(res => res.json())
             .then(
                 (result) => {

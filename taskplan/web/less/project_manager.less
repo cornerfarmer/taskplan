@@ -116,7 +116,8 @@
     margin-right: 10px;
 }
 
-#project-manager #projects .project .sorting > div > .fa {
+#project-manager #projects .project .sorting > div > .fa,
+#project-manager #projects .project .sorting > div > .fas {
     cursor: pointer;
 }
 
@@ -147,6 +148,28 @@
 
 #project-manager #projects .project ul .item {
     list-style: none;
+}
+
+#project-manager #projects .project ul .item-preset[draggable="true"] .header {
+    cursor: grab;
+}
+
+#project-manager #projects .project ul .item-preset.on-drag-over {
+    border: 3px dashed #3f51b5;
+    box-shadow: none;
+}
+
+#project-manager #projects .project ul .item-preset.on-drag-over .header
+{
+    visibility: hidden;
+}
+
+#project-manager #projects .project ul .item-preset .grip-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #project-manager #projects .project ul .item-preset .group-header,
