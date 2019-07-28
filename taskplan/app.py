@@ -47,6 +47,12 @@ def run():
         controller.start_new_task(project_name, data["choices"], data["config"], total_iterations)
         return jsonify({})
 
+    @app.route('/test/<string:project_name>/<int:total_iterations>', methods=['POST'])
+    def test(project_name, total_iterations):
+        data = json.loads(request.form.get('data'))
+        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations, is_test=True)
+        return jsonify({})
+
     @app.route('/pause/<string:task_uuid>')
     def pause(task_uuid):
         controller.pause_task(task_uuid)

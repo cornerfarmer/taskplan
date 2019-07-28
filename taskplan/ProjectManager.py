@@ -52,7 +52,9 @@ class ProjectManager:
 
     def create_task(self, project_name, choices, config, total_iterations, is_test=False):
         project = self.project_by_name(project_name)
-        task = project.create_task(choices, config, total_iterations, is_test)
+        task, removed_tasks = project.create_task(choices, config, total_iterations, is_test)
+        for removed_task in removed_tasks:
+            self.event_manager.throw(EventType.TASK_REMOVED, removed_task)
         return task
 
     def project_by_name(self, project_name):

@@ -132,12 +132,18 @@ class Repository {
 
         this.standardView = new View(true);
         this.onAdd("tasks", (task) => {
-            this.standardView.addTask(task);
+            if (!task.is_test)
+                this.standardView.addTask(task);
 
             for (const key of Object.keys(this.tasks)) {
-                let node = this.standardView.taskByUuid[key];
-                this.tasks[key].nameChoices = this.standardView.getNodeChoicePath(node, this.tasks[key]);
-                this.tasks[key].try = this.standardView.keyInDict(node.children, key);
+                if (!this.tasks[key].is_test) {
+                    let node = this.standardView.taskByUuid[key];
+                    this.tasks[key].nameChoices = this.standardView.getNodeChoicePath(node, this.tasks[key]);
+                    this.tasks[key].try = this.standardView.keyInDict(node.children, key);
+                } else {
+                    this.tasks[key].nameChoices = [];
+                    this.tasks[key].try = 0
+                }
             }
         });
         this.onRemove("tasks", (task) => {

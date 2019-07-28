@@ -51,7 +51,8 @@ class Project extends React.Component {
         this.props.repository.onAdd("tasks", this.addTask);
         this.props.repository.onRemove("tasks", this.removeTask);
         this.updatePresets(this.props.repository.presets);
-        this.updateTasks(this.props.repository.tasks);
+        for (let key in this.props.repository.tasks)
+            this.addTask(this.props.repository.tasks[key]);
     }
 
     componentWillUnmount() {
@@ -62,17 +63,24 @@ class Project extends React.Component {
     }
 
     addTask(task) {
-        if (task.project_name === this.props.project.name) {
+        if (task.project_name === this.props.project.name && !task.is_test) {
             this.filterView.addTask(task);
-            this.updateVisibleTasks();
         }
+
+        let tasks = Object.assign({}, this.state.tasks);
+        tasks[task.uuid] = task;
+        this.setState({
+            tasks: tasks
+        });
+
+        this.updateVisibleTasks();
     }
 
     removeTask(task) {
-        if (task.project_name === this.props.project.name) {
+        if (task.project_name === this.props.project.name && !task.is_test) {
             this.filterView.removeTask(task);
-            this.updateVisibleTasks();
         }
+        this.updateVisibleTasks();
     }
 
     updateVisibleTasks(selectedChoices=null, presetFilterEnabled=null) {

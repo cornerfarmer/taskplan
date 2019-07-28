@@ -34,6 +34,7 @@ class Project:
             tasks_dir += "/" + self.name
             config_dir += "/" + self.name
             view_dir += "/" + self.name
+            test_dir += "/" + self.name
 
 
         self.config_dir = self.task_dir / Path(config_dir)
@@ -80,12 +81,12 @@ class Project:
                 self._load_saved_task(task)
 
         self.view.initialize(self.tasks)
-        for path in self.test_dir.iterdir():
-            self._load_saved_task(path, is_test=True)
+        if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
+            self._load_saved_task(self.test_dir, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
         try:
-            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.tasks_dir)
+            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
             task.load_metadata(path)
             task.state = State.STOPPED
             self.tasks.append(task)
@@ -114,13 +115,24 @@ class Project:
         else:
             tasks_dir = self.tasks_dir
 
+        removed_tasks = []
+        if is_test:
+            for task in self.tasks:
+                if task.is_test:
+                    if task.state in [State.RUNNING, State.QUEUED]:
+                        raise Exception("A test is already running")
+                    self.remove_task(task)
+                    removed_tasks.append(task)
+                    break
+
         task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
 
-        self.view.add_task(task)
+        if not is_test:
+            self.view.add_task(task)
 
-        return task
+        return task, removed_tasks
 
     def possible_presets(self):
         return [preset for preset in self.configuration.presets if not preset.abstract]
@@ -163,7 +175,8 @@ class Project:
 
     def remove_task(self, task):
         if task in self.tasks:
-            self.view.remove_task(task)
+            if not task.is_test:
+                self.view.remove_task(task)
             self.tasks.remove(task)
             task.remove_data()
 
@@ -189,10 +202,10 @@ class Project:
                 break
 
     def clone_task(self, task):
-        if task in self.tasks:
+        if task in self.tasks and not task.is_test:
             task_preset = self.configuration.add_task([], {})
 
-            cloned_task = self._create_task_from_preset(task_preset, task.total_iterations)
+            cloned_task, _ = self._create_task_from_preset(task_preset, task.total_iterations)
             new_uuid = cloned_task.uuid
 
             shutil.rmtree(str(cloned_task.build_save_dir()))
@@ -208,11 +221,11 @@ class Project:
             return cloned_task
 
     def extract_checkpoint(self, task, checkpoint_id):
-        if task in self.tasks:
+        if task in self.tasks and not task.is_test:
             checkpoint_dir = task.build_checkpoint_dir(checkpoint_id)
             task_preset = self.configuration.add_task([], {})
 
-            new_task = self._create_task_from_preset(task_preset, task.total_iterations)
+            new_task, _ = self._create_task_from_preset(task_preset, task.total_iterations)
             new_uuid = new_task.uuid
 
             new_task_dir = new_task.build_save_dir()

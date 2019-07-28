@@ -126,7 +126,7 @@ class TaskViewer extends React.Component {
             return (
                 <div className="task-viewer slide-editor editor" >
                     <div className="header">Task details<i class="fas fa-times" onClick={this.close}></i></div>
-                    <div className="title"><span className="try-number">{this.state.task.try}</span><TaskName nameChoices={this.state.task.nameChoices}/></div>
+                    <div className="title"><span className="try-number">{this.state.task.try}</span><TaskName task={this.state.task}/></div>
                     <div className="metadata">
                         <div><span>Status:</span> {this.state.task.state === State.RUNNING ? "Running" : (this.state.task.state === State.QUEUED ? "Queued": "Stopped")}</div>
                         <div><span>Iterations:</span> {this.state.task.finished_iterations} / {this.state.task.total_iterations}</div>

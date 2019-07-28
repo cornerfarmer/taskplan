@@ -70,7 +70,7 @@ class PausedTask extends React.Component {
         return (
             <li className="item item-task">
                 <div className="content">
-                    <div className="title"><span className="try-number">{this.props.task.try}</span><TaskName nameChoices={this.props.task.nameChoices}/></div>
+                    <div className="title"><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
                     <div className="footer">
                         <span><span>Iterations:</span> {this.props.task.finished_iterations} / {this.props.task.total_iterations}</span>
                         <span><span>Started:</span> {this.props.task.creation_time.toShortStr()}</span>

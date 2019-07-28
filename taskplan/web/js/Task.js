@@ -20,10 +20,15 @@ export class TaskName extends React.Component {
 
 
     render() {
-        if (this.props.nameChoices.length > 0) {
+        if (this.props.task.is_test) {
             return (
-                <span ref={this.wrapperRef}>
-                {this.props.nameChoices.map((choicePreset, i) => (
+                <span ref={this.wrapperRef}>Test</span>
+            );
+        } else {
+            if (this.props.task.nameChoices.length > 0) {
+                return (
+                    <span ref={this.wrapperRef}>
+                {this.props.task.nameChoices.map((choicePreset, i) => (
                     <span>
                         {i !== 0 &&
                         <span className="separator">/</span>
@@ -32,11 +37,12 @@ export class TaskName extends React.Component {
                     </span>
                 ))}
             </span>
-            );
-        } else {
-            return (
-                <span ref={this.wrapperRef}>Initial try</span>
-            );
+                );
+            } else {
+                return (
+                    <span ref={this.wrapperRef}>Default config</span>
+                );
+            }
         }
     }
 }
@@ -320,7 +326,7 @@ class Task extends React.Component {
                         </div>
                     </div>
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
-                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span><TaskName nameChoices={this.props.task.nameChoices ? this.props.task.nameChoices : []}/></div>
+                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
                 </div>
                 <TaskToolbar task={this.props.task}/>
             </li>

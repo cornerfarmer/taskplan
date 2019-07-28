@@ -25,7 +25,8 @@ class TaskEditor extends React.Component {
             checkpoint_interval: "0",
             open: false,
             command: "",
-            commandHint: ""
+            commandHint: "",
+            isTest: false
         };
 
 
@@ -39,6 +40,7 @@ class TaskEditor extends React.Component {
         this.onCheckpointIntervalChange = this.onCheckpointIntervalChange.bind(this);
         this.onSaveIntervalChange = this.onSaveIntervalChange.bind(this);
         this.copyCommand = this.copyCommand.bind(this);
+        this.onIsTestChange = this.onIsTestChange.bind(this);
         this.wrapperRef = React.createRef();
         this.commandInput = React.createRef();
     }
@@ -64,7 +66,8 @@ class TaskEditor extends React.Component {
 
         this.setState({
             selectedChoices: selectedChoices,
-            open: true
+            open: true,
+            isTest: task.is_test
         });
         this.updatecommand(selectedChoices);
     }
@@ -103,7 +106,7 @@ class TaskEditor extends React.Component {
 
         data.append("data", JSON.stringify(dataJson));
 
-        var url = "/start/" + this.props.project_name + "/" + this.state.total_iterations;
+        var url = "/" + (this.state.isTest ? "test" : "start") + "/" + this.props.project_name + "/" + this.state.total_iterations;
 
         fetch(url,
             {
@@ -168,7 +171,7 @@ class TaskEditor extends React.Component {
 
         if (total_iterations !== "") {
             this.setState({
-                command: "taskplan start " + this.props.project_name + " " + total_iterations + " " + choices,
+                command: "taskplan " + (this.state.isTest ? "test " : "start ") + this.props.project_name + " " + total_iterations + " " + choices,
                 commandHint: "Click to copy"
             });
         } else {
@@ -195,6 +198,12 @@ class TaskEditor extends React.Component {
         }, () => $(this.commandInput.current).tooltip('show'));
     }
 
+    onIsTestChange(event) {
+        this.setState({
+            isTest: event.target.checked
+        }, () => this.updatecommand());
+    }
+
     render() {
         return (
             <div ref={this.wrapperRef} style={{'display': (this.state.open ? 'block' : 'none')}}>
@@ -211,6 +220,10 @@ class TaskEditor extends React.Component {
                     <div className="field">
                         <label>Checkpoint interval:</label>
                         <input value={this.state.checkpoint_interval} onChange={this.onCheckpointIntervalChange} required="required" />
+                    </div>
+                    <div className="field">
+                        <label>Is test:</label>
+                        <input checked={this.state.isTest} onChange={this.onIsTestChange} type="checkbox" />
                     </div>
                     <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
                     <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true}/>

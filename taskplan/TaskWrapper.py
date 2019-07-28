@@ -83,7 +83,7 @@ class TaskWrapper:
         self.project = project
         self.start_time = None
         self.creation_time = datetime.datetime.now()
-        self.saved_time = None
+        self.saved_time = datetime.datetime.now()
         self.queue_index = 0
         self.code_version = code_version
         self.tasks_dir = tasks_dir
@@ -137,7 +137,7 @@ class TaskWrapper:
         self.save_metadata()
 
     def is_running(self):
-        return self.process.is_alive() and self._is_running
+        return self.process is not None and self.process.is_alive() and self._is_running
 
     def finished_iterations_and_update_time(self):
         return self.finished_iterations, self.iteration_update_time
@@ -208,7 +208,7 @@ class TaskWrapper:
         save_func(task.finished_iterations)
 
     def build_save_dir(self):
-        return self.tasks_dir / str(self.uuid)
+        return self.tasks_dir / ("" if self.is_test else str(self.uuid))
 
     def build_checkpoint_dir(self, checkpoint_id):
         return self.build_save_dir() / "checkpoints" / str(self.checkpoints[checkpoint_id]["finished_iterations"])
