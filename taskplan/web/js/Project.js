@@ -41,6 +41,7 @@ class Project extends React.Component {
         this.onSelectionChange = this.onSelectionChange.bind(this);
         this.togglePresetFilter = this.togglePresetFilter.bind(this);
         this.togglePresetSortingMode = this.togglePresetSortingMode.bind(this);
+        this.filterLikeTask = this.filterLikeTask.bind(this);
         this.filterView = new View(true);
         this.presetViewerRef = React.createRef();
     }
@@ -169,6 +170,20 @@ class Project extends React.Component {
         });
     }
 
+    filterLikeTask(task) {
+        const selectedChoices = Object.assign({}, this.state.selectedChoices);
+
+        for (const preset of this.state.presets) {
+            selectedChoices[preset.uuid] = this.filterView.getChoiceToPreset(task, preset);
+        }
+
+        this.setState({
+            selectedChoices: selectedChoices,
+            presetFilterEnabled: true
+        }, () => this.updateVisibleTasks());
+        this.openPresetViewer();
+    }
+
     togglePresetFilter() {
         let presetFilterEnabled = !this.state.presetFilterEnabled;
         this.setState({
@@ -250,6 +265,7 @@ class Project extends React.Component {
                     showTask={this.props.showTask}
                     presetsByGroup={this.state.presetsByGroup}
                     highlightedTask={this.props.highlightedTask}
+                    filterLikeTask={this.filterLikeTask}
                 />
                 <PresetViewer ref={this.presetViewerRef} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
             </div>

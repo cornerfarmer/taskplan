@@ -109,6 +109,11 @@ class PausedTask extends React.Component {
                             <div className="action" onClick={() => this.props.rerunTask(this.props.task)} title="Run new task with the exact same config">
                                 <i className="fa fa-redo"></i>
                             </div>
+                            {!this.props.task.is_test &&
+                                <div className="action" onClick={() => this.props.filterLikeTask(this.props.task)} title="Filter for similar tasks">
+                                    <i className="fas fa-sliders-h"></i>
+                                </div>
+                            }
                             <div className="action" onClick={this.clone} title="Clone task">
                                 <i className="far fa-copy"></i>
                             </div>
