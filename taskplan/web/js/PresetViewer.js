@@ -34,7 +34,7 @@ class PresetViewer extends React.Component {
                 <div className="preset-viewer slide-editor editor" >
                     <div className="header">Preset filter<i className="fas fa-times" onClick={this.close}></i></div>
                     <label>
-                        <input type="checkbox" defaultChecked={this.props.presetFilterEnabled} onChange={() => this.props.togglePresetFilter()} />
+                        <input type="checkbox" checked={this.props.presetFilterEnabled} onChange={() => this.props.togglePresetFilter()} />
                         <span>Enabled</span>
                     </label>
                     <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.props.selectedChoices} onSelectionChange={this.props.onSelectionChange}/>

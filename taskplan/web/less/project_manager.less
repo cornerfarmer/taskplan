@@ -215,6 +215,18 @@
     display: flex;
 }
 
+#project-manager #projects .project ul .item-task.item-highlight {
+  animation: highlight 1500ms ease-out;
+}
+@keyframes highlight {
+  0% {
+    background-color: #4f61f4;
+  }
+  100 {
+    background-color: white;
+  }
+}
+
 #project-manager #projects .project ul .item-choice.item-abstract {
     font-style: italic;
 }

@@ -63,6 +63,7 @@ class TaskTab extends React.Component {
                             key={task.uuid}
                             task={task}
                             showTask={this.props.showTask}
+                            highlight={task.uuid === this.props.highlightedTask}
                         />
                     ))}
                 </ul>

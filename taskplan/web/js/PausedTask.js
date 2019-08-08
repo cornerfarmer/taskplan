@@ -7,6 +7,7 @@ class PausedTask extends React.Component {
     constructor(props) {
         super(props);
 
+        this.itemRef = React.createRef();
         this.promptExtraRefs = React.createRef();
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.finish = this.finish.bind(this);
@@ -64,11 +65,27 @@ class PausedTask extends React.Component {
     }
 
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.highlight !== this.props.highlight && this.props.highlight) {
+            this.itemRef.current.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+        }
+    }
 
+    componentDidMount() {
+        if (this.props.highlight) {
+            this.itemRef.current.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+        }
+    }
 
     render() {
         return (
-            <li className="item item-task">
+            <li ref={this.itemRef} className={this.props.highlight ? "item item-task item-highlight" : "item item-task"}>
                 <div className="content">
                     <div className="title"><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
                     <div className="footer">

@@ -15,7 +15,8 @@ class App extends React.Component {
         super(props);
 
         this.evtSource = new ReconnectingEventSource("/update", {});
-        this.repository = new Repository(this.evtSource)
+        this.repository = new Repository(this.evtSource);
+        this.projectManagerRef = React.createRef();
     }
 
     render() {
@@ -25,10 +26,10 @@ class App extends React.Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-8">
-                            <Scheduler evtSource={this.evtSource} repository={this.repository}/>
+                            <Scheduler evtSource={this.evtSource} repository={this.repository} highlightTask={(task) => this.projectManagerRef.current.highlightTask(task)}/>
                         </div>
                         <div className="col-sm-4">
-                            <ProjectManager repository={this.repository}/>
+                            <ProjectManager ref={this.projectManagerRef} repository={this.repository}/>
                         </div>
                     </div>
                 </div>

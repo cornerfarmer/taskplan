@@ -326,7 +326,7 @@ class Task extends React.Component {
                         </div>
                     </div>
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
-                    <div className="preset-name"><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
+                    <div className="preset-name" onClick={() => this.props.highlightTask(this.props.task)}><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
                 </div>
                 <TaskToolbar task={this.props.task}/>
             </li>

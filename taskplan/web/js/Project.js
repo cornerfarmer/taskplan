@@ -180,6 +180,12 @@ class Project extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.project.current_code_version !== this.props.project.current_code_version)
             this.updateVisibleTasks();
+        if (prevProps.highlightedTask !== this.props.highlightedTask && this.props.highlightedTask !== null) {
+            this.setState({
+                presetFilterEnabled: false,
+                activeTab: 1
+            }, () => this.updateVisibleTasks());
+        }
     }
 
     openPresetViewer() {
@@ -243,6 +249,7 @@ class Project extends React.Component {
                     onSelectionChange={this.onSelectionChange}
                     showTask={this.props.showTask}
                     presetsByGroup={this.state.presetsByGroup}
+                    highlightedTask={this.props.highlightedTask}
                 />
                 <PresetViewer ref={this.presetViewerRef} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
             </div>

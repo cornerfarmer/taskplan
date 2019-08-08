@@ -69,6 +69,7 @@ class Scheduler extends React.Component {
                             key={task.uuid}
                             task={task}
                             index={index}
+                            highlightTask={this.props.highlightTask}
                         />
                     ))}
                 </ul>
@@ -79,6 +80,7 @@ class Scheduler extends React.Component {
                             key={task.uuid}
                             task={task}
                             index={index}
+                            highlightTask={this.props.highlightTask}
                         />
                     ))}
                 </ul>

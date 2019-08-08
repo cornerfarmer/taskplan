@@ -10,7 +10,8 @@ class ProjectManager extends React.Component {
         this.state = {
             projects: [],
             codeVersionTrees: {},
-            currentProject: 0
+            currentProject: 0,
+            highlightedTask: null
         };
         this.gotoTB = this.gotoTB.bind(this);
         this.addVersion = this.addVersion.bind(this);
@@ -137,6 +138,21 @@ class ProjectManager extends React.Component {
         this.codeVersionViewerRef.current.open();
     }
 
+    highlightTask(task) {
+        let project_id = this.state.projects.findIndex(project => project.name === task.project_name);
+        if (project_id !== -1) {
+            this.setState({
+                currentProject: project_id,
+                highlightedTask: task.uuid
+            });
+            setTimeout(() => {
+                this.setState({
+                    highlightedTask: null
+                });
+            }, 1500);
+        }
+    }
+
     render() {
         return (
             <div id="project-manager">
@@ -170,6 +186,7 @@ class ProjectManager extends React.Component {
                             visible={index === this.state.currentProject}
                             showTask={this.openTaskViewer}
                             closeViewer={this.closeViewer}
+                            highlightedTask={index === this.state.currentProject ? this.state.highlightedTask : null}
                         />
                     ))}
                 </div>
