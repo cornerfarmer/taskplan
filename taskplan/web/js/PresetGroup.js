@@ -34,6 +34,7 @@ class PresetGroup extends React.Component {
                                 editPresetFunc={this.props.editPresetFunc}
                                 editChoiceFunc={this.props.editChoiceFunc}
                                 newChoiceFunc={this.props.newChoiceFunc}
+                                numberOfTasksPerChoice={this.props.numberOfTasksPerChoice}
                             />
                         ))}
                 </ul>

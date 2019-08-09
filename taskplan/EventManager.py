@@ -48,23 +48,25 @@ class ServerSentEvent(object):
                 data_client['checkpoints'] = data.checkpoints
                 data_client['notes'] = data.notes
                 data_client['is_test'] = data.is_test
-        elif event_type is EventType.PRESET_CHANGED:
+        elif event_type in [EventType.PRESET_CHANGED, EventType.PRESET_REMOVED]:
             data_client['uuid'] = str(data.uuid)
-            data_client['name'] = data.get_metadata("name")
             data_client['project_name'] = parent_data.name
-            data_client['deprecated_choice'] = data.get_metadata("deprecated_choice")
-            data_client['default_choice'] = data.get_metadata("default_choice")
-            data_client['sorting'] = data.get_metadata("sorting")
-            data_client['group'] = parent_data.configuration.get_preset_group(data)
-        elif event_type is EventType.CHOICE_CHANGED:
+            if event_type is not EventType.PRESET_REMOVED:
+                data_client['name'] = data.get_metadata("name")
+                data_client['deprecated_choice'] = data.get_metadata("deprecated_choice")
+                data_client['default_choice'] = data.get_metadata("default_choice")
+                data_client['sorting'] = data.get_metadata("sorting")
+                data_client['group'] = parent_data.configuration.get_preset_group(data)
+        elif event_type in [EventType.CHOICE_CHANGED, EventType.CHOICE_REMOVED]:
             data_client['uuid'] = str(data.uuid)
-            data_client['name'] = data.get_metadata("name")
             data_client['preset'] = data.get_metadata("preset")
             data_client['project_name'] = parent_data.name
-            data_client['base_uuid'] = data.base_presets[0].uuid if len(data.base_presets) > 0 else ""
-            data_client['abstract'] = data.abstract
-            data_client['dynamic'] = data.dynamic
-            data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
+            if event_type is not EventType.CHOICE_REMOVED:
+                data_client['name'] = data.get_metadata("name")
+                data_client['base_uuid'] = data.base_presets[0].uuid if len(data.base_presets) > 0 else ""
+                data_client['abstract'] = data.abstract
+                data_client['dynamic'] = data.dynamic
+                data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name
             data_client['current_code_version'] = data.current_code_version
@@ -97,7 +99,9 @@ class EventType(Enum):
     TASK_CHANGED = "TASK_CHANGED"
     TASK_REMOVED = "TASK_REMOVED"
     PRESET_CHANGED = "PRESET_CHANGED"
+    PRESET_REMOVED = "PRESET_REMOVED"
     CHOICE_CHANGED = "CHOICE_CHANGED"
+    CHOICE_REMOVED = "CHOICE_REMOVED"
     PROJECT_CHANGED = "PROJECT_CHANGED"
     SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
     FLASH_MESSAGE = "FLASH_MESSAGE"

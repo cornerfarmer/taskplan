@@ -69,6 +69,12 @@ class Controller:
     def remove_task(self, task_uuid):
         self.project_manager.remove_task(task_uuid)
 
+    def remove_preset(self, project_name, preset_uuid):
+        self.project_manager.remove_preset(project_name, preset_uuid)
+
+    def remove_choice(self, project_name, choice_uuid):
+        self.project_manager.remove_choice(project_name, choice_uuid)
+
     def run_task_now(self, task_uuid):
         self.scheduler.run_now(task_uuid)
 

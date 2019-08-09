@@ -90,6 +90,7 @@ class Project:
             task.load_metadata(path)
             task.state = State.STOPPED
             self.tasks.append(task)
+            self.configuration.register_task(task)
         except:
             raise
 
@@ -128,6 +129,7 @@ class Project:
         task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
+        self.configuration.register_task(task)
 
         if not is_test:
             self.view.add_task(task)
@@ -178,7 +180,14 @@ class Project:
             if not task.is_test:
                 self.view.remove_task(task)
             self.tasks.remove(task)
+            self.configuration.deregister_task(task)
             task.remove_data()
+
+    def remove_preset(self, preset_uuid):
+        return self.configuration.remove_preset(preset_uuid)
+
+    def remove_choice(self, choice_uuid):
+        return self.configuration.remove_choice(choice_uuid)
 
     def add_code_version(self, name):
         code_version_uuid = str(uuid.uuid4())

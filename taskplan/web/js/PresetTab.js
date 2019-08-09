@@ -62,6 +62,7 @@ class PresetTab extends React.Component {
                                 preset={preset}
                                 sortMode={true}
                                 project_name={this.props.project.name}
+                                numberOfTasksPerChoice={this.props.numberOfTasksPerChoice}
                             />
                         ))
                         :
@@ -74,6 +75,7 @@ class PresetTab extends React.Component {
                                 editPresetFunc={this.presetEditor.current.open}
                                 editChoiceFunc={this.choiceEditor.current.open}
                                 newChoiceFunc={this.choiceEditor.current.new}
+                                numberOfTasksPerChoice={this.props.numberOfTasksPerChoice}
                             />
                         ))
                     }

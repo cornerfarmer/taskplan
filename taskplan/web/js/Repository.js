@@ -129,6 +129,26 @@ class Repository {
             this.removeEntity(this.tasks, changedTask, "tasks")
         });
 
+        this.evtSource.addEventListener("CHOICE_REMOVED", (e) => {
+            const changedChoice = JSON.parse(e.data);
+            this.removeEntity(this.choices, changedChoice, "choices");
+
+            let preset = this.presets[changedChoice.preset];
+            const previousIndex = preset.choices.findIndex(function (e) {
+                return e.uuid === changedChoice.uuid
+            });
+
+            if (previousIndex >= 0) {
+                preset.choices.splice(previousIndex, 1);
+                this.updateEntity(this.presets, preset, "presets");
+            }
+        });
+
+        this.evtSource.addEventListener("PRESET_REMOVED", (e) => {
+            const changedPreset = JSON.parse(e.data);
+            this.removeEntity(this.presets, changedPreset, "presets")
+        });
+
 
         this.standardView = new View(true);
         this.onAdd("tasks", (task) => {
@@ -167,9 +187,10 @@ class Repository {
     }
 
     removeEntity(entities, entityToRemove, entityType, key="uuid") {
+        let entity = entities[entityToRemove[key]];
         delete entities[entityToRemove[key]];
 
-        this.throwOnRemoveEvent(entityToRemove, entityType);
+        this.throwOnRemoveEvent(entity, entityType);
         this.throwOnChangeEvent(entities, entityType);
     }
 

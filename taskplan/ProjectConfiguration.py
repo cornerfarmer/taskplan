@@ -15,6 +15,22 @@ class ProjectConfiguration:
             self._recalc_preset_group(preset)
         self._correct_sorting()
 
+        self.number_of_tasks_per_choice = {}
+
+    def register_task(self, task):
+        for preset in task.preset.base_presets:
+            if str(preset.uuid) not in self.number_of_tasks_per_choice:
+                self.number_of_tasks_per_choice[str(preset.uuid)] = 0
+            self.number_of_tasks_per_choice[str(preset.uuid)] += 1
+
+    def deregister_task(self, task):
+        for preset in task.preset.base_presets:
+            if str(preset.uuid) in self.number_of_tasks_per_choice:
+                self.number_of_tasks_per_choice[str(preset.uuid)] -= 1
+
+    def is_choice_removable(self, choice):
+        return str(choice.uuid) not in self.number_of_tasks_per_choice or self.number_of_tasks_per_choice[str(choice.uuid)] == 0
+
     def _correct_sorting(self):
         save_necessary = False
 
@@ -201,3 +217,26 @@ class ProjectConfiguration:
         if preset_uuid not in self.configuration.presets_by_uuid:
             raise LookupError("No preset with uuid " + preset_uuid)
         return self.configuration.presets_by_uuid[preset_uuid]
+
+    def remove_choice(self, choice_uuid):
+        if choice_uuid in self.configuration.presets_by_uuid:
+            choice = self.configuration.presets_by_uuid[choice_uuid]
+            if self.is_choice_removable(choice):
+                self.configuration.remove_preset(choice)
+                return choice
+
+        return None
+
+    def remove_preset(self, preset_uuid):
+        if preset_uuid in self.configuration.presets_by_uuid:
+            preset = self.configuration.presets_by_uuid[preset_uuid]
+            has_choices = False
+            for choice in self.get_choices():
+                if choice.get_metadata('preset') == preset_uuid:
+                    has_choices = True
+                    break
+
+            if not has_choices:
+                self.configuration.remove_preset(preset)
+                return preset
+        return None

@@ -3,6 +3,21 @@ import React from 'react';
 class Choice extends React.Component {
     constructor(props) {
         super(props);
+
+        this.remove = this.remove.bind(this);
+    }
+
+    remove() {
+        fetch("/remove_choice/" + this.props.choice.project_name + "/" + this.props.choice.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
     }
 
     render() {
@@ -27,9 +42,15 @@ class Choice extends React.Component {
                             <i className="fas fa-ellipsis-h"></i>
                         </div>
                         <div className="dropdown-menu">
-                            <div className="action" onClick={() => this.props.editFunc(this.props.choice, false, this.props.preset, this.props.choices)} title="Edit choice">
-                                <i className="fa fa-edit"></i>
-                            </div>
+                            {this.props.removable ?
+                                <div className="action" onClick={this.remove} title="Remove choice">
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                                :
+                                <div className="action action-disabled" title="Choice cannot be removed, as there are tasks using it.">
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

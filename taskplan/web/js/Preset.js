@@ -1,6 +1,7 @@
 import React from 'react';
 import Choice from "./Choice";
 import State from "./Global";
+import PresetGroup from "./PresetGroup";
 
 class Preset extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class Preset extends React.Component {
         this.onDragEnter = this.onDragEnter.bind(this);
         this.onDragLeave = this.onDragLeave.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.remove = this.remove.bind(this);
         this.presetRef = React.createRef();
         this.dragEnterCounter = 0
     }
@@ -71,6 +73,21 @@ class Preset extends React.Component {
         }
     }
 
+
+    remove() {
+        fetch("/remove_preset/" + this.props.preset.project_name + "/" + this.props.preset.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+
     render() {
         return (
             <li ref={this.presetRef} className="item item-preset" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} draggable={this.props.sortMode ? "true" : "false"}>
@@ -84,6 +101,15 @@ class Preset extends React.Component {
                             <div className="action" onClick={(e) => {this.props.editPresetFunc(this.props.preset); e.stopPropagation();}} title="Edit preset">
                                 <i className="fa fa-edit"></i>
                             </div>
+                            {this.props.preset.choices.length === 0 ?
+                                <div className="action" onClick={this.remove} title="Remove preset">
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                                :
+                                <div className="action action-disabled" title="Preset cannot be removed, as it still has choices.">
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                            }
                         </div>
                         :
                         <div className="toolbar">
@@ -103,6 +129,7 @@ class Preset extends React.Component {
                                 choice={choice}
                                 preset={this.props.preset}
                                 editFunc={this.props.editChoiceFunc}
+                                removable={!(choice.uuid in this.props.numberOfTasksPerChoice) || this.props.numberOfTasksPerChoice[choice.uuid] === 0}
                             />
                         ))}
                     </ul>

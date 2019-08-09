@@ -1,17 +1,7 @@
 import React from 'react';
-import Preset from "./Preset";
-import State from "./Global";
-import FinishedTask from "./FinishedTask";
-import PausedTask from "./PausedTask";
-import PresetEditor from "./PresetEditor";
-import ChoiceEditor from "./ChoiceEditor";
-import TaskEditor from "./TaskEditor";
-import TaskView from "./TaskView";
-import PresetFilter from "./PresetFilter";
 import View from "./View";
 import PresetTab from "./PresetTab";
 import TaskTab from "./TaskTab";
-import PresetGroup from "./PresetGroup";
 import PresetViewer from "./PresetViewer";
 
 class Project extends React.Component {
@@ -27,7 +17,8 @@ class Project extends React.Component {
             selectedChoices: {},
             selectedTasks: [],
             presetFilterEnabled: false,
-            presetSortingMode: false
+            presetSortingMode: false,
+            numberOfTasksPerChoice: {}
         };
         this.updateTasks = this.updateTasks.bind(this);
         this.updatePresets = this.updatePresets.bind(this);
@@ -70,14 +61,33 @@ class Project extends React.Component {
 
         let tasks = Object.assign({}, this.state.tasks);
         tasks[task.uuid] = task;
+
+        let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
+        for (let choice of task.choices) {
+            if (!(choice.uuid in numberOfTasksPerChoice))
+                numberOfTasksPerChoice[choice.uuid] = 0;
+            numberOfTasksPerChoice[choice.uuid] += 1;
+        }
+
         this.setState({
-            tasks: tasks
+            tasks: tasks,
+            numberOfTasksPerChoice: numberOfTasksPerChoice
         });
 
         this.updateVisibleTasks();
     }
 
     removeTask(task) {
+        let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
+        for (let choice of task.choices) {
+            if (choice.uuid in numberOfTasksPerChoice)
+                numberOfTasksPerChoice[choice.uuid] -= 1;
+        }
+
+        this.setState({
+            numberOfTasksPerChoice: numberOfTasksPerChoice
+        });
+
         if (task.project_name === this.props.project.name && !task.is_test) {
             this.filterView.removeTask(task);
         }
@@ -250,6 +260,7 @@ class Project extends React.Component {
                     sortingDescending={this.state.sortingDescending}
                     presetSortingMode={this.state.presetSortingMode}
                     presets={this.state.presets}
+                    numberOfTasksPerChoice={this.state.numberOfTasksPerChoice}
                 />
                 <TaskTab
                     active={this.state.activeTab === 1}

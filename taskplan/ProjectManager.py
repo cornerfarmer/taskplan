@@ -98,3 +98,15 @@ class ProjectManager:
         task = self.find_task_by_uuid(task_uuid)
         task.project.remove_task(task)
         self.event_manager.throw(EventType.TASK_REMOVED, task)
+
+    def remove_preset(self, project_name, preset_uuid):
+        project = self.project_by_name(project_name)
+        preset = project.remove_preset(preset_uuid)
+        if preset is not None:
+            self.event_manager.throw(EventType.PRESET_REMOVED, preset, project)
+
+    def remove_choice(self, project_name, choice_uuid):
+        project = self.project_by_name(project_name)
+        choice = project.remove_choice(choice_uuid)
+        if choice is not None:
+            self.event_manager.throw(EventType.CHOICE_REMOVED, choice, project)

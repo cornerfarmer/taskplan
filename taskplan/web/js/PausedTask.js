@@ -52,7 +52,7 @@ class PausedTask extends React.Component {
     }
 
     remove() {
-        fetch("/remove/" + this.props.task.uuid)
+        fetch("/remove_task/" + this.props.task.uuid)
             .then(res => res.json())
             .then(
                 (result) => {

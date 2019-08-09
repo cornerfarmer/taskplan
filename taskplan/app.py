@@ -68,9 +68,19 @@ def run():
         controller.cancel_task(task_uuid)
         return jsonify({})
 
-    @app.route('/remove/<string:task_uuid>')
-    def remove(task_uuid):
+    @app.route('/remove_task/<string:task_uuid>')
+    def remove_task(task_uuid):
         controller.remove_task(task_uuid)
+        return jsonify({})
+
+    @app.route('/remove_preset/<string:project_name>/<string:preset_uuid>')
+    def remove_preset(project_name, preset_uuid):
+        controller.remove_preset(project_name, preset_uuid)
+        return jsonify({})
+
+    @app.route('/remove_choice/<string:project_name>/<string:choice_uuid>')
+    def remove_choice(project_name, choice_uuid):
+        controller.remove_choice(project_name, choice_uuid)
         return jsonify({})
 
     @app.route('/run_now/<string:task_uuid>')
