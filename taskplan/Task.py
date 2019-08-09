@@ -62,6 +62,7 @@ class Task(object):
         save_interval = self.preset.get_int('save_interval')
         checkpoint_interval = self.preset.get_int('checkpoint_interval')
 
+        self.start()
         while self.finished_iterations < self.total_iterations:
             self.receive_updates()
 
@@ -95,6 +96,7 @@ class Task(object):
                 checkpoint = checkpoint_func(self.finished_iterations)
                 self.pipe.send(PipeMsg.NEW_CHECKPOINT, checkpoint)
 
+        self.stop()
         self._flush_tensorboard_writer(tensorboard_writer)
 
     def step(self, tensorboard_writer, current_iteration):
@@ -102,5 +104,11 @@ class Task(object):
 
     def save(self, path):
         raise NotImplementedError()
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
 
 

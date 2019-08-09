@@ -33,3 +33,8 @@ class TestTask(taskplan.Task):
         with open(str(path / Path("model.pk")), 'rb') as handle:
             self.sum = pickle.load(handle)
 
+    def start(self):
+        self.logger.log("Starting task")
+
+    def stop(self):
+        self.logger.log("Stopping task")
