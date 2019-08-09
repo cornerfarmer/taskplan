@@ -7,6 +7,14 @@ class PresetFilter extends React.Component {
         this.state = {};
     }
 
+    calcChoiceClasses(preset, choice) {
+        let classes = "choice ";
+        if (this.props.selectedChoices[preset.uuid] === choice.uuid || this.props.selectedChoices[preset.uuid] === choice)
+            classes += "choice-selected ";
+        if (preset.default_choice.uuid === choice.uuid)
+            classes += "choice-default ";
+        return classes;
+    }
 
     render() {
         return (
@@ -29,7 +37,12 @@ class PresetFilter extends React.Component {
                                         {preset.choices.sort((a, b) => {
                                             return a.name.localeCompare(b.name);
                                         }).map(choice => (
-                                            <div className={this.props.selectedChoices[preset.uuid] === choice.uuid || this.props.selectedChoices[preset.uuid] === choice ? "choice choice-selected" : "choice"} onClick={() => this.props.onSelectionChange(preset, choice)}>{choice.name}</div>
+                                            <div className={this.calcChoiceClasses(preset, choice)} onClick={() => this.props.onSelectionChange(preset, choice)}>
+                                                {choice.name}
+                                                {this.props.numberOfTasksPerChoice &&
+                                                    <span className="task-numbers">{choice.uuid in this.props.numberOfTasksPerChoice ? this.props.numberOfTasksPerChoice[choice.uuid] : 0}</span>
+                                                }
+                                            </div>
                                         ))}
                                     </div>
                                 </div>

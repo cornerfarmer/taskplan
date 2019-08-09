@@ -55,19 +55,21 @@ class Project extends React.Component {
     }
 
     addTask(task) {
-        if (task.project_name === this.props.project.name && !task.is_test) {
-            this.filterView.addTask(task);
+        let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
+        if (!task.is_test) {
+            if (task.project_name === this.props.project.name) {
+                this.filterView.addTask(task);
+            }
+
+            for (let choice of task.choices) {
+                if (!(choice.uuid in numberOfTasksPerChoice))
+                    numberOfTasksPerChoice[choice.uuid] = 0;
+                numberOfTasksPerChoice[choice.uuid] += 1;
+            }
         }
 
         let tasks = Object.assign({}, this.state.tasks);
         tasks[task.uuid] = task;
-
-        let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
-        for (let choice of task.choices) {
-            if (!(choice.uuid in numberOfTasksPerChoice))
-                numberOfTasksPerChoice[choice.uuid] = 0;
-            numberOfTasksPerChoice[choice.uuid] += 1;
-        }
 
         this.setState({
             tasks: tasks,
@@ -78,15 +80,17 @@ class Project extends React.Component {
     }
 
     removeTask(task) {
-        let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
-        for (let choice of task.choices) {
-            if (choice.uuid in numberOfTasksPerChoice)
-                numberOfTasksPerChoice[choice.uuid] -= 1;
-        }
+        if ( !task.is_test) {
+            let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
+            for (let choice of task.choices) {
+                if (choice.uuid in numberOfTasksPerChoice)
+                    numberOfTasksPerChoice[choice.uuid] -= 1;
+            }
 
-        this.setState({
-            numberOfTasksPerChoice: numberOfTasksPerChoice
-        });
+            this.setState({
+                numberOfTasksPerChoice: numberOfTasksPerChoice
+            });
+        }
 
         if (task.project_name === this.props.project.name && !task.is_test) {
             this.filterView.removeTask(task);
@@ -278,7 +282,7 @@ class Project extends React.Component {
                     highlightedTask={this.props.highlightedTask}
                     filterLikeTask={this.filterLikeTask}
                 />
-                <PresetViewer ref={this.presetViewerRef} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
+                <PresetViewer ref={this.presetViewerRef} numberOfTasksPerChoice={this.state.numberOfTasksPerChoice} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
             </div>
         );
     }

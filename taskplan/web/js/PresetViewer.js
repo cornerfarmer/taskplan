@@ -37,7 +37,7 @@ class PresetViewer extends React.Component {
                         <input type="checkbox" checked={this.props.presetFilterEnabled} onChange={() => this.props.togglePresetFilter()} />
                         <span>Enabled</span>
                     </label>
-                    <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.props.selectedChoices} onSelectionChange={this.props.onSelectionChange}/>
+                    <PresetFilter presetsByGroup={this.props.presetsByGroup} numberOfTasksPerChoice={this.props.numberOfTasksPerChoice} selectedChoices={this.props.selectedChoices} onSelectionChange={this.props.onSelectionChange}/>
                 </div>
             );
         } else {
