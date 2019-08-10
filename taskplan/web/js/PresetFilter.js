@@ -9,7 +9,7 @@ class PresetFilter extends React.Component {
 
     calcChoiceClasses(preset, choice) {
         let classes = "choice ";
-        if (this.props.selectedChoices[preset.uuid] === choice.uuid || this.props.selectedChoices[preset.uuid] === choice)
+        if (this.props.selectedChoices[preset.uuid] === choice.uuid)
             classes += "choice-selected ";
         if (preset.default_choice.uuid === choice.uuid)
             classes += "choice-default ";

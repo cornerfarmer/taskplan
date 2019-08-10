@@ -243,7 +243,7 @@ class View {
 
         for (const preset of this.presets) {
             if (preset.deprecated_choice !== '') {
-                const suitableChoice = selectedChoices[preset.uuid];
+                const suitableChoice = preset.choices.find((choice) => choice.uuid === selectedChoices[preset.uuid]);
 
                 if (node instanceof TasksNode || node.preset !== preset) {
                     const firstTask = node.getFirstTaskIn();

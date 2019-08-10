@@ -123,7 +123,7 @@ class Project extends React.Component {
         let presetsByGroup = {};
         for (const preset of Object.values(presets)) {
             if (!(preset.uuid in selectedChoices) && preset.choices.length > 0)
-                selectedChoices[preset.uuid] = preset.choices[0];
+                selectedChoices[preset.uuid] = preset.choices[0].uuid;
 
             const group = preset.group.length > 0 ? preset.group[0] : '';
             if (!(group in presetsByGroup))
@@ -176,7 +176,7 @@ class Project extends React.Component {
     onSelectionChange(preset, choice) {
         const selectedChoices = Object.assign({}, this.state.selectedChoices);
 
-        selectedChoices[preset.uuid] = choice;
+        selectedChoices[preset.uuid] = choice.uuid;
 
         this.updateVisibleTasks(selectedChoices);
         this.setState({
@@ -188,7 +188,7 @@ class Project extends React.Component {
         const selectedChoices = Object.assign({}, this.state.selectedChoices);
 
         for (const preset of this.state.presets) {
-            selectedChoices[preset.uuid] = this.filterView.getChoiceToPreset(task, preset);
+            selectedChoices[preset.uuid] = this.filterView.getChoiceToPreset(task, preset).uuid;
         }
 
         this.setState({
