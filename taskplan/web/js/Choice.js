@@ -1,23 +1,11 @@
 import React from 'react';
+import ReassuringPrompt from "./ReassuringPrompt";
 
 class Choice extends React.Component {
     constructor(props) {
         super(props);
 
-        this.remove = this.remove.bind(this);
-    }
-
-    remove() {
-        fetch("/remove_choice/" + this.props.choice.project_name + "/" + this.props.choice.uuid)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-
-                }
-            )
+        this.reassuringRemovePromptRefs = React.createRef();
     }
 
     render() {
@@ -43,7 +31,7 @@ class Choice extends React.Component {
                         </div>
                         <div className="dropdown-menu">
                             {this.props.removable ?
-                                <div className="action" onClick={this.remove} title="Remove choice">
+                                <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove choice">
                                     <i className="far fa-trash-alt"></i>
                                 </div>
                                 :
@@ -54,6 +42,7 @@ class Choice extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this choice?" url={"/remove_choice/" + this.props.choice.project_name + "/" + this.props.choice.uuid}/>
             </li>
         );
     }

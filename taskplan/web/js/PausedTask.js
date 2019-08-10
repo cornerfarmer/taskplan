@@ -2,18 +2,19 @@ import React from 'react';
 import Prompt from "./Prompt";
 import {TaskName} from "./Task";
 import State from "./Global";
+import ReassuringPrompt from "./ReassuringPrompt";
 
 class PausedTask extends React.Component {
     constructor(props) {
         super(props);
 
+        this.reassuringRemovePromptRefs = React.createRef();
         this.itemRef = React.createRef();
         this.promptExtraRefs = React.createRef();
         this.openExtraDialog = this.openExtraDialog.bind(this);
         this.finish = this.finish.bind(this);
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
-        this.remove = this.remove.bind(this);
     }
 
     openExtraDialog() {
@@ -50,20 +51,6 @@ class PausedTask extends React.Component {
                 }
             )
     }
-
-    remove() {
-        fetch("/remove_task/" + this.props.task.uuid)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-
-                }
-            )
-    }
-
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.highlight !== this.props.highlight && this.props.highlight) {
@@ -120,13 +107,14 @@ class PausedTask extends React.Component {
                             <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
                             </div>
-                            <div className="action" onClick={this.remove} title="Remove task">
+                            <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove task">
                                 <i className="far fa-trash-alt"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/continue/" + this.props.task.uuid}/>
+                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this task?" url={"/remove_task/" + this.props.task.uuid}/>
             </li>
         );
     }

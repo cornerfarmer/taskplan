@@ -2,6 +2,7 @@ import React from 'react';
 import Choice from "./Choice";
 import State from "./Global";
 import PresetGroup from "./PresetGroup";
+import ReassuringPrompt from "./ReassuringPrompt";
 
 class Preset extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class Preset extends React.Component {
         this.onDragEnter = this.onDragEnter.bind(this);
         this.onDragLeave = this.onDragLeave.bind(this);
         this.onDrop = this.onDrop.bind(this);
-        this.remove = this.remove.bind(this);
+        this.reassuringRemovePromptRefs = React.createRef();
         this.presetRef = React.createRef();
         this.dragEnterCounter = 0
     }
@@ -74,20 +75,6 @@ class Preset extends React.Component {
     }
 
 
-    remove() {
-        fetch("/remove_preset/" + this.props.preset.project_name + "/" + this.props.preset.uuid)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-
-                }
-            )
-    }
-
-
     render() {
         return (
             <li ref={this.presetRef} className="item item-preset" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} draggable={this.props.sortMode ? "true" : "false"}>
@@ -102,7 +89,7 @@ class Preset extends React.Component {
                                 <i className="fa fa-edit"></i>
                             </div>
                             {this.props.preset.choices.length === 0 ?
-                                <div className="action" onClick={this.remove} title="Remove preset">
+                                <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove preset">
                                     <i className="far fa-trash-alt"></i>
                                 </div>
                                 :
@@ -134,6 +121,7 @@ class Preset extends React.Component {
                         ))}
                     </ul>
                 }
+                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this preset?" url={"/remove_preset/" + this.props.preset.project_name + "/" + this.props.preset.uuid}/>
             </li>
         );
     }
