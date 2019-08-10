@@ -7,12 +7,17 @@ try:
 except ImportError:
     tf = None
 
+try:
+    import tensorboardX as tbX
+except ImportError:
+    tbX = None
+
 from datetime import datetime
 import time
 
 class Task(object):
 
-    def __init__(self, preset, logger, metadata):
+    def __init__(self, preset, logger, metadata, use_tensorboardX=False):
         self.preset = preset
         self.logger = logger
         self.finished_iterations = metadata["finished_iterations"]
@@ -22,15 +27,22 @@ class Task(object):
         self.iteration_update_time = 0
         self.pause_computation = False
         self.save_now = False
+        self.use_tensorboardX = use_tensorboardX
 
     def load(self, path):
         raise NotImplementedError()
 
     def _create_tensorboard_writer(self, task_dir):
-        if tf is not None: 
-            return tf.summary.FileWriter(task_dir)
+        if self.use_tensorboardX:
+            if tbX is not None:
+                return tbX.SummaryWriter(task_dir)
+            else:
+                return None
         else:
-            return None
+            if tf is not None:
+                return tf.summary.FileWriter(task_dir)
+            else:
+                return None
 
     def _flush_tensorboard_writer(self, tensorboard_writer):
         if tensorboard_writer is not None:

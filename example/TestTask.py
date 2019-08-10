@@ -26,8 +26,9 @@ class TestTask(taskplan.Task):
         self.sum += self.preset.get_int('step')
         self.logger.log("Current sum: " + str(self.sum) + " (Iteration " + str(current_iteration) + ")")
 
-        if tf is not None:
+        if tensorboard_writer is not None:
             tensorboard_writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="sum", simple_value=self.sum)]), current_iteration)
+            #tensorboard_writer.add_scalar('sum', self.sum, current_iteration)
 
     def load(self, path):
         with open(str(path / Path("model.pk")), 'rb') as handle:
