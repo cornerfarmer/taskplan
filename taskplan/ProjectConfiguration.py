@@ -169,9 +169,11 @@ class ProjectConfiguration:
         preset = self.get_preset(preset_uuid)
         new_data['uuid'] = preset.uuid
         new_data['creation_time'] = preset.data['creation_time']
+        new_data["sorting"] = preset.get_metadata("sorting")
         preset.set_data(new_data)
         preset.set_metadata("deprecated_choice", new_data["deprecated_choice"])
         preset.set_metadata("default_choice", new_data["default_choice"])
+        preset.set_metadata("sorting", new_data["sorting"])
 
         self.configuration.save()
         return preset
@@ -223,9 +225,24 @@ class ProjectConfiguration:
             choice = self.configuration.presets_by_uuid[choice_uuid]
             if self.is_choice_removable(choice):
                 self.configuration.remove_preset(choice)
-                return choice
 
-        return None
+                preset = self.configuration.presets_by_uuid[choice.get_metadata('preset')]
+
+                one_other_choice = ""
+                for other_choice in self.get_choices():
+                    if choice.get_metadata('preset') == str(preset.uuid):
+                        one_other_choice = str(other_choice.uuid)
+
+                if preset.get_metadata("deprecated_choice") == str(choice.uuid):
+                    preset.set_metadata("deprecated_choice", one_other_choice)
+                    self.configuration.save()
+                if preset.get_metadata("default_choice") == str(choice.uuid):
+                    preset.set_metadata("default_choice", one_other_choice)
+                    self.configuration.save()
+
+                return choice, preset
+
+        return None, None
 
     def remove_preset(self, preset_uuid):
         if preset_uuid in self.configuration.presets_by_uuid:

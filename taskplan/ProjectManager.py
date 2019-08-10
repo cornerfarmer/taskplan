@@ -107,6 +107,7 @@ class ProjectManager:
 
     def remove_choice(self, project_name, choice_uuid):
         project = self.project_by_name(project_name)
-        choice = project.remove_choice(choice_uuid)
+        choice, preset = project.remove_choice(choice_uuid)
         if choice is not None:
             self.event_manager.throw(EventType.CHOICE_REMOVED, choice, project)
+            self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
