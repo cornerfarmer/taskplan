@@ -65,6 +65,20 @@ class Scheduler:
                     running.pause()
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
 
+    def pause_and_cancel_all(self):
+        with self._queue_mutex:
+            for running in self.runnings:
+                running.pause()
+                self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
+
+        with self._queue_mutex:
+            for task in self.queue:
+                self.queue.remove(task)
+                removed_task = task
+                removed_task.state = State.STOPPED
+                self.event_manager.log("The task \"" + str(removed_task) + "\" has been cancelled", "Task has been cancelled")
+                self.event_manager.throw(EventManager.EventType.TASK_CHANGED, removed_task)
+
     def terminate(self, task_uuid):
         with self._queue_mutex:
             for running in self.runnings:

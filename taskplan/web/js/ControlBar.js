@@ -6,10 +6,24 @@ class ControlBar extends React.Component {
         super(props);
 
         this.openGlobalLog = this.openGlobalLog.bind(this);
+        this.pauseAll = this.pauseAll.bind(this);
     }
 
     openGlobalLog() {
         window.open("/log", '_blank');
+    }
+
+    pauseAll() {
+        fetch("/pause_all/")
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
     }
 
     render() {
@@ -19,7 +33,7 @@ class ControlBar extends React.Component {
                     <h1 id="title">
                         TaskPlan
                     </h1>
-                    <div className="action" title="Pause all running tasks">
+                    <div className="action" onClick={this.pauseAll} title="Pause all running tasks">
                         <i className="fa fa-pause"></i>
                     </div>
                     <div className="action" onClick={this.openGlobalLog} title="Open the global log">

@@ -164,7 +164,7 @@ class TaskWrapper:
                     data['finished_iterations'] = finished_iterations
                     json.dump(data, handle)
 
-            metadata["pipe"].send(PipeMsg.SAVED_FINISHED_ITERATIONS, finished_iterations)
+            metadata["pipe"].send(PipeMsg.SAVED_FINISHED_ITERATIONS, {"saved_finished_iterations": finished_iterations, "saved_time": data['saved_time']})
 
         def checkpoint_func(finished_iterations):
             save_func(finished_iterations)
@@ -279,7 +279,8 @@ class TaskWrapper:
                 elif msg_type == PipeMsg.FINISHED_ITERATIONS:
                     self.finished_iterations, self.iteration_update_time = arg["finished_iterations"], arg["iteration_update_time"]
                 elif msg_type == PipeMsg.SAVED_FINISHED_ITERATIONS:
-                    self.saved_finished_iterations = arg
+                    self.saved_finished_iterations = arg["saved_finished_iterations"]
+                    self.saved_time = datetime.datetime.fromtimestamp(arg["saved_time"])
                 elif msg_type == PipeMsg.NEW_CHECKPOINT:
                     self.checkpoints.append(arg)
                 elif msg_type == PipeMsg.TOTAL_ITERATIONS:

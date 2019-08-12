@@ -58,6 +58,11 @@ def run():
         controller.pause_task(task_uuid)
         return jsonify({})
 
+    @app.route('/pause_all/')
+    def pause_all():
+        controller.pause_all_tasks()
+        return jsonify({})
+
     @app.route('/terminate/<string:task_uuid>')
     def terminate(task_uuid):
         controller.terminate_task(task_uuid)

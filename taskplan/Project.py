@@ -224,7 +224,7 @@ class Project:
 
             cloned_task.state = State.STOPPED
             cloned_task.uuid = new_uuid
-            cloned_task.creation_time = datetime.now()
+            cloned_task.creation_time = datetime.datetime.now()
             cloned_task.save_metadata()
 
             return cloned_task

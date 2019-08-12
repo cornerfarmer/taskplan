@@ -55,6 +55,9 @@ class Controller:
     def pause_task(self, task_uuid):
         self.scheduler.pause(task_uuid)
 
+    def pause_all_tasks(self):
+        self.scheduler.pause_and_cancel_all()
+
     def terminate_task(self, task_uuid):
         self.scheduler.terminate(task_uuid)
 
@@ -64,10 +67,7 @@ class Controller:
     def cancel_task(self, task_uuid):
         removed_task = self.scheduler.cancel(task_uuid)
         if removed_task is not None:
-            if removed_task.finished_iterations_and_update_time()[0] == 0:
-                self.remove_task(removed_task)
-            else:
-                self.event_manager.throw(EventType.TASK_CHANGED, removed_task)
+            self.event_manager.throw(EventType.TASK_CHANGED, removed_task)
 
     def remove_task(self, task_uuid):
         self.project_manager.remove_task(task_uuid)
