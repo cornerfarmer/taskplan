@@ -213,6 +213,24 @@
     border-bottom: 1px solid rgba(0,0,0,.1);
     background: white;
     display: flex;
+
+}
+
+
+#project-manager #projects .project ul .item-task.task-running {
+    background-image: repeating-linear-gradient( -45deg, #f4f5ff, #f4f5ff 11px, white 10px, white 20px );
+    background-size: 28px 28px;
+    animation: move 2s linear infinite;
+}
+
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 28px 0;
+  }
 }
 
 #project-manager #projects .project ul .item-task.item-highlight {
@@ -246,7 +264,7 @@
 
 #project-manager #projects .project ul .item-task .content .title .try-number,
 #project-manager #projects .project ul .item-choice .content .title .try-number {
-    background: rgba(158,158,158,.2);
+    background: #ececec;
     padding: 4px 10px;
     margin-right: 10px;
     display: inline-block;
@@ -289,7 +307,7 @@
 #project-manager #projects .project ul .item-choice .toolbar {
     border-left: 1px solid rgba(0,0,0,.1);
     padding: 10px;
-    background: rgba(0,0,0,.05);
+    background: #f2f2f2;
     display: flex;
     flex-direction: column;
 }

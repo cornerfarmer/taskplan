@@ -70,9 +70,18 @@ class PausedTask extends React.Component {
         }
     }
 
+    itemClass() {
+        let classname = "item item-task ";
+        if (this.props.highlight)
+            classname += "item-highlight ";
+        if (this.props.task.state === State.RUNNING)
+            classname += "task-running ";
+        return classname;
+    }
+
     render() {
         return (
-            <li ref={this.itemRef} className={this.props.highlight ? "item item-task item-highlight" : "item item-task"}>
+            <li ref={this.itemRef} className={this.itemClass()}>
                 <div className="content">
                     <div className="title"><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
                     <div className="footer">

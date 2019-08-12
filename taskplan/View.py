@@ -65,7 +65,7 @@ class View:
 
     def __init__(self, configuration, root):
         self.configuration = configuration
-        self.presets = self.configuration.get_presets()
+        self.presets = self.configuration.sorted_presets()
 
         self.root_node = RootNode()
         self.root_node.set_child("default", TasksNode())
@@ -153,6 +153,39 @@ class View:
         self._check_node_for_removal(node, path)
 
         del self.task_by_uuid[str(task.uuid)]
+
+    def add_preset(self, preset):
+        insert_index = 0
+        while self.presets[insert_index].get_metadata("sorting") < preset.get_metadata("sorting"):
+            insert_index += 1
+
+        self.presets.insert(insert_index, preset)
+        self._add_node_with_preset(preset, self.root_node.children["default"], self.root_path)
+
+    def _add_node_with_preset(self, preset, root, path):
+        if (type(root) == PresetNode and root.preset.get_metadata("sorting") > preset.get_metadata("sorting")) or type(root) == TasksNode:
+            first_task = root.get_first_task_in()
+            former_choice = self._get_choice_to_preset(first_task, preset)
+
+            new_node = PresetNode(preset)
+            self._add_node_before_node(root, new_node, former_choice.get_metadata("name"), path)
+            return
+
+        for key in root.children:
+            self._add_node_with_preset(preset, root.children[key], path / key)
+
+    def remove_preset(self, preset):
+        if preset in self.presets:
+            self._remove_nodes_with_preset(preset, self.root_node.children["default"], self.root_path)
+            self.presets.remove(preset)
+
+    def _remove_nodes_with_preset(self, preset, root, path):
+        if type(root) == PresetNode and root.preset == preset:
+            self._remove_preset_at_node(root, path)
+            return
+
+        for key in root.children:
+            self._remove_nodes_with_preset(preset, root.children[key], path / key)
 
     def _check_node_for_removal(self, node, path):
         if len(node.children) == 0 and type(node.parent) != RootNode:
