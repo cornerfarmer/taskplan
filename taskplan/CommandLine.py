@@ -6,6 +6,7 @@ from taskplan.EventManager import EventManager
 import click
 
 from taskplan.app import run
+from werkzeug.serving import run_simple
 
 @click.group()
 def cli():
@@ -25,9 +26,10 @@ def init():
 
 @cli.command()
 def web():
-    app = run()
+    app, controller = run()
 
-    app.run(host='0.0.0.0', port='9998')
+    run_simple("0.0.0.0", 9998, app, threaded=True)
+    controller.stop()
 
 
 @cli.command()

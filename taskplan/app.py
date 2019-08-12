@@ -58,6 +58,11 @@ def run():
         controller.pause_task(task_uuid)
         return jsonify({})
 
+    @app.route('/terminate/<string:task_uuid>')
+    def terminate(task_uuid):
+        controller.terminate_task(task_uuid)
+        return jsonify({})
+
     @app.route('/save_now/<string:task_uuid>')
     def save_now(task_uuid):
         controller.save_now_task(task_uuid)
@@ -241,4 +246,4 @@ def run():
         controller.reorder_preset(project_name, preset_uuid, new_index)
         return jsonify({})
 
-    return app
+    return app, controller

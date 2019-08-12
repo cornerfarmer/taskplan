@@ -55,6 +55,9 @@ class Controller:
     def pause_task(self, task_uuid):
         self.scheduler.pause(task_uuid)
 
+    def terminate_task(self, task_uuid):
+        self.scheduler.terminate(task_uuid)
+
     def save_now_task(self, task_uuid):
         self.scheduler.save_now(task_uuid)
 
@@ -238,8 +241,7 @@ class Controller:
 
     def set_task_notes(self, task_uuid, new_notes):
         task = self.project_manager.find_task_by_uuid(task_uuid)
-        task.notes = new_notes
-        task.save_metadata()
+        task.set_notes(new_notes)
         self.event_manager.throw(EventType.TASK_CHANGED, task)
 
     def extract_checkpoint(self, task_uuid, checkpoint_id):

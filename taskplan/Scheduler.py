@@ -65,6 +65,13 @@ class Scheduler:
                     running.pause()
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
 
+    def terminate(self, task_uuid):
+        with self._queue_mutex:
+            for running in self.runnings:
+                if str(running.uuid) == task_uuid:
+                    running.terminate()
+                    self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
+
     def save_now(self, task_uuid):
         with self._queue_mutex:
             for running in self.runnings:

@@ -93,6 +93,7 @@ class TaskToolbar extends React.Component {
         this.promptPresetRefs = React.createRef();
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
+        this.terminate = this.terminate.bind(this);
     }
 
     pause() {
@@ -172,6 +173,19 @@ class TaskToolbar extends React.Component {
             )
     }
 
+    terminate() {
+        fetch("/terminate/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
     render() {
         let currentAction = "";
         if (this.props.task.is_pausing) {
@@ -205,6 +219,9 @@ class TaskToolbar extends React.Component {
                                 </div>
                                 <div className="action" onClick={this.clone} title="Clone task">
                                     <i className="far fa-copy"></i><span>Clone</span>
+                                </div>
+                                <div className="action" onClick={this.terminate} title="Terminate task">
+                                   <i className="fas fa-skull-crossbones"></i><span>Terminate</span>
                                 </div>
                             </div>
                         </div>
