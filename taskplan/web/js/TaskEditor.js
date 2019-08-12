@@ -207,8 +207,8 @@ class TaskEditor extends React.Component {
     render() {
         return (
             <div ref={this.wrapperRef} style={{'display': (this.state.open ? 'block' : 'none')}}>
-                <div className="task-editor editor">
-                    <div className="header">Start task</div>
+                <div className="task-editor slide-editor editor">
+                    <div className="header">Start task<i className="fas fa-times" onClick={this.close}></i></div>
                     <div className="field">
                         <label>Total iterations:</label>
                         <input value={this.state.total_iterations} onChange={this.onTotalIterationsChange} required="required" />
@@ -233,7 +233,6 @@ class TaskEditor extends React.Component {
                     </div>
                     <div className="buttons">
                         <div onClick={this.run}>Run</div>
-                        <div onClick={this.close}>Cancel</div>
                     </div>
                 </div>
             </div>
