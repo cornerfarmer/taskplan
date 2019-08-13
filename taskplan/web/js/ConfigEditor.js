@@ -16,8 +16,9 @@ class ConfigEditor extends React.Component {
         this.onChange = this.onChange.bind(this);
     }
 
-    componentDidUpdate() {
-        this.reload();
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.url !== this.props.url || JSON.stringify(prevProps.bases) !== JSON.stringify(this.props.bases))
+            this.reload();
     }
 
     componentDidMount() {

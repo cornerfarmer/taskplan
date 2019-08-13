@@ -68,6 +68,7 @@ class PresetTab extends React.Component {
                         :
                         Object.keys(this.props.presetsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
                             <PresetGroup
+                                key={group}
                                 presets={this.props.presetsByGroup[group]}
                                 group={group}
                                 sorting={this.props.sorting[0]}

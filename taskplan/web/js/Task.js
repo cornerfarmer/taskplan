@@ -29,7 +29,7 @@ export class TaskName extends React.Component {
                 return (
                     <span ref={this.wrapperRef}>
                 {this.props.task.nameChoices.map((choicePreset, i) => (
-                    <span>
+                    <span key={i}>
                         {i !== 0 &&
                         <span className="separator">/</span>
                         }

@@ -65,7 +65,6 @@ class ProjectManager extends React.Component {
                 codeVersionTrees: codeVersionTrees
             });
         }
-        console.log(codeVersionTrees)
     }
 
     insertCodeVersionNode(root, newNode) {
@@ -113,7 +112,6 @@ class ProjectManager extends React.Component {
         var currentProject = this.state.currentProject;
         currentProject += deltaIndex;
         currentProject = Math.min(this.state.projects.length - 1, Math.max(0, currentProject));
-        console.log(currentProject);
         this.setState({
             currentProject: currentProject
         });

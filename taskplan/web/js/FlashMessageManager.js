@@ -29,13 +29,10 @@ class FlashMessageManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            flashMessages: [],
-            noConnection: true
+            flashMessages: []
         };
         this.flashMessagesRefs = [];
         this.nextId = 0;
-
-        this.refreshConnectionState = this.refreshConnectionState.bind(this);
 
         var fm = this;
         this.props.evtSource.addEventListener("FLASH_MESSAGE", function (e) {
@@ -53,17 +50,9 @@ class FlashMessageManager extends React.Component {
                 flashMessages: flashMessages
             });
         });
-        this.props.evtSource.onerror = this.refreshConnectionState;
-        this.props.evtSource.onopen=  this.refreshConnectionState;
 
-        this.state.noConnection = (this.props.evtSource.readyState === 0)
     }
 
-    refreshConnectionState() {
-        this.setState({
-            noConnection: this.props.evtSource.readyState === 0
-        });
-    }
 
     nextState(flashMessage) {
         if (flashMessage.current.state.state === 0) {
@@ -97,7 +86,7 @@ class FlashMessageManager extends React.Component {
                         ref={this.flashMessagesRefs[index]}
                     />
                 ))}
-                {this.state.noConnection &&
+                {this.props.noConnection &&
                     <FlashMessage
                         key="-1"
                         flashMessage={{"short": "No connection to server", "level": "40"}}

@@ -14,15 +14,31 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            noConnection: true
+        };
+
         this.evtSource = new ReconnectingEventSource("/update", {});
         this.repository = new Repository(this.evtSource);
         this.projectManagerRef = React.createRef();
+
+        this.refreshConnectionState = this.refreshConnectionState.bind(this);
+
+        this.evtSource.onerror = this.refreshConnectionState;
+        this.evtSource.onopen = this.refreshConnectionState;
+
+        this.state.noConnection = (this.evtSource.readyState === 0);
+    }
+
+    refreshConnectionState() {        this.setState({
+            noConnection: this.evtSource.readyState === 0
+        });
     }
 
     render() {
         return (
             <div id="page">
-                <FlashMessageManager evtSource={this.evtSource}/>
+                <FlashMessageManager evtSource={this.evtSource} noConnection={this.state.noConnection}/>
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-8">

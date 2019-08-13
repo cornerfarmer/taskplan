@@ -20,7 +20,7 @@ class PresetFilter extends React.Component {
         return (
             <div className="preset-filter">
                 {Object.keys(this.props.presetsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
-                    <div className="preset-group">
+                    <div key={group} className="preset-group">
                         {group !== ""  &&
                             <div className="group-header" onClick={() => this.toggleHideChoices()}>
                                 <div className="title">{group}</div>
@@ -28,7 +28,7 @@ class PresetFilter extends React.Component {
                         }
                         <div className="presets">
                             {this.props.presetsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(preset => (
-                            <div className="preset">
+                            <div key={preset.uuid} className="preset">
                                 <div className="preset-name">
                                     {preset.name}
                                 </div>
@@ -37,7 +37,7 @@ class PresetFilter extends React.Component {
                                         {preset.choices.sort((a, b) => {
                                             return a.name.localeCompare(b.name);
                                         }).map(choice => (
-                                            <div className={this.calcChoiceClasses(preset, choice)} onClick={() => this.props.onSelectionChange(preset, choice)}>
+                                            <div key={choice.uuid} className={this.calcChoiceClasses(preset, choice)} onClick={() => this.props.onSelectionChange(preset, choice)}>
                                                 {choice.name}
                                                 {this.props.numberOfTasksPerChoice &&
                                                     <span className="task-numbers">{choice.uuid in this.props.numberOfTasksPerChoice ? this.props.numberOfTasksPerChoice[choice.uuid] : 0}</span>
