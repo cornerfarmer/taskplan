@@ -26,11 +26,23 @@ class Node {
         return key;
     }
 
+    removeSubtree() {
+        delete this.parent.children[this.parentKey];
+    }
+
     getFirstTaskIn() {
         if (Object.keys(this.children).length > 0)
             return this.children[Object.keys(this.children)[0]].getFirstTaskIn();
         else
             return null;
+    }
+
+    getAllContainedTasks() {
+        let tasks = [];
+        for (let child of Object.values(this.children)) {
+            tasks = tasks.concat(child.getAllContainedTasks());
+        }
+        return tasks;
     }
 }
 
@@ -59,6 +71,10 @@ class TasksNode extends Node {
         else
             return null;
     }
+
+    getAllContainedTasks() {
+        return Object.values(this.children);
+    }
 }
 
 class View {
@@ -68,11 +84,117 @@ class View {
         this.taskByUuid = {};
         this.tasks = {};
         this.presets = [];
+        this.presetsByUuid = {};
         this.includeCodeVersion = includeCodeVersion;
     }
 
+    presetCompare(a, b) {
+        if (a.sorting !== b.sorting)
+            return a.sorting - b.sorting;
+        else
+            return a.uuid.localeCompare(b.uuid);
+    }
+
     updatePresets(presets) {
-        this.presets = presets;
+        for (let preset of presets) {
+            this.presetsByUuid[preset.uuid] = preset;
+        }
+
+        let sortedPresets = presets.slice().sort((a, b) => this.presetCompare(a, b));
+
+        for (let i = 0; i < this.presets.length; i++) {
+            if (sortedPresets.findIndex(x => x.uuid === this.presets[i].uuid) === - 1) {
+                this.removePreset(this.presets[i]);
+                i--;
+            }
+        }
+
+        for (let i = 0; i < sortedPresets.length; i++) {
+            if (i >= this.presets.length) {
+                this.addPreset(sortedPresets[i], i);
+                continue;
+            }
+
+            if (this.presets[i].uuid !== sortedPresets[i].uuid) {
+                if (this.presets.findIndex(x => x.uuid === sortedPresets[i].uuid) !== -1) {
+                    const preset = this.presets.find(x => x.uuid === sortedPresets[i].uuid);
+                    this.removePreset(preset);
+                }
+                this.addPreset(sortedPresets[i], i);
+
+                if (this.presets[i].uuid !== sortedPresets[i].uuid)
+                    throw new Error("Error with the presets in the view");
+            } else {
+                this.presets[i] = sortedPresets[i];
+            }
+        }
+    }
+
+    addPreset(preset, insert_index) {
+        this.presets.splice(insert_index, 0, preset);
+        this.addNodeWithPreset(preset, this.root.children["default"]);
+    }
+
+    addNodeWithPreset(preset, root) {
+        if ((root instanceof PresetNode && this.presetCompare(this.presetsByUuid[root.preset], preset) > 0) || root instanceof TasksNode) {
+            const firstTask = root.getFirstTaskIn();
+            if (firstTask !== null) {
+                const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], preset);
+
+                const tasks = root.getAllContainedTasks();
+                let tasksWithDifferentChoice = [];
+                for (let task of tasks) {
+                    if (this.getChoiceToPreset(this.tasks[task], preset) !== formerChoice)
+                        tasksWithDifferentChoice.push(task);
+                }
+
+                if (tasksWithDifferentChoice.length > 0) {
+                    let newNode = new PresetNode(preset.uuid);
+                    this.addPresetBeforeNode(root, newNode, formerChoice.name);
+
+                    for (let task of tasksWithDifferentChoice) {
+                        this.removeTask(this.tasks[task]);
+                        this.addTask(this.tasks[task]);
+                    }
+                }
+            }
+        } else {
+            for (let key in root.children)
+                this.addNodeWithPreset(preset, root.children[key]);
+        }
+    }
+
+    removePreset(preset) {
+        if (this.presets.includes(preset)) {
+            this.presets.splice(this.presets.indexOf(preset), 1);
+            this.removeNodesWithPreset(preset, this.root.children["default"]);
+        }
+    }
+
+    removeNodesWithPreset(preset, root) {
+        if (root instanceof PresetNode && root.preset === preset.uuid) {
+            let tasks = [];
+            for (let key of Object.keys(root.children).slice(1)) {
+                tasks = tasks.concat(this.removeSubtree(root.children[key]))
+            }
+
+            root.remove();
+            for (let task of tasks)
+                this.addTask(this.tasks[task]);
+        } else if (!(root instanceof TasksNode)) {
+            for (let key in root.children)
+                this.removeNodesWithPreset(preset, root.children[key]);
+        }
+    }
+
+    removeSubtree(root) {
+        const tasks = root.getAllContainedTasks();
+        for (let task of tasks) {
+            delete this.taskByUuid[task.uuid];
+        }
+
+        root.removeSubtree();
+        return tasks;
     }
 
     updateTasks(tasks) {
@@ -104,13 +226,13 @@ class View {
 
                 suitableChoice = this.getChoiceToPreset(task, branching_option);
                 key = suitableChoice.name;
-                nodeExists = node instanceof PresetNode && node.preset === branching_option;
+                nodeExists = node instanceof PresetNode && node.preset === branching_option.uuid;
 
             } else if (branching_option === "code_version") {
                 key = task.version;
                 nodeExists = node instanceof CodeVersionNode
             } else {
-                throw "";
+                throw new Error("Invalid branching option");
             }
 
             if (!nodeExists) {
@@ -124,7 +246,7 @@ class View {
                     if (formerChoice === suitableChoice)
                         continue;
                     else {
-                        newNode = new PresetNode(branching_option);
+                        newNode = new PresetNode(branching_option.uuid);
                         formerKey = formerChoice.name;
                     }
                 } else if (branching_option === "code_version") {
@@ -153,12 +275,13 @@ class View {
 
     removeTask(task) {
         let node = this.taskByUuid[task.uuid];
-        const key = parseInt(this.keyInDict(node.children, task));
+        const key = parseInt(this.keyInDict(node.children, task.uuid));
 
         delete node.children[key];
         let i = key;
         while (i + 1 in node.children) {
             node.children[i] = node.children[i + 1];
+            delete node.children[i + 1];
             i++;
         }
 
@@ -225,7 +348,7 @@ class View {
     getNodeChoicePath(node, task) {
         let choices = [];
         while (!(node instanceof RootNode) && !(node.parent instanceof RootNode) && !(node instanceof CodeVersionNode) && !(node.parent instanceof CodeVersionNode)) {
-            choices.unshift([node.parent.preset, this.getChoiceToPreset(task, node.parent.preset)]);
+            choices.unshift([this.presetsByUuid[node.parent.preset], this.getChoiceToPreset(task, this.presetsByUuid[node.parent.preset])]);
             node = node.parent;
         }
         return choices;
@@ -245,7 +368,7 @@ class View {
             if (preset.deprecated_choice !== '') {
                 const suitableChoice = preset.choices.find((choice) => choice.uuid === selectedChoices[preset.uuid]);
 
-                if (node instanceof TasksNode || node.preset !== preset) {
+                if (node instanceof TasksNode || node.preset !== preset.uuid) {
                     const firstTask = node.getFirstTaskIn();
                     if (firstTask === null)
                         return [];

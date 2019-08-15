@@ -252,3 +252,12 @@ class Project:
             new_task.save_metadata()
 
             return new_task
+
+    def change_sorting(self, preset_uuid, new_sorting):
+        preset = self.configuration.get_preset(preset_uuid)
+        self.view.remove_preset(preset)
+
+        changed_presets = self.configuration.change_sorting(preset_uuid, new_sorting)
+
+        self.view.add_preset(preset)
+        return changed_presets

@@ -110,7 +110,7 @@ class Controller:
 
     def reorder_preset(self, project_name, preset_uuid, new_index):
         project = self.project_manager.project_by_name(project_name)
-        changed_presets = project.configuration.change_sorting(preset_uuid, new_index)
+        changed_presets = project.change_sorting(preset_uuid, new_index)
 
         for preset in changed_presets:
             self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)

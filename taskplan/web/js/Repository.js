@@ -149,12 +149,9 @@ class Repository {
             this.removeEntity(this.presets, changedPreset, "presets")
         });
 
-
         this.standardView = new View(true);
-        this.onAdd("tasks", (task) => {
-            if (!task.is_test)
-                this.standardView.addTask(task);
 
+        let updateTaskNames = () => {
             for (const key of Object.keys(this.tasks)) {
                 if (!this.tasks[key].is_test) {
                     let node = this.standardView.taskByUuid[key];
@@ -165,12 +162,23 @@ class Repository {
                     this.tasks[key].try = 0
                 }
             }
+        };
+
+        this.onAdd("tasks", (task) => {
+            if (!task.is_test)
+                this.standardView.addTask(task);
+
+            updateTaskNames();
         });
         this.onRemove("tasks", (task) => {
             this.standardView.removeTask(task);
+
+            updateTaskNames();
         });
         this.onChange("presets", (presets) => {
             this.standardView.updatePresets(Object.values(presets));
+
+            updateTaskNames();
         });
         this.onChange("tasks", (tasks) => {
             this.standardView.updateTasks(tasks);

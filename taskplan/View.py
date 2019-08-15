@@ -31,11 +31,20 @@ class Node:
         child.parent_key = self.parent_key
         return key
 
+    def remove_subtree(self):
+        del self.parent.children[self.parent_key]
+
     def get_first_task_in(self):
         if len(self.children.keys()) > 0:
             return self.children[list(self.children.keys())[0]].get_first_task_in()
         else:
             return None
+
+    def get_all_contained_tasks(self):
+        tasks = []
+        for child in self.children.values():
+            tasks.extend(child.get_all_contained_tasks())
+        return tasks
 
 class RootNode(Node):
     def __init__(self):
@@ -59,6 +68,9 @@ class TasksNode(Node):
             return self.children["0"]
         else:
             return None
+
+    def get_all_contained_tasks(self):
+        return self.children.values()
 
 
 class View:
@@ -148,6 +160,7 @@ class View:
         del children[str(key)]
         for i in range(key, len(children)):
             children[str(i)] = children[str(i + 1)]
+            del children[str(i + 1)]
             (path / str(i + 1)).rename((path / str(i)))
 
         self._check_node_for_removal(node, path)
@@ -156,7 +169,7 @@ class View:
 
     def add_preset(self, preset):
         insert_index = 0
-        while self.presets[insert_index].get_metadata("sorting") < preset.get_metadata("sorting"):
+        while insert_index < len(self.presets) and self.presets[insert_index].get_metadata("sorting") < preset.get_metadata("sorting"):
             insert_index += 1
 
         self.presets.insert(insert_index, preset)
@@ -165,27 +178,54 @@ class View:
     def _add_node_with_preset(self, preset, root, path):
         if (type(root) == PresetNode and root.preset.get_metadata("sorting") > preset.get_metadata("sorting")) or type(root) == TasksNode:
             first_task = root.get_first_task_in()
-            former_choice = self._get_choice_to_preset(first_task, preset)
+            if first_task is not None:
+                former_choice = self._get_choice_to_preset(first_task, preset)
 
-            new_node = PresetNode(preset)
-            self._add_node_before_node(root, new_node, former_choice.get_metadata("name"), path)
-            return
+                tasks = root.get_all_contained_tasks()
+                tasks_with_different_choice = []
+                for task in tasks:
+                    if self._get_choice_to_preset(task, preset) != former_choice:
+                        tasks_with_different_choice.append(task)
 
-        for key in root.children:
-            self._add_node_with_preset(preset, root.children[key], path / key)
+                if len(tasks_with_different_choice) > 0:
+                    new_node = PresetNode(preset)
+                    self._add_node_before_node(root, new_node, former_choice.get_metadata("name"), path)
+
+                    for task in tasks_with_different_choice:
+                        self.remove_task(task)
+                        self.add_task(task)
+        else:
+
+            for key in root.children:
+                self._add_node_with_preset(preset, root.children[key], path / key)
 
     def remove_preset(self, preset):
         if preset in self.presets:
-            self._remove_nodes_with_preset(preset, self.root_node.children["default"], self.root_path)
             self.presets.remove(preset)
+            self._remove_nodes_with_preset(preset, self.root_node.children["default"], self.root_path)
 
     def _remove_nodes_with_preset(self, preset, root, path):
         if type(root) == PresetNode and root.preset == preset:
-            self._remove_preset_at_node(root, path)
-            return
+            tasks = []
+            for key in list(root.children.keys())[1:]:
+                tasks.extend(self._remove_subtree(root.children[key], path / key))
 
-        for key in root.children:
-            self._remove_nodes_with_preset(preset, root.children[key], path / key)
+            self._remove_preset_at_node(root, path)
+            for task in tasks:
+                self.add_task(task)
+
+        elif type(root) != TasksNode:
+            for key in root.children:
+                self._remove_nodes_with_preset(preset, root.children[key], path / key)
+
+    def _remove_subtree(self, root, path):
+        tasks = root.get_all_contained_tasks()
+        for task in tasks:
+            del self.task_by_uuid[str(task.uuid)]
+
+        root.remove_subtree()
+        self._remove_path(path)
+        return tasks
 
     def _check_node_for_removal(self, node, path):
         if len(node.children) == 0 and type(node.parent) != RootNode:
@@ -247,6 +287,8 @@ class View:
         return first_task.creation_time < second_task.creation_time
 
     def _insert_task(self, node, path, task, change_dirs=True):
+        if task in node.children.values():
+            task = task
         children = node.children
         self.task_by_uuid[str(task.uuid)] = node
 
@@ -260,6 +302,8 @@ class View:
             children[str(i + 1)] = children[str(i)]
 
             if change_dirs:
+                if not (path / str(i)).exists():
+                    task = task
                 (path / str(i)).rename((path / str(i + 1)))
 
         children[str(target_key)] = task
