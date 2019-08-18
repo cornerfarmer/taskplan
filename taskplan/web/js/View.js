@@ -139,18 +139,18 @@ class View {
         if ((root instanceof PresetNode && this.presetCompare(this.presetsByUuid[root.preset], preset) > 0) || root instanceof TasksNode) {
             const firstTask = root.getFirstTaskIn();
             if (firstTask !== null) {
-                const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], preset);
+                const formerChoiceKey = this.getChoiceKeyToPreset(this.tasks[firstTask], preset);
 
                 const tasks = root.getAllContainedTasks();
                 let tasksWithDifferentChoice = [];
                 for (let task of tasks) {
-                    if (this.getChoiceToPreset(this.tasks[task], preset) !== formerChoice)
+                    if (this.getChoiceKeyToPreset(this.tasks[task], preset) !== formerChoiceKey)
                         tasksWithDifferentChoice.push(task);
                 }
 
                 if (tasksWithDifferentChoice.length > 0) {
                     let newNode = new PresetNode(preset.uuid);
-                    this.addPresetBeforeNode(root, newNode, formerChoice.name);
+                    this.addPresetBeforeNode(root, newNode, formerChoiceKey);
 
                     for (let task of tasksWithDifferentChoice) {
                         this.removeTask(this.tasks[task]);
@@ -224,8 +224,7 @@ class View {
                 if (branching_option.deprecated_choice === '')
                     continue;
 
-                suitableChoice = this.getChoiceToPreset(task, branching_option);
-                key = suitableChoice.name;
+                key = this.getChoiceKeyToPreset(task, branching_option);
                 nodeExists = node instanceof PresetNode && node.preset === branching_option.uuid;
 
             } else if (branching_option === "code_version") {
@@ -242,12 +241,11 @@ class View {
 
                 let newNode, formerKey;
                 if (typeof branching_option === "object") {
-                    const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], branching_option);
-                    if (formerChoice === suitableChoice)
+                    formerKey = this.getChoiceKeyToPreset(this.tasks[firstTask], branching_option);
+                    if (formerKey === key)
                         continue;
                     else {
                         newNode = new PresetNode(branching_option.uuid);
-                        formerKey = formerChoice.name;
                     }
                 } else if (branching_option === "code_version") {
                     if (this.tasks[firstTask].version === key)
@@ -309,17 +307,34 @@ class View {
 
     getChoiceToPreset(task, preset) {
         let suitableChoice = null;
+        let args = [];
         for (const choice of task.choices) {
-            if (choice.preset === preset.uuid) {
-                suitableChoice = choice;
+            if (choice[0].preset === preset.uuid) {
+                suitableChoice = choice[0];
+                args = choice.slice(1);
                 break;
             }
         }
 
         if (suitableChoice === null)
-            return preset.deprecated_choice;
+            return [preset.deprecated_choice, args];
         else
-            return suitableChoice;
+            return [suitableChoice, args];
+    }
+
+    getChoiceKeyToPreset(task, preset) {
+        let choice = this.getChoiceToPreset(task, preset);
+        return this.getKeyToChoice(choice);
+    }
+
+    getKeyToChoice(choice) {
+        let key = choice[0].name;
+
+        for (let i = 0; i < choice[1].length; i++) {
+            key = key.replace("$T" + (i) + "$", choice[1][i]);
+        }
+
+        return key
     }
 
     compTasks(firstTask, secondTask) {
@@ -348,7 +363,7 @@ class View {
     getNodeChoicePath(node, task) {
         let choices = [];
         while (!(node instanceof RootNode) && !(node.parent instanceof RootNode) && !(node instanceof CodeVersionNode) && !(node.parent instanceof CodeVersionNode)) {
-            choices.unshift([this.presetsByUuid[node.parent.preset], this.getChoiceToPreset(task, this.presetsByUuid[node.parent.preset])]);
+            choices.unshift([this.presetsByUuid[node.parent.preset], ...this.getChoiceToPreset(task, this.presetsByUuid[node.parent.preset])]);
             node = node.parent;
         }
         return choices;
@@ -366,25 +381,26 @@ class View {
 
         for (const preset of this.presets) {
             if (preset.deprecated_choice !== '') {
-                const suitableChoice = preset.choices.find((choice) => choice.uuid === selectedChoices[preset.uuid]);
+                const suitableChoice = preset.choices.find((choice) => choice.uuid === selectedChoices[preset.uuid][0]);
+                const suitableKey = this.getKeyToChoice([suitableChoice, selectedChoices[preset.uuid].slice(1)]);
 
                 if (node instanceof TasksNode || node.preset !== preset.uuid) {
                     const firstTask = node.getFirstTaskIn();
                     if (firstTask === null)
                         return [];
 
-                    const formerChoice = this.getChoiceToPreset(this.tasks[firstTask], preset);
-                    if (formerChoice === suitableChoice)
+                    const formerChoiceKey = this.getChoiceKeyToPreset(this.tasks[firstTask], preset);
+                    if (formerChoiceKey === suitableKey)
                         continue;
                     else
                         return [];
                 }
 
-                if (!(suitableChoice.name in node.children)) {
+                if (!(suitableKey in node.children)) {
                     return [];
                 }
 
-                node = node.children[suitableChoice.name]
+                node = node.children[suitableKey]
             }
         }
 

@@ -44,7 +44,7 @@ class ServerSentEvent(object):
                 data_client['version'] = data.code_version
                 data_client['is_pausing'] = data.pausing
                 data_client['is_saving'] = data.saving
-                data_client['choices'] = [str(preset.uuid) for preset in data.preset.base_presets]
+                data_client['choices'] = [[str(preset[0].uuid)] + preset[1:] for preset in data.preset.base_presets]
                 data_client['checkpoints'] = data.checkpoints
                 data_client['notes'] = data.notes
                 data_client['is_test'] = data.is_test
@@ -66,6 +66,7 @@ class ServerSentEvent(object):
                 data_client['base_uuid'] = data.base_presets[0].uuid if len(data.base_presets) > 0 else ""
                 data_client['abstract'] = data.abstract
                 data_client['dynamic'] = data.dynamic
+                data_client['isTemplate'] = data.get_metadata("isTemplate") if data.has_metadata("isTemplate") else False
                 data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name

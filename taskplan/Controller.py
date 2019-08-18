@@ -186,7 +186,7 @@ class Controller:
 
     def task_config(self, project_name, base_presets_uuid):
         project = self.project_manager.project_by_name(project_name)
-        base_presets = [project.configuration.get_preset(uuid) for uuid in base_presets_uuid]
+        base_presets = [[project.configuration.get_preset(uuid[0])] + uuid[1:] for uuid in base_presets_uuid]
 
         config = Preset({"config": {}}, base_presets)
 

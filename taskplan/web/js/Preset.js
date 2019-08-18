@@ -116,7 +116,7 @@ class Preset extends React.Component {
                                 choice={choice}
                                 preset={this.props.preset}
                                 editFunc={this.props.editChoiceFunc}
-                                removable={!(choice.uuid in this.props.numberOfTasksPerChoice) || this.props.numberOfTasksPerChoice[choice.uuid] === 0}
+                                removable={!(choice.uuid in this.props.numberOfTasksPerChoice) || this.props.numberOfTasksPerChoice[choice.uuid].length === 0}
                             />
                         ))}
                     </ul>

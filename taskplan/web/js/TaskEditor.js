@@ -14,7 +14,7 @@ class TaskEditor extends React.Component {
 
         for (const preset of props.presets) {
             if (preset.choices.length > 0)
-                selectedChoices[preset.uuid] = preset.choices[0].uuid;
+                selectedChoices[preset.uuid] = [preset.choices[0].uuid];
         }
 
         this.state = {
@@ -59,9 +59,9 @@ class TaskEditor extends React.Component {
             }
 
             if (suitableChoice === null)
-                selectedChoices[preset.uuid] = preset.deprecated_choice.uuid;
+                selectedChoices[preset.uuid] = [preset.deprecated_choice.uuid];
             else
-                selectedChoices[preset.uuid] = suitableChoice.uuid;
+                selectedChoices[preset.uuid] = [suitableChoice.uuid];
         }
 
         this.setState({
@@ -77,7 +77,7 @@ class TaskEditor extends React.Component {
 
         for (const preset of this.props.presets) {
             if (!(preset.uuid in selectedChoices))
-                selectedChoices[preset.uuid] = preset.default_choice.uuid;
+                selectedChoices[preset.uuid] = [preset.default_choice.uuid];
         }
 
         this.setState({
@@ -126,10 +126,12 @@ class TaskEditor extends React.Component {
         this.close();
     }
 
-    onSelectionChange(preset, choice) {
+    onSelectionChange(preset, choice, arg=null) {
         const selectedChoices = Object.assign({}, this.state.selectedChoices);
 
-        selectedChoices[preset.uuid] = choice.uuid;
+        selectedChoices[preset.uuid] = [choice.uuid];
+        if (arg !== null)
+            selectedChoices[preset.uuid].push(arg);
 
         this.setState({
             selectedChoices: selectedChoices
@@ -166,7 +168,7 @@ class TaskEditor extends React.Component {
 
         for (const preset of this.props.presets) {
             if (preset.uuid in selectedChoices)
-                choices += preset.uuid + " " + selectedChoices[preset.uuid] + " ";
+                choices += preset.uuid + " " + selectedChoices[preset.uuid][0] + " ";
         }
 
         if (total_iterations !== "") {
@@ -225,8 +227,8 @@ class TaskEditor extends React.Component {
                         <label>Is test:</label>
                         <input checked={this.state.isTest} onChange={this.onIsTestChange} type="checkbox" />
                     </div>
-                    <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange}/>
-                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true}/>
+                    <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} useTemplateFields={true}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true} />
                     <div className="field">
                         <label>Command:</label>
                         <input className="command" ref={this.commandInput} onClick={this.copyCommand} data-toggle="tooltip" data-placement="bottom" data-original-title={this.state.commandHint} value={this.state.command} readOnly={true} />

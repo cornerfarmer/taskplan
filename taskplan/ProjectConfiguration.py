@@ -19,9 +19,9 @@ class ProjectConfiguration:
 
     def register_task(self, task):
         for preset in task.preset.base_presets:
-            if str(preset.uuid) not in self.number_of_tasks_per_choice:
-                self.number_of_tasks_per_choice[str(preset.uuid)] = 0
-            self.number_of_tasks_per_choice[str(preset.uuid)] += 1
+            if str(preset[0].uuid) not in self.number_of_tasks_per_choice:
+                self.number_of_tasks_per_choice[str(preset[0].uuid)] = 0
+            self.number_of_tasks_per_choice[str(preset[0].uuid)] += 1
 
     def deregister_task(self, task):
         for preset in task.preset.base_presets:
@@ -149,7 +149,11 @@ class ProjectConfiguration:
         if preset_uuid not in self.configuration.presets_by_uuid or self.configuration.presets_by_uuid[preset_uuid] not in self.get_presets():
             raise LookupError("No preset with uuid " + preset_uuid)
 
-        choice = self.configuration.add_preset(new_data, self.choices_conf_path, {"preset": preset_uuid})
+        metadata = {"preset": preset_uuid}
+        if "isTemplate" in metadata:
+            metadata["isTemplate"] = new_data["isTemplate"]
+
+        choice = self.configuration.add_preset(new_data, self.choices_conf_path, metadata)
 
         preset = self.get_preset(preset_uuid)
         self._recalc_preset_group(preset)

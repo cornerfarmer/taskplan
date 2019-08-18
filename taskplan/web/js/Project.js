@@ -62,9 +62,9 @@ class Project extends React.Component {
             }
 
             for (let choice of task.choices) {
-                if (!(choice.uuid in numberOfTasksPerChoice))
-                    numberOfTasksPerChoice[choice.uuid] = 0;
-                numberOfTasksPerChoice[choice.uuid] += 1;
+                if (!(choice[0].uuid in numberOfTasksPerChoice))
+                    numberOfTasksPerChoice[choice[0].uuid] = [];
+                numberOfTasksPerChoice[choice[0].uuid].push([task.uuid, choice.slice(1)]);
             }
         }
 
@@ -83,8 +83,10 @@ class Project extends React.Component {
         if ( !task.is_test) {
             let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
             for (let choice of task.choices) {
-                if (choice.uuid in numberOfTasksPerChoice)
-                    numberOfTasksPerChoice[choice.uuid] -= 1;
+                if (choice[0].uuid in numberOfTasksPerChoice) {
+                    let index = numberOfTasksPerChoice[choice[0].uuid].findIndex(x => x[0] === task.uuid);
+                    numberOfTasksPerChoice[choice[0].uuid].splice(index, 1);
+                }
             }
 
             this.setState({
@@ -123,7 +125,7 @@ class Project extends React.Component {
         let presetsByGroup = {};
         for (const preset of Object.values(presets)) {
             if (!(preset.uuid in selectedChoices) && preset.choices.length > 0)
-                selectedChoices[preset.uuid] = preset.choices[0].uuid;
+                selectedChoices[preset.uuid] = [preset.choices[0].uuid];
 
             const group = preset.group.length > 0 ? preset.group[0] : '';
             if (!(group in presetsByGroup))
@@ -173,10 +175,10 @@ class Project extends React.Component {
         this.setState({sortingDescending: sortingDescending});
     }
 
-    onSelectionChange(preset, choice) {
+    onSelectionChange(preset, choice, args) {
         const selectedChoices = Object.assign({}, this.state.selectedChoices);
 
-        selectedChoices[preset.uuid] = choice.uuid;
+        selectedChoices[preset.uuid] = [choice.uuid, ...args];
 
         this.updateVisibleTasks(selectedChoices);
         this.setState({
@@ -184,11 +186,13 @@ class Project extends React.Component {
         });
     }
 
+
     filterLikeTask(task) {
         const selectedChoices = Object.assign({}, this.state.selectedChoices);
 
         for (const preset of this.state.presets) {
-            selectedChoices[preset.uuid] = this.filterView.getChoiceToPreset(task, preset).uuid;
+            let choice = this.filterView.getChoiceToPreset(task, preset);
+            selectedChoices[preset.uuid] = [choice[0].uuid, ...choice[1]];
         }
 
         this.setState({

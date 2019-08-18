@@ -107,8 +107,7 @@ class View:
             if type(branching_option) == Preset:
                 if branching_option.get_metadata("deprecated_choice") == "":
                     continue
-                suitable_choice = self._get_choice_to_preset(task, branching_option)
-                key = suitable_choice.get_metadata("name")
+                key = self._get_choice_key_to_preset(task, branching_option)
                 node_exists = type(node) == PresetNode and node.preset == branching_option
             elif branching_option == "code_version":
                 key = self.code_version_key(task.code_version)
@@ -122,12 +121,12 @@ class View:
                     continue
 
                 if type(branching_option) == Preset:
-                    former_choice = self._get_choice_to_preset(first_task, branching_option)
-                    if former_choice == suitable_choice:
+                    former_key = self._get_choice_key_to_preset(first_task, branching_option)
+                    if former_key == key:
                         continue
                     else:
                         new_node = PresetNode(branching_option)
-                        former_key = former_choice.get_metadata("name")
+
                 elif branching_option == "code_version":
                     if self.code_version_key(first_task.code_version) == key:
                         continue
@@ -179,17 +178,17 @@ class View:
         if (type(root) == PresetNode and root.preset.get_metadata("sorting") > preset.get_metadata("sorting")) or type(root) == TasksNode:
             first_task = root.get_first_task_in()
             if first_task is not None:
-                former_choice = self._get_choice_to_preset(first_task, preset)
+                former_choice_key = self._get_choice_key_to_preset(first_task, preset)
 
                 tasks = root.get_all_contained_tasks()
                 tasks_with_different_choice = []
                 for task in tasks:
-                    if self._get_choice_to_preset(task, preset) != former_choice:
+                    if self._get_choice_key_to_preset(task, preset) != former_choice_key:
                         tasks_with_different_choice.append(task)
 
                 if len(tasks_with_different_choice) > 0:
                     new_node = PresetNode(preset)
-                    self._add_node_before_node(root, new_node, former_choice.get_metadata("name"), path)
+                    self._add_node_before_node(root, new_node, former_choice_key, path)
 
                     for task in tasks_with_different_choice:
                         self.remove_task(task)
@@ -271,17 +270,24 @@ class View:
                 return key
         return None
 
-    def _get_choice_to_preset(self, task, preset):
+    def _get_choice_key_to_preset(self, task, preset):
         suitable_choice = None
+        args = []
         for choice in task.preset.base_presets:
-            if choice.get_metadata("preset") == str(preset.uuid):
-                suitable_choice = choice
+            if choice[0].get_metadata("preset") == str(preset.uuid):
+                suitable_choice = choice[0]
+                args = choice[1:]
                 break
 
         if suitable_choice is None:
-            return self.configuration.get_preset(preset.get_metadata("deprecated_choice"))
+            key = self.configuration.get_preset(preset.get_metadata("deprecated_choice")).get_metadata("name")
         else:
-            return suitable_choice
+            key = suitable_choice.get_metadata("name")
+
+        for i in range(len(args)):
+            key = key.replace("$T" + str(i) + "$", args[i])
+
+        return key
 
     def _comp_tasks(self, first_task, second_task):
         return first_task.creation_time < second_task.creation_time

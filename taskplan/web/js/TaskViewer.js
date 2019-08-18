@@ -36,17 +36,23 @@ class TaskViewer extends React.Component {
         let selectedChoices = {};
         for (const preset of this.props.presets) {
             let suitableChoice = null;
+            let args = [];
             for (const choice of task.choices) {
-                if (choice.preset === preset.uuid) {
-                    suitableChoice = choice;
+                if (choice[0].preset === preset.uuid) {
+                    suitableChoice = choice[0];
+                    args = choice.slice(1);
                     break;
                 }
             }
 
             if (suitableChoice === null)
                 selectedChoices[preset.uuid] = preset.deprecated_choice.name;
-            else
+            else {
                 selectedChoices[preset.uuid] = suitableChoice.name;
+                for (let i = 0; i < args.length; i++)
+                    selectedChoices[preset.uuid] = selectedChoices[preset.uuid].replace("$T" + (i) + "$", args[i]);
+            }
+
         }
 
         this.setState({

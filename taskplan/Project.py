@@ -101,11 +101,11 @@ class Project:
         for preset in presets:
             if str(preset.uuid) not in choices:
                 raise LookupError("No choice for the preset with uuid " + str(preset.uuid))
-            choice = self.configuration.get_preset(choices[str(preset.uuid)])
+            choice = self.configuration.get_preset(choices[str(preset.uuid)][0])
             if choice.get_metadata("preset") != str(preset.uuid):
                 raise LookupError("Choice " + choices[preset] + " with wrong preset")
 
-            base_presets.append(choices[str(preset.uuid)])
+            base_presets.append([choices[str(preset.uuid)][0]] + choices[str(preset.uuid)][1:])
 
         task_preset = self.configuration.add_task(base_presets, config)
         return self._create_task_from_preset(task_preset, total_iterations, is_test)

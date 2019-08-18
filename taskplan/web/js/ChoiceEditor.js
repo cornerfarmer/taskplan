@@ -26,6 +26,7 @@ class ChoiceEditor extends React.Component {
         this.onAbstractChange = this.onAbstractChange.bind(this);
         this.onDynamicChange = this.onDynamicChange.bind(this);
         this.onIsBaseDynamic = this.onIsBaseDynamic.bind(this);
+        this.onTemplateChange = this.onTemplateChange.bind(this);
     }
 
     open(choice, duplicate, preset, possible_base_choices) {
@@ -38,6 +39,7 @@ class ChoiceEditor extends React.Component {
                 uuid_to_load: choice.uuid,
                 abstract: choice.abstract,
                 dynamic: choice.dynamic,
+                template: choice.isTemplate,
                 forceDynamic: false,
                 preset: preset,
                 possible_base_choices: possible_base_choices
@@ -50,6 +52,7 @@ class ChoiceEditor extends React.Component {
                 uuid_to_load: choice.uuid,
                 abstract: choice.abstract,
                 dynamic: choice.dynamic,
+                template: choice.isTemplate,
                 forceDynamic: false,
                 preset: preset,
                 possible_base_choices: possible_base_choices
@@ -91,6 +94,8 @@ class ChoiceEditor extends React.Component {
             dataJson['abstract'] = this.state.abstract;
         if (this.state.dynamic)
             dataJson['dynamic'] = this.state.dynamic;
+        if (this.state.template)
+            dataJson['isTemplate'] = this.state.template;
         dataJson['config'] = this.configEditor.current.state.config;
 
         data.append("data", JSON.stringify(dataJson));
@@ -157,6 +162,11 @@ class ChoiceEditor extends React.Component {
         }
     }
 
+    onTemplateChange(event) {
+        this.setState({
+            template: event.target.checked
+        });
+    }
 
     render() {
         if (this.state.choice !== null) {
@@ -183,6 +193,10 @@ class ChoiceEditor extends React.Component {
                     <div className="field">
                         <label>Dynamic:</label>
                         <input checked={this.state.dynamic} onChange={this.onDynamicChange} type="checkbox" disabled={this.state.forceDynamic} />
+                    </div>
+                    <div className="field">
+                        <label>Template:</label>
+                        <input checked={this.state.template} onChange={this.onTemplateChange} type="checkbox" />
                     </div>
                     <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/choice/" + this.state.choice.project_name + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} bases={[this.state.base]}/>
                     <div className="buttons">

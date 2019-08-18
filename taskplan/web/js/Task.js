@@ -28,14 +28,20 @@ export class TaskName extends React.Component {
             if (this.props.task.nameChoices.length > 0) {
                 return (
                     <span ref={this.wrapperRef}>
-                {this.props.task.nameChoices.map((choicePreset, i) => (
-                    <span key={i}>
+                {this.props.task.nameChoices.map((choicePreset, i) => {
+                    let choice_name = choicePreset[1].name;
+                    for (let i = 2; i < choicePreset.length; i++)
+                        choice_name = choice_name.replace("$T" + (i - 2) + "$", choicePreset[i]);
+
+                    return (
+                        <span key={i}>
                         {i !== 0 &&
                         <span className="separator">/</span>
                         }
-                        <span data-toggle="tooltip" data-placement="bottom" data-original-title={choicePreset[0].name + ": " + choicePreset[1].name}>{choicePreset[1].name}</span>
+                            <span data-toggle="tooltip" data-placement="bottom" data-original-title={choicePreset[0].name + ": " + choice_name}>{choice_name}</span>
                     </span>
-                ))}
+                    )
+                })}
             </span>
                 );
             } else {
