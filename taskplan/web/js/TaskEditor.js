@@ -51,17 +51,19 @@ class TaskEditor extends React.Component {
 
         for (const preset of this.props.presets) {
             let suitableChoice = null;
+            let args = [];
             for (const choice of task.choices) {
-                if (choice.preset === preset.uuid) {
-                    suitableChoice = choice;
+                if (choice[0].preset === preset.uuid) {
+                    suitableChoice = choice[0];
+                    args = choice.slice(1);
                     break;
                 }
             }
 
             if (suitableChoice === null)
-                selectedChoices[preset.uuid] = [preset.deprecated_choice.uuid];
+                selectedChoices[preset.uuid] = [preset.deprecated_choice.uuid, ...args];
             else
-                selectedChoices[preset.uuid] = [suitableChoice.uuid];
+                selectedChoices[preset.uuid] = [suitableChoice.uuid, ...args];
         }
 
         this.setState({
@@ -69,7 +71,7 @@ class TaskEditor extends React.Component {
             open: true,
             isTest: task.is_test
         });
-        this.updatecommand(selectedChoices);
+        this.updateCommand(selectedChoices);
     }
 
     new() {
@@ -84,7 +86,7 @@ class TaskEditor extends React.Component {
             selectedChoices: selectedChoices,
             open: true
         });
-        this.updatecommand(selectedChoices);
+        this.updateCommand(selectedChoices);
     }
 
     close() {
@@ -136,7 +138,7 @@ class TaskEditor extends React.Component {
         this.setState({
             selectedChoices: selectedChoices
         });
-        this.updatecommand(selectedChoices);
+        this.updateCommand(selectedChoices);
     }
 
 
@@ -144,7 +146,7 @@ class TaskEditor extends React.Component {
         this.setState({
             total_iterations: event.target.value
         });
-        this.updatecommand(null, event.target.value);
+        this.updateCommand(null, event.target.value);
     }
 
     onSaveIntervalChange(event) {
@@ -159,7 +161,7 @@ class TaskEditor extends React.Component {
         });
     }
 
-    updatecommand(selectedChoices = null, total_iterations = null) {
+    updateCommand(selectedChoices = null, total_iterations = null) {
         if (selectedChoices === null)
             selectedChoices = this.state.selectedChoices;
         if (total_iterations === null)
@@ -167,8 +169,12 @@ class TaskEditor extends React.Component {
         let choices = "";
 
         for (const preset of this.props.presets) {
-            if (preset.uuid in selectedChoices)
-                choices += preset.uuid + " " + selectedChoices[preset.uuid][0] + " ";
+            if (preset.uuid in selectedChoices) {
+                choices += preset.uuid + " " + selectedChoices[preset.uuid][0];
+                for (let i = 1; i < selectedChoices[preset.uuid].length; i++)
+                    choices += ":\"" + selectedChoices[preset.uuid][i] + "\"";
+                choices += " ";
+            }
         }
 
         if (total_iterations !== "") {
@@ -203,7 +209,7 @@ class TaskEditor extends React.Component {
     onIsTestChange(event) {
         this.setState({
             isTest: event.target.checked
-        }, () => this.updatecommand());
+        }, () => this.updateCommand());
     }
 
     render() {

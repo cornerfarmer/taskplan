@@ -25,8 +25,8 @@ class ProjectConfiguration:
 
     def deregister_task(self, task):
         for preset in task.preset.base_presets:
-            if str(preset.uuid) in self.number_of_tasks_per_choice:
-                self.number_of_tasks_per_choice[str(preset.uuid)] -= 1
+            if str(preset[0].uuid) in self.number_of_tasks_per_choice:
+                self.number_of_tasks_per_choice[str(preset[0].uuid)] -= 1
 
     def is_choice_removable(self, choice):
         return str(choice.uuid) not in self.number_of_tasks_per_choice or self.number_of_tasks_per_choice[str(choice.uuid)] == 0

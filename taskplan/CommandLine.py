@@ -49,7 +49,7 @@ def start(project_name, total_iterations, choices, save, checkpoint):
         }
         choices_per_preset = {}
         for i in range(0, len(choices), 2):
-            choices_per_preset[choices[i]] = choices[i + 1]
+            choices_per_preset[choices[i]] = choices[i + 1].split(":")
 
         task = controller.start_new_task(project_name, choices_per_preset, config, total_iterations)
         print("Starting task \"" + str(task.uuid))
@@ -98,7 +98,7 @@ def test_task(project_name, total_iterations, choices, save, checkpoint, load):
         }
         choices_per_preset = {}
         for i in range(0, len(choices), 2):
-            choices_per_preset[choices[i]] = choices[i + 1]
+            choices_per_preset[choices[i]] = choices[i + 1].split(":")
 
         if not load:
             task = controller.start_new_task(project_name, choices_per_preset, config, total_iterations, is_test=True)
