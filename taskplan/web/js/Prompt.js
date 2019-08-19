@@ -6,7 +6,8 @@ class Prompt extends React.Component {
         super(props);
         this.state = {
             dialogOpen: false,
-            inputValue: this.props.defaultValue
+            inputValue: this.props.defaultValue,
+            device: null
         };
 
         this.configEditor = React.createRef();
@@ -16,6 +17,7 @@ class Prompt extends React.Component {
         this.updateInputValue = this.updateInputValue.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onDeviceChange = this.onDeviceChange.bind(this);
     }
 
     start() {
@@ -41,7 +43,7 @@ class Prompt extends React.Component {
                 }
             );
         } else {
-            fetch(this.props.url + "/" + this.state.inputValue)
+            fetch(this.props.url + (this.props.devices ? "/" + this.state.device : "") + "/" + this.state.inputValue)
                 .then(res => res.json())
                 .then(
                     (result) => {
@@ -54,9 +56,16 @@ class Prompt extends React.Component {
         }
     }
 
+    onDeviceChange(event) {
+        this.setState({
+            device: event.target.value
+        });
+    }
+
     openDialog() {
         this.setState({
-            dialogOpen: true
+            dialogOpen: true,
+            device: (this.props.devices ? this.props.devices[0].uuid : null)
         });
     }
 
@@ -101,6 +110,13 @@ class Prompt extends React.Component {
                         }
                         {this.props.presetEditor &&
                             <ConfigEditor ref={this.configEditor} url={this.props.presetEditorUrl} />
+                        }
+                        {this.props.devices &&
+                            <select value={this.state.device} onChange={this.onDeviceChange}>
+                                {this.props.devices.map(device => (
+                                    <option value={device.uuid}>{device.name}</option>
+                                ))}
+                            </select>
                         }
                         <div className="buttons">
                             <div onClick={this.start}>Ok</div>

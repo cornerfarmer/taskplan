@@ -10,6 +10,7 @@
         "use_project_subfolder": false
       }
     },
-    "max_running_tasks": 1
+    "max_running_tasks": 1,
+    "remote_devices": []
   }
 }

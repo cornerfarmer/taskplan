@@ -185,6 +185,7 @@ class ProjectManager extends React.Component {
                             showTask={this.openTaskViewer}
                             closeViewer={this.closeViewer}
                             highlightedTask={index === this.state.currentProject ? this.state.highlightedTask : null}
+                            devices={this.props.devices}
                         />
                     ))}
                 </div>

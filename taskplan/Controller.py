@@ -14,7 +14,7 @@ class Controller:
     def __init__(self, event_manager):
         self.global_config = Controller.load_global_config()
 
-        self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"))
+        self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"), self.global_config.get_list("remote_devices"))
         self.project_manager = ProjectManager(event_manager)
         self.project_manager.load_projects(self.global_config)
 
@@ -47,9 +47,9 @@ class Controller:
         self.project_manager.update_new_client(client)
         self.scheduler.update_new_client(client)
 
-    def start_new_task(self, project_name, choices, config, total_iterations, is_test=False):
+    def start_new_task(self, project_name, choices, config, total_iterations, is_test=False, device_uuid=None):
         task = self.project_manager.create_task(project_name, choices, config, total_iterations, is_test)
-        self.scheduler.enqueue(task)
+        self.scheduler.enqueue(task, device_uuid)
         return task
 
     def pause_task(self, task_uuid):
@@ -81,13 +81,13 @@ class Controller:
     def run_task_now(self, task_uuid):
         self.scheduler.run_now(task_uuid)
 
-    def continue_task(self, task_uuid, total_iterations):
+    def continue_task(self, task_uuid, total_iterations, device_uuid=None):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         if total_iterations > 0:
             task.set_total_iterations(total_iterations)
 
         if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations:
-            self.scheduler.enqueue(task)
+            self.scheduler.enqueue(task, device_uuid)
             return task
         else:
             return None
@@ -256,3 +256,6 @@ class Controller:
         self.update_thread.join()
 
         self.scheduler.stop()
+
+    def connect_device(self, device_uuid):
+        self.scheduler.connect_device(device_uuid, self.project_manager)

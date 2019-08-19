@@ -15,7 +15,8 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            noConnection: true
+            noConnection: true,
+            devices: []
         };
 
         this.evtSource = new ReconnectingEventSource("/update", {});
@@ -28,6 +29,13 @@ class App extends React.Component {
         this.evtSource.onopen = this.refreshConnectionState;
 
         this.state.noConnection = (this.evtSource.readyState === 0);
+
+        this.evtSource.addEventListener("SCHEDULER_OPTIONS", (e) => {
+            const options = JSON.parse(e.data);
+            this.setState({
+                devices: options.devices
+            });
+        });
     }
 
     refreshConnectionState() {        this.setState({
@@ -42,10 +50,10 @@ class App extends React.Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-8">
-                            <Scheduler evtSource={this.evtSource} repository={this.repository} highlightTask={(task) => this.projectManagerRef.current.highlightTask(task)}/>
+                            <Scheduler devices={this.state.devices} evtSource={this.evtSource} repository={this.repository} highlightTask={(task) => this.projectManagerRef.current.highlightTask(task)}/>
                         </div>
                         <div className="col-sm-4">
-                            <ProjectManager ref={this.projectManagerRef} repository={this.repository}/>
+                            <ProjectManager devices={this.state.devices} ref={this.projectManagerRef} repository={this.repository}/>
                         </div>
                     </div>
                 </div>

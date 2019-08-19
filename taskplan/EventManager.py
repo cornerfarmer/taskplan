@@ -48,6 +48,7 @@ class ServerSentEvent(object):
                 data_client['checkpoints'] = data.checkpoints
                 data_client['notes'] = data.notes
                 data_client['is_test'] = data.is_test
+                data_client['device'] = None if data.device is None else str(data.device.uuid)
         elif event_type in [EventType.PRESET_CHANGED, EventType.PRESET_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             data_client['project_name'] = parent_data.name
@@ -77,6 +78,7 @@ class ServerSentEvent(object):
             data_client['project_name'] = parent_data.name
         elif event_type is EventType.SCHEDULER_OPTIONS:
             data_client['max_running'] = data.max_running()
+            data_client['devices'] = [{"uuid": str(device.uuid), "name": device.get_name(), "is_connected": device.is_connected()} for device in data.devices]
         elif event_type is EventType.FLASH_MESSAGE:
             data_client['message'] = data.message
             data_client['short'] = data.short

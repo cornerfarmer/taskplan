@@ -285,6 +285,7 @@ class Project extends React.Component {
                     presetsByGroup={this.state.presetsByGroup}
                     highlightedTask={this.props.highlightedTask}
                     filterLikeTask={this.filterLikeTask}
+                    devices={this.props.devices}
                 />
                 <PresetViewer ref={this.presetViewerRef} numberOfTasksPerChoice={this.state.numberOfTasksPerChoice} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
             </div>

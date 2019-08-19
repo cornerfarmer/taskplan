@@ -5,6 +5,7 @@ from taskplan.Controller import Controller
 from taskplan.EventManager import EventManager
 import click
 
+from taskplan.Remote import RemoteAgent
 from taskplan.app import run
 from werkzeug.serving import run_simple
 
@@ -123,6 +124,13 @@ def add_version(project_name, version_name):
 
     controller.add_version(project_name, version_name)
     controller.stop()
+
+@cli.command(name="agent")
+@click.argument('host', default="127.0.0.1")
+@click.argument('port', type=int, default="33333")
+def agent(host, port):
+    agent = RemoteAgent(host, port)
+    agent.listen()
 
 if __name__ == '__main__':
     cli()

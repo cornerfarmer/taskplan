@@ -65,10 +65,11 @@ class TaskTab extends React.Component {
                             showTask={this.props.showTask}
                             highlight={task.uuid === this.props.highlightedTask}
                             filterLikeTask={this.props.filterLikeTask}
+                            devices={this.props.devices}
                         />
                     ))}
                 </ul>
-                <TaskEditor ref={this.taskEditor} presets={this.props.presets} presetsByGroup={this.props.presetsByGroup} project_name={this.props.project.name} />
+                <TaskEditor devices={this.props.devices} ref={this.taskEditor} presets={this.props.presets} presetsByGroup={this.props.presetsByGroup} project_name={this.props.project.name} />
                 <div className="tab-toolbar">
                     <label>
                     </label>

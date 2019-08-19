@@ -26,7 +26,8 @@ class TaskEditor extends React.Component {
             open: false,
             command: "",
             commandHint: "",
-            isTest: false
+            isTest: false,
+            device: null
         };
 
 
@@ -41,6 +42,7 @@ class TaskEditor extends React.Component {
         this.onSaveIntervalChange = this.onSaveIntervalChange.bind(this);
         this.copyCommand = this.copyCommand.bind(this);
         this.onIsTestChange = this.onIsTestChange.bind(this);
+        this.onDeviceChange = this.onDeviceChange.bind(this);
         this.wrapperRef = React.createRef();
         this.commandInput = React.createRef();
     }
@@ -69,7 +71,8 @@ class TaskEditor extends React.Component {
         this.setState({
             selectedChoices: selectedChoices,
             open: true,
-            isTest: task.is_test
+            isTest: task.is_test,
+            device: this.props.devices[0].uuid
         });
         this.updateCommand(selectedChoices);
     }
@@ -84,7 +87,8 @@ class TaskEditor extends React.Component {
 
         this.setState({
             selectedChoices: selectedChoices,
-            open: true
+            open: true,
+            device: this.props.devices[0].uuid
         });
         this.updateCommand(selectedChoices);
     }
@@ -105,6 +109,7 @@ class TaskEditor extends React.Component {
             "save_interval": parseInt(this.state.save_interval),
             "checkpoint_interval": parseInt(this.state.checkpoint_interval)
         };
+        dataJson['device'] = this.state.device;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -212,6 +217,12 @@ class TaskEditor extends React.Component {
         }, () => this.updateCommand());
     }
 
+    onDeviceChange(event) {
+        this.setState({
+            device: event.target.value
+        });
+    }
+
     render() {
         return (
             <div ref={this.wrapperRef} style={{'display': (this.state.open ? 'block' : 'none')}}>
@@ -235,6 +246,14 @@ class TaskEditor extends React.Component {
                     </div>
                     <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} useTemplateFields={true}/>
                     <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true} />
+                    <div className="field">
+                        <label>Device:</label>
+                        <select value={this.state.device} onChange={this.onDeviceChange}>
+                            {this.props.devices.map(device => (
+                                <option value={device.uuid}>{device.name}</option>
+                            ))}
+                        </select>
+                    </div>
                     <div className="field">
                         <label>Command:</label>
                         <input className="command" ref={this.commandInput} onClick={this.copyCommand} data-toggle="tooltip" data-placement="bottom" data-original-title={this.state.commandHint} value={this.state.command} readOnly={true} />

@@ -122,7 +122,7 @@ class PausedTask extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/continue/" + this.props.task.uuid}/>
+                <Prompt ref={this.promptExtraRefs} devices={this.props.devices} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/continue/" + this.props.task.uuid}/>
                 <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this task?" url={"/remove_task/" + this.props.task.uuid}/>
             </li>
         );

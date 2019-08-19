@@ -44,13 +44,13 @@ def run():
     @app.route('/start/<string:project_name>/<int:total_iterations>', methods=['POST'])
     def start(project_name, total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations)
+        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations, device_uuid=data["device"])
         return jsonify({})
 
     @app.route('/test/<string:project_name>/<int:total_iterations>', methods=['POST'])
     def test(project_name, total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations, is_test=True)
+        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations, is_test=True, device_uuid=data["device"])
         return jsonify({})
 
     @app.route('/pause/<string:task_uuid>')
@@ -98,10 +98,10 @@ def run():
         controller.run_task_now(task_uuid)
         return jsonify({})
 
-    @app.route('/continue/<string:task_uuid>')
-    @app.route('/continue/<string:task_uuid>/<int:total_iterations>')
-    def continue_task(task_uuid, total_iterations=0):
-        controller.continue_task(task_uuid, total_iterations)
+    @app.route('/continue/<string:task_uuid>/<string:device_uuid>')
+    @app.route('/continue/<string:task_uuid>/<string:device_uuid>/<int:total_iterations>')
+    def continue_task(task_uuid, device_uuid, total_iterations=0):
+        controller.continue_task(task_uuid, total_iterations, device_uuid)
         return jsonify({})
 
     @app.route('/finish/<string:task_uuid>')
@@ -249,6 +249,11 @@ def run():
     @app.route('/reorder_preset/<string:project_name>/<string:preset_uuid>/<int:new_index>')
     def reorder_preset(project_name, preset_uuid, new_index):
         controller.reorder_preset(project_name, preset_uuid, new_index)
+        return jsonify({})
+
+    @app.route('/connect_device/<string:device_uuid>')
+    def connect_device(device_uuid):
+        controller.connect_device(device_uuid)
         return jsonify({})
 
     return app, controller
