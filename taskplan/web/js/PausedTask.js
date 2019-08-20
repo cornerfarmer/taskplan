@@ -15,6 +15,7 @@ class PausedTask extends React.Component {
         this.finish = this.finish.bind(this);
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
+        this.pause = this.pause.bind(this);
     }
 
     openExtraDialog() {
@@ -79,6 +80,19 @@ class PausedTask extends React.Component {
         return classname;
     }
 
+    pause() {
+        fetch("/pause/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
     render() {
         return (
             <li ref={this.itemRef} className={this.itemClass()}>
@@ -91,9 +105,16 @@ class PausedTask extends React.Component {
                     </div>
                 </div>
                 <div className="toolbar">
-                    <div className="action" onClick={this.openExtraDialog} title="Run for more iterations">
-                        <i className="fa fa-play"></i>
-                    </div>
+                    {
+                        this.props.task.state === State.RUNNING ?
+                        <div className="action" onClick={this.pause} title="Pause task">
+                            <i className="fa fa-pause"></i>
+                        </div>
+                        :
+                        <div className="action" onClick={this.openExtraDialog} title="Run for more iterations">
+                            <i className="fa fa-play"></i>
+                        </div>
+                    }
                     <div className="action" onClick={() => this.props.showTask(this.props.task)} title="Show detail information">
                         <i className="fa fa-info"></i>
                     </div>
@@ -116,9 +137,11 @@ class PausedTask extends React.Component {
                             <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
                             </div>
+                            {this.props.task.state !== State.RUNNING &&
                             <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove task">
                                 <i className="far fa-trash-alt"></i>
                             </div>
+                            }
                         </div>
                     </div>
                 </div>
