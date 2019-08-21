@@ -17,7 +17,7 @@ def run():
     controller = Controller(event_manager)
     controller.start()
 
-    app = Flask(__name__, static_folder="web/dist", static_url_path="/static", template_folder="web/dist")
+    app = Flask(__name__, static_folder="web/build/static", static_url_path="/static", template_folder="web/build")
 
     @app.route('/')
     def static_page():

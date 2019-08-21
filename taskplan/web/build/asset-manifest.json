@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ba709374.chunk.css",
+    "main.js": "/static/js/main.c1a181f0.chunk.js",
+    "main.js.map": "/static/js/main.c1a181f0.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.27aa8978.js",
+    "runtime~main.js.map": "/static/js/runtime~main.27aa8978.js.map",
+    "static/css/2.ef42c827.chunk.css": "/static/css/2.ef42c827.chunk.css",
+    "static/js/2.ae90d4ff.chunk.js": "/static/js/2.ae90d4ff.chunk.js",
+    "static/js/2.ae90d4ff.chunk.js.map": "/static/js/2.ae90d4ff.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.3a660947def9341364ebf415bc0b2d2c.js": "/precache-manifest.3a660947def9341364ebf415bc0b2d2c.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.ef42c827.chunk.css.map": "/static/css/2.ef42c827.chunk.css.map",
+    "static/css/main.ba709374.chunk.css.map": "/static/css/main.ba709374.chunk.css.map",
+    "static/media/fonts.css": "/static/media/Roboto-700-vietnamese26.d9600d97.woff2",
+    "static/media/all.min.css": "/static/media/fa-solid-900.fdc155d5.svg",
+    "static/media/editor.min.css": "/static/media/jsoneditor-icons.d961fdfa.svg"
+  }
+}
