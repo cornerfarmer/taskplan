@@ -15,6 +15,7 @@ import logging
 import json
 import os
 import time
+from filelock import SoftFileLock
 
 class State(Enum):
     INIT = 0
@@ -61,7 +62,12 @@ class TaskWrapper:
         self.saving = False
         self.notes = ""
 
-        self.save_metadata_lock = Lock()
+        self._create_metadata_lock()
+
+    def _create_metadata_lock(self):
+        path = self.build_save_dir()
+        path = path / "metadata.json.lock"
+        self.metadata_lock = SoftFileLock(path)
 
     def start(self):
         sys.stdout.flush()
@@ -74,6 +80,10 @@ class TaskWrapper:
             "total_iterations": self.total_iterations,
             "task_uuid": str(self.uuid)
         }
+        try:
+            os.remove(str(metadata["task_dir"] / "metadata.json.lock"))
+        except:
+            pass
 
         self.device.run_task(self.task_dir, self.class_name, self.preset.clone(), metadata)
         self.start_time = datetime.datetime.now()
@@ -86,6 +96,14 @@ class TaskWrapper:
         self.device = device
         self.state = State.RUNNING
         self.start_time = start_time
+
+    def set_as_stopped(self):
+        self.pausing = False
+        self._is_running = False
+        self.had_error = False
+        self.device = None
+        self.state = State.STOPPED
+        self.finished_iterations = self.saved_finished_iterations
 
     def pause(self):
         if self.state == State.RUNNING:
@@ -107,6 +125,7 @@ class TaskWrapper:
         self.state = State.STOPPED
         if self.device is not None:
             self.device.join()
+            self.device = None
 
     def is_running(self):
         return self.device.is_running() and self._is_running
@@ -137,43 +156,44 @@ class TaskWrapper:
         preset.iteration_cursor = metadata["finished_iterations"]
 
         task = task_class(preset, logger.get_with_module('task'), metadata)
+        metadata_lock = SoftFileLock(metadata["task_dir"] / "metadata.json.lock")
 
         def save_func(finished_iterations):
-            #with save_metadata_lock:
-            task.save(metadata["task_dir"])
-            with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
-                data = json.load(handle)
+            with metadata_lock:
+                task.save(metadata["task_dir"])
+                with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
+                    data = json.load(handle)
 
-            with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
-                data['saved_time'] = time.mktime(datetime.datetime.now().timetuple())
-                data['finished_iterations'] = finished_iterations
-                json.dump(data, handle)
+                with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
+                    data['saved_time'] = time.mktime(datetime.datetime.now().timetuple())
+                    data['finished_iterations'] = finished_iterations
+                    json.dump(data, handle)
 
             metadata["pipe"].send(PipeMsg.SAVED_FINISHED_ITERATIONS, {"saved_finished_iterations": finished_iterations, "saved_time": data['saved_time']})
 
         def checkpoint_func(finished_iterations):
             save_func(finished_iterations)
 
-            #with save_metadata_lock:
-            checkpoint_dir = metadata["task_dir"] / Path("checkpoints")
-            checkpoint_dir.mkdir(exist_ok=True)
-            checkpoint_dir /= Path(str(finished_iterations))
+            with metadata_lock:
+                checkpoint_dir = metadata["task_dir"] / Path("checkpoints")
+                checkpoint_dir.mkdir(exist_ok=True)
+                checkpoint_dir /= Path(str(finished_iterations))
 
-            shutil.copytree(str(metadata["task_dir"]), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints'] if directory == str(metadata["task_dir"]) else [])
-            for file in checkpoint_dir.glob("events.out.tfevents.*"):
-                file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
+                shutil.copytree(str(metadata["task_dir"]), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints'] if directory == str(metadata["task_dir"]) else [])
+                for file in checkpoint_dir.glob("events.out.tfevents.*"):
+                    file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
 
-            checkpoint = {
-                "finished_iterations": finished_iterations,
-                "time": time.mktime(datetime.datetime.now().timetuple())
-            }
+                checkpoint = {
+                    "finished_iterations": finished_iterations,
+                    "time": time.mktime(datetime.datetime.now().timetuple())
+                }
 
-            with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
-                data = json.load(handle)
-            with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
-                data['checkpoints'].append(checkpoint)
-                data['finished_iterations'] = finished_iterations
-                json.dump(data, handle)
+                with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
+                    data = json.load(handle)
+                with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
+                    data['checkpoints'].append(checkpoint)
+                    data['finished_iterations'] = finished_iterations
+                    json.dump(data, handle)
 
             return checkpoint
 
@@ -190,34 +210,35 @@ class TaskWrapper:
         return self.build_save_dir() / "checkpoints" / str(self.checkpoints[checkpoint_id]["finished_iterations"])
 
     def save_metadata(self, keys_only=None):
-        new_data = {}
-        new_data['uuid'] = str(self.uuid)
-        new_data['finished_iterations'] = self.finished_iterations
-        new_data['total_iterations'] = self.total_iterations
-        new_data['creation_time'] = time.mktime(self.creation_time.timetuple())
-        new_data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
-        new_data['had_error'] = self.had_error
-        new_data['preset'] = self.preset.data
-        new_data['code_version'] = self.code_version
-        new_data['checkpoints'] = self.checkpoints
-        new_data['notes'] = self.notes
+        with self.metadata_lock:
+            new_data = {}
+            new_data['uuid'] = str(self.uuid)
+            new_data['finished_iterations'] = self.finished_iterations
+            new_data['total_iterations'] = self.total_iterations
+            new_data['creation_time'] = time.mktime(self.creation_time.timetuple())
+            new_data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
+            new_data['had_error'] = self.had_error
+            new_data['preset'] = self.preset.data
+            new_data['code_version'] = self.code_version
+            new_data['checkpoints'] = self.checkpoints
+            new_data['notes'] = self.notes
 
-        path = self.build_save_dir()
-        path.mkdir(parents=True, exist_ok=True)
-        path = path / "metadata.json"
+            path = self.build_save_dir()
+            path.mkdir(parents=True, exist_ok=True)
+            path = path / "metadata.json"
 
-        if path.exists():
-            with open(str(path), "r") as handle:
-                old_data = json.load(handle)
-        else:
-            old_data = {}
+            if path.exists():
+                with open(str(path), "r") as handle:
+                    old_data = json.load(handle)
+            else:
+                old_data = {}
 
-        for key in new_data.keys():
-            if keys_only is None or key in keys_only:
-                old_data[key] = new_data[key]
+            for key in new_data.keys():
+                if keys_only is None or key in keys_only:
+                    old_data[key] = new_data[key]
 
-        with open(str(path), 'w') as handle:
-            json.dump(old_data, handle, indent=2, separators=(',', ': '))
+            with open(str(path), 'w') as handle:
+                json.dump(old_data, handle, indent=2, separators=(',', ': '))
 
     def load_metadata(self, path, ignore_total_iterations=False):
         with open(str(path / "metadata.json"), "r") as handle:
@@ -234,6 +255,7 @@ class TaskWrapper:
             self.code_version = data['code_version']
             self.checkpoints = data['checkpoints']
             self.notes = data['notes']
+            self._create_metadata_lock()
 
     def set_total_iterations(self, total_iterations):
         if self.state == State.RUNNING:
@@ -247,30 +269,29 @@ class TaskWrapper:
         shutil.rmtree(save_dir)
 
     def receive_updates(self):
-        with self.save_metadata_lock:
-            msg_type, arg = self.device.recv()
-            while msg_type is not None:
-                if msg_type == PipeMsg.PAUSING:
-                    self.pausing = arg
-                elif msg_type == PipeMsg.SAVING:
-                    self.saving = arg
-                elif msg_type == PipeMsg.HAD_ERROR:
-                    self.had_error = arg
-                    self.save_metadata(["had_error"])
-                elif msg_type == PipeMsg.IS_RUNNING:
-                    self._is_running = arg
-                elif msg_type == PipeMsg.FINISHED_ITERATIONS:
-                    self.finished_iterations, self.iteration_update_time = arg["finished_iterations"], arg["iteration_update_time"]
-                elif msg_type == PipeMsg.SAVED_FINISHED_ITERATIONS:
-                    self.saved_finished_iterations = arg["saved_finished_iterations"]
-                    self.saved_time = datetime.datetime.fromtimestamp(arg["saved_time"])
-                elif msg_type == PipeMsg.NEW_CHECKPOINT:
-                    self.checkpoints.append(arg)
-                elif msg_type == PipeMsg.TOTAL_ITERATIONS:
-                    self.total_iterations = arg
-                    self.save_metadata(["total_iterations"])
+        msg_type, arg = self.device.recv()
+        while msg_type is not None:
+            if msg_type == PipeMsg.PAUSING:
+                self.pausing = arg
+            elif msg_type == PipeMsg.SAVING:
+                self.saving = arg
+            elif msg_type == PipeMsg.HAD_ERROR:
+                self.had_error = arg
+                self.save_metadata(["had_error"])
+            elif msg_type == PipeMsg.IS_RUNNING:
+                self._is_running = arg
+            elif msg_type == PipeMsg.FINISHED_ITERATIONS:
+                self.finished_iterations, self.iteration_update_time = arg["finished_iterations"], arg["iteration_update_time"]
+            elif msg_type == PipeMsg.SAVED_FINISHED_ITERATIONS:
+                self.saved_finished_iterations = arg["saved_finished_iterations"]
+                self.saved_time = datetime.datetime.fromtimestamp(arg["saved_time"])
+            elif msg_type == PipeMsg.NEW_CHECKPOINT:
+                self.checkpoints.append(arg)
+            elif msg_type == PipeMsg.TOTAL_ITERATIONS:
+                self.total_iterations = arg
+                self.save_metadata(["total_iterations"])
 
-                msg_type, arg = self.device.recv()
+            msg_type, arg = self.device.recv()
 
     def adjust_config(self, new_config):
         self.preset.set_config_at_timestep(new_config, self.finished_iterations + 1)

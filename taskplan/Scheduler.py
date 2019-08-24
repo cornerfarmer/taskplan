@@ -156,7 +156,22 @@ class Scheduler:
     def update_new_client(self, client):
         self.event_manager.throw_for_client(client, EventManager.EventType.SCHEDULER_OPTIONS, self)
 
-    def update_clients(self):
+    def update_clients(self, project_manager):
+        device_changed = False
+        for device in self.devices:
+            if type(device) == RemoteDevice:
+                if device.is_connected():
+                    if device.check_connection():
+                        self._on_device_disconnect(device)
+                        device_changed = True
+                else:
+                    if device.connect():
+                        self._on_device_connect(device, project_manager)
+                        device_changed = True
+
+        if device_changed:
+            self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+
         with self._queue_mutex:
             for device in self.devices:
                 for running in device.runnings:
@@ -164,6 +179,7 @@ class Scheduler:
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
                     if not running.is_running():
                         self.wakeup_sem.release()
+
 
     def change_total_iterations(self, task_uuid, total_iterations):
         with self._queue_mutex:
@@ -206,18 +222,28 @@ class Scheduler:
                 return device
         raise Exception("Device not found with uuid " + device_uuid)
 
+    def _on_device_connect(self, device, project_manager):
+        current_task, start_time = device.current_task()
+
+        if current_task is not None:
+            with self._queue_mutex:
+                running_task = project_manager.find_task_by_uuid(current_task)
+                device.runnings = [running_task]
+                running_task.set_as_running(device, start_time)
+                self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running_task)
+
+    def _on_device_disconnect(self, device):
+        with self._queue_mutex:
+            for running_task in device.runnings:
+                running_task.set_as_stopped()
+                self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running_task)
+                device.runnings = []
+
     def connect_device(self, device_uuid, project_manager):
         device = self.device_with_uuid(device_uuid)
-        if type(device) == RemoteDevice:
+        if type(device) == RemoteDevice and not device.is_connected():
             device.connect()
-            current_task, start_time = device.current_task()
-
-            if current_task is not None:
-                with self._queue_mutex:
-                    running_task = project_manager.find_task_by_uuid(current_task)
-                    device.runnings = [running_task]
-                    running_task.set_as_running(device, start_time)
-                    self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running_task)
-
-            self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
-            self.wakeup_sem.release()
+            if device.is_connected():
+                self._on_device_connect(device, project_manager)
+                self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+                self.wakeup_sem.release()

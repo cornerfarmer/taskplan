@@ -38,7 +38,7 @@ class Controller:
 
     def _update_clients(self):
         while self.run_update_thread:
-            self.scheduler.update_clients()
+            self.scheduler.update_clients(self.project_manager)
             self.project_manager.update_clients()
 
             time.sleep(3)

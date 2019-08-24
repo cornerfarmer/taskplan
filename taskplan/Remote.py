@@ -21,6 +21,7 @@ class RemoteMsg(Enum):
     SEND = 4
     RECV = 5
     CURRENT_TASK = 6
+    PING = 7
 
 class Connection:
     def __init__(self):
@@ -84,8 +85,12 @@ class RemoteDevice(Device):
         return self._send_msg(RemoteMsg.CURRENT_TASK)
 
     def _send_msg(self, msg, args=[]):
-        self.connection.send(self.socket, [msg] + args)
-        data = self.connection.recv(self.socket)
+        try:
+            self.connection.send(self.socket, [msg] + args)
+            data = self.connection.recv(self.socket)
+        except:
+            raise Exception("Error with remote agent")
+
         if data[0] != 0:
             raise Exception("Error with remote agent")
 
@@ -111,6 +116,14 @@ class RemoteDevice(Device):
 
     def get_name(self):
         return self.host + ":" + str(self.port)
+
+    def check_connection(self):
+        try:
+            self._send_msg(RemoteMsg.PING)
+        except:
+            self.socket = None
+            return True
+        return False
 
     def is_connected(self):
         return 1 if self.socket is not None else 0
