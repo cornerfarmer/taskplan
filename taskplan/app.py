@@ -18,6 +18,7 @@ def run():
     controller.start()
 
     app = Flask(__name__, static_folder="web/build/static", static_url_path="/static", template_folder="web/build")
+    app.config["DEBUG"] = True
 
     @app.route('/')
     def static_page():

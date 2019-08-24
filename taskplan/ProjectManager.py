@@ -17,6 +17,8 @@ class ProjectManager:
         if Path("taskplan_metadata.json").exists():
             with open('taskplan_metadata.json') as f:
                 metadata = json.load(f)
+        else:
+            metadata = {}
 
         project_keys = global_config.get_keys('projects')
         for key in project_keys:
