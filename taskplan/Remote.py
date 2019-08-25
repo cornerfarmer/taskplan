@@ -81,6 +81,11 @@ class RemoteDevice(Device):
         else:
             return False
 
+    def disconnect(self):
+        if self.socket is not None:
+            self.socket.close()
+            self.socket = None
+
     def current_task(self):
         return self._send_msg(RemoteMsg.CURRENT_TASK)
 

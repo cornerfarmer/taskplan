@@ -1,18 +1,52 @@
 
 #scheduler {
-  padding: 16px 30px 16px 0;
+  padding: 16px 0 16px 0;
   overflow-y: auto;
-  max-width: 600px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: center;
 }
 
 #scheduler #max-running-tasks {
   cursor: pointer;
 }
 
+#scheduler > .dropdown {
+  width: 510px;
+  margin-bottom: 10px;
+}
+
+#scheduler > .dropdown  div.action {
+  margin-bottom: 0;
+}
+
+#scheduler > .dropdown > .dropdown-menu {
+  border-radius: 0px;
+  transform: translate3d(0px, 24px, 0px) !important;
+}
+
+#scheduler > .dropdown > .dropdown-menu .dropdown-item {
+  cursor: pointer;
+}
+#scheduler > .dropdown > .dropdown-menu .dropdown-item:active {
+  background-color: #3f51b5;
+}
+
+.mock-device {
+  width: 510px;
+  height: 0;
+}
+
 .device {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  width: 500px;
+  max-height: 300px;
+  margin-right: 10px;
 }
 
 .device > .header {
@@ -35,13 +69,18 @@
   margin-right: 16px;
 }
 
+
+.device > .header .hide-device {
+  cursor: pointer;
+}
+
 .device .queue-header {
   display: flex;
   align-items: center;
 }
 
 .device .queue-header .action {
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
   width: 21px;
   height: 21px;
   align-items: center;
@@ -50,6 +89,7 @@
   margin: 0;
   margin-right: 8px;
 }
+
 .device .body {
   padding: 16px;
 }
@@ -59,8 +99,12 @@
   margin-bottom: 10px;
 }
 
+.device .tasks.tasks-queued {
+  margin: 0;
+}
+
 .device .tasks .mock-task {
- background: white;
+  background: white;
   border: 2px dashed rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
@@ -75,7 +119,6 @@
   list-style: none;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
   background: white;
-  margin-bottom: 16px;
 }
 
 .device .tasks .task .content {
@@ -103,7 +146,7 @@
   color: #AAA;
 }
 
-#tasks-queued.device .tasks .task .header {
+.tasks-queued.device .tasks .task .header {
   cursor: grab;
 }
 
@@ -153,6 +196,7 @@
   align-items: center;
 }
 
+#scheduler > .dropdown .action,
 .device .action,
 .device .tasks .task .toolbar .action {
   background: #3f51b5;
