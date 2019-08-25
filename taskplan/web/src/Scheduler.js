@@ -1,7 +1,6 @@
 import React from 'react';
-import State from './Global'
-import Task from './Task'
-import Prompt from "./Prompt";
+import Device from "./Device";
+import State from "./Global";
 
 class Scheduler extends React.Component {
     constructor(props) {
@@ -72,39 +71,7 @@ class Scheduler extends React.Component {
         return (
             <div id="scheduler">
                  {this.props.devices.map(device => (
-                    <React.Fragment>
-                        <h2>{device.name}{device.is_connected >= 0 && " - " + (device.is_connected === 1 ? "Connected" : "Not connected")}</h2>
-
-                        <h3>Running ({this.state.tasks.filter(task => task.state === State.RUNNING && task.device === device.uuid).length} / <span id="max-running-tasks" title="Adjust the maximum number of parallel running tasks" onClick={this.openMaxRunningDialog}>{this.state.max_running}</span>)</h3>
-                        <Prompt ref={this.openMaxRunningDialogRefs} defaultValue={this.state.max_running} header="Set maximum parallel tasks?" text="Specify the new number of tasks which can run in parallel:" url={"/change_max_running"}/>
-
-                        {device.is_connected === 0 &&
-                            <div onClick={() => this.connectDevice(device)}>Connect</div>
-                        }
-                        <ul className="tasks" id="tasks-running">
-                        {this.state.tasks.filter(task => task.state === State.RUNNING && task.device === device.uuid).map((task, index) => (
-                                <Task
-                                    key={task.uuid}
-                                    task={task}
-                                    index={index}
-                                    highlightTask={this.props.highlightTask}
-                                />
-                            ))
-                        }
-                        </ul>
-
-                        <h3>Waiting ({this.state.tasks.filter(task => task.state === State.QUEUED && task.device === device.uuid).length})</h3>
-                        <ul className="tasks" id="tasks-queued">
-                            {this.state.tasks.filter(task => task.state === State.QUEUED && task.device === device.uuid).sort(function(a,b) { return a.queue_index - b.queue_index }).map((task, index) => (
-                                <Task
-                                    key={task.uuid}
-                                    task={task}
-                                    index={index}
-                                    highlightTask={this.props.highlightTask}
-                                />
-                            ))}
-                        </ul>
-                    </React.Fragment>
+                    <Device device={device} tasks={this.state.tasks.filter(task => task.device === device.uuid)} />
                 ))}
             </div>
         );

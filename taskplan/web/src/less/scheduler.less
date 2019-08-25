@@ -1,149 +1,205 @@
 
 #scheduler {
-    padding: 16px 30px 16px 0;
-    overflow-y: auto;
-    max-width: 600px;
-    margin: 0 auto;
+  padding: 16px 30px 16px 0;
+  overflow-y: auto;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 #scheduler #max-running-tasks {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.tasks {
-    padding: 0;
-    margin-bottom: 30px;
+.device {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-.tasks .task {
-    list-style: none;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-    background: white;
-    margin-bottom: 16px;
+.device > .header {
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
 }
 
-.tasks .task .content {
-    padding: 16px;
-    padding-bottom: 12px;
-    border: 1px solid rgba(0,0,0,.1);
-    border-bottom: none;
+.device > .header > span {
+  flex: 1 1 0;
 }
 
-
-.tasks .task .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+.device > .header .action {
+  margin-bottom: 0;
+  margin-right: 16px;
 }
 
-.tasks .task .header .status {
-    text-align: right;
-    line-height: 1;
+.device .queue-header {
+  display: flex;
+  align-items: center;
 }
 
-.tasks .task .header .status .iterations {
-    font-size: 12px;
-    color: #AAA;
+.device .queue-header .action {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  width: 21px;
+  height: 21px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  margin-right: 8px;
+}
+.device .body {
+  padding: 16px;
 }
 
-#tasks-queued.tasks .task .header {
-    cursor: grab;
+.device .tasks {
+  padding: 0;
+  margin-bottom: 10px;
 }
 
-.tasks .task .header .project-name {
-    font-weight: 300;
-    font-size: 24px;
-    margin-bottom: 10px;
+.device .tasks .mock-task {
+ background: white;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.4);
+  height: 132px;
 }
 
-.tasks .task .progress {
-    background: #3f51b5;
-    height: 2px;
-    margin-bottom: 10px;
-    border-radius: 0;
-
-    -webkit-transition: width 400ms ease-in-out;
-    -moz-transition: width 400ms ease-in-out;
-    -ms-transition: width 400ms ease-in-out;
-    -o-transition: width 400ms ease-in-out;
-    transition: width 400ms ease-in-out;
+.device .tasks .task {
+  list-style: none;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+  background: white;
+  margin-bottom: 16px;
 }
 
-.tasks .task .preset-name {
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.tasks .task .try-number {
-    background: rgba(158,158,158,.2);
-    padding: 1px 7px 2px 7px;
-    margin-right: 7px;
-    display: inline-block;
-    line-height: 1;
-    vertical-align: top;
-}
-
-.tasks .task .toolbar {
-    background: rgba(158,158,158,.2);
-    padding: 5px 16px 1px 16px;
-    line-height: 1;
-    border: 1px solid rgba(0,0,0,.1);
+.device .tasks .task .content {
+  padding: 16px;
+  padding-bottom: 12px;
+  border: 1px solid rgba(0, 0, 0, .1);
+  border-bottom: none;
 }
 
 
-.tasks .task .toolbar > span {
-    display: flex;
-    align-items: center;
+.device .tasks .task .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.tasks .task .toolbar .action {
-    background: #3f51b5;
-    padding: 0 10px;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    color: white;
-    border-radius: 2px;
-    font-weight: 500;
-   /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/
-    height: 24px;
-    font-size: 13px;
-    cursor: pointer;
-    margin-right: 5px;
-    margin-bottom: 4px;
+.device .tasks .task .header .status {
+  text-align: right;
+  line-height: 1;
 }
 
-.tasks .task .toolbar .action i {
-    margin-right: 7px;
+.device .tasks .task .header .status .iterations {
+  font-size: 12px;
+  color: #AAA;
 }
 
-.tasks .task .toolbar .action span {
-    margin-top: 2px;
+#tasks-queued.device .tasks .task .header {
+  cursor: grab;
 }
 
-.tasks .task .toolbar .dropdown {
-    display: inline-flex;
-    margin-bottom: 4px;
+.device .tasks .task .header .project-name {
+  font-weight: 300;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
-.tasks .task .toolbar .action.dropdown-toggle i {
-    margin: 0;
+.device .tasks .task .progress {
+  background: #3f51b5;
+  height: 2px;
+  margin-bottom: 10px;
+  border-radius: 0;
+
+  -webkit-transition: width 400ms ease-in-out;
+  -moz-transition: width 400ms ease-in-out;
+  -ms-transition: width 400ms ease-in-out;
+  -o-transition: width 400ms ease-in-out;
+  transition: width 400ms ease-in-out;
 }
 
-.tasks .task .toolbar .current-action {
-    flex: 2 1 0;
-    text-align: right;
-    font-size: 12px;
+.device .tasks .task .preset-name {
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.tasks .task.on-drag-over {
-    border: 3px dashed #3f51b5;
-    box-shadow: none;
+.device .tasks .task .try-number {
+  background: rgba(158, 158, 158, .2);
+  padding: 1px 7px 2px 7px;
+  margin-right: 7px;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: top;
 }
 
-.tasks .task.on-drag-over .content,
-.tasks .task.on-drag-over .toolbar
-{
-    visibility: hidden;
+.device .tasks .task .toolbar {
+  background: rgba(158, 158, 158, .2);
+  padding: 5px 16px 1px 16px;
+  line-height: 1;
+  border: 1px solid rgba(0, 0, 0, .1);
+}
+
+
+.device .tasks .task .toolbar > span {
+  display: flex;
+  align-items: center;
+}
+
+.device .action,
+.device .tasks .task .toolbar .action {
+  background: #3f51b5;
+  padding: 0 10px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  color: white;
+  border-radius: 2px;
+  font-weight: 500;
+  /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/
+  height: 24px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-bottom: 4px;
+}
+
+.device .tasks .task .toolbar .action i {
+  margin-right: 7px;
+}
+
+.device .tasks .task .toolbar .action span {
+  margin-top: 2px;
+}
+
+.device .tasks .task .toolbar .dropdown {
+  display: inline-flex;
+  margin-bottom: 4px;
+}
+
+.device .tasks .task .toolbar .action.dropdown-toggle i {
+  margin: 0;
+}
+
+.device .tasks .task .toolbar .current-action {
+  flex: 2 1 0;
+  text-align: right;
+  font-size: 12px;
+}
+
+.device .tasks .task.on-drag-over {
+  border: 3px dashed #3f51b5;
+  box-shadow: none;
+}
+
+.device .tasks .task.on-drag-over .content,
+.device .tasks .task.on-drag-over .toolbar {
+  visibility: hidden;
 }
