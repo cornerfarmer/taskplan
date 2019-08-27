@@ -16,6 +16,7 @@ class PausedTask extends React.Component {
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
         this.pause = this.pause.bind(this);
+        this.queueCancel = this.queueCancel.bind(this);
     }
 
     openExtraDialog() {
@@ -77,11 +78,27 @@ class PausedTask extends React.Component {
             classname += "item-highlight ";
         if (this.props.task.state === State.RUNNING)
             classname += "task-running ";
+        else if (this.props.task.state === State.QUEUED)
+            classname += "task-queued ";
         return classname;
     }
 
     pause() {
         fetch("/pause/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
+
+    queueCancel() {
+        fetch("/cancel/" + this.props.task.uuid)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -111,9 +128,16 @@ class PausedTask extends React.Component {
                             <i className="fa fa-pause"></i>
                         </div>
                         :
+
+                        this.props.task.state === State.QUEUED ?
+                        <div className="action" onClick={this.queueCancel} title="Remove this task from queue">
+                            <i className="fas fa-times"></i>
+                        </div>
+                        :
                         <div className="action" onClick={this.openExtraDialog} title="Run for more iterations">
                             <i className="fa fa-play"></i>
                         </div>
+
                     }
                     <div className="action" onClick={() => this.props.showTask(this.props.task)} title="Show detail information">
                         <i className="fa fa-info"></i>
@@ -137,7 +161,7 @@ class PausedTask extends React.Component {
                             <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
                             </div>
-                            {this.props.task.state !== State.RUNNING &&
+                            {this.props.task.state !== State.RUNNING && this.props.task.state !== State.QUEUED &&
                             <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove task">
                                 <i className="far fa-trash-alt"></i>
                             </div>
