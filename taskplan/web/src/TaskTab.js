@@ -1,17 +1,6 @@
 import React from 'react';
-import Preset from "./Preset";
-import State from "./Global";
-import FinishedTask from "./FinishedTask";
 import PausedTask from "./PausedTask";
-import PresetEditor from "./PresetEditor";
-import ChoiceEditor from "./ChoiceEditor";
 import TaskEditor from "./TaskEditor";
-import TaskView from "./TaskView";
-import PresetFilter from "./PresetFilter";
-import TaskViewer from "./TaskViewer";
-import View from "./View";
-import PresetTab from "./PresetTab";
-import PresetViewer from "./PresetViewer";
 
 class TaskTab extends React.Component {
     constructor(props) {
@@ -21,6 +10,7 @@ class TaskTab extends React.Component {
         this.newTask = this.newTask.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
+        this.choicePresetToName = this.choicePresetToName.bind(this);
         this.taskEditor = React.createRef();
     }
 
@@ -36,6 +26,13 @@ class TaskTab extends React.Component {
         this.taskEditor.current.open(task);
     }
 
+    choicePresetToName(choicePreset) {
+        let choice_name = choicePreset[1].name;
+        for (let i = 2; i < choicePreset.length; i++)
+            choice_name = choice_name.replace("$T" + (i - 2) + "$", choicePreset[i]);
+        return choice_name;
+    };
+
     render() {
         return (
             <div className="tab" style={{'display': (this.props.active ? 'flex' : 'none')}}>
@@ -46,11 +43,21 @@ class TaskTab extends React.Component {
                             case 0:
                                 s = a.saved_time - b.saved_time; break;
                             case 1:
-                                s = a.preset_name.localeCompare(b.preset_name); break;
+
+                                for (let i = 0; i < Math.min(a.nameChoices.length, b.nameChoices.length); i++) {
+                                    s = this.choicePresetToName(a.nameChoices[i]).localeCompare(this.choicePresetToName(b.nameChoices[i]));
+                                    if (s !== 0)
+                                        break;
+                                }
+                                if (s === 0)
+                                    s = b.nameChoices.length - a.nameChoices.length;
+                                break;
                             case 2:
                                 s = a.creation_time - b.creation_time; break;
                             case 3:
                                 s = a.finished_iterations - b.finished_iterations; break;
+                            case 4:
+                                s = a.start_time - b.start_time; break;
                         }
                         if (s === 0)
                             s = a.try - b.try;

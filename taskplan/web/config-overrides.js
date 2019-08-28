@@ -4,6 +4,7 @@ const {
     overrideDevServer
 } = require("customize-cra");
 
+const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const appDirectory = fs.realpathSync(process.cwd());
@@ -18,6 +19,8 @@ module.exports = {
        (config) => {
           config["output"]["futureEmitAssets"] = false;
           config["output"]["path"] = resolveApp('build');
+          const index = config["plugins"].findIndex(p => p instanceof webpack.HotModuleReplacementPlugin);
+          config["plugins"].splice(index, 1);
           return config;
         }
   ),

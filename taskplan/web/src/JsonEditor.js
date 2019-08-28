@@ -115,7 +115,7 @@ class JsonEditor extends React.Component {
             this.props.onChange(newJson);
             this.updateEditor();
         };
-        options.mode = 'mode' in this.props.options ? this.props.options.mode : 'tree';
+        options.mode = 'mode' in this.props.options ? this.props.options.mode : 'code';
         options.modes = 'modes' in this.props.options ? this.props.options.modes : ['code', 'tree'];
         options.ace = ace;
         options.history = false;

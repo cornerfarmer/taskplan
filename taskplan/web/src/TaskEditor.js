@@ -138,7 +138,7 @@ class TaskEditor extends React.Component {
 
         selectedChoices[preset.uuid] = [choice.uuid];
         if (arg !== null)
-            selectedChoices[preset.uuid].push(arg);
+            selectedChoices[preset.uuid] = selectedChoices[preset.uuid].concat(arg);
 
         this.setState({
             selectedChoices: selectedChoices
