@@ -136,13 +136,15 @@ class ProjectConfiguration:
                 added_presets.append(self.add_preset(data))
 
                 data = {}
-                data["name"] = key + "_" + str(config[key])
+                data["name"] = key + "_$T0$"
+                data["isTemplate"] = True
+                data["template_defaults"] = [config[key]]
                 data["config"] = {}
                 sub_config = data["config"]
                 for sub_key in prefix:
                     sub_config[sub_key] = {}
                     sub_config = sub_config[sub_key]
-                sub_config[key] = config[key]
+                sub_config[key] = "$T0$"
                 added_choices.append(self.add_choice(added_presets[-1].uuid, data)[1])
 
     def add_choice(self, preset_uuid, new_data):

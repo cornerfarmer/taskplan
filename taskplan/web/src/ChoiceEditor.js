@@ -13,7 +13,8 @@ class ChoiceEditor extends React.Component {
             forceDynamic: false,
             possible_base_choices: [],
             uuid_to_load: null,
-            preset: null
+            preset: null,
+            templateDefaults: ""
         };
 
         this.configEditor = React.createRef();
@@ -27,6 +28,7 @@ class ChoiceEditor extends React.Component {
         this.onDynamicChange = this.onDynamicChange.bind(this);
         this.onIsBaseDynamic = this.onIsBaseDynamic.bind(this);
         this.onTemplateChange = this.onTemplateChange.bind(this);
+        this.onTemplateDefaultsChange = this.onTemplateDefaultsChange.bind(this);
     }
 
     open(choice, duplicate, preset, possible_base_choices) {
@@ -40,6 +42,7 @@ class ChoiceEditor extends React.Component {
                 abstract: choice.abstract,
                 dynamic: choice.dynamic,
                 template: choice.isTemplate,
+                templateDefaults: choice.template_defaults,
                 forceDynamic: false,
                 preset: preset,
                 possible_base_choices: possible_base_choices
@@ -53,6 +56,7 @@ class ChoiceEditor extends React.Component {
                 abstract: choice.abstract,
                 dynamic: choice.dynamic,
                 template: choice.isTemplate,
+                templateDefaults: choice.template_defaults,
                 forceDynamic: false,
                 preset: preset,
                 possible_base_choices: possible_base_choices
@@ -94,8 +98,10 @@ class ChoiceEditor extends React.Component {
             dataJson['abstract'] = this.state.abstract;
         if (this.state.dynamic)
             dataJson['dynamic'] = this.state.dynamic;
-        if (this.state.template)
+        if (this.state.template) {
             dataJson['isTemplate'] = this.state.template;
+            dataJson['template_defaults'] = [this.state.templateDefaults];
+        }
         dataJson['config'] = this.configEditor.current.state.config;
 
         data.append("data", JSON.stringify(dataJson));
@@ -168,6 +174,12 @@ class ChoiceEditor extends React.Component {
         });
     }
 
+    onTemplateDefaultsChange(event) {
+        this.setState({
+            templateDefaults: event.target.value
+        });
+    }
+
     render() {
         if (this.state.choice !== null) {
             return (
@@ -198,6 +210,11 @@ class ChoiceEditor extends React.Component {
                         <label>Template:</label>
                         <input checked={this.state.template} onChange={this.onTemplateChange} type="checkbox" />
                     </div>
+                    {this.state.template &&
+                    <div className="field">
+                        <label>Template default:</label>
+                        <input value={this.state.templateDefaults} onChange={this.onTemplateDefaultsChange} />
+                    </div> }
                     <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/choice/" + this.state.choice.project_name + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} bases={[this.state.base]}/>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
