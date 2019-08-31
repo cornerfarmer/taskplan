@@ -12,7 +12,7 @@ class Project extends React.Component {
             presetsByGroup: {},
             tasks: [],
             activeTab: 0,
-            sorting: [0, 0],
+            sorting: [0, 4],
             sortingDescending: [true, true],
             selectedChoices: {},
             selectedTasks: [],
@@ -253,10 +253,11 @@ class Project extends React.Component {
                                     <option value="1">Name</option>
                                     <option value="2">Created</option>
                                     <option value="3">Iterations</option>
+                                    <option value="4">Started</option>
                                 </select>
                                 <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
-                                <span className="fas fa-sliders-h"onClick={this.openPresetViewer}></span>
+                                <span className={this.state.presetFilterEnabled ? "fas fa-sliders-h filter-enabled" : "fas fa-sliders-h"}onClick={this.openPresetViewer}></span>
                             </div>
                         }
                 </div>

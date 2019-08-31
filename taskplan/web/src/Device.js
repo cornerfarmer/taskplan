@@ -13,6 +13,8 @@ class Device extends React.Component {
 
         this.openMaxRunningDialog = this.openMaxRunningDialog.bind(this);
         this.connect = this.connect.bind(this);
+        this.disconnect = this.disconnect.bind(this);
+        this.toggleQueue = this.toggleQueue.bind(this);
     }
 
     openMaxRunningDialog() {
@@ -26,6 +28,21 @@ class Device extends React.Component {
                 (result) => {
                 }
             )
+    }
+
+    disconnect() {
+        fetch("/disconnect_device/" + this.props.device.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                }
+            )
+    }
+
+    toggleQueue() {
+        this.setState({
+            showQueue: !this.state.showQueue
+        })
     }
 
     render() {
@@ -43,7 +60,7 @@ class Device extends React.Component {
                             Disconnect
                         </div>
                     }
-                    <div onClick={() => this.props.hideDevice(this.props.device)}>
+                    <div className="hide-device" onClick={() => this.props.hideDevice(this.props.device)}>
                         <i className="fas fa-times"></i>
                     </div>
                 </div>
@@ -79,7 +96,7 @@ class Device extends React.Component {
                         Waiting ({this.props.tasks.filter(task => task.state === State.QUEUED).length})
                     </div>
                     {this.state.showQueue &&
-                        <ul className="tasks" id="tasks-queued">
+                        <ul className="tasks tasks-queued">
                             {this.props.tasks.filter(task => task.state === State.QUEUED).sort(function (a, b) {
                                 return a.queue_index - b.queue_index
                             }).map((task, index) => (

@@ -121,6 +121,10 @@
     cursor: pointer;
 }
 
+#project-manager #projects .project .sorting .filter-enabled {
+    color: #3f51b5;
+}
+
 
 #project-manager #projects .project > .preset-filter {
     border: none;
@@ -218,12 +222,11 @@
 }
 
 
-#project-manager #projects .project ul .item-task.task-running {
+#project-manager #projects .project ul .item-task.task-running:not(.item-highlight) {
     background-image: repeating-linear-gradient( -45deg, #f4f5ff, #f4f5ff 11px, white 10px, white 20px );
     background-size: 28px 28px;
     animation: move 2s linear infinite;
 }
-
 
 @keyframes move {
   0% {
@@ -234,6 +237,11 @@
   }
 }
 
+#project-manager #projects .project ul .item-task.task-queued:not(.item-highlight) {
+    background-image: repeating-linear-gradient( -45deg, #f4f4f4, #f4f4f4 11px, white 10px, white 20px );
+    background-size: 28px 28px;
+}
+
 #project-manager #projects .project ul .item-task.item-highlight {
   animation: highlight 1500ms ease-out;
 }
@@ -241,7 +249,7 @@
   0% {
     background-color: #4f61f4;
   }
-  100 {
+  100% {
     background-color: white;
   }
 }

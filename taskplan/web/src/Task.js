@@ -223,9 +223,6 @@ class TaskToolbar extends React.Component {
                                 < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
                                     <i className="fas fa-code"></i><span>Config</span>
                                 </div>
-                                <div className="action" onClick={this.clone} title="Clone task">
-                                    <i className="far fa-copy"></i><span>Clone</span>
-                                </div>
                                 <div className="action" onClick={this.terminate} title="Terminate task">
                                    <i className="fas fa-skull-crossbones"></i><span>Terminate</span>
                                 </div>
@@ -254,9 +251,6 @@ class TaskToolbar extends React.Component {
                             <div className="dropdown-menu">
                                 <div className="action" onClick={this.cancel} title="Remove this task from the queue">
                                     <i className="fas fa-times"></i><span>Cancel</span>
-                                </div>
-                                <div className="action" onClick={this.clone} title="Clone task">
-                                    <i className="far fa-copy"></i><span>Clone</span>
                                 </div>
                             </div>
                         </div>

@@ -231,7 +231,7 @@ class View:
             del node.parent.children[node.parent_key]
             self._remove_path(path)
             self._check_node_for_removal(node.parent, path.parent)
-        elif len(node.children) == 1 and type(node.parent) in [PresetNode, CodeVersionNode]:
+        elif len(node.children) == 1 and type(node) in [PresetNode, CodeVersionNode]:
             self._remove_preset_at_node(node, path)
 
     def _remove_preset_at_node(self, node, path):

@@ -72,9 +72,9 @@ class TaskEditor extends React.Component {
             selectedChoices: selectedChoices,
             open: true,
             isTest: task.is_test,
-            device: this.props.devices[0].uuid
-        });
-        this.updateCommand(selectedChoices);
+            device: this.state.device === null ? this.props.devices[0].uuid : this.state.device,
+            total_iterations: task.total_iterations
+        }, () => this.updateCommand(selectedChoices));
     }
 
     new() {
@@ -82,13 +82,13 @@ class TaskEditor extends React.Component {
 
         for (const preset of this.props.presets) {
             if (!(preset.uuid in selectedChoices))
-                selectedChoices[preset.uuid] = [preset.default_choice.uuid];
+                selectedChoices[preset.uuid] = [preset.default_choice.uuid, ...preset.default_choice.template_defaults];
         }
 
         this.setState({
             selectedChoices: selectedChoices,
             open: true,
-            device: this.props.devices[0].uuid
+            device: this.state.device === null ? this.props.devices[0].uuid : this.state.device
         });
         this.updateCommand(selectedChoices);
     }
@@ -138,7 +138,7 @@ class TaskEditor extends React.Component {
 
         selectedChoices[preset.uuid] = [choice.uuid];
         if (arg !== null)
-            selectedChoices[preset.uuid].push(arg);
+            selectedChoices[preset.uuid] = selectedChoices[preset.uuid].concat(arg);
 
         this.setState({
             selectedChoices: selectedChoices

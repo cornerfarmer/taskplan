@@ -68,6 +68,7 @@ class ServerSentEvent(object):
                 data_client['abstract'] = data.abstract
                 data_client['dynamic'] = data.dynamic
                 data_client['isTemplate'] = data.get_metadata("isTemplate") if data.has_metadata("isTemplate") else False
+                data_client['template_defaults'] = data.get_metadata("template_defaults") if data.has_metadata("template_defaults") else []
                 data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['name'] = data.name

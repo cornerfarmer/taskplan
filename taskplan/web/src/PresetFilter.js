@@ -4,9 +4,13 @@ import Option from "./Option";
 class PresetFilter extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            choiceArguments: {}
+        };
         this.mapChoiceToChoices = this.mapChoiceToChoices.bind(this);
         this.calcChoiceName = this.calcChoiceName.bind(this);
+        this.onChoiceArgChange = this.onChoiceArgChange.bind(this);
+        this.getChoiceArg = this.getChoiceArg.bind(this);
     }
 
     calcChoiceName(choice, args) {
@@ -45,6 +49,38 @@ class PresetFilter extends React.Component {
         return choices;
     }
 
+    onChoiceArgChange(preset, choice, evt) {
+        const choiceArguments = Object.assign({}, this.state.choiceArguments);
+
+        choiceArguments[choice.uuid] = evt.target.value;
+        this.props.onSelectionChange(preset, choice, evt.target.value);
+
+        this.setState({
+            choiceArguments: choiceArguments
+        });
+    }
+
+    getChoiceArg(preset, choice) {
+        if (preset.uuid in this.props.selectedChoices && this.props.selectedChoices[preset.uuid].length > 1) {
+            if (!(choice.uuid in this.state.choiceArguments) || this.state.choiceArguments[choice.uuid] !== this.props.selectedChoices[preset.uuid][1]) {
+                const choiceArguments = Object.assign({}, this.state.choiceArguments);
+
+                choiceArguments[choice.uuid] = this.props.selectedChoices[preset.uuid][1];
+
+                this.setState({
+                    choiceArguments: choiceArguments
+                });
+            }
+
+            return this.props.selectedChoices[preset.uuid][1];
+        } else if (choice.uuid in this.state.choiceArguments)
+            return this.state.choiceArguments[choice.uuid];
+        else if (choice.template_defaults.length > 0)
+            return choice.template_defaults[0];
+        else
+            return null;
+    }
+
     render() {
         return (
             <div className="preset-filter">
@@ -78,10 +114,10 @@ class PresetFilter extends React.Component {
                                                         </div>
                                                     )
                                                 ):(
-                                                 <div key={choice.uuid} className={this.calcChoiceClasses(preset, choice, )} onClick={() => this.props.onSelectionChange(preset, choice, this.props.selectedChoices[preset.uuid][1])}>
+                                                 <div key={choice.uuid} className={this.calcChoiceClasses(preset, choice)} onClick={() => this.props.onSelectionChange(preset, choice, this.getChoiceArg(preset, choice))}>
                                                     <React.Fragment>
                                                         {choice.name.split("$T0$")[0]}
-                                                        <input value={preset.uuid in this.props.selectedChoices ? this.props.selectedChoices[preset.uuid][1] : ""} style={{"width": Math.max(10, (10 * (preset.uuid in this.props.selectedChoices && this.props.selectedChoices[preset.uuid][1] !== undefined ? this.props.selectedChoices[preset.uuid][1] : "").length)) + "px"}} onChange={(evt) => this.props.onSelectionChange(preset, choice, evt.target.value)}/>
+                                                        <input value={this.getChoiceArg(preset, choice)} style={{"width": Math.max(10, (10 * (this.getChoiceArg(preset, choice)).toString().length)) + "px"}} onChange={(evt) => this.onChoiceArgChange(preset, choice, evt)}/>
                                                         {choice.name.split("$T0$")[1]}
                                                     </React.Fragment>
                                                 </div>

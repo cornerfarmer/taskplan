@@ -31,7 +31,7 @@ class Controller:
         return Preset(config, [default_preset])
 
     def start(self):
-        self.scheduler.start()
+        self.scheduler.start(self.project_manager)
         self.run_update_thread = True
         self.update_thread = threading.Thread(target=self._update_clients)
         self.update_thread.start()
@@ -259,3 +259,9 @@ class Controller:
 
     def connect_device(self, device_uuid):
         self.scheduler.connect_device(device_uuid, self.project_manager)
+
+    def disconnect_device(self, device_uuid):
+        self.scheduler.disconnect_device(device_uuid)
+
+    def add_device(self, device_address):
+        self.scheduler.add_device(device_address, self.project_manager)

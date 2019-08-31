@@ -214,6 +214,10 @@ class TaskWrapper:
         return self.build_save_dir() / "checkpoints" / str(self.checkpoints[checkpoint_id]["finished_iterations"])
 
     def save_metadata(self, keys_only=None):
+        path = self.build_save_dir()
+        path.mkdir(parents=True, exist_ok=True)
+        path = path / "metadata.json"
+
         with self.metadata_lock:
             new_data = {}
             new_data['uuid'] = str(self.uuid)
@@ -226,10 +230,6 @@ class TaskWrapper:
             new_data['code_version'] = self.code_version
             new_data['checkpoints'] = self.checkpoints
             new_data['notes'] = self.notes
-
-            path = self.build_save_dir()
-            path.mkdir(parents=True, exist_ok=True)
-            path = path / "metadata.json"
 
             if path.exists():
                 with open(str(path), "r") as handle:

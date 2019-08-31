@@ -133,7 +133,6 @@ class Project:
 
         if not is_test:
             self.view.add_task(task)
-
         return task, removed_tasks
 
     def possible_presets(self):

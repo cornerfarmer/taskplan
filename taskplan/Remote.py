@@ -81,6 +81,11 @@ class RemoteDevice(Device):
         else:
             return False
 
+    def disconnect(self):
+        if self.socket is not None:
+            self.socket.close()
+            self.socket = None
+
     def current_task(self):
         return self._send_msg(RemoteMsg.CURRENT_TASK)
 
@@ -167,6 +172,7 @@ class RemoteAgent:
             return_args = [0]
             if msq_type == RemoteMsg.RUN_TASK:
                 if self.current_task is None:
+                    print("Starting task " + args[3]["task_uuid"])
                     preset = Preset(args[2])
                     self.local_device.run_task(args[0], args[1], preset, args[3])
                     self.current_task = args[3]["task_uuid"]
@@ -175,8 +181,10 @@ class RemoteAgent:
                     return_args = [1]
             elif msq_type == RemoteMsg.TERMINATE:
                 self.local_device.terminate()
+                print("Terminated task")
             elif msq_type == RemoteMsg.JOIN:
                 self.local_device.join()
+                print("Joined task")
             elif msq_type == RemoteMsg.IS_RUNNING:
                 return_args.append(self.local_device.is_running())
             elif msq_type == RemoteMsg.SEND:

@@ -283,6 +283,8 @@ class View {
             i++;
         }
 
+        this.checkNodeForRemoval(node);
+
         delete this.taskByUuid[task.uuid];
     }
 
@@ -295,7 +297,7 @@ class View {
         if (Object.keys(node.children).length === 0 && !(node.parent instanceof RootNode)) {
             delete node.parent.children[node.parentKey];
             this.checkNodeForRemoval(node.parent)
-        } else if (Object.keys(node.children).length === 1 && node.parent instanceof PresetNode) {
+        } else if (Object.keys(node.children).length === 1 && (node instanceof PresetNode || node instanceof CodeVersionNode)) {
             node.remove();
         }
     }

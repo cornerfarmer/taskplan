@@ -126,8 +126,8 @@ def add_version(project_name, version_name):
     controller.stop()
 
 @cli.command(name="agent")
-@click.argument('host', default="127.0.0.1")
-@click.argument('port', type=int, default="33333")
+@click.argument('host', default="0.0.0.0")
+@click.option('--port', type=int, default="33333")
 def agent(host, port):
     agent = RemoteAgent(host, port)
     agent.listen()

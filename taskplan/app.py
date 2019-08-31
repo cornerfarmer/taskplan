@@ -257,4 +257,16 @@ def run():
         controller.connect_device(device_uuid)
         return jsonify({})
 
+
+    @app.route('/disconnect_device/<string:device_uuid>')
+    def disconnect_device(device_uuid):
+        controller.disconnect_device(device_uuid)
+        return jsonify({})
+
+
+    @app.route('/add_device/<string:device_address>')
+    def add_device(device_address):
+        controller.add_device(device_address)
+        return jsonify({})
+
     return app, controller

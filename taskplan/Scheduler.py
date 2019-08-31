@@ -19,10 +19,11 @@ class Scheduler:
         for remote_device in remote_devices:
             self.devices.append(RemoteDevice(remote_device.split(":")[0], int(remote_device.split(":")[1])))
 
-    def start(self):
+    def start(self, project_manager):
         self.run_scheduler = True
         self.thread = threading.Thread(target=self._schedule)
         self.thread.start()
+        self.connect_all(project_manager)
 
     def enqueue(self, task, device_uuid=None):
         with self._queue_mutex:
@@ -156,6 +157,7 @@ class Scheduler:
     def update_new_client(self, client):
         self.event_manager.throw_for_client(client, EventManager.EventType.SCHEDULER_OPTIONS, self)
 
+
     def update_clients(self, project_manager):
         device_changed = False
         for device in self.devices:
@@ -163,10 +165,6 @@ class Scheduler:
                 if device.is_connected():
                     if device.check_connection():
                         self._on_device_disconnect(device)
-                        device_changed = True
-                else:
-                    if device.connect():
-                        self._on_device_connect(device, project_manager)
                         device_changed = True
 
         if device_changed:
@@ -247,3 +245,27 @@ class Scheduler:
                 self._on_device_connect(device, project_manager)
                 self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
                 self.wakeup_sem.release()
+
+    def disconnect_device(self, device_uuid):
+        device = self.device_with_uuid(device_uuid)
+        if type(device) == RemoteDevice and device.is_connected():
+            device.disconnect()
+            self._on_device_disconnect(device)
+            self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+
+    def add_device(self, device_address, project_manager):
+        self.devices.append(RemoteDevice(device_address.split(":")[0], int(device_address.split(":")[1])))
+        self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+        self.connect_device(str(self.devices[-1].uuid), project_manager)
+
+    def connect_all(self, project_manager):
+        device_changed = False
+        for device in self.devices:
+            if type(device) == RemoteDevice:
+                if not device.is_connected():
+                    if device.connect():
+                        self._on_device_connect(device, project_manager)
+                        device_changed = True
+
+        if device_changed:
+            self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
