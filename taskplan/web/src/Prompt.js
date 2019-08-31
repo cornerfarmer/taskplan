@@ -24,7 +24,7 @@ class Prompt extends React.Component {
         this.setState({
             dialogOpen: false
         });
-        if (this.props.presetEditor) {
+        if (this.props.paramEditor) {
             var data = new FormData();
             data.append("data", JSON.stringify(this.configEditor.current.state.config));
 
@@ -102,14 +102,14 @@ class Prompt extends React.Component {
         if (this.state.dialogOpen) {
             return (
                 <div className="prompt-wrapper">
-                    <div className= {this.props.presetEditor ? 'prompt preset-prompt' : 'prompt'}>
+                    <div className= {this.props.paramEditor ? 'prompt param-prompt' : 'prompt'}>
                         <div className="prompt-header">{this.props.header}</div>
                         <div className="prompt-text">{this.props.text}</div>
-                        {!this.props.presetEditor &&
+                        {!this.props.paramEditor &&
                             <input autoFocus onFocus={(e) => {e.target.select()}} type="text" name="iterations" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onKeyDown={this.onKeyDown} />
                         }
-                        {this.props.presetEditor &&
-                            <ConfigEditor ref={this.configEditor} url={this.props.presetEditorUrl} />
+                        {this.props.paramEditor &&
+                            <ConfigEditor ref={this.configEditor} url={this.props.paramEditorUrl} />
                         }
                         {this.props.devices &&
                             <select value={this.state.device} onChange={this.onDeviceChange}>

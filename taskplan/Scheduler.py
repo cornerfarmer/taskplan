@@ -1,3 +1,4 @@
+import logging
 import threading
 from multiprocessing import Semaphore
 from threading import RLock
@@ -6,7 +7,7 @@ import taskplan.EventManager as EventManager
 from taskplan.Device import LocalDevice
 from taskplan.Remote import RemoteDevice
 from taskplan.TaskWrapper import State
-import logging
+
 
 class Scheduler:
 
@@ -117,7 +118,7 @@ class Scheduler:
                         self.reorder(task_uuid, 0)
                         for i in range(self._max_running - 1, len(device.runnings)):
                             self.pause(str(device.runnings[i].uuid))
-                        self.event_manager.log("The task \"" + str(task) + "\" will be started as soon as possible", "Preset has been prioritized")
+                        self.event_manager.log("The task \"" + str(task) + "\" will be started as soon as possible", "Task has been prioritized")
                         break
 
     def cancel(self, task_uuid):

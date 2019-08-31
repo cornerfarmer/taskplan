@@ -17,8 +17,8 @@ import time
 
 class Task(object):
 
-    def __init__(self, preset, logger, metadata, use_tensorboardX=False):
-        self.preset = preset
+    def __init__(self, config, logger, metadata, use_tensorboardX=False):
+        self.config = config
         self.logger = logger
         self.finished_iterations = metadata["finished_iterations"]
         self.total_iterations = metadata["total_iterations"]
@@ -53,9 +53,9 @@ class Task(object):
         while update_available:
             msg_type, arg = self.pipe.recv()
 
-            if msg_type == PipeMsg.PRESET_CHANGED:
-                arg.set_logger(self.preset.logger, self.preset.printed_settings)
-                self.preset = arg
+            if msg_type == PipeMsg.CONFIG_CHANGED:
+                arg.set_logger(self.config.logger, self.config.printed_settings)
+                self.config = arg
             elif msg_type == PipeMsg.TOTAL_ITERATIONS:
                 if self.finished_iterations + 1 <= arg:
                     self.total_iterations = arg
@@ -71,14 +71,14 @@ class Task(object):
   
     def run(self, save_func, checkpoint_func):
         tensorboard_writer = self._create_tensorboard_writer(str(self.task_dir))
-        save_interval = self.preset.get_int('save_interval')
-        checkpoint_interval = self.preset.get_int('checkpoint_interval')
+        save_interval = self.config.get_int('save_interval')
+        checkpoint_interval = self.config.get_int('checkpoint_interval')
 
         self.start()
         while self.finished_iterations < self.total_iterations:
             self.receive_updates()
 
-            self.preset.iteration_cursor = self.finished_iterations
+            self.config.iteration_cursor = self.finished_iterations
             self.step(tensorboard_writer, self.finished_iterations)
 
             self.finished_iterations = self.finished_iterations + 1

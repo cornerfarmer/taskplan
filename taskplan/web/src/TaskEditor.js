@@ -1,24 +1,21 @@
 import React from 'react';
 import ConfigEditor from "./ConfigEditor";
-import Preset from "./Preset";
-import Option from "./Option";
-import PresetFilter from "./PresetFilter";
-import JsonEditor from "./JsonEditor";
+import ParamFilter from "./ParamFilter";
 import $ from "jquery";
 
 class TaskEditor extends React.Component {
     constructor(props) {
         super(props);
 
-        let selectedChoices = {};
+        let selectedParamValues = {};
 
-        for (const preset of props.presets) {
-            if (preset.choices.length > 0)
-                selectedChoices[preset.uuid] = [preset.choices[0].uuid];
+        for (const param of props.params) {
+            if (param.values.length > 0)
+                selectedParamValues[param.uuid] = [param.values[0].uuid];
         }
 
         this.state = {
-            selectedChoices: selectedChoices,
+            selectedParamValues: selectedParamValues,
             uuid_to_load: null,
             total_iterations: "",
             save_interval: "0",
@@ -49,53 +46,53 @@ class TaskEditor extends React.Component {
 
     open(task) {
 
-        let selectedChoices = Object.assign({}, this.state.selectedChoices);
+        let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        for (const preset of this.props.presets) {
-            let suitableChoice = null;
+        for (const param of this.props.params) {
+            let suitableParamValue = null;
             let args = [];
-            for (const choice of task.choices) {
-                if (choice[0].preset === preset.uuid) {
-                    suitableChoice = choice[0];
-                    args = choice.slice(1);
+            for (const value of task.paramValues) {
+                if (value[0].param === param.uuid) {
+                    suitableParamValue = value[0];
+                    args = value.slice(1);
                     break;
                 }
             }
 
-            if (suitableChoice === null)
-                selectedChoices[preset.uuid] = [preset.deprecated_choice.uuid, ...args];
+            if (suitableParamValue === null)
+                selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...args];
             else
-                selectedChoices[preset.uuid] = [suitableChoice.uuid, ...args];
+                selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
         }
 
         this.setState({
-            selectedChoices: selectedChoices,
+            selectedParamValues: selectedParamValues,
             open: true,
             isTest: task.is_test,
             device: this.state.device === null ? this.props.devices[0].uuid : this.state.device,
             total_iterations: task.total_iterations
-        }, () => this.updateCommand(selectedChoices));
+        }, () => this.updateCommand(selectedParamValues));
     }
 
     new() {
-        let selectedChoices = Object.assign({}, this.state.selectedChoices);
+        let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        for (const preset of this.props.presets) {
-            if (!(preset.uuid in selectedChoices))
-                selectedChoices[preset.uuid] = [preset.default_choice.uuid, ...preset.default_choice.template_defaults];
+        for (const param of this.props.params) {
+            if (!(param.uuid in selectedParamValues))
+                selectedParamValues[param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
         }
 
         this.setState({
-            selectedChoices: selectedChoices,
+            selectedParamValues: selectedParamValues,
             open: true,
             device: this.state.device === null ? this.props.devices[0].uuid : this.state.device
         });
-        this.updateCommand(selectedChoices);
+        this.updateCommand(selectedParamValues);
     }
 
     close() {
         this.setState({
-            choice: null,
+            param_value: null,
             open: false
         });
     }
@@ -104,7 +101,7 @@ class TaskEditor extends React.Component {
         var data = new FormData();
 
         var dataJson = {};
-        dataJson['choices'] = this.state.selectedChoices;
+        dataJson['params'] = this.state.selectedParamValues;
         dataJson['config'] = {
             "save_interval": parseInt(this.state.save_interval),
             "checkpoint_interval": parseInt(this.state.checkpoint_interval)
@@ -133,17 +130,17 @@ class TaskEditor extends React.Component {
         this.close();
     }
 
-    onSelectionChange(preset, choice, arg=null) {
-        const selectedChoices = Object.assign({}, this.state.selectedChoices);
+    onSelectionChange(param, value, arg=null) {
+        const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        selectedChoices[preset.uuid] = [choice.uuid];
+        selectedParamValues[param.uuid] = [value.uuid];
         if (arg !== null)
-            selectedChoices[preset.uuid] = selectedChoices[preset.uuid].concat(arg);
+            selectedParamValues[param.uuid] = selectedParamValues[param.uuid].concat(arg);
 
         this.setState({
-            selectedChoices: selectedChoices
+            selectedParamValues: selectedParamValues
         });
-        this.updateCommand(selectedChoices);
+        this.updateCommand(selectedParamValues);
     }
 
 
@@ -166,25 +163,25 @@ class TaskEditor extends React.Component {
         });
     }
 
-    updateCommand(selectedChoices = null, total_iterations = null) {
-        if (selectedChoices === null)
-            selectedChoices = this.state.selectedChoices;
+    updateCommand(selectedParamValues = null, total_iterations = null) {
+        if (selectedParamValues === null)
+            selectedParamValues = this.state.selectedParamValues;
         if (total_iterations === null)
             total_iterations = this.state.total_iterations;
-        let choices = "";
+        let paramValues = "";
 
-        for (const preset of this.props.presets) {
-            if (preset.uuid in selectedChoices) {
-                choices += preset.uuid + " " + selectedChoices[preset.uuid][0];
-                for (let i = 1; i < selectedChoices[preset.uuid].length; i++)
-                    choices += ":\"" + selectedChoices[preset.uuid][i] + "\"";
-                choices += " ";
+        for (const param of this.props.params) {
+            if (param.uuid in selectedParamValues) {
+                paramValues += param.uuid + " " + selectedParamValues[param.uuid][0];
+                for (let i = 1; i < selectedParamValues[param.uuid].length; i++)
+                    paramValues += ":\"" + selectedParamValues[param.uuid][i] + "\"";
+                paramValues += " ";
             }
         }
 
         if (total_iterations !== "") {
             this.setState({
-                command: "taskplan " + (this.state.isTest ? "test " : "start ") + this.props.project_name + " " + total_iterations + " " + choices,
+                command: "taskplan " + (this.state.isTest ? "test " : "start ") + this.props.project_name + " " + total_iterations + " " + paramValues,
                 commandHint: "Click to copy"
             });
         } else {
@@ -244,8 +241,8 @@ class TaskEditor extends React.Component {
                         <label>Is test:</label>
                         <input checked={this.state.isTest} onChange={this.onIsTestChange} type="checkbox" />
                     </div>
-                    <PresetFilter presetsByGroup={this.props.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} useTemplateFields={true}/>
-                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedChoices)} preview={true} />
+                    <ParamFilter paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.state.selectedParamValues} onSelectionChange={this.onSelectionChange} useTemplateFields={true}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedParamValues)} preview={true} />
                     <div className="field">
                         <label>Device:</label>
                         <select value={this.state.device} onChange={this.onDeviceChange}>

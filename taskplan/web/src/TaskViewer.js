@@ -9,7 +9,7 @@ class TaskViewer extends React.Component {
 
         this.state = {
             task: null,
-            selectedChoices: {},
+            selectedParamValues: {},
             notes: ""
         };
 
@@ -33,31 +33,31 @@ class TaskViewer extends React.Component {
 
 
     open(task) {
-        let selectedChoices = {};
-        for (const preset of this.props.presets) {
-            let suitableChoice = null;
+        let selectedParamValues = {};
+        for (const param of this.props.params) {
+            let suitableParamValue = null;
             let args = [];
-            for (const choice of task.choices) {
-                if (choice[0].preset === preset.uuid) {
-                    suitableChoice = choice[0];
-                    args = choice.slice(1);
+            for (const value of task.paramValues) {
+                if (value[0].param === param.uuid) {
+                    suitableParamValue = value[0];
+                    args = value.slice(1);
                     break;
                 }
             }
 
-            if (suitableChoice === null)
-                selectedChoices[preset.uuid] = preset.deprecated_choice.name;
+            if (suitableParamValue === null)
+                selectedParamValues[param.uuid] = param.deprecated_param_value.name;
             else {
-                selectedChoices[preset.uuid] = suitableChoice.name;
+                selectedParamValues[param.uuid] = suitableParamValue.name;
                 for (let i = 0; i < args.length; i++)
-                    selectedChoices[preset.uuid] = selectedChoices[preset.uuid].replace("$T" + (i) + "$", args[i]);
+                    selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
             }
 
         }
 
         this.setState({
             task: task,
-            selectedChoices: selectedChoices,
+            selectedParamValues: selectedParamValues,
             notes: task.notes
         });
     }
@@ -134,6 +134,7 @@ class TaskViewer extends React.Component {
                     <div className="header">Task details<i class="fas fa-times" onClick={this.close}></i></div>
                     <div className="title"><span className="try-number">{this.state.task.try}</span><TaskName task={this.state.task}/></div>
                     <div className="metadata">
+                        <div>{this.state.task.uuid}</div>
                         <div><span>Status:</span> {this.state.task.state === State.RUNNING ? "Running" : (this.state.task.state === State.QUEUED ? "Queued": "Stopped")}</div>
                         <div><span>Iterations:</span> {this.state.task.finished_iterations} / {this.state.task.total_iterations}</div>
                         <div><span>Started:</span> {this.state.task.creation_time.toShortStr()}</div>
@@ -141,17 +142,17 @@ class TaskViewer extends React.Component {
                         <div><span>Project:</span> {this.state.task.project_name}</div>
                         <div><span>Code version:</span> {this.props.codeVersions[this.state.task.version].name}</div>
                     </div>
-                    <ConfigEditor ref={this.configEditor} url={"/config/task_timestep/" + this.state.task.uuid + "/0"} bases={[]} preview={true}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/existing_task/" + this.state.task.uuid} bases={[]} preview={true}/>
                     <h2>Notes:</h2>
                     <div className="notes">
                         <textarea ref={this.notesTextarea} value={this.state.notes} onChange={evt => this.updateNotes(evt)}/>
                     </div>
-                    <h2>Presets</h2>
-                    <div className="presets">
-                        {this.props.presets.sort((a, b) => {
+                    <h2>Parameters</h2>
+                    <div className="params">
+                        {this.props.params.sort((a, b) => {
                             return a.name.localeCompare(b.name);
-                        }).map(preset => (
-                            <div><span>{preset.name}:</span>{this.state.selectedChoices[preset.uuid]}</div>
+                        }).map(param => (
+                            <div><span>{param.name}:</span>{this.state.selectedParamValues[param.uuid]}</div>
                         ))}
                     </div>
                     <h2>Checkpoints</h2>

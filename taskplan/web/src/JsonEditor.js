@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
 import isEmpty from 'lodash/isEmpty';
@@ -8,6 +7,7 @@ import JSONEditor from 'jsoneditor';
 import 'jsoneditor-react/es/editor.min.css';
 import ace from 'brace';
 import 'brace/mode/json';
+
 var stringify = require('json-stable-stringify');
 
 var Node = require('jsoneditor/src/js/Node');

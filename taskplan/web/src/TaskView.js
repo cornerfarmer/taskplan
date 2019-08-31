@@ -1,17 +1,16 @@
-
 import React from 'react';
 import PausedTask from "./PausedTask";
 
-class PresetNode extends React.Component {
+class ParamNode extends React.Component {
     render() {
         return (
             <div>
-                <div>{this.props.presets[0].name}</div>
+                <div>{this.props.params[0].name}</div>
                 <ul>
-                    {Object.keys(this.props.tasksPerChoice).map(choiceUuid => (
+                    {Object.keys(this.props.tasksPerParamValue).map(paramValueUuid => (
                         <li>
-                            <div>{this.props.presets[0].choices.find(choice => choice.uuid === choiceUuid).name}</div>
-                            <Node presets={this.props.presets.slice(1)} tasks={this.props.tasksPerChoice[choiceUuid]} />
+                            <div>{this.props.params[0].values.find(value => value.uuid === paramValueUuid).name}</div>
+                            <Node params={this.props.params.slice(1)} tasks={this.props.tasksPerParamValue[paramValueUuid]} />
                         </li>
                     ))}
                 </ul>
@@ -42,32 +41,32 @@ class Node extends React.Component {
     }
 
     render() {
-        let presets = this.props.presets.slice(0);
-        let tasksPerChoice = {};
-        while (presets.length > 0) {
-            let preset = presets[0];
-            if (preset.deprecated_choice === "")
+        let params = this.props.params.slice(0);
+        let tasksPerParamValue = {};
+        while (params.length > 0) {
+            let param = params[0];
+            if (param.deprecated_param_value === "")
                 continue;
 
-            tasksPerChoice = {};
+            tasksPerParamValue = {};
             for (const task of this.props.tasks) {
-                let choice = task.choices.find(e => e.preset === preset.uuid);
-                if (choice === undefined)
-                    choice = preset.deprecated_choice.uuid;
+                let value = task.paramValues.find(e => e.param === param.uuid);
+                if (value === undefined)
+                    value = param.deprecated_param_value.uuid;
                 else
-                    choice = choice.uuid;
+                    value = value.uuid;
 
-                if (!tasksPerChoice.hasOwnProperty(choice))
-                    tasksPerChoice[choice] = [];
-                tasksPerChoice[choice].push(task);
+                if (!tasksPerParamValue.hasOwnProperty(value))
+                    tasksPerParamValue[value] = [];
+                tasksPerParamValue[value].push(task);
             }
-            if (Object.keys(tasksPerChoice).length > 1)
+            if (Object.keys(tasksPerParamValue).length > 1)
                 break;
-            presets.shift();
+            params.shift();
         }
 
-        if (presets.length > 0) {
-            return <PresetNode tasksPerChoice={tasksPerChoice} presets={presets} />
+        if (params.length > 0) {
+            return <ParamNode tasksPerParamValue={tasksPerParamValue} params={params} />
         } else {
             return <TasksNode tasks={this.props.tasks}/>
         }
@@ -82,7 +81,7 @@ class TaskView extends React.Component {
 
     render() {
         return (
-            <Node presets={this.props.presets} tasks={this.props.tasks} />
+            <Node params={this.props.params} tasks={this.props.tasks} />
         );
     }
 }

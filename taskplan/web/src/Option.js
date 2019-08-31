@@ -10,10 +10,10 @@ class Option extends React.Component {
     render() {
         return (
             <div className="field">
-                <label>{this.props.preset.name}:</label>
-                <select value={this.props.selection} onChange={(e) => this.props.onSelectionChangeFunc(this.props.preset, e)}>
-                    {this.props.preset.choices.map(choice => (
-                        <option value={choice.uuid}>{choice.name}</option>
+                <label>{this.props.param.name}:</label>
+                <select value={this.props.selection} onChange={(e) => this.props.onSelectionChangeFunc(this.props.param, e)}>
+                    {this.props.param.values.map(value => (
+                        <option value={value.uuid}>{value.name}</option>
                     ))}
                 </select>
             </div>

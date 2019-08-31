@@ -13,9 +13,9 @@ import taskplan
 
 class TestTask(taskplan.Task):
 
-    def __init__(self, preset, preset_pipe, logger):
-        super(TestTask, self).__init__(preset, preset_pipe, logger)
-        self.sum = self.preset.get_int('offset')
+    def __init__(self, config, logger, metadata):
+        super(TestTask, self).__init__(config, logger, metadata)
+        self.sum = self.config.get_int('offset')
 
     def save(self, path):
         with open(str(path / Path("model.pk")), 'wb') as handle:
@@ -23,7 +23,7 @@ class TestTask(taskplan.Task):
 
     def step(self, tensorboard_writer, current_iteration):
         time.sleep(1)
-        self.sum += self.preset.get_int('step')
+        self.sum += self.config.get_int('step')
         self.logger.log("Current sum: " + str(self.sum) + " (Iteration " + str(current_iteration) + ")")
 
         if tensorboard_writer is not None:

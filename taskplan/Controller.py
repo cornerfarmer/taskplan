@@ -1,14 +1,14 @@
-from taskconf.config.ConfigurationBlock import ConfigurationBlock
-from taskconf.config.Preset import Preset
+import json
+import threading
+import time
 
-from taskplan.Project import Project
+from pkg_resources import resource_filename
+from taskconf.config.Configuration import Configuration
+
 from taskplan.EventManager import EventType
 from taskplan.ProjectManager import ProjectManager
 from taskplan.Scheduler import Scheduler
-import time
-import threading
-import json
-from pkg_resources import resource_filename
+
 
 class Controller:
     def __init__(self, event_manager):
@@ -23,12 +23,12 @@ class Controller:
     @staticmethod
     def load_global_config():
         with open(resource_filename('taskplan.resources', 'default_global_config.json'), 'r') as f:
-            default_config = json.load(f)
-        default_preset = Preset(default_config)
+            default_data = json.load(f)
+        default_config = Configuration(default_data)
 
         with open('taskplan.json') as f:
-            config = json.load(f)
-        return Preset(config, [default_preset])
+            data = json.load(f)
+        return Configuration(data, [default_config])
 
     def start(self):
         self.scheduler.start(self.project_manager)
@@ -47,8 +47,8 @@ class Controller:
         self.project_manager.update_new_client(client)
         self.scheduler.update_new_client(client)
 
-    def start_new_task(self, project_name, choices, config, total_iterations, is_test=False, device_uuid=None):
-        task = self.project_manager.create_task(project_name, choices, config, total_iterations, is_test)
+    def start_new_task(self, project_name, params, config, total_iterations, is_test=False, device_uuid=None):
+        task = self.project_manager.create_task(project_name, params, config, total_iterations, is_test)
         self.scheduler.enqueue(task, device_uuid)
         return task
 
@@ -72,11 +72,11 @@ class Controller:
     def remove_task(self, task_uuid):
         self.project_manager.remove_task(task_uuid)
 
-    def remove_preset(self, project_name, preset_uuid):
-        self.project_manager.remove_preset(project_name, preset_uuid)
+    def remove_param(self, project_name, param_uuid):
+        self.project_manager.remove_param(project_name, param_uuid)
 
-    def remove_choice(self, project_name, choice_uuid):
-        self.project_manager.remove_choice(project_name, choice_uuid)
+    def remove_param_value(self, project_name, param_value_uuid):
+        self.project_manager.remove_param_value(project_name, param_value_uuid)
 
     def run_task_now(self, task_uuid):
         self.scheduler.run_now(task_uuid)
@@ -92,13 +92,6 @@ class Controller:
         else:
             return None
 
-    def continue_test_task(self, project_name, preset_uuid, total_iterations):
-        task = self.project_manager.find_test_task_by_preset(project_name, preset_uuid)
-        if task is not None:
-            return self.continue_task(str(task.uuid), total_iterations)
-        else:
-            return None
-
     def finish_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         task.finish()
@@ -108,98 +101,93 @@ class Controller:
     def reorder_task(self, task_uuid, new_index):
         self.scheduler.reorder(task_uuid, new_index)
 
-    def reorder_preset(self, project_name, preset_uuid, new_index):
+    def reorder_param(self, project_name, param_uuid, new_index):
         project = self.project_manager.project_by_name(project_name)
-        changed_presets = project.change_sorting(preset_uuid, new_index)
+        changed_params = project.change_sorting(param_uuid, new_index)
 
-        for preset in changed_presets:
-            self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+        for param in changed_params:
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
 
-    def edit_preset(self, project_name, preset_uuid, new_data):
-        project = self.project_manager.project_by_name(project_name)
-
-        preset = project.configuration.edit_preset(preset_uuid, new_data)
-
-        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-        self.event_manager.log("Preset \"" + preset.uuid + "\" has been changed", "Preset has been changed")
-
-    def edit_choice(self, project_name, preset_uuid, choice_uuid, new_data):
+    def edit_param(self, project_name, param_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        preset, choice = project.configuration.edit_choice(preset_uuid, choice_uuid, new_data)
+        param = project.configuration.edit_param(param_uuid, new_data)
 
-        self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
-        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-        self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+        self.event_manager.log("Param \"" + param.uuid + "\" has been changed", "Param has been changed")
 
-    def add_preset(self, project_name, new_data):
+    def edit_param_value(self, project_name, param_uuid, param_value_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        preset = project.configuration.add_preset(new_data)
+        param, param_value = project.configuration.edit_param_value(param_uuid, param_value_uuid, new_data)
 
-        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-        self.event_manager.log("Preset \"" + preset.uuid + "\" has been added", "Preset has been added")
+        self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value, project)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+        self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
-    def add_preset_batch(self, project_name, config):
+    def add_param(self, project_name, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        added_presets, added_choices = project.configuration.add_preset_batch(config)
+        param = project.configuration.add_param(new_data)
 
-        for preset in added_presets:
-            self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-            self.event_manager.log("Preset \"" + preset.uuid + "\" has been added", "Preset has been added")
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+        self.event_manager.log("Param \"" + param.uuid + "\" has been added", "Param has been added")
 
-        for choice in added_choices:
-            self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
-            self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
-
-    def add_choice(self, project_name, preset_uuid, new_data):
+    def add_param_batch(self, project_name, config):
         project = self.project_manager.project_by_name(project_name)
 
-        preset, choice = project.configuration.add_choice(preset_uuid, new_data)
+        added_params, added_param_values = project.configuration.add_param_batch(config)
 
-        self.event_manager.throw(EventType.CHOICE_CHANGED, choice, project)
-        self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
-        self.event_manager.log("Choice \"" + choice.uuid + "\" has been added", "Choice has been added")
+        for param in added_params:
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+            self.event_manager.log("Param \"" + param.uuid + "\" has been added", "Param has been added")
 
-    def choice_config(self, project_name, preset_base_uuid=None, preset_uuid=None):
+        for param_value in added_param_values:
+            self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value, project)
+            self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
+
+    def add_param_value(self, project_name, param_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
-        if preset_base_uuid is None and preset_uuid is None:
+        param, param_value = project.configuration.add_param_value(param_uuid, new_data)
+
+        self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value, project)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+        self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
+
+    def config_param_value(self, project_name, base_uuid=None, param_value_uuid=None):
+        project = self.project_manager.project_by_name(project_name)
+
+        if base_uuid is None and param_value_uuid is None:
             return {'inherited_config': {}, "config": {}, 'dynamic': False}
 
-        if preset_base_uuid is not None:
-            preset_base = project.configuration.get_preset(preset_base_uuid)
-            inherited_config = preset_base.get_merged_config()
-            dynamic = preset_base.treat_dynamic()
+        if base_uuid is not None:
+            param_value_base = project.configuration.get_config(base_uuid)
+            inherited_config = param_value_base.get_merged_config()
+            dynamic = param_value_base.treat_dynamic()
         else:
             inherited_config = {}
             dynamic = False
 
-        if preset_uuid is not None:
-            preset = project.configuration.get_preset(preset_uuid)
-            config = preset.data['config']
+        if param_value_uuid is not None:
+            param_value = project.configuration.get_config(param_value_uuid)
+            config = param_value.data['config']
         else:
             config = None
 
         return {'inherited_config': inherited_config, "config": config, 'dynamic': dynamic}
 
-    def task_config(self, project_name, base_presets_uuid):
+    def task_config(self, project_name, param_value_uuids):
         project = self.project_manager.project_by_name(project_name)
-        base_presets = [[project.configuration.get_preset(uuid[0])] + uuid[1:] for uuid in base_presets_uuid]
+        param_values = [[project.configuration.get_config(uuid[0])] + uuid[1:] for uuid in param_value_uuids]
 
-        config = Preset({"config": {}}, base_presets)
+        config = Configuration({"config": {}}, param_values)
 
         return {'inherited_config': {}, "config": config.get_merged_config(), 'dynamic': config.treat_dynamic()}
 
-
-    def existing_task_config(self, task_uuid, iteration=-1):
+    def existing_task_config(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
-
-        if iteration == -1:
-            iteration = task.finished_iterations_and_update_time()[0]
-
-        return {'inherited_config': {}, 'config': task.preset.get_merged_config(), 'dynamic': task.preset.treat_dynamic()}
+        return {'inherited_config': {}, 'config': task.config.get_merged_config(), 'dynamic': task.config.treat_dynamic()}
         
     def change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)
@@ -228,9 +216,6 @@ class Controller:
         self.project_manager.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, project)
 
-    def adjust_task_preset(self, task_uuid, new_config):
-        task = self.project_manager.find_task_by_uuid(task_uuid)
-        task.adjust_config(new_config)
 
     def clone_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)

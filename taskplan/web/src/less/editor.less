@@ -11,7 +11,7 @@
     margin: 10px 16px;
 }
 
-.editor .preset-filter {
+.editor .param-filter {
     margin: 30px 16px;
 }
 
@@ -121,7 +121,7 @@
 .task-viewer .metadata,
 .task-viewer h2,
 .task-viewer .notes,
-.task-viewer .presets,
+.task-viewer .params,
 .task-viewer .checkpoints {
     margin: 10px 16px;
 }
@@ -143,20 +143,24 @@
 
 
 .task-viewer .metadata,
-.task-viewer .presets {
+.task-viewer .params {
     font-weight: 300;
 }
 
 .task-viewer .metadata div,
-.task-viewer .presets div {
+.task-viewer .params div {
     margin-bottom: 5px;
 }
 
+.task-viewer .metadata div:first-child {
+    margin: 10px 0;
+}
+
 .task-viewer .metadata div span,
-.task-viewer .presets div span {
+.task-viewer .params div span {
     font-weight: 400;
     display: inline-block;
-    width: 100px;
+    width: 150px;
 }
 
 
@@ -269,16 +273,16 @@
 }
 
 
-.preset-viewer label {
+.param-viewer label {
     display: flex;
     align-items: center;
     margin: 10px 16px;
 }
 
-.preset-viewer label input {
+.param-viewer label input {
     margin-right: 10px;
 }
 
-.preset-viewer .preset-filter {
+.param-viewer .param-filter {
     margin: 10px 16px;
 }

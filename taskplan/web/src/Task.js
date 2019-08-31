@@ -25,20 +25,20 @@ export class TaskName extends React.Component {
                 <span ref={this.wrapperRef}>Test</span>
             );
         } else {
-            if (this.props.task.nameChoices.length > 0) {
+            if (this.props.task.nameParamValues.length > 0) {
                 return (
                     <span ref={this.wrapperRef}>
-                {this.props.task.nameChoices.map((choicePreset, i) => {
-                    let choice_name = choicePreset[1].name;
-                    for (let i = 2; i < choicePreset.length; i++)
-                        choice_name = choice_name.replace("$T" + (i - 2) + "$", choicePreset[i]);
+                {this.props.task.nameParamValues.map((paramValue, i) => {
+                    let valueName = paramValue[1].name;
+                    for (let i = 2; i < paramValue.length; i++)
+                        valueName = valueName.replace("$T" + (i - 2) + "$", paramValue[i]);
 
                     return (
                         <span key={i}>
                         {i !== 0 &&
                         <span className="separator">/</span>
                         }
-                            <span data-toggle="tooltip" data-placement="bottom" data-original-title={choicePreset[0].name + ": " + choice_name}>{choice_name}</span>
+                            <span data-toggle="tooltip" data-placement="bottom" data-original-title={paramValue[0].name + ": " + valueName}>{valueName}</span>
                     </span>
                     )
                 })}
@@ -94,9 +94,7 @@ class TaskToolbar extends React.Component {
         this.cancel = this.cancel.bind(this);
         this.runNow = this.runNow.bind(this);
         this.openExtraDialog = this.openExtraDialog.bind(this);
-        this.openPresetDialog = this.openPresetDialog.bind(this);
         this.promptExtraRefs = React.createRef();
-        this.promptPresetRefs = React.createRef();
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
         this.terminate = this.terminate.bind(this);
@@ -158,10 +156,6 @@ class TaskToolbar extends React.Component {
         this.promptExtraRefs.current.openDialog();
     }
 
-    openPresetDialog() {
-        this.promptPresetRefs.current.openDialog();
-    }
-
     openLog() {
         window.open("/log/" + this.props.task.uuid, '_blank');
     }
@@ -220,9 +214,6 @@ class TaskToolbar extends React.Component {
                                 <div className="action" onClick={this.openLog} title="View the log">
                                     <i className="far fa-file-alt"></i><span>Log</span>
                                 </div>
-                                < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
-                                    <i className="fas fa-code"></i><span>Config</span>
-                                </div>
                                 <div className="action" onClick={this.terminate} title="Terminate task">
                                    <i className="fas fa-skull-crossbones"></i><span>Terminate</span>
                                 </div>
@@ -241,9 +232,6 @@ class TaskToolbar extends React.Component {
                         < div className="action" onClick={this.openExtraDialog} title="Change the scheduled number of total iterations">
                             <i className="fa fa-edit"></i><span>Change</span>
                         </div>
-                        < div className="action" onClick={this.openPresetDialog} title="Adjust the configuration on the fly">
-                            <i className="fas fa-code"></i><span>Config</span>
-                        </div>
                         <div className="dropdown">
                             <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                 <i className="fas fa-ellipsis-v"></i>
@@ -257,7 +245,6 @@ class TaskToolbar extends React.Component {
                     </span>
                 }
                 <Prompt ref={this.promptExtraRefs} defaultValue={this.props.task.total_iterations} header="Change total iterations?" text="Specify the new number of iterations, you want the task to run:" url={"/change/" + this.props.task.uuid}/>
-                <Prompt ref={this.promptPresetRefs} presetEditor={true} presetEditorUrl={"/config/task_timestep/" + this.props.task.uuid} header="Change config?" text="Specify the new configuration which will be used on the fly:" url={"/adjust_task_preset/" + this.props.task.uuid}/>
             </div>
         );
     }
@@ -343,7 +330,7 @@ class Task extends React.Component {
                         </div>
                     </div>
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
-                    <div className="preset-name" onClick={() => this.props.highlightTask(this.props.task)}><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
+                    <div className="param-name" onClick={() => this.props.highlightTask(this.props.task)}><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task}/></div>
                 </div>
                 <TaskToolbar task={this.props.task}/>
             </li>

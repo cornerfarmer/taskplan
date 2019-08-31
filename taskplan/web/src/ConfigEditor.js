@@ -1,5 +1,4 @@
 import React from 'react';
-import Prompt from "./Prompt";
 import JsonEditor from './JsonEditor';
 
 class ConfigEditor extends React.Component {

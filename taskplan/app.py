@@ -1,11 +1,12 @@
+import json
+import time
+
 from flask import Flask, jsonify, Response
+from flask import request, render_template
 
 from taskplan.Controller import Controller
-from taskplan.EventManager import EventManager, EventType
+from taskplan.EventManager import EventManager
 
-import time
-from flask import request, render_template
-import json
 try:
   from pathlib2 import Path
 except ImportError:
@@ -45,13 +46,13 @@ def run():
     @app.route('/start/<string:project_name>/<int:total_iterations>', methods=['POST'])
     def start(project_name, total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations, device_uuid=data["device"])
+        controller.start_new_task(project_name, data["params"], data["config"], total_iterations, device_uuid=data["device"])
         return jsonify({})
 
     @app.route('/test/<string:project_name>/<int:total_iterations>', methods=['POST'])
     def test(project_name, total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(project_name, data["choices"], data["config"], total_iterations, is_test=True, device_uuid=data["device"])
+        controller.start_new_task(project_name, data["params"], data["config"], total_iterations, is_test=True, device_uuid=data["device"])
         return jsonify({})
 
     @app.route('/pause/<string:task_uuid>')
@@ -84,14 +85,14 @@ def run():
         controller.remove_task(task_uuid)
         return jsonify({})
 
-    @app.route('/remove_preset/<string:project_name>/<string:preset_uuid>')
-    def remove_preset(project_name, preset_uuid):
-        controller.remove_preset(project_name, preset_uuid)
+    @app.route('/remove_param/<string:project_name>/<string:param_uuid>')
+    def remove_param(project_name, param_uuid):
+        controller.remove_param(project_name, param_uuid)
         return jsonify({})
 
-    @app.route('/remove_choice/<string:project_name>/<string:choice_uuid>')
-    def remove_choice(project_name, choice_uuid):
-        controller.remove_choice(project_name, choice_uuid)
+    @app.route('/remove_param_value/<string:project_name>/<string:param_value_uuid>')
+    def remove_param_value(project_name, param_value_uuid):
+        controller.remove_param_value(project_name, param_value_uuid)
         return jsonify({})
 
     @app.route('/run_now/<string:task_uuid>')
@@ -115,34 +116,34 @@ def run():
         controller.reorder_task(task_uuid, new_index)
         return jsonify({})
 
-    @app.route('/edit_preset/<string:project_name>/<string:preset_uuid>', methods=['POST'])
-    def edit_preset(project_name, preset_uuid):
+    @app.route('/edit_param/<string:project_name>/<string:param_uuid>', methods=['POST'])
+    def edit_param(project_name, param_uuid):
         new_data = json.loads(request.form.get('data'))
-        controller.edit_preset(project_name, preset_uuid, new_data)
+        controller.edit_param(project_name, param_uuid, new_data)
         return jsonify({})
 
-    @app.route('/edit_choice/<string:project_name>/<string:preset_uuid>/<string:choice_uuid>', methods=['POST'])
-    def edit_choice(project_name, preset_uuid, choice_uuid):
+    @app.route('/edit_param_value/<string:project_name>/<string:param_uuid>/<string:param_value_uuid>', methods=['POST'])
+    def edit_param_value(project_name, param_uuid, param_value_uuid):
         new_data = json.loads(request.form.get('data'))
-        controller.edit_choice(project_name, preset_uuid, choice_uuid, new_data)
+        controller.edit_param_value(project_name, param_uuid, param_value_uuid, new_data)
         return jsonify({})
 
-    @app.route('/add_preset/<string:project_name>', methods=['POST'])
-    def add_preset(project_name):
+    @app.route('/add_param/<string:project_name>', methods=['POST'])
+    def add_param(project_name):
         new_data = json.loads(request.form.get('data'))
-        controller.add_preset(project_name, new_data)
+        controller.add_param(project_name, new_data)
         return jsonify({})
 
-    @app.route('/add_preset_batch/<string:project_name>', methods=['POST'])
-    def add_preset_batch(project_name):
+    @app.route('/add_param_batch/<string:project_name>', methods=['POST'])
+    def add_param_batch(project_name):
         config = json.loads(request.form.get('data'))["config"]
-        controller.add_preset_batch(project_name, config)
+        controller.add_param_batch(project_name, config)
         return jsonify({})
 
-    @app.route('/add_choice/<string:project_name>/<string:preset_uuid>', methods=['POST'])
-    def add_choice(project_name, preset_uuid):
+    @app.route('/add_param_value/<string:project_name>/<string:param_uuid>', methods=['POST'])
+    def add_param_value(project_name, param_uuid):
         new_data = json.loads(request.form.get('data'))
-        controller.add_choice(project_name, preset_uuid, new_data)
+        controller.add_param_value(project_name, param_uuid, new_data)
         return jsonify({})
 
     @app.route('/change/<string:task_uuid>/<int:total_iterations>')
@@ -159,10 +160,10 @@ def run():
     @app.route('/log/<string:task_uuid>/<string:sub_task>')
     def log(task_uuid="", sub_task=""):
         if task_uuid is "":
-            return render_template('log.html', preset_name="Global")
+            return render_template('log.html', task_name="Global")
         else:
             task = controller.project_manager.find_task_by_uuid(task_uuid)
-            return render_template('log.html', task_uuid=task_uuid, sub_task=sub_task, preset_name="", created=str(task.creation_time))
+            return render_template('log.html', task_uuid=task_uuid, sub_task=sub_task, task_name="", created=str(task.creation_time))
 
     @app.route('/read_log/')
     @app.route('/read_log/<string:task_uuid>')
@@ -204,28 +205,20 @@ def run():
         controller.select_code_version(project_name, version_uuid)
         return jsonify({})
 
-    @app.route('/config/choice/<string:project_name>', methods=['POST'])
-    @app.route('/config/choice/<string:project_name>/<string:preset_uuid>', methods=['POST'])
-    def config_choice(project_name, preset_uuid=None):
-        base_presets_uuid = json.loads(request.form.get('data'))["bases"]
-        return jsonify(controller.choice_config(project_name, base_presets_uuid[0] if len(base_presets_uuid) > 0 and base_presets_uuid[0] != "" else None, preset_uuid))
+    @app.route('/config/param_value/<string:project_name>', methods=['POST'])
+    @app.route('/config/param_value/<string:project_name>/<string:param_value_uuid>', methods=['POST'])
+    def config_param_value(project_name, param_value_uuid=None):
+        base_uuid = json.loads(request.form.get('data'))["bases"]
+        return jsonify(controller.config_param_value(project_name, base_uuid[0] if len(base_uuid) > 0 and base_uuid[0] != "" else None, param_value_uuid))
 
-    @app.route('/config/task_timestep/<string:task_uuid>', methods=['POST'])
-    @app.route('/config/task_timestep/<string:task_uuid>/<int:iteration>', methods=['POST'])
-    def config_task_timestep(task_uuid, iteration=-1):
-        return jsonify(controller.existing_task_config(task_uuid, iteration))
+    @app.route('/config/existing_task/<string:task_uuid>', methods=['POST'])
+    def config_existing_task(task_uuid):
+        return jsonify(controller.existing_task_config(task_uuid))
 
     @app.route('/config/task/<string:project_name>', methods=['POST'])
     def config_task(project_name):
-        base_presets_uuid = json.loads(request.form.get('data'))["bases"]
-        return jsonify(controller.task_config(project_name, base_presets_uuid))
-
-    @app.route('/adjust_task_preset/<string:task_uuid>', methods=['POST'])
-    def adjust_task_preset(task_uuid):
-        new_data = json.loads(request.form.get('data'))
-        controller.adjust_task_preset(task_uuid, new_data)
-
-        return jsonify({})
+        param_value_uuids = json.loads(request.form.get('data'))["bases"]
+        return jsonify(controller.task_config(project_name, param_value_uuids))
 
     @app.route('/clone_task/<string:task_uuid>')
     def clone_task(task_uuid):
@@ -247,9 +240,9 @@ def run():
         return jsonify({})
 
 
-    @app.route('/reorder_preset/<string:project_name>/<string:preset_uuid>/<int:new_index>')
-    def reorder_preset(project_name, preset_uuid, new_index):
-        controller.reorder_preset(project_name, preset_uuid, new_index)
+    @app.route('/reorder_param/<string:project_name>/<string:param_uuid>/<int:new_index>')
+    def reorder_param(project_name, param_uuid, new_index):
+        controller.reorder_param(project_name, param_uuid, new_index)
         return jsonify({})
 
     @app.route('/connect_device/<string:device_uuid>')

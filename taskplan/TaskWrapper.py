@@ -1,9 +1,9 @@
-from multiprocessing import Lock
-import sys
-import importlib
-from enum import Enum
-import uuid
 import datetime
+import importlib
+import sys
+import uuid
+from enum import Enum
+
 try:
   from pathlib2 import Path
 except ImportError:
@@ -25,7 +25,7 @@ class State(Enum):
 
 class PipeMsg(Enum):
     HAD_ERROR = 0
-    PRESET_CHANGED = 1
+    CONFIG_CHANGED = 1
     TOTAL_ITERATIONS = 2
     PAUSING = 3
     SAVING = 4
@@ -36,10 +36,10 @@ class PipeMsg(Enum):
 
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, preset, project, total_iterations, code_version, tasks_dir, is_test=False):
+    def __init__(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test=False):
         self.task_dir = task_dir
         self.class_name = class_name
-        self.preset = preset
+        self.config = config
         self.device = None
         self.state = State.INIT
         self.uuid = uuid.uuid4()
@@ -80,16 +80,11 @@ class TaskWrapper:
             "total_iterations": self.total_iterations,
             "task_uuid": str(self.uuid)
         }
-        #try:
-        #    os.remove(str(metadata["task_dir"] / "metadata.json.lock"))
-        #except:
-        #    pass
-
-        did_update = self.project.configuration.renew_task_preset(self.preset)
+        did_update = self.project.configuration.renew_task_config(self.config)
         if did_update:
-            self.save_metadata(["preset"])
+            self.save_metadata(["config"])
 
-        self.device.run_task(self.task_dir, self.class_name, self.preset.clone(), metadata)
+        self.device.run_task(self.task_dir, self.class_name, self.config.clone(), metadata)
         self.start_time = datetime.datetime.now()
         self.state = State.RUNNING
 
@@ -138,7 +133,7 @@ class TaskWrapper:
         return self.finished_iterations, self.iteration_update_time
 
     @staticmethod
-    def _run(task_dir, class_name, preset, metadata):
+    def _run(task_dir, class_name, config, metadata):
 
         logger = Logger(metadata["task_dir"], "main")
         try:
@@ -146,7 +141,7 @@ class TaskWrapper:
             os.chdir(str(task_dir))
             task_class = getattr(importlib.import_module(class_name), class_name)
 
-            TaskWrapper._run_task(task_class, preset, logger, metadata)
+            TaskWrapper._run_task(task_class, config, logger, metadata)
 
         except:
             logger.log(traceback.format_exc(), logging.ERROR)
@@ -155,11 +150,11 @@ class TaskWrapper:
         metadata["pipe"].send(PipeMsg.IS_RUNNING, False)
 
     @staticmethod
-    def _run_task(task_class, preset, logger, metadata):
-        preset.set_logger(logger.get_with_module('config'))
-        preset.iteration_cursor = metadata["finished_iterations"]
+    def _run_task(task_class, config, logger, metadata):
+        config.set_logger(logger.get_with_module('config'))
+        config.iteration_cursor = metadata["finished_iterations"]
 
-        task = task_class(preset, logger.get_with_module('task'), metadata)
+        task = task_class(config, logger.get_with_module('task'), metadata)
         metadata_lock = SoftFileLock(metadata["task_dir"] / "metadata.json.lock")
 
         def save_func(finished_iterations):
@@ -183,7 +178,7 @@ class TaskWrapper:
                 checkpoint_dir.mkdir(exist_ok=True)
                 checkpoint_dir /= Path(str(finished_iterations))
 
-                shutil.copytree(str(metadata["task_dir"]), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints'] if directory == str(metadata["task_dir"]) else [])
+                shutil.copytree(str(metadata["task_dir"]), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints', 'metadata.json.lock'] if directory == str(metadata["task_dir"]) else [])
                 for file in checkpoint_dir.glob("events.out.tfevents.*"):
                     file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
 
@@ -226,7 +221,7 @@ class TaskWrapper:
             new_data['creation_time'] = time.mktime(self.creation_time.timetuple())
             new_data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
             new_data['had_error'] = self.had_error
-            new_data['preset'] = self.preset.data
+            new_data['config'] = self.config.data
             new_data['code_version'] = self.code_version
             new_data['checkpoints'] = self.checkpoints
             new_data['notes'] = self.notes
@@ -248,7 +243,7 @@ class TaskWrapper:
         with open(str(path / "metadata.json"), "r") as handle:
             data = json.load(handle)
             self.uuid = uuid.UUID(data['uuid'])
-            self.preset = self.project.configuration.load_task(data['preset'])
+            self.config = self.project.configuration.load_task(data['config'])
             self.finished_iterations = data['finished_iterations']
             self.saved_finished_iterations = self.finished_iterations
             if not ignore_total_iterations:
@@ -296,11 +291,6 @@ class TaskWrapper:
                 self.save_metadata(["total_iterations"])
 
             msg_type, arg = self.device.recv()
-
-    def adjust_config(self, new_config):
-        self.preset.set_config_at_timestep(new_config, self.finished_iterations + 1)
-        self.device.send(self.preset.clone())
-        self.save_metadata(["preset"])
 
     def save_now(self):
         if self.state == State.RUNNING:

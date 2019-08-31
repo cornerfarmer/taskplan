@@ -1,12 +1,13 @@
+import datetime
+import os
+import pickle
 import socket
 from enum import Enum
-import pickle
-import datetime
 
-from taskconf.config.Preset import Preset
-from taskplan.Device import Device, LocalDevice
 from Crypto.Cipher import AES
-import os
+from taskconf.config.Configuration import Configuration
+
+from taskplan.Device import Device, LocalDevice
 
 try:
   from pathlib2 import Path
@@ -101,8 +102,8 @@ class RemoteDevice(Device):
 
         return data[1:]
 
-    def run_task(self, task_dir, class_name, preset, metadata):
-        self._send_msg(RemoteMsg.RUN_TASK, [task_dir, class_name, preset.get_merged_data(), metadata])
+    def run_task(self, task_dir, class_name, config, metadata):
+        self._send_msg(RemoteMsg.RUN_TASK, [task_dir, class_name, config.get_merged_data(), metadata])
 
     def terminate(self):
         self._send_msg(RemoteMsg.TERMINATE)
@@ -173,8 +174,8 @@ class RemoteAgent:
             if msq_type == RemoteMsg.RUN_TASK:
                 if self.current_task is None:
                     print("Starting task " + args[3]["task_uuid"])
-                    preset = Preset(args[2])
-                    self.local_device.run_task(args[0], args[1], preset, args[3])
+                    config = Configuration(args[2])
+                    self.local_device.run_task(args[0], args[1], config, args[3])
                     self.current_task = args[3]["task_uuid"]
                     self.start_time = datetime.datetime.now()
                 else:

@@ -1,7 +1,7 @@
+import uuid
 from multiprocessing import Process, Pipe, Lock
 
 from taskplan.TaskWrapper import TaskWrapper
-import uuid
 
 
 class PipeEnd:
@@ -29,7 +29,7 @@ class Device:
         self.runnings = []
         self.queue = []
 
-    def run_task(self, task_dir, class_name, preset, metadata):
+    def run_task(self, task_dir, class_name, config, metadata):
         raise NotImplemented
 
     def terminate(self):
@@ -62,9 +62,9 @@ class LocalDevice(Device):
         self.wrapper_pipe = PipeEnd(pipe_recv)
         self.task_pipe = PipeEnd(pipe_send)
 
-    def run_task(self, task_dir, class_name, preset, metadata):
+    def run_task(self, task_dir, class_name, config, metadata):
         metadata["pipe"] = self.task_pipe
-        self.process = Process(target=TaskWrapper._run, args=(task_dir, class_name, preset, metadata))
+        self.process = Process(target=TaskWrapper._run, args=(task_dir, class_name, config, metadata))
         self.process.start()
 
     def terminate(self):

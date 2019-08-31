@@ -1,14 +1,14 @@
+import select
+import sys
+import termios
 import threading
+import tty
 
+import click
 from tqdm import tqdm
 
 from taskplan.EventManager import EventType
 from taskplan.TaskWrapper import State
-import sys
-import select
-import tty
-import termios
-import click
 
 try:
     from Queue import Empty

@@ -1,5 +1,4 @@
 import React from 'react';
-import Prompt from "./Prompt";
 
 class ControlBar extends React.Component {
     constructor(props) {

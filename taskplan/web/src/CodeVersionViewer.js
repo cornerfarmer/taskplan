@@ -1,6 +1,4 @@
 import React from 'react';
-import ConfigEditor from "./ConfigEditor";
-import {TaskName} from "./Task";
 
 class CodeVersionViewer extends React.Component {
     constructor(props) {

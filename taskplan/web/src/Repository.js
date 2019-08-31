@@ -5,29 +5,29 @@ import View from "./View";
 class Repository {
     constructor(evtSource) {
         this.evtSource = evtSource;       
-        this.presets = {};
+        this.params = {};
         this.projects = {};
-        this.choices = {};
+        this.paramValues = {};
         this.tasks = {};
         this.codeVersions = {};
         this.onChangeListeners = {
-            "presets": [],
+            "params": [],
             "projects": [],
-            "choices": [],
+            "paramValues": [],
             "tasks": [],
             "codeVersions": []
         };
         this.onAddListeners = {
-            "presets": [],
+            "params": [],
             "projects": [],
-            "choices": [],
+            "paramValues": [],
             "tasks": [],
             "codeVersions": []
         };
         this.onRemoveListeners = {
-            "presets": [],
+            "params": [],
             "projects": [],
-            "choices": [],
+            "paramValues": [],
             "tasks": [],
             "codeVersions": []
         };
@@ -43,50 +43,50 @@ class Repository {
             this.updateEntity(this.codeVersions, changedCodeVersion, "codeVersions");
         });
 
-        this.evtSource.addEventListener("PRESET_CHANGED", (e) => {
-            const changedPreset = JSON.parse(e.data);
+        this.evtSource.addEventListener("PARAM_CHANGED", (e) => {
+            const changedParam = JSON.parse(e.data);
 
-            if (changedPreset.uuid in this.presets) {
-                changedPreset.choices = this.presets[changedPreset.uuid].choices;
+            if (changedParam.uuid in this.params) {
+                changedParam.values = this.params[changedParam.uuid].values;
             } else {
-                changedPreset.choices = [];
+                changedParam.values = [];
             }
-            if (changedPreset.deprecated_choice in this.choices)
-                changedPreset.deprecated_choice = this.choices[changedPreset.deprecated_choice];
-            if (changedPreset.default_choice in this.choices)
-                changedPreset.default_choice = this.choices[changedPreset.default_choice];
+            if (changedParam.deprecated_param_value in this.paramValues)
+                changedParam.deprecated_param_value = this.paramValues[changedParam.deprecated_param_value];
+            if (changedParam.default_param_value in this.paramValues)
+                changedParam.default_param_value = this.paramValues[changedParam.default_param_value];
 
-            this.updateEntity(this.presets, changedPreset, "presets");
+            this.updateEntity(this.params, changedParam, "params");
         });
 
-        this.evtSource.addEventListener("CHOICE_CHANGED", (e) => {
-            const changedChoice = JSON.parse(e.data);
+        this.evtSource.addEventListener("PARAM_VALUE_CHANGED", (e) => {
+            const changedParamValue = JSON.parse(e.data);
 
-            changedChoice.creation_time = new Date(changedChoice.creation_time * 1000);
+            changedParamValue.creation_time = new Date(changedParamValue.creation_time * 1000);
 
-            this.updateEntity(this.choices, changedChoice, "choices");
+            this.updateEntity(this.paramValues, changedParamValue, "paramValues");
 
-            let preset = this.presets[changedChoice.preset];
-            const previousIndex = preset.choices.findIndex(function (e) {
-                return e.uuid === changedChoice.uuid
+            let param = this.params[changedParamValue.param];
+            const previousIndex = param.values.findIndex(function (e) {
+                return e.uuid === changedParamValue.uuid
             });
 
             if (previousIndex >= 0) {
-                preset.choices[previousIndex] = changedChoice;
+                param.values[previousIndex] = changedParamValue;
             } else {
-                preset.choices.push(changedChoice);
+                param.values.push(changedParamValue);
             }
-            this.updateEntity(this.presets, preset, "presets");
+            this.updateEntity(this.params, param, "params");
 
-            preset = Object.values(this.presets).find((preset) => preset.deprecated_choice === changedChoice.uuid);
-            if (preset !== undefined) {
-                preset.deprecated_choice = changedChoice;
-                this.updateEntity(this.presets, preset, "presets");
+            param = Object.values(this.params).find((param) => param.deprecated_param_value === changedParamValue.uuid);
+            if (param !== undefined) {
+                param.deprecated_param_value = changedParamValue;
+                this.updateEntity(this.params, param, "params");
             }
-            preset = Object.values(this.presets).find((preset) => preset.default_choice === changedChoice.uuid);
-            if (preset !== undefined) {
-                preset.default_choice = changedChoice;
-                this.updateEntity(this.presets, preset, "presets");
+            param = Object.values(this.params).find((param) => param.default_param_value === changedParamValue.uuid);
+            if (param !== undefined) {
+                param.default_param_value = changedParamValue;
+                this.updateEntity(this.params, param, "params");
             }
         });
 
@@ -95,7 +95,7 @@ class Repository {
 
             changedTask.creation_time = new Date(changedTask.creation_time * 1000);
             changedTask.saved_time = new Date(changedTask.saved_time * 1000);
-            changedTask.choices = changedTask.choices.map(e => [this.choices[e[0]]].concat(e.slice(1)));
+            changedTask.paramValues = changedTask.paramValues.map(e => [this.paramValues[e[0]]].concat(e.slice(1)));
             for (let checkpoint of changedTask.checkpoints) {
                 checkpoint.time = new Date(checkpoint.time * 1000);
             }
@@ -118,7 +118,7 @@ class Repository {
             if (changedTask.uuid in this.tasks) {
                 changedTask.name = this.tasks[changedTask.uuid].name;
                 changedTask.try = this.tasks[changedTask.uuid].try;
-                changedTask.nameChoices = this.tasks[changedTask.uuid].nameChoices;
+                changedTask.nameParamValues = this.tasks[changedTask.uuid].nameParamValues;
             }
 
             this.updateEntity(this.tasks, changedTask, "tasks");
@@ -129,24 +129,24 @@ class Repository {
             this.removeEntity(this.tasks, changedTask, "tasks")
         });
 
-        this.evtSource.addEventListener("CHOICE_REMOVED", (e) => {
-            const changedChoice = JSON.parse(e.data);
-            this.removeEntity(this.choices, changedChoice, "choices");
+        this.evtSource.addEventListener("PARAM_VALUE_REMOVED", (e) => {
+            const changedParamValue = JSON.parse(e.data);
+            this.removeEntity(this.paramValues, changedParamValue, "paramValues");
 
-            let preset = this.presets[changedChoice.preset];
-            const previousIndex = preset.choices.findIndex(function (e) {
-                return e.uuid === changedChoice.uuid
+            let param = this.params[changedParamValue.param];
+            const previousIndex = param.values.findIndex(function (e) {
+                return e.uuid === changedParamValue.uuid
             });
 
             if (previousIndex >= 0) {
-                preset.choices.splice(previousIndex, 1);
-                this.updateEntity(this.presets, preset, "presets");
+                param.values.splice(previousIndex, 1);
+                this.updateEntity(this.params, param, "params");
             }
         });
 
-        this.evtSource.addEventListener("PRESET_REMOVED", (e) => {
-            const changedPreset = JSON.parse(e.data);
-            this.removeEntity(this.presets, changedPreset, "presets")
+        this.evtSource.addEventListener("PARAM_REMOVED", (e) => {
+            const changedParam = JSON.parse(e.data);
+            this.removeEntity(this.params, changedParam, "params")
         });
 
         this.standardView = new View(true);
@@ -155,10 +155,10 @@ class Repository {
             for (const key of Object.keys(this.tasks)) {
                 if (!this.tasks[key].is_test) {
                     let node = this.standardView.taskByUuid[key];
-                    this.tasks[key].nameChoices = this.standardView.getNodeChoicePath(node, this.tasks[key]);
+                    this.tasks[key].nameParamValues = this.standardView.getNodeParamValuePath(node, this.tasks[key]);
                     this.tasks[key].try = this.standardView.keyInDict(node.children, key);
                 } else {
-                    this.tasks[key].nameChoices = [];
+                    this.tasks[key].nameParamValues = [];
                     this.tasks[key].try = 0
                 }
             }
@@ -175,8 +175,8 @@ class Repository {
 
             updateTaskNames();
         });
-        this.onChange("presets", (presets) => {
-            this.standardView.updatePresets(Object.values(presets));
+        this.onChange("params", (params) => {
+            this.standardView.updateParams(Object.values(params));
 
             updateTaskNames();
         });

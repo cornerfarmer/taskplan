@@ -1,70 +1,70 @@
 import React from 'react';
 import View from "./View";
-import PresetTab from "./PresetTab";
+import ParamTab from "./ParamTab";
 import TaskTab from "./TaskTab";
-import PresetViewer from "./PresetViewer";
+import ParamViewer from "./ParamViewer";
 
 class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            presets: [],
-            presetsByGroup: {},
+            params: [],
+            paramsByGroup: {},
             tasks: [],
             activeTab: 0,
             sorting: [0, 4],
             sortingDescending: [true, true],
-            selectedChoices: {},
+            selectedParamValues: {},
             selectedTasks: [],
-            presetFilterEnabled: false,
-            presetSortingMode: false,
-            numberOfTasksPerChoice: {}
+            paramFilterEnabled: false,
+            paramSortingMode: false,
+            numberOfTasksPerParamValue: {}
         };
         this.updateTasks = this.updateTasks.bind(this);
-        this.updatePresets = this.updatePresets.bind(this);
+        this.updateParams = this.updateParams.bind(this);
         this.addTask = this.addTask.bind(this);
         this.removeTask = this.removeTask.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.showTab = this.showTab.bind(this);
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
-        this.openPresetViewer = this.openPresetViewer.bind(this);
+        this.openParamViewer = this.openParamViewer.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
-        this.togglePresetFilter = this.togglePresetFilter.bind(this);
-        this.togglePresetSortingMode = this.togglePresetSortingMode.bind(this);
+        this.toggleParamFilter = this.toggleParamFilter.bind(this);
+        this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
         this.filterView = new View(true);
-        this.presetViewerRef = React.createRef();
+        this.paramViewerRef = React.createRef();
     }
 
     componentDidMount() {
         this.props.repository.onChange("tasks", this.updateTasks);
-        this.props.repository.onChange("presets", this.updatePresets);
+        this.props.repository.onChange("params", this.updateParams);
         this.props.repository.onAdd("tasks", this.addTask);
         this.props.repository.onRemove("tasks", this.removeTask);
-        this.updatePresets(this.props.repository.presets);
+        this.updateParams(this.props.repository.params);
         for (let key in this.props.repository.tasks)
             this.addTask(this.props.repository.tasks[key]);
     }
 
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
-        this.props.repository.removeOnChange("presets", this.updatePresets);
+        this.props.repository.removeOnChange("params", this.updateParams);
         this.props.repository.removeOnAdd("tasks", this.addTask);
         this.props.repository.removeOnRemove("tasks", this.removeTask);
     }
 
     addTask(task) {
-        let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
+        let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
         if (!task.is_test) {
             if (task.project_name === this.props.project.name) {
                 this.filterView.addTask(task);
             }
 
-            for (let choice of task.choices) {
-                if (!(choice[0].uuid in numberOfTasksPerChoice))
-                    numberOfTasksPerChoice[choice[0].uuid] = [];
-                numberOfTasksPerChoice[choice[0].uuid].push([task.uuid, choice.slice(1)]);
+            for (let paramValue of task.paramValues) {
+                if (!(paramValue[0].uuid in numberOfTasksPerParamValue))
+                    numberOfTasksPerParamValue[paramValue[0].uuid] = [];
+                numberOfTasksPerParamValue[paramValue[0].uuid].push([task.uuid, paramValue.slice(1)]);
             }
         }
 
@@ -73,7 +73,7 @@ class Project extends React.Component {
 
         this.setState({
             tasks: tasks,
-            numberOfTasksPerChoice: numberOfTasksPerChoice
+            numberOfTasksPerParamValue: numberOfTasksPerParamValue
         });
 
         this.updateVisibleTasks();
@@ -81,16 +81,16 @@ class Project extends React.Component {
 
     removeTask(task) {
         if ( !task.is_test) {
-            let numberOfTasksPerChoice = Object.assign({}, this.state.numberOfTasksPerChoice);
-            for (let choice of task.choices) {
-                if (choice[0].uuid in numberOfTasksPerChoice) {
-                    let index = numberOfTasksPerChoice[choice[0].uuid].findIndex(x => x[0] === task.uuid);
-                    numberOfTasksPerChoice[choice[0].uuid].splice(index, 1);
+            let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
+            for (let paramValue of task.paramValues) {
+                if (paramValue[0].uuid in numberOfTasksPerParamValue) {
+                    let index = numberOfTasksPerParamValue[paramValue[0].uuid].findIndex(x => x[0] === task.uuid);
+                    numberOfTasksPerParamValue[paramValue[0].uuid].splice(index, 1);
                 }
             }
 
             this.setState({
-                numberOfTasksPerChoice: numberOfTasksPerChoice
+                numberOfTasksPerParamValue: numberOfTasksPerParamValue
             });
         }
 
@@ -100,15 +100,15 @@ class Project extends React.Component {
         this.updateVisibleTasks();
     }
 
-    updateVisibleTasks(selectedChoices=null, presetFilterEnabled=null) {
-        if (selectedChoices === null)
-            selectedChoices = this.state.selectedChoices;
-        if (presetFilterEnabled === null)
-            presetFilterEnabled = this.state.presetFilterEnabled;
+    updateVisibleTasks(selectedParamValues=null, paramFilterEnabled=null) {
+        if (selectedParamValues === null)
+            selectedParamValues = this.state.selectedParamValues;
+        if (paramFilterEnabled === null)
+            paramFilterEnabled = this.state.paramFilterEnabled;
 
         let selectedTasks;
-        if (presetFilterEnabled) {
-            selectedTasks = this.filterView.getSelectedTask(selectedChoices, this.props.project.current_code_version);
+        if (paramFilterEnabled) {
+            selectedTasks = this.filterView.getSelectedTask(selectedParamValues, this.props.project.current_code_version);
         } else {
             selectedTasks = Object.keys(this.state.tasks).filter(task => this.state.tasks[task].version === this.props.project.current_code_version);
         }
@@ -117,26 +117,26 @@ class Project extends React.Component {
         });
     }
 
-    updatePresets(presets) {
-        this.filterView.updatePresets(Object.values(presets));
+    updateParams(params) {
+        this.filterView.updateParams(Object.values(params));
 
-        let selectedChoices = Object.assign({}, this.state.selectedChoices);
+        let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        let presetsByGroup = {};
-        for (const preset of Object.values(presets)) {
-            if (!(preset.uuid in selectedChoices) && preset.choices.length > 0)
-                selectedChoices[preset.uuid] = [preset.choices[0].uuid];
+        let paramsByGroup = {};
+        for (const param of Object.values(params)) {
+            if (!(param.uuid in selectedParamValues) && param.values.length > 0)
+                selectedParamValues[param.uuid] = [param.values[0].uuid];
 
-            const group = preset.group.length > 0 ? preset.group[0] : '';
-            if (!(group in presetsByGroup))
-                presetsByGroup[group] = [];
-            presetsByGroup[group].push(preset);
+            const group = param.group.length > 0 ? param.group[0] : '';
+            if (!(group in paramsByGroup))
+                paramsByGroup[group] = [];
+            paramsByGroup[group].push(param);
         }
 
         this.setState({
-            presets: Object.values(presets),
-            selectedChoices: selectedChoices,
-            presetsByGroup: presetsByGroup
+            params: Object.values(params),
+            selectedParamValues: selectedParamValues,
+            paramsByGroup: paramsByGroup
         });
     }
 
@@ -175,39 +175,39 @@ class Project extends React.Component {
         this.setState({sortingDescending: sortingDescending});
     }
 
-    onSelectionChange(preset, choice, args) {
-        const selectedChoices = Object.assign({}, this.state.selectedChoices);
+    onSelectionChange(param, value, args) {
+        const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        selectedChoices[preset.uuid] = [choice.uuid, ...args];
+        selectedParamValues[param.uuid] = [value.uuid, ...args];
 
-        this.updateVisibleTasks(selectedChoices);
+        this.updateVisibleTasks(selectedParamValues);
         this.setState({
-            selectedChoices: selectedChoices
+            selectedParamValues: selectedParamValues
         });
     }
 
 
     filterLikeTask(task) {
-        const selectedChoices = Object.assign({}, this.state.selectedChoices);
+        const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        for (const preset of this.state.presets) {
-            let choice = this.filterView.getChoiceToPreset(task, preset);
-            selectedChoices[preset.uuid] = [choice[0].uuid, ...choice[1]];
+        for (const param of this.state.params) {
+            let value = this.filterView.getValueToParam(task, param);
+            selectedParamValues[param.uuid] = [value[0].uuid, ...value[1]];
         }
 
         this.setState({
-            selectedChoices: selectedChoices,
-            presetFilterEnabled: true
+            selectedParamValues: selectedParamValues,
+            paramFilterEnabled: true
         }, () => this.updateVisibleTasks());
-        this.openPresetViewer();
+        this.openParamViewer();
     }
 
-    togglePresetFilter() {
-        let presetFilterEnabled = !this.state.presetFilterEnabled;
+    toggleParamFilter() {
+        let paramFilterEnabled = !this.state.paramFilterEnabled;
         this.setState({
-            presetFilterEnabled: presetFilterEnabled
+            paramFilterEnabled: paramFilterEnabled
         });
-        this.updateVisibleTasks(null, presetFilterEnabled);
+        this.updateVisibleTasks(null, paramFilterEnabled);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -215,20 +215,20 @@ class Project extends React.Component {
             this.updateVisibleTasks();
         if (prevProps.highlightedTask !== this.props.highlightedTask && this.props.highlightedTask !== null) {
             this.setState({
-                presetFilterEnabled: false,
+                paramFilterEnabled: false,
                 activeTab: 1
             }, () => this.updateVisibleTasks());
         }
     }
 
-    openPresetViewer() {
+    openParamViewer() {
         this.props.closeViewer();
-        this.presetViewerRef.current.open();
+        this.paramViewerRef.current.open();
     }
 
-    togglePresetSortingMode() {
+    toggleParamSortingMode() {
         this.setState({
-            presetSortingMode: !this.state.presetSortingMode
+            paramSortingMode: !this.state.paramSortingMode
         });
     }
 
@@ -236,13 +236,13 @@ class Project extends React.Component {
         return (
             <div className="project" style={this.props.visible ? {} : {display: 'none'}}>
                 <div className="tabs">
-                    <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>Presets</div>
+                    <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>Parameters</div>
                     <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Tasks</div>
                 </div>
                 <div className="sorting">
                         {this.state.activeTab === 0 &&
                             <div>
-                                <span onClick={this.togglePresetSortingMode} className={"fas fa-sort"}></span>
+                                <span onClick={this.toggleParamSortingMode} className={"fas fa-sort"}></span>
                             </div>
                         }
                         {this.state.activeTab === 1 &&
@@ -257,38 +257,38 @@ class Project extends React.Component {
                                 </select>
                                 <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
-                                <span className={this.state.presetFilterEnabled ? "fas fa-sliders-h filter-enabled" : "fas fa-sliders-h"}onClick={this.openPresetViewer}></span>
+                                <span className={this.state.paramFilterEnabled ? "fas fa-sliders-h filter-enabled" : "fas fa-sliders-h"}onClick={this.openParamViewer}></span>
                             </div>
                         }
                 </div>
-                <PresetTab
+                <ParamTab
                     active={this.state.activeTab === 0}
-                    presetsByGroup={this.state.presetsByGroup}
+                    paramsByGroup={this.state.paramsByGroup}
                     sorting={this.state.sorting}
                     project={this.props.project}
                     sortingDescending={this.state.sortingDescending}
-                    presetSortingMode={this.state.presetSortingMode}
-                    presets={this.state.presets}
-                    numberOfTasksPerChoice={this.state.numberOfTasksPerChoice}
+                    paramSortingMode={this.state.paramSortingMode}
+                    params={this.state.params}
+                    numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue}
                 />
                 <TaskTab
                     active={this.state.activeTab === 1}
-                    presets={this.state.presets}
+                    params={this.state.params}
                     project={this.props.project}
                     tasks={this.state.tasks}
                     selectedTasks={this.state.selectedTasks}
-                    selectedChoices={this.state.selectedChoices}
-                    presetFilterEnabled={this.state.presetFilterEnabled}
+                    selectedParamValues={this.state.selectedParamValues}
+                    paramFilterEnabled={this.state.paramFilterEnabled}
                     sorting={this.state.sorting}
                     sortingDescending={this.state.sortingDescending}
                     onSelectionChange={this.onSelectionChange}
                     showTask={this.props.showTask}
-                    presetsByGroup={this.state.presetsByGroup}
+                    paramsByGroup={this.state.paramsByGroup}
                     highlightedTask={this.props.highlightedTask}
                     filterLikeTask={this.filterLikeTask}
                     devices={this.props.devices}
                 />
-                <PresetViewer ref={this.presetViewerRef} numberOfTasksPerChoice={this.state.numberOfTasksPerChoice} presetsByGroup={this.state.presetsByGroup} selectedChoices={this.state.selectedChoices} onSelectionChange={this.onSelectionChange} togglePresetFilter={this.togglePresetFilter} presetFilterEnabled={this.state.presetFilterEnabled}/>
+                <ParamViewer ref={this.paramViewerRef} numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue} paramsByGroup={this.state.paramsByGroup} selectedParamValues={this.state.selectedParamValues} onSelectionChange={this.onSelectionChange} toggleParamFilter={this.toggleParamFilter} paramFilterEnabled={this.state.paramFilterEnabled}/>
             </div>
         );
     }

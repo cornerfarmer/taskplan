@@ -1,6 +1,3 @@
-import copy
-import os
-import pickle
 import threading
 from datetime import datetime
 
@@ -16,10 +13,8 @@ from taskplan.TaskWrapper import TaskWrapper, State
 from taskplan.ProjectConfiguration import ProjectConfiguration
 import subprocess
 import time
-import json
 import shutil
 import uuid
-import datetime
 
 class Project:
 
@@ -94,23 +89,23 @@ class Project:
         except:
             raise
 
-    def create_task(self, choices, config, total_iterations, is_test=False):
-        presets = self.configuration.get_presets()
+    def create_task(self, param_values, config, total_iterations, is_test=False):
+        params = self.configuration.get_params()
 
-        base_presets = []
-        for preset in presets:
-            if str(preset.uuid) not in choices:
-                raise LookupError("No choice for the preset with uuid " + str(preset.uuid))
-            choice = self.configuration.get_preset(choices[str(preset.uuid)][0])
-            if choice.get_metadata("preset") != str(preset.uuid):
-                raise LookupError("Choice " + choices[preset] + " with wrong preset")
+        base_uuids = []
+        for param in params:
+            if str(param.uuid) not in param_values:
+                raise LookupError("No param value for the param with uuid " + str(param.uuid))
+            param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
+            if param_value.get_metadata("param") != str(param.uuid):
+                raise LookupError("Param value " + param_values[param] + " with wrong param")
 
-            base_presets.append([choices[str(preset.uuid)][0]] + choices[str(preset.uuid)][1:])
+            base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
 
-        task_preset = self.configuration.add_task(base_presets, config)
-        return self._create_task_from_preset(task_preset, total_iterations, is_test)
+        task_config = self.configuration.add_task(base_uuids, config)
+        return self._create_task_from_config(task_config, total_iterations, is_test)
 
-    def _create_task_from_preset(self, task_preset, total_iterations, is_test=False):
+    def _create_task_from_config(self, task_config, total_iterations, is_test=False):
         if is_test:
             tasks_dir = self.test_dir
         else:
@@ -126,7 +121,7 @@ class Project:
                     removed_tasks.append(task)
                     break
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_preset, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_config, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
         task.save_metadata()
         self.tasks.append(task)
         self.configuration.register_task(task)
@@ -135,18 +130,15 @@ class Project:
             self.view.add_task(task)
         return task, removed_tasks
 
-    def possible_presets(self):
-        return [preset for preset in self.configuration.presets if not preset.abstract]
-
     def find_task_by_uuid(self, uuid):
         for task in self.tasks:
             if str(task.uuid) == uuid:
                 return task
         return None
 
-    def find_test_task_by_preset(self, preset_uuid):
+    def find_test_task_by_config(self, config_uuid):
         for task in self.tasks:
-            if task.is_test and task.original_preset_uuid == preset_uuid:
+            if task.is_test and task.original_config_uuid == config_uuid:
                 return task
         return None
 
@@ -182,11 +174,11 @@ class Project:
             self.configuration.deregister_task(task)
             task.remove_data()
 
-    def remove_preset(self, preset_uuid):
-        return self.configuration.remove_preset(preset_uuid)
+    def remove_param(self, param_uuid):
+        return self.configuration.remove_param(param_uuid)
 
-    def remove_choice(self, choice_uuid):
-        return self.configuration.remove_choice(choice_uuid)
+    def remove_param_value(self, param_value_uuid):
+        return self.configuration.remove_param_value(param_value_uuid)
 
     def add_code_version(self, name):
         code_version_uuid = str(uuid.uuid4())
@@ -194,7 +186,7 @@ class Project:
             "name": name,
             "uuid": code_version_uuid,
             "base": self.current_code_version,
-            "time": time.mktime(datetime.datetime.now().timetuple())
+            "time": time.mktime(datetime.now().timetuple())
         })
         if self.current_code_version is None:
             self.current_code_version = code_version_uuid
@@ -211,9 +203,9 @@ class Project:
 
     def clone_task(self, task):
         if task in self.tasks and not task.is_test:
-            task_preset = self.configuration.add_task([], {})
+            task_config = self.configuration.add_task([], {})
 
-            cloned_task, _ = self._create_task_from_preset(task_preset, task.total_iterations)
+            cloned_task, _ = self._create_task_from_config(task_config, task.total_iterations)
             new_uuid = cloned_task.uuid
 
             shutil.rmtree(str(cloned_task.build_save_dir()))
@@ -223,17 +215,18 @@ class Project:
 
             cloned_task.state = State.STOPPED
             cloned_task.uuid = new_uuid
-            cloned_task.creation_time = datetime.datetime.now()
+            cloned_task.creation_time = datetime.now()
             cloned_task.save_metadata()
+            self.view.add_task(cloned_task)
 
             return cloned_task
 
     def extract_checkpoint(self, task, checkpoint_id):
         if task in self.tasks and not task.is_test:
             checkpoint_dir = task.build_checkpoint_dir(checkpoint_id)
-            task_preset = self.configuration.add_task([], {})
+            task_config = self.configuration.add_task([], {})
 
-            new_task, _ = self._create_task_from_preset(task_preset, task.total_iterations)
+            new_task, _ = self._create_task_from_config(task_config, task.total_iterations)
             new_uuid = new_task.uuid
 
             new_task_dir = new_task.build_save_dir()
@@ -249,14 +242,15 @@ class Project:
             new_task.creation_time = datetime.now()
             new_task.checkpoints = []
             new_task.save_metadata()
+            self.view.add_task(new_task)
 
             return new_task
 
-    def change_sorting(self, preset_uuid, new_sorting):
-        preset = self.configuration.get_preset(preset_uuid)
-        self.view.remove_preset(preset)
+    def change_sorting(self, param_uuid, new_sorting):
+        param = self.configuration.get_config(param_uuid)
+        self.view.remove_param(param)
 
-        changed_presets = self.configuration.change_sorting(preset_uuid, new_sorting)
+        changed_params = self.configuration.change_sorting(param_uuid, new_sorting)
 
-        self.view.add_preset(preset)
-        return changed_presets
+        self.view.add_param(param)
+        return changed_params

@@ -1,7 +1,6 @@
 import React from 'react';
 import State from './Global'
 import Task from './Task'
-import Prompt from "./Prompt";
 
 class Device extends React.Component {
     constructor(props) {

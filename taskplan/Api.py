@@ -1,14 +1,15 @@
-from taskplan.EventManager import EventManager
-from taskplan.Project import Project
-from taskplan.Controller import Controller
-from taskplan.ProjectManager import ProjectManager
 from taskconf.util.Logger import Logger
+
+from taskplan.Controller import Controller
+from taskplan.EventManager import EventManager
+from taskplan.ProjectManager import ProjectManager
+
 try:
   from pathlib2 import Path
 except ImportError:
   from pathlib import Path
 import json
-from taskconf.config.Preset import Preset
+from taskconf.config.Configuration import Configuration
 
 class Api:
     def __init__(self):
@@ -18,18 +19,18 @@ class Api:
 
     def load_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
-        return task.build_save_dir(), task.preset
+        return task.build_save_dir(), task.config
 
     @staticmethod
     def load_task_from_folder(path):
         with open(str(path / Path("metadata.json")), "r") as handle:
             data = json.load(handle)
-            preset = Preset(data["preset"])
-        return path, preset
+            config = Configuration(data["config"])
+        return path, config
 
-    def load_preset(self, project_name, preset_uuid):
+    def load_config(self, project_name, config_uuid):
         project = self.project_manager.project_by_name(project_name)
-        return project.configuration.presets_by_uuid[preset_uuid]
+        return project.configuration.configs_by_uuid[config_uuid]
 
     def logger_for_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)

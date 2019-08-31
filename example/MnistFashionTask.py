@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 
 class MnistFashionTask(taskplan.Task):
 
-    def __init__(self, preset, preset_pipe, logger):
-        super(MnistFashionTask, self).__init__(preset, preset_pipe, logger)
+    def __init__(self, config, logger, metadata):
+        super(MnistFashionTask, self).__init__(config, logger, metadata)
         self.sum = 0
         self.fashion_mnist = keras.datasets.fashion_mnist
         (self.train_images, self.train_labels), (self.test_images, self.test_labels) = keras.datasets.fashion_mnist.load_data()
@@ -23,7 +23,7 @@ class MnistFashionTask(taskplan.Task):
         self.test_images = self.test_images / 255.0
 
         layers = [keras.layers.Flatten(input_shape=(28, 28))]
-        for units in self.preset.get_list("hidden_layers"):
+        for units in self.config.get_list("hidden_layers"):
             layers.append(keras.layers.Dense(units, activation=tf.nn.relu))
         layers.append(keras.layers.Dense(10, activation=tf.nn.softmax))
         self.model = keras.Sequential(layers)
@@ -42,7 +42,7 @@ class MnistFashionTask(taskplan.Task):
             tf.Summary.Value(tag="train/acc", simple_value=history.history['acc'][-1])]),
         current_iteration)
 
-        if current_iteration % self.preset.get_int("val_interval") == 0:
+        if current_iteration % self.config.get_int("val_interval") == 0:
             test_loss, test_acc = self.model.evaluate(self.test_images, self.test_labels)
 
             tensorboard_writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="val/loss", simple_value=test_loss), tf.Summary.Value(tag="val/acc", simple_value=test_acc)]), current_iteration)

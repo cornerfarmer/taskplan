@@ -1,6 +1,7 @@
-from taskplan.Project import Project
-from taskplan.EventManager import EventType
 import json
+
+from taskplan.EventManager import EventType
+from taskplan.Project import Project
 
 try:
   from pathlib2 import Path
@@ -52,9 +53,9 @@ class ProjectManager:
         with open('taskplan_metadata.json', "w") as f:
             json.dump(metadata, f)
 
-    def create_task(self, project_name, choices, config, total_iterations, is_test=False):
+    def create_task(self, project_name, params, config, total_iterations, is_test=False):
         project = self.project_by_name(project_name)
-        task, removed_tasks = project.create_task(choices, config, total_iterations, is_test)
+        task, removed_tasks = project.create_task(params, config, total_iterations, is_test)
         for removed_task in removed_tasks:
             self.event_manager.throw(EventType.TASK_REMOVED, removed_task)
         return task
@@ -73,11 +74,11 @@ class ProjectManager:
             for code_version in project.code_versions:
                 self.event_manager.throw_for_client(client, EventType.CODE_VERSION_CHANGED, code_version, project)
 
-            for preset in project.configuration.get_presets():
-                self.event_manager.throw_for_client(client, EventType.PRESET_CHANGED, preset, project)
+            for param in project.configuration.get_params():
+                self.event_manager.throw_for_client(client, EventType.PARAM_CHANGED, param, project)
 
-            for choice in project.configuration.get_choices():
-                self.event_manager.throw_for_client(client, EventType.CHOICE_CHANGED, choice, project)
+            for param_value in project.configuration.get_param_values():
+                self.event_manager.throw_for_client(client, EventType.PARAM_VALUE_CHANGED, param_value, project)
 
             for task in project.tasks:
                 self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, task, project)
@@ -92,24 +93,20 @@ class ProjectManager:
                 return task
         return None
 
-    def find_test_task_by_preset(self, project_name, preset_uuid):
-        project = self.project_by_name(project_name)
-        return project.find_test_task_by_preset(preset_uuid)
-
     def remove_task(self, task_uuid):
         task = self.find_task_by_uuid(task_uuid)
         task.project.remove_task(task)
         self.event_manager.throw(EventType.TASK_REMOVED, task)
 
-    def remove_preset(self, project_name, preset_uuid):
+    def remove_param(self, project_name, param_uuid):
         project = self.project_by_name(project_name)
-        preset = project.remove_preset(preset_uuid)
-        if preset is not None:
-            self.event_manager.throw(EventType.PRESET_REMOVED, preset, project)
+        param = project.remove_param(param_uuid)
+        if param is not None:
+            self.event_manager.throw(EventType.PARAM_REMOVED, param, project)
 
-    def remove_choice(self, project_name, choice_uuid):
+    def remove_param_value(self, project_name, param_value_uuid):
         project = self.project_by_name(project_name)
-        choice, preset = project.remove_choice(choice_uuid)
-        if choice is not None:
-            self.event_manager.throw(EventType.CHOICE_REMOVED, choice, project)
-            self.event_manager.throw(EventType.PRESET_CHANGED, preset, project)
+        param_value, param = project.remove_param_value(param_value_uuid)
+        if param_value is not None:
+            self.event_manager.throw(EventType.PARAM_VALUE_REMOVED, param_value, project)
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, project)

@@ -50,16 +50,16 @@ class RootNode extends Node {
 
 }
 
-class PresetNode extends Node {
-    constructor(preset) {
+class ParamNode extends Node {
+    constructor(param) {
         super();
-        this.preset = preset;
+        this.param = param;
     }
 }
 
 
 class CodeVersionNode extends Node {
-    constructor(preset) {
+    constructor() {
         super();
     }
 }
@@ -83,76 +83,76 @@ class View {
         this.root.setChild("default", new TasksNode());
         this.taskByUuid = {};
         this.tasks = {};
-        this.presets = [];
-        this.presetsByUuid = {};
+        this.params = [];
+        this.paramsByUuid = {};
         this.includeCodeVersion = includeCodeVersion;
     }
 
-    presetCompare(a, b) {
+    paramCompare(a, b) {
         if (a.sorting !== b.sorting)
             return a.sorting - b.sorting;
         else
             return a.uuid.localeCompare(b.uuid);
     }
 
-    updatePresets(presets) {
-        for (let preset of presets) {
-            this.presetsByUuid[preset.uuid] = preset;
+    updateParams(params) {
+        for (let param of params) {
+            this.paramsByUuid[param.uuid] = param;
         }
 
-        let sortedPresets = presets.slice().sort((a, b) => this.presetCompare(a, b));
+        let sortedParams = params.slice().sort((a, b) => this.paramCompare(a, b));
 
-        for (let i = 0; i < this.presets.length; i++) {
-            if (sortedPresets.findIndex(x => x.uuid === this.presets[i].uuid) === - 1) {
-                this.removePreset(this.presets[i]);
+        for (let i = 0; i < this.params.length; i++) {
+            if (sortedParams.findIndex(x => x.uuid === this.params[i].uuid) === - 1) {
+                this.removeParam(this.params[i]);
                 i--;
             }
         }
 
-        for (let i = 0; i < sortedPresets.length; i++) {
-            if (i >= this.presets.length) {
-                this.addPreset(sortedPresets[i], i);
+        for (let i = 0; i < sortedParams.length; i++) {
+            if (i >= this.params.length) {
+                this.addParam(sortedParams[i], i);
                 continue;
             }
 
-            if (this.presets[i].uuid !== sortedPresets[i].uuid) {
-                if (this.presets.findIndex(x => x.uuid === sortedPresets[i].uuid) !== -1) {
-                    const preset = this.presets.find(x => x.uuid === sortedPresets[i].uuid);
-                    this.removePreset(preset);
+            if (this.params[i].uuid !== sortedParams[i].uuid) {
+                if (this.params.findIndex(x => x.uuid === sortedParams[i].uuid) !== -1) {
+                    const param = this.params.find(x => x.uuid === sortedParams[i].uuid);
+                    this.removeParam(param);
                 }
-                this.addPreset(sortedPresets[i], i);
+                this.addParam(sortedParams[i], i);
 
-                if (this.presets[i].uuid !== sortedPresets[i].uuid)
-                    throw new Error("Error with the presets in the view");
+                if (this.params[i].uuid !== sortedParams[i].uuid)
+                    throw new Error("Error with the params in the view");
             } else {
-                this.presets[i] = sortedPresets[i];
+                this.params[i] = sortedParams[i];
             }
         }
     }
 
-    addPreset(preset, insert_index) {
-        this.presets.splice(insert_index, 0, preset);
-        this.addNodeWithPreset(preset, this.root.children["default"]);
+    addParam(param, insert_index) {
+        this.params.splice(insert_index, 0, param);
+        this.addNodeWithParam(param, this.root.children["default"]);
     }
 
-    addNodeWithPreset(preset, root) {
-        if ((root instanceof PresetNode && this.presetCompare(this.presetsByUuid[root.preset], preset) > 0) || root instanceof TasksNode) {
+    addNodeWithParam(param, root) {
+        if ((root instanceof ParamNode && this.paramCompare(this.paramsByUuid[root.param], param) > 0) || root instanceof TasksNode) {
             const firstTask = root.getFirstTaskIn();
             if (firstTask !== null) {
-                const formerChoiceKey = this.getChoiceKeyToPreset(this.tasks[firstTask], preset);
+                const formerValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
 
                 const tasks = root.getAllContainedTasks();
-                let tasksWithDifferentChoice = [];
+                let tasksWithDifferentParamValue = [];
                 for (let task of tasks) {
-                    if (this.getChoiceKeyToPreset(this.tasks[task], preset) !== formerChoiceKey)
-                        tasksWithDifferentChoice.push(task);
+                    if (this.getValueKeyToParam(this.tasks[task], param) !== formerValueKey)
+                        tasksWithDifferentParamValue.push(task);
                 }
 
-                if (tasksWithDifferentChoice.length > 0) {
-                    let newNode = new PresetNode(preset.uuid);
-                    this.addPresetBeforeNode(root, newNode, formerChoiceKey);
+                if (tasksWithDifferentParamValue.length > 0) {
+                    let newNode = new ParamNode(param.uuid);
+                    this.addParamBeforeNode(root, newNode, formerValueKey);
 
-                    for (let task of tasksWithDifferentChoice) {
+                    for (let task of tasksWithDifferentParamValue) {
                         this.removeTask(this.tasks[task]);
                         this.addTask(this.tasks[task]);
                     }
@@ -160,19 +160,19 @@ class View {
             }
         } else {
             for (let key in root.children)
-                this.addNodeWithPreset(preset, root.children[key]);
+                this.addNodeWithParam(param, root.children[key]);
         }
     }
 
-    removePreset(preset) {
-        if (this.presets.includes(preset)) {
-            this.presets.splice(this.presets.indexOf(preset), 1);
-            this.removeNodesWithPreset(preset, this.root.children["default"]);
+    removeParam(param) {
+        if (this.params.includes(param)) {
+            this.params.splice(this.params.indexOf(param), 1);
+            this.removeNodesWithParam(param, this.root.children["default"]);
         }
     }
 
-    removeNodesWithPreset(preset, root) {
-        if (root instanceof PresetNode && root.preset === preset.uuid) {
+    removeNodesWithParam(param, root) {
+        if (root instanceof ParamNode && root.param === param.uuid) {
             let tasks = [];
             for (let key of Object.keys(root.children).slice(1)) {
                 tasks = tasks.concat(this.removeSubtree(root.children[key]))
@@ -183,7 +183,7 @@ class View {
                 this.addTask(this.tasks[task]);
         } else if (!(root instanceof TasksNode)) {
             for (let key in root.children)
-                this.removeNodesWithPreset(preset, root.children[key]);
+                this.removeNodesWithParam(param, root.children[key]);
         }
     }
 
@@ -216,16 +216,16 @@ class View {
         let branching_options = [];
         if (this.includeCodeVersion)
             branching_options.push("code_version");
-        branching_options = branching_options.concat(this.presets);
+        branching_options = branching_options.concat(this.params);
 
         for (const branching_option of branching_options) {
-            let key, nodeExists, suitableChoice;
+            let key, nodeExists, suitableParamValue;
             if (typeof branching_option === "object") {
-                if (branching_option.deprecated_choice === '')
+                if (branching_option.deprecated_param_value === '')
                     continue;
 
-                key = this.getChoiceKeyToPreset(task, branching_option);
-                nodeExists = node instanceof PresetNode && node.preset === branching_option.uuid;
+                key = this.getValueKeyToParam(task, branching_option);
+                nodeExists = node instanceof ParamNode && node.param === branching_option.uuid;
 
             } else if (branching_option === "code_version") {
                 key = task.version;
@@ -241,11 +241,11 @@ class View {
 
                 let newNode, formerKey;
                 if (typeof branching_option === "object") {
-                    formerKey = this.getChoiceKeyToPreset(this.tasks[firstTask], branching_option);
+                    formerKey = this.getValueKeyToParam(this.tasks[firstTask], branching_option);
                     if (formerKey === key)
                         continue;
                     else {
-                        newNode = new PresetNode(branching_option.uuid);
+                        newNode = new ParamNode(branching_option.uuid);
                     }
                 } else if (branching_option === "code_version") {
                     if (this.tasks[firstTask].version === key)
@@ -258,7 +258,7 @@ class View {
                     throw "";
                 }
 
-                node = this.addPresetBeforeNode(node, newNode, formerKey)
+                node = this.addParamBeforeNode(node, newNode, formerKey)
             }
 
             if (!(key in node.children)) {
@@ -297,43 +297,43 @@ class View {
         if (Object.keys(node.children).length === 0 && !(node.parent instanceof RootNode)) {
             delete node.parent.children[node.parentKey];
             this.checkNodeForRemoval(node.parent)
-        } else if (Object.keys(node.children).length === 1 && (node instanceof PresetNode || node instanceof CodeVersionNode)) {
+        } else if (Object.keys(node.children).length === 1 && (node instanceof ParamNode || node instanceof CodeVersionNode)) {
             node.remove();
         }
     }
 
-    addPresetBeforeNode(node, newNode, formerKey) {
+    addParamBeforeNode(node, newNode, formerKey) {
         node.insertAsParent(formerKey, newNode);
         return newNode;
     }
 
-    getChoiceToPreset(task, preset) {
-        let suitableChoice = null;
+    getValueToParam(task, param) {
+        let suitableValue = null;
         let args = [];
-        for (const choice of task.choices) {
-            if (choice[0].preset === preset.uuid) {
-                suitableChoice = choice[0];
-                args = choice.slice(1);
+        for (const paramValue of task.paramValues) {
+            if (paramValue[0].param === param.uuid) {
+                suitableValue = paramValue[0];
+                args = paramValue.slice(1);
                 break;
             }
         }
 
-        if (suitableChoice === null)
-            return [preset.deprecated_choice, args];
+        if (suitableValue === null)
+            return [param.deprecated_param_value, args];
         else
-            return [suitableChoice, args];
+            return [suitableValue, args];
     }
 
-    getChoiceKeyToPreset(task, preset) {
-        let choice = this.getChoiceToPreset(task, preset);
-        return this.getKeyToChoice(choice);
+    getValueKeyToParam(task, param) {
+        let value = this.getValueToParam(task, param);
+        return this.getKeyToParamValue(value);
     }
 
-    getKeyToChoice(choice) {
-        let key = choice[0].name;
+    getKeyToParamValue(paramValue) {
+        let key = paramValue[0].name;
 
-        for (let i = 0; i < choice[1].length; i++) {
-            key = key.replace("$T" + (i) + "$", choice[1][i]);
+        for (let i = 0; i < paramValue[1].length; i++) {
+            key = key.replace("$T" + (i) + "$", paramValue[1][i]);
         }
 
         return key
@@ -362,16 +362,16 @@ class View {
         node.children[targetKey] = task.uuid;
     }
 
-    getNodeChoicePath(node, task) {
-        let choices = [];
+    getNodeParamValuePath(node, task) {
+        let values = [];
         while (!(node instanceof RootNode) && !(node.parent instanceof RootNode) && !(node instanceof CodeVersionNode) && !(node.parent instanceof CodeVersionNode)) {
-            choices.unshift([this.presetsByUuid[node.parent.preset], ...this.getChoiceToPreset(task, this.presetsByUuid[node.parent.preset])]);
+            values.unshift([this.paramsByUuid[node.parent.param], ...this.getValueToParam(task, this.paramsByUuid[node.parent.param])]);
             node = node.parent;
         }
-        return choices;
+        return values;
     }
 
-    getSelectedTask(selectedChoices, codeVersion=null) {
+    getSelectedTask(selectedParamValues, codeVersion=null) {
         let node = this.root.children["default"];
 
         if (node instanceof CodeVersionNode) {
@@ -381,18 +381,18 @@ class View {
             node = node.children[codeVersion]
         }
 
-        for (const preset of this.presets) {
-            if (preset.deprecated_choice !== '') {
-                const suitableChoice = preset.choices.find((choice) => choice.uuid === selectedChoices[preset.uuid][0]);
-                const suitableKey = this.getKeyToChoice([suitableChoice, selectedChoices[preset.uuid].slice(1)]);
+        for (const param of this.params) {
+            if (param.deprecated_param_value !== '') {
+                const suitableParamValue = param.values.find((choice) => choice.uuid === selectedParamValues[param.uuid][0]);
+                const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
 
-                if (node instanceof TasksNode || node.preset !== preset.uuid) {
+                if (node instanceof TasksNode || node.param !== param.uuid) {
                     const firstTask = node.getFirstTaskIn();
                     if (firstTask === null)
                         return [];
 
-                    const formerChoiceKey = this.getChoiceKeyToPreset(this.tasks[firstTask], preset);
-                    if (formerChoiceKey === suitableKey)
+                    const formerParamValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
+                    if (formerParamValueKey === suitableKey)
                         continue;
                     else
                         return [];

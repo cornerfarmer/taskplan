@@ -1,6 +1,5 @@
 import React from 'react';
 import Project from "./Project";
-import Prompt from "./Prompt";
 import CodeVersionViewer from "./CodeVersionViewer";
 import TaskViewer from "./TaskViewer";
 
@@ -197,7 +196,7 @@ class ProjectManager extends React.Component {
                         project_name={this.state.projects[this.state.currentProject].name}
                     />
                 }
-                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} presets={Object.values(this.props.repository.presets)} codeVersions={this.props.repository.codeVersions} />
+                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} params={Object.values(this.props.repository.params)} codeVersions={this.props.repository.codeVersions} />
             </div>
         );
     }

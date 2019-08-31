@@ -1,6 +1,9 @@
-from taskconf.config.Preset import Preset
-from taskplan.TaskWrapper import TaskWrapper
 import shutil
+
+from taskconf.config.Configuration import Configuration
+
+from taskplan.TaskWrapper import TaskWrapper
+
 try:
   from pathlib2 import Path
 except ImportError:
@@ -50,10 +53,10 @@ class RootNode(Node):
     def __init__(self):
         Node.__init__(self)
 
-class PresetNode(Node):
-    def __init__(self, preset):
+class ParamNode(Node):
+    def __init__(self, param):
         Node.__init__(self)
-        self.preset = preset
+        self.param = param
 
 class CodeVersionNode(Node):
     def __init__(self):
@@ -77,7 +80,7 @@ class View:
 
     def __init__(self, configuration, root):
         self.configuration = configuration
-        self.presets = self.configuration.sorted_presets()
+        self.params = self.configuration.sorted_params()
 
         self.root_node = RootNode()
         self.root_node.set_child("default", TasksNode())
@@ -102,13 +105,13 @@ class View:
     def add_task(self, task, change_dirs=True):
         path = self.root_path
         node = self.root_node.children["default"]
-        for branching_option in ["code_version"] + self.presets:
+        for branching_option in ["code_version"] + self.params:
 
-            if type(branching_option) == Preset:
-                if branching_option.get_metadata("deprecated_choice") == "":
+            if type(branching_option) == Configuration:
+                if branching_option.get_metadata("deprecated_param_value") == "":
                     continue
-                key = self._get_choice_key_to_preset(task, branching_option)
-                node_exists = type(node) == PresetNode and node.preset == branching_option
+                key = self._get_param_value_key_to_param(task, branching_option)
+                node_exists = type(node) == ParamNode and node.param == branching_option
             elif branching_option == "code_version":
                 key = self.code_version_key(task.code_version)
                 node_exists = type(node) == CodeVersionNode
@@ -120,12 +123,12 @@ class View:
                 if first_task is None:
                     continue
 
-                if type(branching_option) == Preset:
-                    former_key = self._get_choice_key_to_preset(first_task, branching_option)
+                if type(branching_option) == Configuration:
+                    former_key = self._get_param_value_key_to_param(first_task, branching_option)
                     if former_key == key:
                         continue
                     else:
-                        new_node = PresetNode(branching_option)
+                        new_node = ParamNode(branching_option)
 
                 elif branching_option == "code_version":
                     if self.code_version_key(first_task.code_version) == key:
@@ -166,56 +169,56 @@ class View:
 
         del self.task_by_uuid[str(task.uuid)]
 
-    def add_preset(self, preset):
+    def add_param(self, param):
         insert_index = 0
-        while insert_index < len(self.presets) and self.presets[insert_index].get_metadata("sorting") < preset.get_metadata("sorting"):
+        while insert_index < len(self.params) and self.params[insert_index].get_metadata("sorting") < param.get_metadata("sorting"):
             insert_index += 1
 
-        self.presets.insert(insert_index, preset)
-        self._add_node_with_preset(preset, self.root_node.children["default"], self.root_path)
+        self.params.insert(insert_index, param)
+        self._add_node_with_param(param, self.root_node.children["default"], self.root_path)
 
-    def _add_node_with_preset(self, preset, root, path):
-        if (type(root) == PresetNode and root.preset.get_metadata("sorting") > preset.get_metadata("sorting")) or type(root) == TasksNode:
+    def _add_node_with_param(self, param, root, path):
+        if (type(root) == ParamNode and root.param.get_metadata("sorting") > param.get_metadata("sorting")) or type(root) == TasksNode:
             first_task = root.get_first_task_in()
             if first_task is not None:
-                former_choice_key = self._get_choice_key_to_preset(first_task, preset)
+                former_param_value_key = self._get_param_value_key_to_param(first_task, param)
 
                 tasks = root.get_all_contained_tasks()
-                tasks_with_different_choice = []
+                tasks_with_different_param_value = []
                 for task in tasks:
-                    if self._get_choice_key_to_preset(task, preset) != former_choice_key:
-                        tasks_with_different_choice.append(task)
+                    if self._get_param_value_key_to_param(task, param) != former_param_value_key:
+                        tasks_with_different_param_value.append(task)
 
-                if len(tasks_with_different_choice) > 0:
-                    new_node = PresetNode(preset)
-                    self._add_node_before_node(root, new_node, former_choice_key, path)
+                if len(tasks_with_different_param_value) > 0:
+                    new_node = ParamNode(param)
+                    self._add_node_before_node(root, new_node, former_param_value_key, path)
 
-                    for task in tasks_with_different_choice:
+                    for task in tasks_with_different_param_value:
                         self.remove_task(task)
                         self.add_task(task)
         else:
 
             for key in root.children:
-                self._add_node_with_preset(preset, root.children[key], path / key)
+                self._add_node_with_param(param, root.children[key], path / key)
 
-    def remove_preset(self, preset):
-        if preset in self.presets:
-            self.presets.remove(preset)
-            self._remove_nodes_with_preset(preset, self.root_node.children["default"], self.root_path)
+    def remove_param(self, param):
+        if param in self.params:
+            self.params.remove(param)
+            self._remove_nodes_with_param(param, self.root_node.children["default"], self.root_path)
 
-    def _remove_nodes_with_preset(self, preset, root, path):
-        if type(root) == PresetNode and root.preset == preset:
+    def _remove_nodes_with_param(self, param, root, path):
+        if type(root) == ParamNode and root.param == param:
             tasks = []
             for key in list(root.children.keys())[1:]:
                 tasks.extend(self._remove_subtree(root.children[key], path / key))
 
-            self._remove_preset_at_node(root, path)
+            self._remove_param_at_node(root, path)
             for task in tasks:
                 self.add_task(task)
 
         elif type(root) != TasksNode:
             for key in root.children:
-                self._remove_nodes_with_preset(preset, root.children[key], path / key)
+                self._remove_nodes_with_param(param, root.children[key], path / key)
 
     def _remove_subtree(self, root, path):
         tasks = root.get_all_contained_tasks()
@@ -231,10 +234,10 @@ class View:
             del node.parent.children[node.parent_key]
             self._remove_path(path)
             self._check_node_for_removal(node.parent, path.parent)
-        elif len(node.children) == 1 and type(node) in [PresetNode, CodeVersionNode]:
-            self._remove_preset_at_node(node, path)
+        elif len(node.children) == 1 and type(node) in [ParamNode, CodeVersionNode]:
+            self._remove_param_at_node(node, path)
 
-    def _remove_preset_at_node(self, node, path):
+    def _remove_param_at_node(self, node, path):
         key = node.remove()
         path = path / key
 
@@ -270,19 +273,19 @@ class View:
                 return key
         return None
 
-    def _get_choice_key_to_preset(self, task, preset):
-        suitable_choice = None
+    def _get_param_value_key_to_param(self, task, param):
+        suitable_param_value = None
         args = []
-        for choice in task.preset.base_presets:
-            if choice[0].get_metadata("preset") == str(preset.uuid):
-                suitable_choice = choice[0]
-                args = choice[1:]
+        for param_value in task.config.base_configs:
+            if param_value[0].get_metadata("param") == str(param.uuid):
+                suitable_param_value = param_value[0]
+                args = param_value[1:]
                 break
 
-        if suitable_choice is None:
-            key = self.configuration.get_preset(preset.get_metadata("deprecated_choice")).get_metadata("name")
+        if suitable_param_value is None:
+            key = self.configuration.get_config(param.get_metadata("deprecated_param_value")).get_metadata("name")
         else:
-            key = suitable_choice.get_metadata("name")
+            key = suitable_param_value.get_metadata("name")
 
         for i in range(len(args)):
             key = key.replace("$T" + str(i) + "$", args[i])
@@ -318,7 +321,7 @@ class View:
             (path / str(target_key)).symlink_to(task.build_save_dir(), True)
 
     def _check_filesystem(self, node, path):
-        if type(node) in [PresetNode, CodeVersionNode] or type(node) == TasksNode:
+        if type(node) in [ParamNode, CodeVersionNode] or type(node) == TasksNode:
             if path.exists() and not path.is_dir():
                 self._remove_path(path)
 

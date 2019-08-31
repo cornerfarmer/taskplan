@@ -10,7 +10,7 @@ class TaskTab extends React.Component {
         this.newTask = this.newTask.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
-        this.choicePresetToName = this.choicePresetToName.bind(this);
+        this.paramValueToName = this.paramValueToName.bind(this);
         this.taskEditor = React.createRef();
     }
 
@@ -26,11 +26,11 @@ class TaskTab extends React.Component {
         this.taskEditor.current.open(task);
     }
 
-    choicePresetToName(choicePreset) {
-        let choice_name = choicePreset[1].name;
-        for (let i = 2; i < choicePreset.length; i++)
-            choice_name = choice_name.replace("$T" + (i - 2) + "$", choicePreset[i]);
-        return choice_name;
+    paramValueToName(paramValue) {
+        let paramValueName = paramValue[1].name;
+        for (let i = 2; i < paramValue.length; i++)
+            paramValueName = paramValueName.replace("$T" + (i - 2) + "$", paramValue[i]);
+        return paramValueName;
     };
 
     render() {
@@ -44,13 +44,13 @@ class TaskTab extends React.Component {
                                 s = a.saved_time - b.saved_time; break;
                             case 1:
 
-                                for (let i = 0; i < Math.min(a.nameChoices.length, b.nameChoices.length); i++) {
-                                    s = this.choicePresetToName(a.nameChoices[i]).localeCompare(this.choicePresetToName(b.nameChoices[i]));
+                                for (let i = 0; i < Math.min(a.nameParamValues.length, b.nameParamValues.length); i++) {
+                                    s = this.paramValueToName(a.nameParamValues[i]).localeCompare(this.paramValueToName(b.nameParamValues[i]));
                                     if (s !== 0)
                                         break;
                                 }
                                 if (s === 0)
-                                    s = b.nameChoices.length - a.nameChoices.length;
+                                    s = b.nameParamValues.length - a.nameParamValues.length;
                                 break;
                             case 2:
                                 s = a.creation_time - b.creation_time; break;
@@ -76,7 +76,7 @@ class TaskTab extends React.Component {
                         />
                     ))}
                 </ul>
-                <TaskEditor devices={this.props.devices} ref={this.taskEditor} presets={this.props.presets} presetsByGroup={this.props.presetsByGroup} project_name={this.props.project.name} />
+                <TaskEditor devices={this.props.devices} ref={this.taskEditor} params={this.props.params} paramsByGroup={this.props.paramsByGroup} project_name={this.props.project.name} />
                 <div className="tab-toolbar">
                     <label>
                     </label>
