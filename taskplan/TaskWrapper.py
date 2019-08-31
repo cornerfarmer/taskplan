@@ -80,10 +80,14 @@ class TaskWrapper:
             "total_iterations": self.total_iterations,
             "task_uuid": str(self.uuid)
         }
-        try:
-            os.remove(str(metadata["task_dir"] / "metadata.json.lock"))
-        except:
-            pass
+        #try:
+        #    os.remove(str(metadata["task_dir"] / "metadata.json.lock"))
+        #except:
+        #    pass
+
+        did_update = self.project.configuration.renew_task_preset(self.preset)
+        if did_update:
+            self.save_metadata(["preset"])
 
         self.device.run_task(self.task_dir, self.class_name, self.preset.clone(), metadata)
         self.start_time = datetime.datetime.now()

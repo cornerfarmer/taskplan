@@ -207,6 +207,32 @@ class ProjectConfiguration:
 
         return task_preset
 
+    def renew_task_preset(self, preset):
+        left_presets = self.get_presets()[:]
+
+        for base_preset in preset.base_presets:
+            for left_preset in left_presets:
+                if base_preset[0].get_metadata('preset') == str(left_preset.uuid):
+                    left_presets.remove(left_preset)
+                    break
+
+        if len(left_presets) > 0:
+            new_base_presets = preset.base_presets[:]
+            for left_preset in left_presets:
+                if left_preset.has_metadata("deprecated_choice"):
+                    new_base_presets.append([self.get_preset(left_preset.get_metadata("deprecated_choice"))])
+            preset.set_base_presets(new_base_presets)
+            data = preset.data
+            data['config'] = preset.get_merged_config()
+            data['base'] = []
+            for base_preset in new_base_presets:
+                data['base'].append([base_preset[0].uuid] + base_preset[1:])
+            preset.set_data(data)
+
+            return True
+        else:
+            return False
+
     def load_task(self, config):
         return self.configuration.add_preset(config, None)
 
