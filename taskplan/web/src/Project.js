@@ -118,12 +118,13 @@ class Project extends React.Component {
     }
 
     updateParams(params) {
-        this.filterView.updateParams(Object.values(params));
+        params = Object.values(params).filter(param => param.project_name === this.props.project.name);
+        this.filterView.updateParams(params);
 
         let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
         let paramsByGroup = {};
-        for (const param of Object.values(params)) {
+        for (const param of params) {
             if (!(param.uuid in selectedParamValues) && param.values.length > 0)
                 selectedParamValues[param.uuid] = [param.values[0].uuid];
 
@@ -134,7 +135,7 @@ class Project extends React.Component {
         }
 
         this.setState({
-            params: Object.values(params),
+            params: params,
             selectedParamValues: selectedParamValues,
             paramsByGroup: paramsByGroup
         });

@@ -130,12 +130,11 @@ class TaskEditor extends React.Component {
         this.close();
     }
 
-    onSelectionChange(param, value, arg=null) {
+    onSelectionChange(param, value, arg=[]) {
         const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
         selectedParamValues[param.uuid] = [value.uuid];
-        if (arg !== null)
-            selectedParamValues[param.uuid] = selectedParamValues[param.uuid].concat(arg);
+        selectedParamValues[param.uuid] = selectedParamValues[param.uuid].concat(arg);
 
         this.setState({
             selectedParamValues: selectedParamValues

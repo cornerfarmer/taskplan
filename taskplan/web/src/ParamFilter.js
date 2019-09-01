@@ -113,7 +113,7 @@ class ParamFilter extends React.Component {
                                                         </div>
                                                     )
                                                 ):(
-                                                 <div key={paramValue.uuid} className={this.calcParamValueClasses(param, paramValue)} onClick={() => this.props.onSelectionChange(param, paramValue, this.getParamValueArg(param, paramValue))}>
+                                                 <div key={paramValue.uuid} className={this.calcParamValueClasses(param, paramValue)} onClick={() => this.props.onSelectionChange(param, paramValue, [this.getParamValueArg(param, paramValue)])}>
                                                     <React.Fragment>
                                                         {paramValue.name.split("$T0$")[0]}
                                                         <input value={this.getParamValueArg(param, paramValue)} style={{"width": Math.max(10, (10 * (this.getParamValueArg(param, paramValue)).toString().length)) + "px"}} onChange={(evt) => this.onParamValueArgChange(param, paramValue, evt)}/>

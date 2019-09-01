@@ -2099,7 +2099,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     }, value.numberOfTasks)))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: paramValue.uuid,
       className: this.calcParamValueClasses(param, paramValue),
-      onClick: () => this.props.onSelectionChange(param, paramValue, this.getParamValueArg(param, paramValue)),
+      onClick: () => this.props.onSelectionChange(param, paramValue, [this.getParamValueArg(param, paramValue)]),
       __source: {
         fileName: _jsxFileName,
         lineNumber: 116
@@ -3613,11 +3613,12 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   updateParams(params) {
-    this.filterView.updateParams(Object.values(params));
+    params = Object.values(params).filter(param => param.project_name === this.props.project.name);
+    this.filterView.updateParams(params);
     let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
     let paramsByGroup = {};
 
-    for (const param of Object.values(params)) {
+    for (const param of params) {
       if (!(param.uuid in selectedParamValues) && param.values.length > 0) selectedParamValues[param.uuid] = [param.values[0].uuid];
       const group = param.group.length > 0 ? param.group[0] : '';
       if (!(group in paramsByGroup)) paramsByGroup[group] = [];
@@ -3625,7 +3626,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     }
 
     this.setState({
-      params: Object.values(params),
+      params: params,
       selectedParamValues: selectedParamValues,
       paramsByGroup: paramsByGroup
     });
@@ -3731,14 +3732,14 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 237
+        lineNumber: 238
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 238
+        lineNumber: 239
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3746,7 +3747,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showTab(0),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 239
+        lineNumber: 240
       },
       __self: this
     }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3754,20 +3755,20 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showTab(1),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 240
+        lineNumber: 241
       },
       __self: this
     }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 242
+        lineNumber: 243
       },
       __self: this
     }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 244
+        lineNumber: 245
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3775,19 +3776,19 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: "fas fa-sort",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 245
+        lineNumber: 246
       },
       __self: this
     })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 249
+        lineNumber: 250
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
+        lineNumber: 251
       },
       __self: this
     }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -3795,42 +3796,42 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onChange: this.onChangeSorting,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 251
+        lineNumber: 252
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "0",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 252
+        lineNumber: 253
       },
       __self: this
     }, "Finished"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "1",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
+        lineNumber: 254
       },
       __self: this
     }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "2",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
+        lineNumber: 255
       },
       __self: this
     }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "3",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 255
+        lineNumber: 256
       },
       __self: this
     }, "Iterations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "4",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 256
+        lineNumber: 257
       },
       __self: this
     }, "Started")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3838,7 +3839,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 259
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3846,7 +3847,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: this.openParamViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 260
+        lineNumber: 261
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -3860,7 +3861,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 264
+        lineNumber: 265
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -3881,7 +3882,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       devices: this.props.devices,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 274
+        lineNumber: 275
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -3894,7 +3895,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       paramFilterEnabled: this.state.paramFilterEnabled,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 291
+        lineNumber: 292
       },
       __self: this
     }));
@@ -5723,10 +5724,10 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     this.close();
   }
 
-  onSelectionChange(param, value, arg = null) {
+  onSelectionChange(param, value, arg = []) {
     const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
     selectedParamValues[param.uuid] = [value.uuid];
-    if (arg !== null) selectedParamValues[param.uuid] = selectedParamValues[param.uuid].concat(arg);
+    selectedParamValues[param.uuid] = selectedParamValues[param.uuid].concat(arg);
     this.setState({
       selectedParamValues: selectedParamValues
     });
@@ -5816,21 +5817,21 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 225
+        lineNumber: 224
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "task-editor slide-editor editor",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 226
+        lineNumber: 225
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 227
+        lineNumber: 226
       },
       __self: this
     }, "Start task", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -5838,20 +5839,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       onClick: this.close,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 227
+        lineNumber: 226
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
+        lineNumber: 227
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
+        lineNumber: 228
       },
       __self: this
     }, "Total iterations:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -5860,20 +5861,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 230
+        lineNumber: 229
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
+        lineNumber: 231
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233
+        lineNumber: 232
       },
       __self: this
     }, "Save interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -5882,20 +5883,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 234
+        lineNumber: 233
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 236
+        lineNumber: 235
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 237
+        lineNumber: 236
       },
       __self: this
     }, "Checkpoint interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -5904,20 +5905,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 238
+        lineNumber: 237
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 240
+        lineNumber: 239
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 241
+        lineNumber: 240
       },
       __self: this
     }, "Is test:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -5926,7 +5927,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       type: "checkbox",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 242
+        lineNumber: 241
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5936,7 +5937,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       useTemplateFields: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 244
+        lineNumber: 243
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5946,20 +5947,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       preview: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 245
+        lineNumber: 244
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
+        lineNumber: 245
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
+        lineNumber: 246
       },
       __self: this
     }, "Device:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -5967,27 +5968,27 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       onChange: this.onDeviceChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 248
+        lineNumber: 247
       },
       __self: this
     }, this.props.devices.map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: device.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
+        lineNumber: 249
       },
       __self: this
     }, device.name)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
+        lineNumber: 253
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 255
+        lineNumber: 254
       },
       __self: this
     }, "Command:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6001,21 +6002,21 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       readOnly: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 256
+        lineNumber: 255
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 257
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.run,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 259
+        lineNumber: 258
       },
       __self: this
     }, "Run"))));
