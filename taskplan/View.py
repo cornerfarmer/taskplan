@@ -288,7 +288,7 @@ class View:
             key = suitable_param_value.get_metadata("name")
 
         for i in range(len(args)):
-            key = key.replace("$T" + str(i) + "$", args[i])
+            key = key.replace("$T" + str(i) + "$", str(args[i]))
 
         return key
 

@@ -42,7 +42,7 @@ class ParamValue extends React.Component {
                         </div>
                     </div>
                 </div>
-                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this parameter value?" url={"/remove_choice/" + this.props.paramValue.project_name + "/" + this.props.paramValue.uuid}/>
+                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this parameter value?" url={"/remove_param_value/" + this.props.paramValue.project_name + "/" + this.props.paramValue.uuid}/>
             </li>
         );
     }

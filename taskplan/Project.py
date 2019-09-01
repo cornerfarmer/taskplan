@@ -83,11 +83,13 @@ class Project:
         try:
             task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
             task.load_metadata(path)
-            task.state = State.STOPPED
-            self.tasks.append(task)
-            self.configuration.register_task(task)
         except:
-            raise
+            print("Warning: Could not load task: " + str(path))
+            return
+
+        task.state = State.STOPPED
+        self.tasks.append(task)
+        self.configuration.register_task(task)
 
     def create_task(self, param_values, config, total_iterations, is_test=False):
         params = self.configuration.get_params()

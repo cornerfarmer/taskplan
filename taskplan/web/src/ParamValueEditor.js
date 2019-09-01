@@ -100,7 +100,7 @@ class ParamValueEditor extends React.Component {
             dataJson['dynamic'] = this.state.dynamic;
         if (this.state.template) {
             dataJson['isTemplate'] = this.state.template;
-            dataJson['template_defaults'] = [this.state.templateDefaults];
+            dataJson['template_defaults'] = this.state.templateDefaults;
         }
         dataJson['config'] = this.configEditor.current.state.config;
 
@@ -176,7 +176,7 @@ class ParamValueEditor extends React.Component {
 
     onTemplateDefaultsChange(event) {
         this.setState({
-            templateDefaults: event.target.value
+            templateDefaults: [event.target.value]
         });
     }
 
@@ -213,7 +213,7 @@ class ParamValueEditor extends React.Component {
                     {this.state.template &&
                     <div className="field">
                         <label>Template default:</label>
-                        <input value={this.state.templateDefaults} onChange={this.onTemplateDefaultsChange} />
+                        <input value={this.state.templateDefaults[0]} onChange={this.onTemplateDefaultsChange} />
                     </div> }
                     <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/param_value/" + this.state.paramValue.project_name + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} bases={[this.state.base]}/>
                     <div className="buttons">

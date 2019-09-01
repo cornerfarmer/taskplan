@@ -146,7 +146,7 @@ class RemoteAgent:
     def listen(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((self.host, self.port))
-            s.listen()
+            s.listen(0)
 
             while True:
                 print("Waiting for connection...")

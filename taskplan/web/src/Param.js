@@ -119,7 +119,7 @@ class Param extends React.Component {
                         ))}
                     </ul>
                 }
-                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this parameter?" url={"/remove_preset/" + this.props.param.project_name + "/" + this.props.param.uuid}/>
+                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this parameter?" url={"/remove_param/" + this.props.param.project_name + "/" + this.props.param.uuid}/>
             </li>
         );
     }

@@ -383,7 +383,7 @@ class View {
 
         for (const param of this.params) {
             if (param.deprecated_param_value !== '') {
-                const suitableParamValue = param.values.find((choice) => choice.uuid === selectedParamValues[param.uuid][0]);
+                const suitableParamValue = param.values.find((value) => value.uuid === selectedParamValues[param.uuid][0]);
                 const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
 
                 if (node instanceof TasksNode || node.param !== param.uuid) {

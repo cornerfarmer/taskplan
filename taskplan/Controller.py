@@ -11,10 +11,10 @@ from taskplan.Scheduler import Scheduler
 
 
 class Controller:
-    def __init__(self, event_manager):
+    def __init__(self, event_manager, allow_remote=False):
         self.global_config = Controller.load_global_config()
 
-        self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"), self.global_config.get_list("remote_devices"))
+        self.scheduler = Scheduler(event_manager, self.global_config.get_int("max_running_tasks"), self.global_config.get_list("remote_devices") if allow_remote else [])
         self.project_manager = ProjectManager(event_manager)
         self.project_manager.load_projects(self.global_config)
 

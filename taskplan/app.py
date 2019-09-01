@@ -15,7 +15,7 @@ except ImportError:
 def run():
     event_manager = EventManager()
 
-    controller = Controller(event_manager)
+    controller = Controller(event_manager, allow_remote=True)
     controller.start()
 
     app = Flask(__name__, static_folder="web/build/static", static_url_path="/static", template_folder="web/build")
