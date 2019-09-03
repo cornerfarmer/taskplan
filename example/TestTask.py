@@ -25,6 +25,7 @@ class TestTask(taskplan.Task):
         time.sleep(1)
         self.sum += self.config.get_int('step')
         self.logger.log("Current sum: " + str(self.sum) + " (Iteration " + str(current_iteration) + ")")
+        self.logger.log("Test: " + str(self.config.get_list("test_list")[0]))
 
         if tensorboard_writer is not None:
             tensorboard_writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="sum", simple_value=self.sum)]), current_iteration)

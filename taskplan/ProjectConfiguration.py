@@ -114,7 +114,7 @@ class ProjectConfiguration:
     def add_param(self, new_data):
         new_data["sorting"] = self._max_sorting() + 1
         param = self.configuration.add_config(new_data, self.params_conf_path)
-        self.params_conf_path[str(param.uuid)] = []
+        self.param_groups[str(param.uuid)] = []
         return param
 
     def add_param_batch(self, config):
@@ -139,7 +139,7 @@ class ProjectConfiguration:
                 data = {}
                 data["name"] = key + "_$T0$"
                 data["isTemplate"] = True
-                data["template_defaults"] = [config[key]]
+                data["template_defaults"] = [str(config[key])]
                 data["config"] = {}
                 sub_config = data["config"]
                 for sub_key in prefix:
@@ -223,7 +223,14 @@ class ProjectConfiguration:
             new_param_values = config.base_configs[:]
             for left_param in left_params:
                 if left_param.has_metadata("deprecated_param_value"):
-                    new_param_values.append([self.get_config(left_param.get_metadata("deprecated_param_value"))])
+                    param_value_config = self.get_config(left_param.get_metadata("deprecated_param_value"))
+                    new_param_value = [param_value_config]
+
+                    if param_value_config.has_metadata("isTemplate") and param_value_config.get_metadata("isTemplate"):
+                        new_param_value.extend(param_value_config.get_metadata("template_defaults"))
+
+                    new_param_values.append(new_param_value)
+
             config.set_base_configs(new_param_values)
             data = config.data
             data['config'] = config.get_merged_config()

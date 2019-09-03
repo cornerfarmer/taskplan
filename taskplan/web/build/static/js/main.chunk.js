@@ -6875,7 +6875,7 @@ class View {
       }
     }
 
-    if (suitableValue === null) return [param.deprecated_param_value, args];else return [suitableValue, args];
+    if (suitableValue === null) return [param.deprecated_param_value, param.deprecated_param_value.template_defaults];else return [suitableValue, args];
   }
 
   getValueKeyToParam(task, param) {
@@ -7376,5 +7376,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",1]]]);
+},[[0,"runtime~main",0]]]);
 //# sourceMappingURL=main.chunk.js.map

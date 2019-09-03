@@ -319,7 +319,7 @@ class View {
         }
 
         if (suitableValue === null)
-            return [param.deprecated_param_value, args];
+            return [param.deprecated_param_value, param.deprecated_param_value.template_defaults];
         else
             return [suitableValue, args];
     }
