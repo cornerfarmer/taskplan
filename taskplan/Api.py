@@ -35,3 +35,20 @@ class Api:
     def logger_for_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         return Logger(task.build_save_dir(), "main")
+
+    def build_config(self, project_name, data, data_has_metadata=False):
+        if not data_has_metadata:
+            data = {"config": data}
+
+        base_configs = []
+        project = self.project_manager.project_by_name(project_name)
+        for param in project.configuration.get_params():
+            if param.has_metadata("deprecated_param_value"):
+                for param_value in project.configuration.get_param_values():
+                    if param.get_metadata("deprecated_param_value") == str(param_value.uuid):
+                        base_configs.append([param_value])
+                        if param_value.has_metadata("template_defaults"):
+                            base_configs[-1] += param_value.get_metadata("template_defaults")
+
+        config = Configuration(data, base_configs)
+        return config
