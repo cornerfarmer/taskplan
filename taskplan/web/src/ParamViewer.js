@@ -35,7 +35,7 @@ class ParamViewer extends React.Component {
                         <input type="checkbox" checked={this.props.paramFilterEnabled} onChange={() => this.props.toggleParamFilter()} />
                         <span>Enabled</span>
                     </label>
-                    <ParamFilter paramsByGroup={this.props.paramsByGroup} numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue} selectedParamValues={this.props.selectedParamValues} onSelectionChange={this.props.onSelectionChange}/>
+                    <ParamFilter selectMultiple={true} paramsByGroup={this.props.paramsByGroup} numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue} selectedParamValues={this.props.selectedParamValues} toggleSelection={this.props.toggleSelection}/>
                 </div>
             );
         } else {

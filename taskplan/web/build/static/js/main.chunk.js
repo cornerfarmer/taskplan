@@ -1925,16 +1925,14 @@ __webpack_require__.r(__webpack_exports__);
 var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamFilter.js";
 
 
-class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   constructor(props) {
     super(props);
     this.state = {
-      paramValueArguments: {}
+      extended: false
     };
     this.mapValueToValues = this.mapValueToValues.bind(this);
     this.calcParamValueName = this.calcParamValueName.bind(this);
-    this.onParamValueArgChange = this.onParamValueArgChange.bind(this);
-    this.getParamValueArg = this.getParamValueArg.bind(this);
   }
 
   calcParamValueName(paramValue, args) {
@@ -1949,7 +1947,14 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 
   calcParamValueClasses(param, value) {
     let classes = "param-value ";
-    if (param.uuid in this.props.selectedParamValues && this.props.selectedParamValues[param.uuid][0] === value.uuid && (!("resolvedName" in value) || this.calcParamValueName(value, this.props.selectedParamValues[param.uuid].slice(1)) === value.resolvedName)) classes += "param-value-selected ";
+
+    if (this.props.selectMultiple) {
+      const paramValue = [value.uuid, ...value.args];
+      if (!(param.uuid in this.props.selectedParamValues) || param.uuid in this.props.selectedParamValues && this.props.selectedParamValues[param.uuid].findIndex(selection => selection.length === paramValue.length && selection.every((value, index) => value === paramValue[index])) !== -1) classes += "param-value-selected ";
+    } else {
+      if (param.uuid in this.props.selectedParamValues && this.props.selectedParamValues[param.uuid][0] === value.uuid && (!("resolvedName" in value) || this.calcParamValueName(value, this.props.selectedParamValues[param.uuid].slice(1)) === value.resolvedName)) classes += "param-value-selected ";
+    }
+
     if (param.default_param_value.uuid === value.uuid) classes += "param-value-default ";
     return classes;
   }
@@ -1966,8 +1971,8 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       let numbersPerArg = {};
 
       for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
-        const name = this.calcParamValueName(paramValue, task.slice(1));
-        if (!(name in numbersPerArg)) numbersPerArg[name] = [0, task.slice(1)];
+        const name = this.calcParamValueName(paramValue, task[1]);
+        if (!(name in numbersPerArg)) numbersPerArg[name] = [0, task[1]];
         numbersPerArg[name][0]++;
       }
 
@@ -1982,10 +1987,108 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     return paramValues;
   }
 
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: this.props.param.uuid,
+      className: "param",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 59
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "param-name",
+      onClick: () => this.setState({
+        extended: !this.state.extended
+      }),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 60
+      },
+      __self: this
+    }, this.props.param.name), this.state.extended && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "param-values-wrapper",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 64
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "param-values",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 65
+      },
+      __self: this
+    }, this.props.param.values.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    }).map(paramValue => !paramValue.isTemplate || !this.props.useTemplateFields ? this.mapValueToValues(paramValue).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: value.uuid,
+      className: this.calcParamValueClasses(this.props.param, value),
+      onClick: () => this.props.toggleSelection(this.props.param, value, value.args),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 71
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 72
+      },
+      __self: this
+    }, value.resolvedName, this.props.numberOfTasksPerParamValue && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "task-numbers",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 75
+      },
+      __self: this
+    }, value.numberOfTasks)))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: paramValue.uuid,
+      className: this.calcParamValueClasses(this.props.param, paramValue),
+      onClick: () => this.props.toggleSelection(this.props.param, paramValue, [this.props.getParamValueArg(this.props.param, paramValue)]),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 81
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 82
+      },
+      __self: this
+    }, paramValue.name.split("$T0$")[0], react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      value: this.props.getParamValueArg(this.props.param, paramValue),
+      style: {
+        "width": Math.max(10, 10 * this.props.getParamValueArg(this.props.param, paramValue).toString().length) + "px"
+      },
+      onChange: evt => this.onParamValueArgChange(this.props.param, paramValue, evt),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 84
+      },
+      __self: this
+    }), paramValue.name.split("$T0$")[1]))))));
+  }
+
+}
+
+class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      paramValueArguments: {}
+    };
+    this.onParamValueArgChange = this.onParamValueArgChange.bind(this);
+    this.getParamValueArg = this.getParamValueArg.bind(this);
+  }
+
   onParamValueArgChange(param, value, evt) {
     const paramValueArguments = Object.assign({}, this.state.paramValueArguments);
     paramValueArguments[value.uuid] = evt.target.value;
-    this.props.onSelectionChange(param, value, evt.target.value);
+    this.props.toggleSelection(param, value, evt.target.value);
     this.setState({
       paramValueArguments: paramValueArguments
     });
@@ -2010,7 +2113,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-filter",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 85
+        lineNumber: 143
       },
       __self: this
     }, Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2018,7 +2121,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-group",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
+        lineNumber: 145
       },
       __self: this
     }, group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2026,103 +2129,44 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       onClick: () => this.toggleHideParamValues(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 89
+        lineNumber: 147
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 90
+        lineNumber: 148
       },
       __self: this
     }, group)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
-      },
-      __self: this
-    }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: param.uuid,
-      className: "param",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 95
+        lineNumber: 151
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "param-name",
+      className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 96
+        lineNumber: 152
       },
       __self: this
-    }, param.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "param-values-wrapper",
+    }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+      param: param,
+      useTemplateFields: this.props.useTemplateFields,
+      toggleSelection: this.props.toggleSelection,
+      selectedParamValues: this.props.selectedParamValues,
+      getParamValueArg: this.getParamValueArg,
+      numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
+      selectMultiple: this.props.selectMultiple,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 99
+        lineNumber: 154
       },
       __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "param-values",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 100
-      },
-      __self: this
-    }, param.values.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    }).map(paramValue => !paramValue.isTemplate || !this.props.useTemplateFields ? this.mapValueToValues(paramValue).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: value.uuid,
-      className: this.calcParamValueClasses(param, value),
-      onClick: () => this.props.onSelectionChange(param, value, value.args),
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 106
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 107
-      },
-      __self: this
-    }, value.resolvedName, this.props.numberOfTasksPerParamValue && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "task-numbers",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 110
-      },
-      __self: this
-    }, value.numberOfTasks)))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: paramValue.uuid,
-      className: this.calcParamValueClasses(param, paramValue),
-      onClick: () => this.props.onSelectionChange(param, paramValue, [this.getParamValueArg(param, paramValue)]),
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 116
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 117
-      },
-      __self: this
-    }, paramValue.name.split("$T0$")[0], react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      value: this.getParamValueArg(param, paramValue),
-      style: {
-        "width": Math.max(10, 10 * this.getParamValueArg(param, paramValue).toString().length) + "px"
-      },
-      onChange: evt => this.onParamValueArgChange(param, paramValue, evt),
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 119
-      },
-      __self: this
-    }), paramValue.name.split("$T0$")[1])))))))))));
+    })))))));
   }
 
 }
@@ -3104,10 +3148,11 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __self: this
       }, "Enabled")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        selectMultiple: true,
         paramsByGroup: this.props.paramsByGroup,
         numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
         selectedParamValues: this.props.selectedParamValues,
-        onSelectionChange: this.props.onSelectionChange,
+        toggleSelection: this.props.toggleSelection,
         __source: {
           fileName: _jsxFileName,
           lineNumber: 38
@@ -3557,7 +3602,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.onChangeSorting = this.onChangeSorting.bind(this);
     this.switchSortingDirection = this.switchSortingDirection.bind(this);
     this.openParamViewer = this.openParamViewer.bind(this);
-    this.onSelectionChange = this.onSelectionChange.bind(this);
+    this.toggleSelection = this.toggleSelection.bind(this);
     this.toggleParamFilter = this.toggleParamFilter.bind(this);
     this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
     this.filterLikeTask = this.filterLikeTask.bind(this);
@@ -3631,14 +3676,38 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   updateVisibleTasks(selectedParamValues = null, paramFilterEnabled = null) {
     if (selectedParamValues === null) selectedParamValues = this.state.selectedParamValues;
     if (paramFilterEnabled === null) paramFilterEnabled = this.state.paramFilterEnabled;
-    let selectedTasks;
+    let selectedTasks = Object.keys(this.state.tasks).filter(taskUuid => {
+      const task = this.state.tasks[taskUuid];
+      let show = true;
+      show = show && task.version === this.props.project.current_code_version;
 
-    if (paramFilterEnabled) {
-      selectedTasks = this.filterView.getSelectedTask(selectedParamValues, this.props.project.current_code_version);
-    } else {
-      selectedTasks = Object.keys(this.state.tasks).filter(task => this.state.tasks[task].version === this.props.project.current_code_version);
-    }
+      if (paramFilterEnabled && show) {
+        for (let selectedParamUuid in selectedParamValues) {
+          const param = this.props.repository.params[selectedParamUuid];
+          let taskValue = null;
+          let args = [];
 
+          for (let paramValue of task.paramValues) {
+            if (paramValue[0].param === param.uuid) {
+              taskValue = paramValue[0];
+              args = paramValue.slice(1);
+              break;
+            }
+          }
+
+          if (taskValue === null) {
+            taskValue = param.deprecated_param_value;
+            args = param.deprecated_param_value.template_deprecated !== undefined ? param.deprecated_param_value.template_deprecated : [];
+          }
+
+          taskValue = [taskValue.uuid, ...args];
+          show = show && selectedParamValues[selectedParamUuid].findIndex(paramValue => taskValue.length === paramValue.length && taskValue.every((value, index) => value === paramValue[index])) !== -1;
+          if (!show) break;
+        }
+      }
+
+      return show;
+    });
     this.setState({
       selectedTasks: selectedTasks
     });
@@ -3647,11 +3716,9 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   updateParams(params) {
     params = Object.values(params).filter(param => param.project_name === this.props.project.name);
     this.filterView.updateParams(params);
-    let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
     let paramsByGroup = {};
 
     for (const param of params) {
-      if (!(param.uuid in selectedParamValues) && param.values.length > 0) selectedParamValues[param.uuid] = [param.values[0].uuid];
       const group = param.group.length > 0 ? param.group[0] : '';
       if (!(group in paramsByGroup)) paramsByGroup[group] = [];
       paramsByGroup[group].push(param);
@@ -3659,7 +3726,6 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
     this.setState({
       params: params,
-      selectedParamValues: selectedParamValues,
       paramsByGroup: paramsByGroup
     });
   }
@@ -3702,9 +3768,17 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     });
   }
 
-  onSelectionChange(param, value, args) {
+  toggleSelection(param, value, args) {
     const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
-    selectedParamValues[param.uuid] = [value.uuid, ...args];
+    const newValue = [value.uuid, ...args];
+
+    if (param.uuid in selectedParamValues) {
+      const existingIndex = selectedParamValues[param.uuid].findIndex(paramValue => newValue.length === paramValue.length && newValue.every((value, index) => value === paramValue[index]));
+      if (existingIndex !== -1) selectedParamValues[param.uuid].splice(existingIndex, 1);else selectedParamValues[param.uuid].push(newValue);
+    } else {
+      selectedParamValues[param.uuid] = [newValue];
+    }
+
     this.updateVisibleTasks(selectedParamValues);
     this.setState({
       selectedParamValues: selectedParamValues
@@ -3764,14 +3838,14 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 238
+        lineNumber: 270
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 239
+        lineNumber: 271
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3779,7 +3853,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showTab(0),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 240
+        lineNumber: 272
       },
       __self: this
     }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3787,20 +3861,20 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showTab(1),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 241
+        lineNumber: 273
       },
       __self: this
     }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 243
+        lineNumber: 275
       },
       __self: this
     }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 245
+        lineNumber: 277
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3808,19 +3882,19 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: "fas fa-sort",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
+        lineNumber: 278
       },
       __self: this
     })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
+        lineNumber: 282
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 251
+        lineNumber: 283
       },
       __self: this
     }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -3828,42 +3902,42 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onChange: this.onChangeSorting,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 252
+        lineNumber: 284
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "0",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
+        lineNumber: 285
       },
       __self: this
     }, "Finished"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "1",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
+        lineNumber: 286
       },
       __self: this
     }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "2",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 255
+        lineNumber: 287
       },
       __self: this
     }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "3",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 256
+        lineNumber: 288
       },
       __self: this
     }, "Iterations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "4",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 257
+        lineNumber: 289
       },
       __self: this
     }, "Started")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3871,7 +3945,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 259
+        lineNumber: 291
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3879,7 +3953,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: this.openParamViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 261
+        lineNumber: 293
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -3893,7 +3967,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 265
+        lineNumber: 297
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -3906,7 +3980,6 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       paramFilterEnabled: this.state.paramFilterEnabled,
       sorting: this.state.sorting,
       sortingDescending: this.state.sortingDescending,
-      onSelectionChange: this.onSelectionChange,
       showTask: this.props.showTask,
       paramsByGroup: this.state.paramsByGroup,
       highlightedTask: this.props.highlightedTask,
@@ -3914,7 +3987,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       devices: this.props.devices,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 275
+        lineNumber: 307
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -3922,12 +3995,12 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       paramsByGroup: this.state.paramsByGroup,
       selectedParamValues: this.state.selectedParamValues,
-      onSelectionChange: this.onSelectionChange,
+      toggleSelection: this.toggleSelection,
       toggleParamFilter: this.toggleParamFilter,
       paramFilterEnabled: this.state.paramFilterEnabled,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 292
+        lineNumber: 323
       },
       __self: this
     }));
@@ -5703,7 +5776,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         }
       }
 
-      if (suitableParamValue === null) selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...args];else selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
+      if (suitableParamValue === null) selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];else selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
     }
 
     this.setState({
@@ -5962,6 +6035,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      selectMultiple: false,
       paramsByGroup: this.props.paramsByGroup,
       selectedParamValues: this.state.selectedParamValues,
       onSelectionChange: this.onSelectionChange,
@@ -6984,20 +7058,23 @@ class View {
     for (const param of this.params) {
       if (param.deprecated_param_value !== '') {
         const suitableParamValue = param.values.find(value => value.uuid === selectedParamValues[param.uuid][0]);
-        const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
 
-        if (node instanceof TasksNode || node.param !== param.uuid) {
-          const firstTask = node.getFirstTaskIn();
-          if (firstTask === null) return [];
-          const formerParamValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
-          if (formerParamValueKey === suitableKey) continue;else return [];
+        if (suitableParamValue !== undefined) {
+          const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
+
+          if (node instanceof TasksNode || node.param !== param.uuid) {
+            const firstTask = node.getFirstTaskIn();
+            if (firstTask === null) return [];
+            const formerParamValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
+            if (formerParamValueKey === suitableKey) continue;else return [];
+          }
+
+          if (!(suitableKey in node.children)) {
+            return [];
+          }
+
+          node = node.children[suitableKey];
         }
-
-        if (!(suitableKey in node.children)) {
-          return [];
-        }
-
-        node = node.children[suitableKey];
       }
     }
 
@@ -7419,5 +7496,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",0]]]);
+},[[0,"runtime~main",1]]]);
 //# sourceMappingURL=main.chunk.js.map

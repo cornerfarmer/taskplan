@@ -60,7 +60,7 @@ class TaskEditor extends React.Component {
             }
 
             if (suitableParamValue === null)
-                selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...args];
+                selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];
             else
                 selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
         }
@@ -240,7 +240,7 @@ class TaskEditor extends React.Component {
                         <label>Is test:</label>
                         <input checked={this.state.isTest} onChange={this.onIsTestChange} type="checkbox" />
                     </div>
-                    <ParamFilter paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.state.selectedParamValues} onSelectionChange={this.onSelectionChange} useTemplateFields={true}/>
+                    <ParamFilter selectMultiple={false} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.state.selectedParamValues} onSelectionChange={this.onSelectionChange} useTemplateFields={true}/>
                     <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedParamValues)} preview={true} />
                     <div className="field">
                         <label>Device:</label>

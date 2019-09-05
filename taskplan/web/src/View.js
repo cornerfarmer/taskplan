@@ -384,25 +384,27 @@ class View {
         for (const param of this.params) {
             if (param.deprecated_param_value !== '') {
                 const suitableParamValue = param.values.find((value) => value.uuid === selectedParamValues[param.uuid][0]);
-                const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
+                if (suitableParamValue !== undefined) {
+                    const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
 
-                if (node instanceof TasksNode || node.param !== param.uuid) {
-                    const firstTask = node.getFirstTaskIn();
-                    if (firstTask === null)
+                    if (node instanceof TasksNode || node.param !== param.uuid) {
+                        const firstTask = node.getFirstTaskIn();
+                        if (firstTask === null)
+                            return [];
+
+                        const formerParamValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
+                        if (formerParamValueKey === suitableKey)
+                            continue;
+                        else
+                            return [];
+                    }
+
+                    if (!(suitableKey in node.children)) {
                         return [];
+                    }
 
-                    const formerParamValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
-                    if (formerParamValueKey === suitableKey)
-                        continue;
-                    else
-                        return [];
+                    node = node.children[suitableKey]
                 }
-
-                if (!(suitableKey in node.children)) {
-                    return [];
-                }
-
-                node = node.children[suitableKey]
             }
         }
 

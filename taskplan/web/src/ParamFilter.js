@@ -1,15 +1,15 @@
 import React from 'react';
 
-class ParamFilter extends React.Component {
+
+class ParamFilterParam extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            paramValueArguments: {}
+            extended: false
         };
+
         this.mapValueToValues = this.mapValueToValues.bind(this);
         this.calcParamValueName = this.calcParamValueName.bind(this);
-        this.onParamValueArgChange = this.onParamValueArgChange.bind(this);
-        this.getParamValueArg = this.getParamValueArg.bind(this);
     }
 
     calcParamValueName(paramValue, args) {
@@ -22,8 +22,14 @@ class ParamFilter extends React.Component {
 
     calcParamValueClasses(param, value) {
         let classes = "param-value ";
-        if (param.uuid in this.props.selectedParamValues && this.props.selectedParamValues[param.uuid][0] === value.uuid && (!("resolvedName" in value) || this.calcParamValueName(value, this.props.selectedParamValues[param.uuid].slice(1)) === value.resolvedName))
-            classes += "param-value-selected ";
+        if (this.props.selectMultiple) {
+            const paramValue = [value.uuid, ...value.args];
+            if (!(param.uuid in this.props.selectedParamValues) || (param.uuid in this.props.selectedParamValues && this.props.selectedParamValues[param.uuid].findIndex(selection => selection.length === paramValue.length && selection.every((value, index) => value === paramValue[index])) !== -1))
+                classes += "param-value-selected ";
+        } else {
+            if (param.uuid in this.props.selectedParamValues && this.props.selectedParamValues[param.uuid][0] === value.uuid && (!("resolvedName" in value) || this.calcParamValueName(value, this.props.selectedParamValues[param.uuid].slice(1)) === value.resolvedName))
+                classes += "param-value-selected ";
+        }
         if (param.default_param_value.uuid === value.uuid)
             classes += "param-value-default ";
         return classes;
@@ -36,9 +42,9 @@ class ParamFilter extends React.Component {
         else if (paramValue.uuid in this.props.numberOfTasksPerParamValue) {
             let numbersPerArg = {};
             for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
-                const name = this.calcParamValueName(paramValue, task.slice(1));
+                const name = this.calcParamValueName(paramValue, task[1]);
                 if (!(name in numbersPerArg))
-                    numbersPerArg[name] = [0, task.slice(1)];
+                    numbersPerArg[name] = [0, task[1]];
                 numbersPerArg[name][0]++;
             }
 
@@ -48,11 +54,63 @@ class ParamFilter extends React.Component {
         return paramValues;
     }
 
+    render() {
+        return (
+            <div key={this.props.param.uuid} className="param">
+                <div className="param-name" onClick={() => this.setState({extended: !this.state.extended})}>
+                    {this.props.param.name}
+                </div>
+                {this.state.extended &&
+                    <div className="param-values-wrapper">
+                        <div className="param-values">
+                            {this.props.param.values.sort((a, b) => {
+                                return a.name.localeCompare(b.name);
+                            }).map(paramValue =>
+                                !paramValue.isTemplate || !this.props.useTemplateFields ?
+                                this.mapValueToValues(paramValue).map(value => (
+                                        <div key={value.uuid} className={this.calcParamValueClasses(this.props.param, value)} onClick={() => this.props.toggleSelection(this.props.param, value, value.args)}>
+                                            <React.Fragment>
+                                                {value.resolvedName}
+                                                {this.props.numberOfTasksPerParamValue &&
+                                                <span className="task-numbers">{value.numberOfTasks}</span>
+                                                }
+                                            </React.Fragment>
+                                        </div>
+                                    )
+                                ):(
+                                 <div key={paramValue.uuid} className={this.calcParamValueClasses(this.props.param, paramValue)} onClick={() => this.props.toggleSelection(this.props.param, paramValue, [this.props.getParamValueArg(this.props.param, paramValue)])}>
+                                    <React.Fragment>
+                                        {paramValue.name.split("$T0$")[0]}
+                                        <input value={this.props.getParamValueArg(this.props.param, paramValue)} style={{"width": Math.max(10, (10 * (this.props.getParamValueArg(this.props.param, paramValue)).toString().length)) + "px"}} onChange={(evt) => this.onParamValueArgChange(this.props.param, paramValue, evt)}/>
+                                        {paramValue.name.split("$T0$")[1]}
+                                    </React.Fragment>
+                                </div>
+                                )
+                            )}
+                        </div>
+                    </div>
+                }
+            </div>
+        );
+    }
+}
+
+class ParamFilter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            paramValueArguments: {}
+        };
+        this.onParamValueArgChange = this.onParamValueArgChange.bind(this);
+        this.getParamValueArg = this.getParamValueArg.bind(this);
+    }
+
+
     onParamValueArgChange(param, value, evt) {
         const paramValueArguments = Object.assign({}, this.state.paramValueArguments);
 
         paramValueArguments[value.uuid] = evt.target.value;
-        this.props.onSelectionChange(param, value, evt.target.value);
+        this.props.toggleSelection(param, value, evt.target.value);
 
         this.setState({
             paramValueArguments: paramValueArguments
@@ -91,41 +149,19 @@ class ParamFilter extends React.Component {
                         </div>
                         }
                         <div className="params">
-                            {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(param => (
-                                <div key={param.uuid} className="param">
-                                    <div className="param-name">
-                                        {param.name}
-                                    </div>
-                                    <div className="param-values-wrapper">
-                                        <div className="param-values">
-                                            {param.values.sort((a, b) => {
-                                                return a.name.localeCompare(b.name);
-                                            }).map(paramValue =>
-                                                !paramValue.isTemplate || !this.props.useTemplateFields ?
-                                                this.mapValueToValues(paramValue).map(value => (
-                                                        <div key={value.uuid} className={this.calcParamValueClasses(param, value)} onClick={() => this.props.onSelectionChange(param, value, value.args)}>
-                                                            <React.Fragment>
-                                                                {value.resolvedName}
-                                                                {this.props.numberOfTasksPerParamValue &&
-                                                                <span className="task-numbers">{value.numberOfTasks}</span>
-                                                                }
-                                                            </React.Fragment>
-                                                        </div>
-                                                    )
-                                                ):(
-                                                 <div key={paramValue.uuid} className={this.calcParamValueClasses(param, paramValue)} onClick={() => this.props.onSelectionChange(param, paramValue, [this.getParamValueArg(param, paramValue)])}>
-                                                    <React.Fragment>
-                                                        {paramValue.name.split("$T0$")[0]}
-                                                        <input value={this.getParamValueArg(param, paramValue)} style={{"width": Math.max(10, (10 * (this.getParamValueArg(param, paramValue)).toString().length)) + "px"}} onChange={(evt) => this.onParamValueArgChange(param, paramValue, evt)}/>
-                                                        {paramValue.name.split("$T0$")[1]}
-                                                    </React.Fragment>
-                                                </div>
-                                                )
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                            <div className="params">
+                                {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(param => (
+                                    <ParamFilterParam
+                                        param={param}
+                                        useTemplateFields={this.props.useTemplateFields}
+                                        toggleSelection={this.props.toggleSelection}
+                                        selectedParamValues={this.props.selectedParamValues}
+                                        getParamValueArg={this.getParamValueArg}
+                                        numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
+                                        selectMultiple={this.props.selectMultiple}
+                                        />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ))}

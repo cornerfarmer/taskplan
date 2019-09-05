@@ -29,7 +29,7 @@ class Project extends React.Component {
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.openParamViewer = this.openParamViewer.bind(this);
-        this.onSelectionChange = this.onSelectionChange.bind(this);
+        this.toggleSelection = this.toggleSelection.bind(this);
         this.toggleParamFilter = this.toggleParamFilter.bind(this);
         this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
@@ -100,18 +100,47 @@ class Project extends React.Component {
         this.updateVisibleTasks();
     }
 
+
+
     updateVisibleTasks(selectedParamValues=null, paramFilterEnabled=null) {
         if (selectedParamValues === null)
             selectedParamValues = this.state.selectedParamValues;
         if (paramFilterEnabled === null)
             paramFilterEnabled = this.state.paramFilterEnabled;
 
-        let selectedTasks;
-        if (paramFilterEnabled) {
-            selectedTasks = this.filterView.getSelectedTask(selectedParamValues, this.props.project.current_code_version);
-        } else {
-            selectedTasks = Object.keys(this.state.tasks).filter(task => this.state.tasks[task].version === this.props.project.current_code_version);
-        }
+        let selectedTasks = Object.keys(this.state.tasks).filter(taskUuid => {
+            const task = this.state.tasks[taskUuid];
+            let show = true;
+            show = show && task.version === this.props.project.current_code_version;
+
+            if (paramFilterEnabled && show) {
+                for (let selectedParamUuid in selectedParamValues) {
+                    const param = this.props.repository.params[selectedParamUuid];
+                    let taskValue = null;
+                    let args = [];
+                    for (let paramValue of task.paramValues) {
+                        if (paramValue[0].param === param.uuid) {
+                            taskValue = paramValue[0];
+                            args = paramValue.slice(1);
+                            break;
+                        }
+                    }
+
+                    if (taskValue === null) {
+                        taskValue = param.deprecated_param_value;
+                        args = param.deprecated_param_value.template_deprecated !== undefined ? param.deprecated_param_value.template_deprecated : [];
+                    }
+                    taskValue = [taskValue.uuid, ...args];
+
+                    show = show && (selectedParamValues[selectedParamUuid].findIndex(paramValue => taskValue.length === paramValue.length && taskValue.every((value, index) => value === paramValue[index])) !== -1);
+                    if (!show)
+                        break
+                }
+            }
+
+            return show;
+        });
+
         this.setState({
             selectedTasks: selectedTasks
         });
@@ -121,13 +150,8 @@ class Project extends React.Component {
         params = Object.values(params).filter(param => param.project_name === this.props.project.name);
         this.filterView.updateParams(params);
 
-        let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
-
         let paramsByGroup = {};
         for (const param of params) {
-            if (!(param.uuid in selectedParamValues) && param.values.length > 0)
-                selectedParamValues[param.uuid] = [param.values[0].uuid];
-
             const group = param.group.length > 0 ? param.group[0] : '';
             if (!(group in paramsByGroup))
                 paramsByGroup[group] = [];
@@ -136,7 +160,6 @@ class Project extends React.Component {
 
         this.setState({
             params: params,
-            selectedParamValues: selectedParamValues,
             paramsByGroup: paramsByGroup
         });
     }
@@ -176,10 +199,19 @@ class Project extends React.Component {
         this.setState({sortingDescending: sortingDescending});
     }
 
-    onSelectionChange(param, value, args) {
+    toggleSelection(param, value, args) {
         const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        selectedParamValues[param.uuid] = [value.uuid, ...args];
+        const newValue = [value.uuid, ...args];
+        if (param.uuid in selectedParamValues) {
+            const existingIndex = selectedParamValues[param.uuid].findIndex(paramValue => newValue.length === paramValue.length && newValue.every((value, index) => value === paramValue[index]));
+            if (existingIndex !== -1)
+                selectedParamValues[param.uuid].splice(existingIndex, 1);
+            else
+                selectedParamValues[param.uuid].push(newValue);
+        } else {
+            selectedParamValues[param.uuid] = [newValue];
+        }
 
         this.updateVisibleTasks(selectedParamValues);
         this.setState({
@@ -282,14 +314,13 @@ class Project extends React.Component {
                     paramFilterEnabled={this.state.paramFilterEnabled}
                     sorting={this.state.sorting}
                     sortingDescending={this.state.sortingDescending}
-                    onSelectionChange={this.onSelectionChange}
                     showTask={this.props.showTask}
                     paramsByGroup={this.state.paramsByGroup}
                     highlightedTask={this.props.highlightedTask}
                     filterLikeTask={this.filterLikeTask}
                     devices={this.props.devices}
                 />
-                <ParamViewer ref={this.paramViewerRef} numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue} paramsByGroup={this.state.paramsByGroup} selectedParamValues={this.state.selectedParamValues} onSelectionChange={this.onSelectionChange} toggleParamFilter={this.toggleParamFilter} paramFilterEnabled={this.state.paramFilterEnabled}/>
+                <ParamViewer ref={this.paramViewerRef} numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue} paramsByGroup={this.state.paramsByGroup} selectedParamValues={this.state.selectedParamValues} toggleSelection={this.toggleSelection} toggleParamFilter={this.toggleParamFilter} paramFilterEnabled={this.state.paramFilterEnabled}/>
             </div>
         );
     }
