@@ -1,7 +1,7 @@
 import collections
 
 from taskconf.config.ConfigurationManager import ConfigurationManager
-
+import json
 
 class ProjectConfiguration:
     def __init__(self, config_dir):
@@ -139,7 +139,8 @@ class ProjectConfiguration:
                 data = {}
                 data["name"] = key + "_$T0$"
                 data["isTemplate"] = True
-                data["template_defaults"] = [str(config[key])]
+                data["template_defaults"] = [json.dumps(config[key])]
+                data["template_deprecated"] = [json.dumps(config[key])]
                 data["config"] = {}
                 sub_config = data["config"]
                 for sub_key in prefix:
@@ -227,7 +228,7 @@ class ProjectConfiguration:
                     new_param_value = [param_value_config]
 
                     if param_value_config.has_metadata("isTemplate") and param_value_config.get_metadata("isTemplate"):
-                        new_param_value.extend(param_value_config.get_metadata("template_defaults"))
+                        new_param_value.extend(param_value_config.get_metadata("template_deprecated"))
 
                     new_param_values.append(new_param_value)
 

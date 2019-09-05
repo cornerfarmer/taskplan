@@ -196,7 +196,7 @@ class ProjectManager extends React.Component {
                         project_name={this.state.projects[this.state.currentProject].name}
                     />
                 }
-                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} params={Object.values(this.props.repository.params)} codeVersions={this.props.repository.codeVersions} />
+                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} codeVersions={this.props.repository.codeVersions} />
             </div>
         );
     }

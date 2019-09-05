@@ -47,8 +47,8 @@ class Api:
                 for param_value in project.configuration.get_param_values():
                     if param.get_metadata("deprecated_param_value") == str(param_value.uuid):
                         base_configs.append([param_value])
-                        if param_value.has_metadata("template_defaults"):
-                            base_configs[-1] += param_value.get_metadata("template_defaults")
+                        if param_value.has_metadata("template_deprecated"):
+                            base_configs[-1] += param_value.get_metadata("template_deprecated")
 
         config = Configuration(data, base_configs)
         return config

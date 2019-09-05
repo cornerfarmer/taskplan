@@ -17,6 +17,7 @@ class TaskViewer extends React.Component {
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.updateTasks = this.updateTasks.bind(this);
+        this.updateParams = this.updateParams.bind(this);
         this.extractCheckpoint = this.extractCheckpoint.bind(this);
         this.notesTextarea = React.createRef();
         this.updateNotes = this.updateNotes.bind(this);
@@ -25,16 +26,18 @@ class TaskViewer extends React.Component {
 
     componentDidMount() {
         this.props.repository.onChange("tasks", this.updateTasks);
+        this.props.repository.onChange("params", this.updateParams);
     }
 
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
+        this.props.repository.removeOnChange("params", this.updateParams);
     }
 
 
     open(task) {
         let selectedParamValues = {};
-        for (const param of this.props.params) {
+        for (const param of this.state.params) {
             let suitableParamValue = null;
             let args = [];
             for (const value of task.paramValues) {
@@ -45,13 +48,15 @@ class TaskViewer extends React.Component {
                 }
             }
 
-            if (suitableParamValue === null)
+            if (suitableParamValue === null) {
                 selectedParamValues[param.uuid] = param.deprecated_param_value.name;
+                args = param.deprecated_param_value.template_deprecated;
+            }
             else {
                 selectedParamValues[param.uuid] = suitableParamValue.name;
-                for (let i = 0; i < args.length; i++)
-                    selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
             }
+            for (let i = 0; i < args.length; i++)
+                selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
 
         }
 
@@ -68,6 +73,12 @@ class TaskViewer extends React.Component {
                 task: this.state.task.uuid in tasks ? tasks[this.state.task.uuid] : null
             });
         }
+    }
+
+    updateParams(params) {
+        this.setState({
+            params: Object.values(params)
+        });
     }
 
     close() {
@@ -149,7 +160,7 @@ class TaskViewer extends React.Component {
                     </div>
                     <h2>Parameters</h2>
                     <div className="params">
-                        {this.props.params.sort((a, b) => {
+                        {this.state.params.sort((a, b) => {
                             return a.name.localeCompare(b.name);
                         }).map(param => (
                             <div><span>{param.name}:</span>{this.state.selectedParamValues[param.uuid]}</div>

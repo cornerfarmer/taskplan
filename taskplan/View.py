@@ -285,8 +285,8 @@ class View:
         if suitable_param_value is None:
             deprecated_param_value = self.configuration.get_config(param.get_metadata("deprecated_param_value"))
             key = deprecated_param_value.get_metadata("name")
-            if deprecated_param_value.has_metadata("template_defaults"):
-                args = deprecated_param_value.get_metadata("template_defaults")
+            if deprecated_param_value.has_metadata("template_deprecated"):
+                args = deprecated_param_value.get_metadata("template_deprecated")
         else:
             key = suitable_param_value.get_metadata("name")
 

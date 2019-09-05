@@ -14,7 +14,8 @@ class ParamValueEditor extends React.Component {
             possible_base_param_values: [],
             uuid_to_load: null,
             param: null,
-            templateDefaults: ""
+            templateDefaults: "",
+            templateDeprecated: ""
         };
 
         this.configEditor = React.createRef();
@@ -29,6 +30,7 @@ class ParamValueEditor extends React.Component {
         this.onIsBaseDynamic = this.onIsBaseDynamic.bind(this);
         this.onTemplateChange = this.onTemplateChange.bind(this);
         this.onTemplateDefaultsChange = this.onTemplateDefaultsChange.bind(this);
+        this.onTemplateDeprecatedChange = this.onTemplateDeprecatedChange.bind(this);
     }
 
     open(paramValue, duplicate, param, possible_base_param_values) {
@@ -43,6 +45,7 @@ class ParamValueEditor extends React.Component {
                 dynamic: paramValue.dynamic,
                 template: paramValue.isTemplate,
                 templateDefaults: paramValue.template_defaults,
+                templateDeprecated: paramValue.template_deprecated,
                 forceDynamic: false,
                 param: param,
                 possible_base_param_values: possible_base_param_values
@@ -57,6 +60,7 @@ class ParamValueEditor extends React.Component {
                 dynamic: paramValue.dynamic,
                 template: paramValue.isTemplate,
                 templateDefaults: paramValue.template_defaults,
+                templateDeprecated: paramValue.template_deprecated,
                 forceDynamic: false,
                 param: param,
                 possible_base_param_values: possible_base_param_values
@@ -101,6 +105,7 @@ class ParamValueEditor extends React.Component {
         if (this.state.template) {
             dataJson['isTemplate'] = this.state.template;
             dataJson['template_defaults'] = this.state.templateDefaults;
+            dataJson['template_deprecated'] = this.state.templateDeprecated;
         }
         dataJson['config'] = this.configEditor.current.state.config;
 
@@ -180,6 +185,12 @@ class ParamValueEditor extends React.Component {
         });
     }
 
+    onTemplateDeprecatedChange(event) {
+        this.setState({
+            templateDeprecated: [event.target.value]
+        });
+    }
+
     render() {
         if (this.state.paramValue !== null) {
             return (
@@ -214,6 +225,11 @@ class ParamValueEditor extends React.Component {
                     <div className="field">
                         <label>Template default:</label>
                         <input value={this.state.templateDefaults[0]} onChange={this.onTemplateDefaultsChange} />
+                    </div> }
+                    {this.state.template &&
+                    <div className="field">
+                        <label>Template deprecated:</label>
+                        <input value={this.state.templateDeprecated[0]} onChange={this.onTemplateDeprecatedChange} />
                     </div> }
                     <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/param_value/" + this.state.paramValue.project_name + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} bases={[this.state.base]}/>
                     <div className="buttons">
