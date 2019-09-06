@@ -191,7 +191,7 @@ class Repository {
 
         if (isNew)
             this.throwOnAddEvent(newEntity, entityType);
-        this.throwOnChangeEvent(entities, entityType);
+        this.throwOnChangeEvent(entities, entityType, newEntity[key]);
     }
 
     removeEntity(entities, entityToRemove, entityType, key="uuid") {
@@ -199,13 +199,13 @@ class Repository {
         delete entities[entityToRemove[key]];
 
         this.throwOnRemoveEvent(entity, entityType);
-        this.throwOnChangeEvent(entities, entityType);
+        this.throwOnChangeEvent(entities, entityType, entityToRemove[key]);
     }
 
-    throwOnChangeEvent(entities, entityType) {
+    throwOnChangeEvent(entities, entityType, key) {
         let entitiesClone = Object.assign({}, entities);
         for (let listener of this.onChangeListeners[entityType]) {
-            listener(entitiesClone);
+            listener(entitiesClone, key);
         }
     }
 

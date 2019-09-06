@@ -96,13 +96,14 @@ class Project:
 
         base_uuids = []
         for param in params:
-            if str(param.uuid) not in param_values:
-                raise LookupError("No param value for the param with uuid " + str(param.uuid))
-            param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
-            if param_value.get_metadata("param") != str(param.uuid):
-                raise LookupError("Param value " + param_values[param] + " with wrong param")
+            if self.configuration.has_param_values(str(param.uuid)):
+                if str(param.uuid) not in param_values:
+                    raise LookupError("No param value for the param with uuid " + str(param.uuid))
+                param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
+                if param_value.get_metadata("param") != str(param.uuid):
+                    raise LookupError("Param value " + param_values[param] + " with wrong param")
 
-            base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
+                base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
 
         task_config = self.configuration.add_task(base_uuids, config)
         return self._create_task_from_config(task_config, total_iterations, is_test)

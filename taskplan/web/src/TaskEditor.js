@@ -49,20 +49,22 @@ class TaskEditor extends React.Component {
         let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
         for (const param of this.props.params) {
-            let suitableParamValue = null;
-            let args = [];
-            for (const value of task.paramValues) {
-                if (value[0].param === param.uuid) {
-                    suitableParamValue = value[0];
-                    args = value.slice(1);
-                    break;
+            if (param.values.length > 0) {
+                let suitableParamValue = null;
+                let args = [];
+                for (const value of task.paramValues) {
+                    if (value[0].param === param.uuid) {
+                        suitableParamValue = value[0];
+                        args = value.slice(1);
+                        break;
+                    }
                 }
-            }
 
-            if (suitableParamValue === null)
-                selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];
-            else
-                selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
+                if (suitableParamValue === null)
+                    selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];
+                else
+                    selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
+            }
         }
 
         this.setState({
@@ -78,7 +80,7 @@ class TaskEditor extends React.Component {
         let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
         for (const param of this.props.params) {
-            if (!(param.uuid in selectedParamValues))
+            if (!(param.uuid in selectedParamValues) && param.values.length > 0)
                 selectedParamValues[param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
         }
 

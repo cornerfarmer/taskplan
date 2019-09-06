@@ -23,6 +23,7 @@ class Project extends React.Component {
         this.updateTasks = this.updateTasks.bind(this);
         this.updateParams = this.updateParams.bind(this);
         this.addTask = this.addTask.bind(this);
+        this.addParam = this.addParam.bind(this);
         this.removeTask = this.removeTask.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.showTab = this.showTab.bind(this);
@@ -40,6 +41,7 @@ class Project extends React.Component {
     componentDidMount() {
         this.props.repository.onChange("tasks", this.updateTasks);
         this.props.repository.onChange("params", this.updateParams);
+        this.props.repository.onAdd("params", this.addParam);
         this.props.repository.onAdd("tasks", this.addTask);
         this.props.repository.onRemove("tasks", this.removeTask);
         this.updateParams(this.props.repository.params);
@@ -50,48 +52,103 @@ class Project extends React.Component {
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
         this.props.repository.removeOnChange("params", this.updateParams);
+        this.props.repository.removeOnAdd("params", this.addParam);
         this.props.repository.removeOnAdd("tasks", this.addTask);
         this.props.repository.removeOnRemove("tasks", this.removeTask);
     }
 
-    addTask(task) {
+    addParam(param) {
         let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
+
+        for (let task of Object.values(this.state.tasks)) {
+            let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
+
+            let paramValueKey;
+            if (paramValue !== undefined) {
+                paramValueKey = paramValue[0].uuid;
+            } else {
+                paramValueKey = param.uuid + "_deprecated"
+            }
+
+            if (!(paramValueKey in numberOfTasksPerParamValue))
+                numberOfTasksPerParamValue[paramValueKey] = [];
+            numberOfTasksPerParamValue[paramValueKey].push([task.uuid, paramValue !== undefined ? paramValue.slice(1) : []]);
+        }
+
+        this.setState({
+            numberOfTasksPerParamValue: numberOfTasksPerParamValue
+        });
+    }
+
+
+    addParamValueNumbers(task) {
+        let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
+
+        for (let param of this.state.params) {
+            let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
+
+            let paramValueKey;
+            if (paramValue !== undefined) {
+                paramValueKey = paramValue[0].uuid;
+            } else {
+                paramValueKey = param.uuid + "_deprecated"
+            }
+
+            if (!(paramValueKey in numberOfTasksPerParamValue))
+                numberOfTasksPerParamValue[paramValueKey] = [];
+            numberOfTasksPerParamValue[paramValueKey].push([task.uuid, paramValue !== undefined ? paramValue.slice(1) : []]);
+        }
+
+        this.setState({
+            numberOfTasksPerParamValue: numberOfTasksPerParamValue
+        });
+    }
+
+    addTask(task) {
         if (!task.is_test) {
             if (task.project_name === this.props.project.name) {
                 this.filterView.addTask(task);
             }
 
-            for (let paramValue of task.paramValues) {
-                if (!(paramValue[0].uuid in numberOfTasksPerParamValue))
-                    numberOfTasksPerParamValue[paramValue[0].uuid] = [];
-                numberOfTasksPerParamValue[paramValue[0].uuid].push([task.uuid, paramValue.slice(1)]);
-            }
+            this.addParamValueNumbers(task);
         }
 
         let tasks = Object.assign({}, this.state.tasks);
         tasks[task.uuid] = task;
 
         this.setState({
-            tasks: tasks,
-            numberOfTasksPerParamValue: numberOfTasksPerParamValue
+            tasks: tasks
         });
 
         this.updateVisibleTasks();
     }
 
-    removeTask(task) {
-        if (!task.is_test) {
-            let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
-            for (let paramValue of task.paramValues) {
-                if (paramValue[0].uuid in numberOfTasksPerParamValue) {
-                    let index = numberOfTasksPerParamValue[paramValue[0].uuid].findIndex(x => x[0] === task.uuid);
-                    numberOfTasksPerParamValue[paramValue[0].uuid].splice(index, 1);
-                }
+    removeParamValueNumbers(task) {
+        let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
+         for (let param of this.state.params) {
+            let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
+
+            let paramValueKey;
+            if (paramValue !== undefined) {
+                paramValueKey = paramValue[0].uuid;
+            } else {
+                paramValueKey = param.uuid + "_deprecated"
             }
 
-            this.setState({
-                numberOfTasksPerParamValue: numberOfTasksPerParamValue
-            });
+            if (paramValueKey in numberOfTasksPerParamValue) {
+                let index = numberOfTasksPerParamValue[paramValueKey].findIndex(x => x[0] === task.uuid);
+                numberOfTasksPerParamValue[paramValueKey].splice(index, 1);
+            }
+        }
+
+        this.setState({
+            numberOfTasksPerParamValue: numberOfTasksPerParamValue
+        });
+    }
+
+    removeTask(task) {
+        if (!task.is_test) {
+            this.removeParamValueNumbers(task);
         }
 
         if (task.project_name === this.props.project.name && !task.is_test) {
@@ -157,16 +214,21 @@ class Project extends React.Component {
             paramsByGroup[group].push(param);
         }
 
+
         this.setState({
             params: params,
             paramsByGroup: paramsByGroup
         });
     }
 
-    updateTasks(tasks) {
+    updateTasks(tasks, changed) {
         for (let key in tasks) {
             if (tasks[key].project_name === this.props.project.name)
                 this.filterView.updateTask(tasks[key]);
+            if (key === changed) {
+                this.removeParamValueNumbers(this.state.tasks[key]);
+                this.addParamValueNumbers(tasks[key]);
+            }
         }
 
         this.setState({

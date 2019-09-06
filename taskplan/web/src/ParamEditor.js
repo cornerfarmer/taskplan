@@ -25,8 +25,8 @@ class ParamEditor extends React.Component {
         this.setState({
             param: param,
             name: param.name,
-            deprecatedParamValue: param.deprecated_param_value.uuid,
-            defaultParamValue: param.default_param_value.uuid
+            deprecatedParamValue: param.deprecated_param_value.uuid === undefined ? param.values[0].uuid : param.deprecated_param_value.uuid,
+            defaultParamValue: param.default_param_value.uuid === undefined ? param.values[0].uuid : param.default_param_value.uuid
         });
     }
 

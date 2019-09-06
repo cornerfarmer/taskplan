@@ -223,7 +223,7 @@ class ProjectConfiguration:
         if len(left_params) > 0:
             new_param_values = config.base_configs[:]
             for left_param in left_params:
-                if left_param.has_metadata("deprecated_param_value"):
+                if left_param.has_metadata("deprecated_param_value") and left_param.get_metadata("deprecated_param_value") != "":
                     param_value_config = self.get_config(left_param.get_metadata("deprecated_param_value"))
                     new_param_value = [param_value_config]
 
@@ -271,7 +271,7 @@ class ProjectConfiguration:
 
                 one_other_param_value = ""
                 for other_param_value in self.get_param_values():
-                    if param_value.get_metadata('param') == str(param.uuid):
+                    if other_param_value.get_metadata('param') == str(param.uuid):
                         one_other_param_value = str(other_param_value.uuid)
 
                 if param.get_metadata("deprecated_param_value") == str(param_value.uuid):
@@ -285,16 +285,19 @@ class ProjectConfiguration:
 
         return None, None
 
+    def has_param_values(self, param_uuid):
+        has_param_values = False
+        for param_value in self.get_param_values():
+            if param_value.get_metadata('param') == param_uuid:
+                has_param_values = True
+                break
+        return has_param_values
+
     def remove_param(self, param_uuid):
         if param_uuid in self.configuration.configs_by_uuid:
             param = self.configuration.configs_by_uuid[param_uuid]
-            has_param_values = False
-            for param_value in self.get_param_values():
-                if param_value.get_metadata('param') == param_uuid:
-                    has_param_values = True
-                    break
 
-            if not has_param_values:
+            if not self.has_param_values(param_uuid):
                 self.configuration.remove_config(param)
                 return param
         return None

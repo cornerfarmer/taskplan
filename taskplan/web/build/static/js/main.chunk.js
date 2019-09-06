@@ -85,7 +85,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! reconnecting-eventsource */ "./node_modules/reconnecting-eventsource/lib/index.js");
 /* harmony import */ var reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _Repository__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Repository */ "./src/Repository.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/App.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/App.js";
 
 
 
@@ -215,7 +215,7 @@ class App extends react__WEBPACK_IMPORTED_MODULE_3___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/CodeVersionViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/CodeVersionViewer.js";
 
 
 class CodeVersionViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -515,7 +515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ConfigEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ConfigEditor.js";
 
 
 
@@ -636,7 +636,7 @@ class ConfigEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ControlBar.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ControlBar.js";
 
 
 class ControlBar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -730,7 +730,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Device.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Device.js";
 
 
 
@@ -918,7 +918,7 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/FlashMessageManager.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/FlashMessageManager.js";
 
 
 class FlashMessage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1094,7 +1094,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var brace__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(brace__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! brace/mode/json */ "./node_modules/brace/mode/json.js");
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(brace_mode_json__WEBPACK_IMPORTED_MODULE_8__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/JsonEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/JsonEditor.js";
 
 
 
@@ -1347,7 +1347,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ParamValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamValue */ "./src/ParamValue.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Param.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Param.js";
 
 
 
@@ -1587,7 +1587,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamBatchEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamBatchEditor.js";
 
 
 
@@ -1697,7 +1697,7 @@ class ParamBatchEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamEditor.js";
 
 
 class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1724,8 +1724,8 @@ class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     this.setState({
       param: param,
       name: param.name,
-      deprecatedParamValue: param.deprecated_param_value.uuid,
-      defaultParamValue: param.default_param_value.uuid
+      deprecatedParamValue: param.deprecated_param_value.uuid === undefined ? param.values[0].uuid : param.deprecated_param_value.uuid,
+      defaultParamValue: param.default_param_value.uuid === undefined ? param.values[0].uuid : param.default_param_value.uuid
     });
   }
 
@@ -1922,7 +1922,7 @@ class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamFilter.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamFilter.js";
 
 
 class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1958,21 +1958,34 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
     return classes;
   }
 
-  mapValueToValues(paramValue) {
+  mapValueToValues(paramValue, deprecatedKey) {
     let paramValues = [];
-    if (!paramValue.isTemplate) paramValues.push({
-      "uuid": paramValue.uuid,
-      "name": paramValue.name,
-      "resolvedName": paramValue.name,
-      "numberOfTasks": this.props.numberOfTasksPerParamValue && paramValue.uuid in this.props.numberOfTasksPerParamValue ? this.props.numberOfTasksPerParamValue[paramValue.uuid].length : 0,
-      "args": []
-    });else if (paramValue.uuid in this.props.numberOfTasksPerParamValue) {
+
+    if (!paramValue.isTemplate) {
+      let numberOfTasks = 0;
+      if (paramValue.uuid in this.props.numberOfTasksPerParamValue) numberOfTasks += this.props.numberOfTasksPerParamValue[paramValue.uuid].length;
+      if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue) numberOfTasks += this.props.numberOfTasksPerParamValue[deprecatedKey].length;
+      paramValues.push({
+        "uuid": paramValue.uuid,
+        "name": paramValue.name,
+        "resolvedName": paramValue.name,
+        "numberOfTasks": numberOfTasks,
+        "args": []
+      });
+    } else {
       let numbersPerArg = {};
 
-      for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
-        const name = this.calcParamValueName(paramValue, task[1]);
-        if (!(name in numbersPerArg)) numbersPerArg[name] = [0, task[1]];
-        numbersPerArg[name][0]++;
+      if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue) {
+        let name = this.calcParamValueName(paramValue, paramValue.template_deprecated);
+        numbersPerArg[name] = [this.props.numberOfTasksPerParamValue[deprecatedKey].length, paramValue.template_deprecated];
+      }
+
+      if (paramValue.uuid in this.props.numberOfTasksPerParamValue) {
+        for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
+          const name = this.calcParamValueName(paramValue, task[1]);
+          if (!(name in numbersPerArg)) numbersPerArg[name] = [0, task[1]];
+          numbersPerArg[name][0]++;
+        }
       }
 
       for (let name in numbersPerArg) paramValues.push({
@@ -1983,6 +1996,7 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
         "args": numbersPerArg[name][1]
       });
     }
+
     return paramValues;
   }
 
@@ -2012,7 +2026,7 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
       className: "param",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 83
+        lineNumber: 97
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2020,7 +2034,7 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
       onClick: () => this.props.toggleExpandedParam(this.props.param.uuid),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 84
+        lineNumber: 98
       },
       __self: this
     }, this.props.param.name, this.props.expanded ? this.props.selectMultiple && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -2028,52 +2042,52 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
       onClick: this.toggleAll,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 89
+        lineNumber: 103
       },
       __self: this
     }, "All") : this.getSelectedValues().map(paramValue => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "param-value-hint",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 94
+        lineNumber: 108
       },
       __self: this
     }, paramValue))), this.props.expanded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-values-wrapper",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 101
+        lineNumber: 115
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-values",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 102
+        lineNumber: 116
       },
       __self: this
     }, this.props.param.values.sort((a, b) => {
       return a.name.localeCompare(b.name);
-    }).map(paramValue => !paramValue.isTemplate || !this.props.useTemplateFields ? this.mapValueToValues(paramValue).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }).map(paramValue => !paramValue.isTemplate || !this.props.useTemplateFields ? this.mapValueToValues(paramValue, paramValue.uuid === this.props.param.deprecated_param_value.uuid ? this.props.param.uuid + "_deprecated" : null).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: value.uuid,
       className: this.calcParamValueClasses(this.props.param, value),
       onClick: () => this.props.toggleSelection(this.props.param, value, value.args),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
+        lineNumber: 122
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 123
       },
       __self: this
     }, value.resolvedName, this.props.numberOfTasksPerParamValue && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "task-numbers",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 112
+        lineNumber: 126
       },
       __self: this
     }, value.numberOfTasks)))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2082,13 +2096,13 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
       onClick: () => this.props.toggleSelection(this.props.param, paramValue, [this.props.getParamValueArg(this.props.param, paramValue)]),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 118
+        lineNumber: 132
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 119
+        lineNumber: 133
       },
       __self: this
     }, paramValue.name.split("$T0$")[0], react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2096,10 +2110,10 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
       style: {
         "width": Math.max(10, 10 * this.props.getParamValueArg(this.props.param, paramValue).toString().length) + "px"
       },
-      onChange: evt => this.onParamValueArgChange(this.props.param, paramValue, evt),
+      onChange: evt => this.props.onParamValueArgChange(this.props.param, paramValue, evt),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 121
+        lineNumber: 135
       },
       __self: this
     }), paramValue.name.split("$T0$")[1]))))));
@@ -2153,7 +2167,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-filter",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 188
+        lineNumber: 202
       },
       __self: this
     }, Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2161,7 +2175,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-group",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 190
+        lineNumber: 204
       },
       __self: this
     }, group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2169,31 +2183,31 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       onClick: () => this.toggleHideParamValues(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 192
+        lineNumber: 206
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 193
+        lineNumber: 207
       },
       __self: this
     }, group)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 196
+        lineNumber: 210
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 197
+        lineNumber: 211
       },
       __self: this
-    }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+    }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
       param: param,
       useTemplateFields: this.props.useTemplateFields,
       toggleSelection: this.props.toggleSelection,
@@ -2203,9 +2217,10 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       selectMultiple: this.props.selectMultiple,
       expanded: param.uuid === this.state.expandedParam,
       toggleExpandedParam: this.toggleExpandedParam,
+      onParamValueArgChange: this.onParamValueArgChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 199
+        lineNumber: 213
       },
       __self: this
     })))))));
@@ -2229,7 +2244,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamGroup.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamGroup.js";
 
 
 
@@ -2314,7 +2329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamValueEditor */ "./src/ParamValueEditor.js");
 /* harmony import */ var _ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamBatchEditor */ "./src/ParamBatchEditor.js");
 /* harmony import */ var _ParamGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ParamGroup */ "./src/ParamGroup.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamTab.js";
 
 
 
@@ -2500,7 +2515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValue.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValue.js";
 
 
 
@@ -2701,7 +2716,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValueEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValueEditor.js";
 
 
 
@@ -3117,7 +3132,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ParamFilter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamFilter */ "./src/ParamFilter.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamViewer.js";
 
 
 
@@ -3227,7 +3242,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/PausedTask.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/PausedTask.js";
 
 
 
@@ -3612,7 +3627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamTab */ "./src/ParamTab.js");
 /* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskTab */ "./src/TaskTab.js");
 /* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamViewer */ "./src/ParamViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Project.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Project.js";
 
 
 
@@ -3638,6 +3653,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.updateTasks = this.updateTasks.bind(this);
     this.updateParams = this.updateParams.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.addParam = this.addParam.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
     this.showTab = this.showTab.bind(this);
@@ -3655,6 +3671,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   componentDidMount() {
     this.props.repository.onChange("tasks", this.updateTasks);
     this.props.repository.onChange("params", this.updateParams);
+    this.props.repository.onAdd("params", this.addParam);
     this.props.repository.onAdd("tasks", this.addTask);
     this.props.repository.onRemove("tasks", this.removeTask);
     this.updateParams(this.props.repository.params);
@@ -3665,47 +3682,99 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   componentWillUnmount() {
     this.props.repository.removeOnChange("tasks", this.updateTasks);
     this.props.repository.removeOnChange("params", this.updateParams);
+    this.props.repository.removeOnAdd("params", this.addParam);
     this.props.repository.removeOnAdd("tasks", this.addTask);
     this.props.repository.removeOnRemove("tasks", this.removeTask);
   }
 
-  addTask(task) {
+  addParam(param) {
     let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
 
+    for (let task of Object.values(this.state.tasks)) {
+      let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
+      let paramValueKey;
+
+      if (paramValue !== undefined) {
+        paramValueKey = paramValue[0].uuid;
+      } else {
+        paramValueKey = param.uuid + "_deprecated";
+      }
+
+      if (!(paramValueKey in numberOfTasksPerParamValue)) numberOfTasksPerParamValue[paramValueKey] = [];
+      numberOfTasksPerParamValue[paramValueKey].push([task.uuid, paramValue !== undefined ? paramValue.slice(1) : []]);
+    }
+
+    this.setState({
+      numberOfTasksPerParamValue: numberOfTasksPerParamValue
+    });
+  }
+
+  addParamValueNumbers(task) {
+    let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
+
+    for (let param of this.state.params) {
+      let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
+      let paramValueKey;
+
+      if (paramValue !== undefined) {
+        paramValueKey = paramValue[0].uuid;
+      } else {
+        paramValueKey = param.uuid + "_deprecated";
+      }
+
+      if (!(paramValueKey in numberOfTasksPerParamValue)) numberOfTasksPerParamValue[paramValueKey] = [];
+      numberOfTasksPerParamValue[paramValueKey].push([task.uuid, paramValue !== undefined ? paramValue.slice(1) : []]);
+    }
+
+    this.setState({
+      numberOfTasksPerParamValue: numberOfTasksPerParamValue
+    });
+  }
+
+  addTask(task) {
     if (!task.is_test) {
       if (task.project_name === this.props.project.name) {
         this.filterView.addTask(task);
       }
 
-      for (let paramValue of task.paramValues) {
-        if (!(paramValue[0].uuid in numberOfTasksPerParamValue)) numberOfTasksPerParamValue[paramValue[0].uuid] = [];
-        numberOfTasksPerParamValue[paramValue[0].uuid].push([task.uuid, paramValue.slice(1)]);
-      }
+      this.addParamValueNumbers(task);
     }
 
     let tasks = Object.assign({}, this.state.tasks);
     tasks[task.uuid] = task;
     this.setState({
-      tasks: tasks,
-      numberOfTasksPerParamValue: numberOfTasksPerParamValue
+      tasks: tasks
     });
     this.updateVisibleTasks();
   }
 
-  removeTask(task) {
-    if (!task.is_test) {
-      let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
+  removeParamValueNumbers(task) {
+    let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
 
-      for (let paramValue of task.paramValues) {
-        if (paramValue[0].uuid in numberOfTasksPerParamValue) {
-          let index = numberOfTasksPerParamValue[paramValue[0].uuid].findIndex(x => x[0] === task.uuid);
-          numberOfTasksPerParamValue[paramValue[0].uuid].splice(index, 1);
-        }
+    for (let param of this.state.params) {
+      let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
+      let paramValueKey;
+
+      if (paramValue !== undefined) {
+        paramValueKey = paramValue[0].uuid;
+      } else {
+        paramValueKey = param.uuid + "_deprecated";
       }
 
-      this.setState({
-        numberOfTasksPerParamValue: numberOfTasksPerParamValue
-      });
+      if (paramValueKey in numberOfTasksPerParamValue) {
+        let index = numberOfTasksPerParamValue[paramValueKey].findIndex(x => x[0] === task.uuid);
+        numberOfTasksPerParamValue[paramValueKey].splice(index, 1);
+      }
+    }
+
+    this.setState({
+      numberOfTasksPerParamValue: numberOfTasksPerParamValue
+    });
+  }
+
+  removeTask(task) {
+    if (!task.is_test) {
+      this.removeParamValueNumbers(task);
     }
 
     if (task.project_name === this.props.project.name && !task.is_test) {
@@ -3772,9 +3841,14 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     });
   }
 
-  updateTasks(tasks) {
+  updateTasks(tasks, changed) {
     for (let key in tasks) {
       if (tasks[key].project_name === this.props.project.name) this.filterView.updateTask(tasks[key]);
+
+      if (key === changed) {
+        this.removeParamValueNumbers(this.state.tasks[key]);
+        this.addParamValueNumbers(tasks[key]);
+      }
     }
 
     this.setState({
@@ -3889,14 +3963,14 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 277
+        lineNumber: 339
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 278
+        lineNumber: 340
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3904,7 +3978,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showTab(0),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 279
+        lineNumber: 341
       },
       __self: this
     }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3912,20 +3986,20 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showTab(1),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 280
+        lineNumber: 342
       },
       __self: this
     }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 282
+        lineNumber: 344
       },
       __self: this
     }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 284
+        lineNumber: 346
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3933,19 +4007,19 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: "fas fa-sort",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 285
+        lineNumber: 347
       },
       __self: this
     })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 289
+        lineNumber: 351
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 290
+        lineNumber: 352
       },
       __self: this
     }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -3953,42 +4027,42 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onChange: this.onChangeSorting,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 291
+        lineNumber: 353
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "0",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 292
+        lineNumber: 354
       },
       __self: this
     }, "Finished"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "1",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 293
+        lineNumber: 355
       },
       __self: this
     }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "2",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 294
+        lineNumber: 356
       },
       __self: this
     }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "3",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 295
+        lineNumber: 357
       },
       __self: this
     }, "Iterations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "4",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 296
+        lineNumber: 358
       },
       __self: this
     }, "Started")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3996,7 +4070,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 298
+        lineNumber: 360
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4004,7 +4078,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: this.openParamViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 300
+        lineNumber: 362
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -4018,7 +4092,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 304
+        lineNumber: 366
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -4038,7 +4112,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       devices: this.props.devices,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 314
+        lineNumber: 376
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -4051,7 +4125,7 @@ class Project extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       paramFilterEnabled: this.state.paramFilterEnabled,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 330
+        lineNumber: 392
       },
       __self: this
     }));
@@ -4077,7 +4151,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Project__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Project */ "./src/Project.js");
 /* harmony import */ var _CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CodeVersionViewer */ "./src/CodeVersionViewer.js");
 /* harmony import */ var _TaskViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskViewer */ "./src/TaskViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ProjectManager.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ProjectManager.js";
 
 
 
@@ -4369,7 +4443,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Prompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Prompt.js";
 
 
 
@@ -4563,7 +4637,7 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ReassuringPrompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ReassuringPrompt.js";
 
 
 class ReassuringPrompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -4847,21 +4921,21 @@ class Repository {
     const isNew = !(newEntity[key] in entities);
     entities[newEntity[key]] = newEntity;
     if (isNew) this.throwOnAddEvent(newEntity, entityType);
-    this.throwOnChangeEvent(entities, entityType);
+    this.throwOnChangeEvent(entities, entityType, newEntity[key]);
   }
 
   removeEntity(entities, entityToRemove, entityType, key = "uuid") {
     let entity = entities[entityToRemove[key]];
     delete entities[entityToRemove[key]];
     this.throwOnRemoveEvent(entity, entityType);
-    this.throwOnChangeEvent(entities, entityType);
+    this.throwOnChangeEvent(entities, entityType, entityToRemove[key]);
   }
 
-  throwOnChangeEvent(entities, entityType) {
+  throwOnChangeEvent(entities, entityType, key) {
     let entitiesClone = Object.assign({}, entities);
 
     for (let listener of this.onChangeListeners[entityType]) {
-      listener(entitiesClone);
+      listener(entitiesClone, key);
     }
   }
 
@@ -4924,7 +4998,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Device__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Device */ "./src/Device.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Scheduler.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Scheduler.js";
 
 
 
@@ -5120,7 +5194,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Task.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Task.js";
 
 
 
@@ -5775,7 +5849,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamFilter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamFilter */ "./src/ParamFilter.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskEditor.js";
 
 
 
@@ -5822,18 +5896,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
     for (const param of this.props.params) {
-      let suitableParamValue = null;
-      let args = [];
+      if (param.values.length > 0) {
+        let suitableParamValue = null;
+        let args = [];
 
-      for (const value of task.paramValues) {
-        if (value[0].param === param.uuid) {
-          suitableParamValue = value[0];
-          args = value.slice(1);
-          break;
+        for (const value of task.paramValues) {
+          if (value[0].param === param.uuid) {
+            suitableParamValue = value[0];
+            args = value.slice(1);
+            break;
+          }
         }
-      }
 
-      if (suitableParamValue === null) selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];else selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
+        if (suitableParamValue === null) selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];else selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
+      }
     }
 
     this.setState({
@@ -5849,7 +5925,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
     for (const param of this.props.params) {
-      if (!(param.uuid in selectedParamValues)) selectedParamValues[param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
+      if (!(param.uuid in selectedParamValues) && param.values.length > 0) selectedParamValues[param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
     }
 
     this.setState({
@@ -5978,21 +6054,21 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 224
+        lineNumber: 226
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "task-editor slide-editor editor",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 225
+        lineNumber: 227
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 226
+        lineNumber: 228
       },
       __self: this
     }, "Start task", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -6000,20 +6076,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       onClick: this.close,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 226
+        lineNumber: 228
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 227
+        lineNumber: 229
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
+        lineNumber: 230
       },
       __self: this
     }, "Total iterations:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6022,20 +6098,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
+        lineNumber: 231
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 231
+        lineNumber: 233
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
+        lineNumber: 234
       },
       __self: this
     }, "Save interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6044,20 +6120,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233
+        lineNumber: 235
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
+        lineNumber: 237
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 236
+        lineNumber: 238
       },
       __self: this
     }, "Checkpoint interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6066,20 +6142,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 237
+        lineNumber: 239
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 239
+        lineNumber: 241
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 240
+        lineNumber: 242
       },
       __self: this
     }, "Is test:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6088,7 +6164,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       type: "checkbox",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 241
+        lineNumber: 243
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -6099,7 +6175,7 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       useTemplateFields: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 243
+        lineNumber: 245
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -6109,20 +6185,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       preview: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 244
+        lineNumber: 246
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 245
+        lineNumber: 247
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
+        lineNumber: 248
       },
       __self: this
     }, "Device:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -6130,27 +6206,27 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       onChange: this.onDeviceChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
+        lineNumber: 249
       },
       __self: this
     }, this.props.devices.map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: device.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 249
+        lineNumber: 251
       },
       __self: this
     }, device.name)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
+        lineNumber: 255
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
+        lineNumber: 256
       },
       __self: this
     }, "Command:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6164,21 +6240,21 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       readOnly: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 255
+        lineNumber: 257
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 257
+        lineNumber: 259
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.run,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 260
       },
       __self: this
     }, "Run"))));
@@ -6203,7 +6279,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
 /* harmony import */ var _TaskEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskEditor */ "./src/TaskEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskTab.js";
 
 
 
@@ -6364,7 +6440,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskViewer.js";
 
 
 
@@ -6403,25 +6479,27 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     let selectedParamValues = {};
 
     for (const param of this.state.params) {
-      let suitableParamValue = null;
-      let args = [];
+      if (param.values.length > 0) {
+        let suitableParamValue = null;
+        let args = [];
 
-      for (const value of task.paramValues) {
-        if (value[0].param === param.uuid) {
-          suitableParamValue = value[0];
-          args = value.slice(1);
-          break;
+        for (const value of task.paramValues) {
+          if (value[0].param === param.uuid) {
+            suitableParamValue = value[0];
+            args = value.slice(1);
+            break;
+          }
         }
-      }
 
-      if (suitableParamValue === null) {
-        selectedParamValues[param.uuid] = param.deprecated_param_value.name;
-        args = param.deprecated_param_value.template_deprecated;
-      } else {
-        selectedParamValues[param.uuid] = suitableParamValue.name;
-      }
+        if (suitableParamValue === null) {
+          selectedParamValues[param.uuid] = param.deprecated_param_value.name;
+          args = param.deprecated_param_value.template_deprecated;
+        } else {
+          selectedParamValues[param.uuid] = suitableParamValue.name;
+        }
 
-      for (let i = 0; i < args.length; i++) selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + i + "$", args[i]);
+        for (let i = 0; i < args.length; i++) selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + i + "$", args[i]);
+      }
     }
 
     this.setState({
@@ -7494,7 +7572,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/index.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/index.js";
 
 
 
@@ -7547,8 +7625,8 @@ if (content.locals) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
-module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/src/index.js */"./src/index.js");
+__webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
+module.exports = __webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/src/index.js */"./src/index.js");
 
 
 /***/ })

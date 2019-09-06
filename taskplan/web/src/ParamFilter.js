@@ -35,17 +35,31 @@ class ParamFilterParam extends React.Component {
         return classes;
     }
 
-    mapValueToValues(paramValue) {
+    mapValueToValues(paramValue, deprecatedKey) {
         let paramValues = [];
-        if (!paramValue.isTemplate)
-            paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": paramValue.name, "numberOfTasks": this.props.numberOfTasksPerParamValue && paramValue.uuid in this.props.numberOfTasksPerParamValue ? this.props.numberOfTasksPerParamValue[paramValue.uuid].length : 0, "args": []});
-        else if (paramValue.uuid in this.props.numberOfTasksPerParamValue) {
+        if (!paramValue.isTemplate) {
+            let numberOfTasks = 0;
+            if (paramValue.uuid in this.props.numberOfTasksPerParamValue)
+                numberOfTasks += this.props.numberOfTasksPerParamValue[paramValue.uuid].length;
+            if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue)
+                numberOfTasks += this.props.numberOfTasksPerParamValue[deprecatedKey].length;
+
+            paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": paramValue.name, "numberOfTasks": numberOfTasks, "args": []});
+        } else {
             let numbersPerArg = {};
-            for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
-                const name = this.calcParamValueName(paramValue, task[1]);
-                if (!(name in numbersPerArg))
-                    numbersPerArg[name] = [0, task[1]];
-                numbersPerArg[name][0]++;
+
+            if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue) {
+                let name = this.calcParamValueName(paramValue, paramValue.template_deprecated);
+                numbersPerArg[name] = [this.props.numberOfTasksPerParamValue[deprecatedKey].length, paramValue.template_deprecated];
+            }
+
+            if (paramValue.uuid in this.props.numberOfTasksPerParamValue) {
+                for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
+                    const name = this.calcParamValueName(paramValue, task[1]);
+                    if (!(name in numbersPerArg))
+                        numbersPerArg[name] = [0, task[1]];
+                    numbersPerArg[name][0]++;
+                }
             }
 
             for (let name in numbersPerArg)
@@ -104,7 +118,7 @@ class ParamFilterParam extends React.Component {
                                 return a.name.localeCompare(b.name);
                             }).map(paramValue =>
                                 !paramValue.isTemplate || !this.props.useTemplateFields ?
-                                this.mapValueToValues(paramValue).map(value => (
+                                this.mapValueToValues(paramValue, paramValue.uuid === this.props.param.deprecated_param_value.uuid ? this.props.param.uuid + "_deprecated" : null).map(value => (
                                         <div key={value.uuid} className={this.calcParamValueClasses(this.props.param, value)} onClick={() => this.props.toggleSelection(this.props.param, value, value.args)}>
                                             <React.Fragment>
                                                 {value.resolvedName}
@@ -118,7 +132,7 @@ class ParamFilterParam extends React.Component {
                                  <div key={paramValue.uuid} className={this.calcParamValueClasses(this.props.param, paramValue)} onClick={() => this.props.toggleSelection(this.props.param, paramValue, [this.props.getParamValueArg(this.props.param, paramValue)])}>
                                     <React.Fragment>
                                         {paramValue.name.split("$T0$")[0]}
-                                        <input value={this.props.getParamValueArg(this.props.param, paramValue)} style={{"width": Math.max(10, (10 * (this.props.getParamValueArg(this.props.param, paramValue)).toString().length)) + "px"}} onChange={(evt) => this.onParamValueArgChange(this.props.param, paramValue, evt)}/>
+                                        <input value={this.props.getParamValueArg(this.props.param, paramValue)} style={{"width": Math.max(10, (10 * (this.props.getParamValueArg(this.props.param, paramValue)).toString().length)) + "px"}} onChange={(evt) => this.props.onParamValueArgChange(this.props.param, paramValue, evt)}/>
                                         {paramValue.name.split("$T0$")[1]}
                                     </React.Fragment>
                                 </div>
@@ -195,7 +209,7 @@ class ParamFilter extends React.Component {
                         }
                         <div className="params">
                             <div className="params">
-                                {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).map(param => (
+                                {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => (
                                     <ParamFilterParam
                                         param={param}
                                         useTemplateFields={this.props.useTemplateFields}
@@ -206,6 +220,7 @@ class ParamFilter extends React.Component {
                                         selectMultiple={this.props.selectMultiple}
                                         expanded={param.uuid === this.state.expandedParam}
                                         toggleExpandedParam={this.toggleExpandedParam}
+                                        onParamValueArgChange={this.onParamValueArgChange}
                                         />
                                 ))}
                             </div>

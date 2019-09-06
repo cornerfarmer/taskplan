@@ -38,26 +38,26 @@ class TaskViewer extends React.Component {
     open(task) {
         let selectedParamValues = {};
         for (const param of this.state.params) {
-            let suitableParamValue = null;
-            let args = [];
-            for (const value of task.paramValues) {
-                if (value[0].param === param.uuid) {
-                    suitableParamValue = value[0];
-                    args = value.slice(1);
-                    break;
+            if (param.values.length > 0) {
+                let suitableParamValue = null;
+                let args = [];
+                for (const value of task.paramValues) {
+                    if (value[0].param === param.uuid) {
+                        suitableParamValue = value[0];
+                        args = value.slice(1);
+                        break;
+                    }
                 }
-            }
 
-            if (suitableParamValue === null) {
-                selectedParamValues[param.uuid] = param.deprecated_param_value.name;
-                args = param.deprecated_param_value.template_deprecated;
+                if (suitableParamValue === null) {
+                    selectedParamValues[param.uuid] = param.deprecated_param_value.name;
+                    args = param.deprecated_param_value.template_deprecated;
+                } else {
+                    selectedParamValues[param.uuid] = suitableParamValue.name;
+                }
+                for (let i = 0; i < args.length; i++)
+                    selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
             }
-            else {
-                selectedParamValues[param.uuid] = suitableParamValue.name;
-            }
-            for (let i = 0; i < args.length; i++)
-                selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
-
         }
 
         this.setState({
