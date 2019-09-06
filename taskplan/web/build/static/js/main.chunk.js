@@ -3312,98 +3312,102 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     fetch("/cancel/" + this.props.task.uuid).then(res => res.json()).then(result => {}, error => {});
   }
 
+  createCheckpoint() {
+    fetch("/create_checkpoint/" + this.props.task.uuid).then(res => res.json()).then(result => {}, error => {});
+  }
+
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       ref: this.itemRef,
       className: this.itemClass(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 115
+        lineNumber: 128
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "content",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 116
+        lineNumber: 129
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
+        lineNumber: 130
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "try-number",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
+        lineNumber: 130
       },
       __self: this
     }, this.props.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
       task: this.props.task,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
+        lineNumber: 130
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "footer",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 118
+        lineNumber: 131
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 119
+        lineNumber: 132
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 119
+        lineNumber: 132
       },
       __self: this
     }, "Iterations:"), " ", this.props.task.finished_iterations, " / ", this.props.task.total_iterations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 120
+        lineNumber: 133
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 120
+        lineNumber: 133
       },
       __self: this
     }, "Created:"), " ", this.props.task.creation_time.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 121
+        lineNumber: 134
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 121
+        lineNumber: 134
       },
       __self: this
     }, "Last saved:"), " ", this.props.task.saved_time.toShortStr(), " ", this.props.task.had_error == true && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "task-error",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 121
+        lineNumber: 134
       },
       __self: this
     }, "(Error)")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 124
+        lineNumber: 137
       },
       __self: this
     }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3412,14 +3416,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Pause task",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 127
+        lineNumber: 140
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-pause",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 128
+        lineNumber: 141
       },
       __self: this
     })) : this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3428,14 +3432,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Remove this task from queue",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 133
+        lineNumber: 146
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 134
+        lineNumber: 147
       },
       __self: this
     })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3444,14 +3448,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Run for more iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 137
+        lineNumber: 150
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-play",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 138
+        lineNumber: 151
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3460,21 +3464,21 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Show detail information",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 142
+        lineNumber: 155
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-info",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 143
+        lineNumber: 156
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 145
+        lineNumber: 158
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3484,21 +3488,21 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 146
+        lineNumber: 159
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-h",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 147
+        lineNumber: 160
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 149
+        lineNumber: 162
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3507,14 +3511,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Run new task with the exact same config",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 150
+        lineNumber: 163
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-redo",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 151
+        lineNumber: 164
       },
       __self: this
     })), !this.props.task.is_test && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3523,14 +3527,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Filter for similar tasks",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 154
+        lineNumber: 167
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-sliders-h",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 155
+        lineNumber: 168
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3539,14 +3543,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Clone task",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 158
+        lineNumber: 171
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-copy",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 159
+        lineNumber: 172
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3555,14 +3559,30 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "View log",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 161
+        lineNumber: 174
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-file-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 162
+        lineNumber: 175
+      },
+      __self: this
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "action",
+      onClick: () => this.createCheckpoint(),
+      title: "Create checkpoint",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 177
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-flag",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 178
       },
       __self: this
     })), this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING && this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3571,14 +3591,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       title: "Remove task",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 165
+        lineNumber: 181
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-trash-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 166
+        lineNumber: 182
       },
       __self: this
     }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -3590,7 +3610,7 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       url: "/continue/" + this.props.task.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 172
+        lineNumber: 189
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -3600,7 +3620,7 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       url: "/remove_task/" + this.props.task.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 173
+        lineNumber: 190
       },
       __self: this
     }));
@@ -5341,6 +5361,7 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     this.openLog = this.openLog.bind(this);
     this.clone = this.clone.bind(this);
     this.terminate = this.terminate.bind(this);
+    this.createCheckpoint = this.createCheckpoint.bind(this);
   }
 
   pause() {
@@ -5349,6 +5370,10 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 
   saveNow() {
     fetch("/save_now/" + this.props.task.uuid).then(res => res.json()).then(result => {}, error => {});
+  }
+
+  createCheckpoint() {
+    fetch("/create_checkpoint/" + this.props.task.uuid).then(res => res.json()).then(result => {}, error => {});
   }
 
   cancel() {
@@ -5382,19 +5407,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       currentAction = "pausing...";
     } else if (this.props.task.is_saving) {
       currentAction = "saving...";
+    } else if (this.props.task.creating_checkpoint) {
+      currentAction = "checkpoint...";
     }
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 197
+        lineNumber: 214
       },
       __self: this
     }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 199
+        lineNumber: 216
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5403,20 +5430,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Pause the task after the current iteration",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 200
+        lineNumber: 217
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-pause",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 201
+        lineNumber: 218
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 201
+        lineNumber: 218
       },
       __self: this
     }, "Pause")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5425,20 +5452,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Force the task to save after the current iteration",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 203
+        lineNumber: 220
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-save",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 204
+        lineNumber: 221
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 204
+        lineNumber: 221
       },
       __self: this
     }, "Save now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5447,27 +5474,27 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 206
+        lineNumber: 223
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 207
+        lineNumber: 224
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 207
+        lineNumber: 224
       },
       __self: this
     }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 209
+        lineNumber: 226
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5477,21 +5504,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 210
+        lineNumber: 227
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
+        lineNumber: 228
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 213
+        lineNumber: 230
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5500,20 +5527,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "View the log",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214
+        lineNumber: 231
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-file-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
+        lineNumber: 232
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
+        lineNumber: 232
       },
       __self: this
     }, "Log")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5522,33 +5549,55 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Terminate task",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 217
+        lineNumber: 234
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-skull-crossbones",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
+        lineNumber: 235
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
+        lineNumber: 235
       },
       __self: this
-    }, "Terminate")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, "Terminate")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "action",
+      onClick: this.createCheckpoint,
+      title: "Create checkpoint",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 237
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-flag",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 238
+      },
+      __self: this
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 238
+      },
+      __self: this
+    }, "Checkpoint")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "current-action",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 222
+        lineNumber: 242
       },
       __self: this
     }, currentAction)), this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
+        lineNumber: 248
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5557,20 +5606,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Pause one of the running tasks and start this one instead",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
+        lineNumber: 249
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-exclamation-triangle",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 230
+        lineNumber: 250
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 230
+        lineNumber: 250
       },
       __self: this
     }, "Run now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5579,27 +5628,27 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
+        lineNumber: 252
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233
+        lineNumber: 253
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233
+        lineNumber: 253
       },
       __self: this
     }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
+        lineNumber: 255
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5609,21 +5658,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 236
+        lineNumber: 256
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 237
+        lineNumber: 257
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 239
+        lineNumber: 259
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5632,20 +5681,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Remove this task from the queue",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 240
+        lineNumber: 260
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 241
+        lineNumber: 261
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 241
+        lineNumber: 261
       },
       __self: this
     }, "Cancel"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5656,7 +5705,7 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       url: "/change/" + this.props.task.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
+        lineNumber: 267
       },
       __self: this
     }));
@@ -5734,21 +5783,21 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       draggable: this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED ? "true" : "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 323
+        lineNumber: 343
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "content",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 324
+        lineNumber: 344
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 325
+        lineNumber: 345
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5756,14 +5805,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       ref: this.projectName,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 326
+        lineNumber: 346
       },
       __self: this
     }, this.props.task.project_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "status",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 327
+        lineNumber: 347
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskStatus, {
@@ -5773,14 +5822,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       run_time: this.props.task.run_time,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 328
+        lineNumber: 348
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 329
+        lineNumber: 349
       },
       __self: this
     }, this.props.task.finished_iterations, " / ", this.props.task.total_iterations))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskProgress, {
@@ -5793,7 +5842,7 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       iteration_update_time: this.props.task.iteration_update_time,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 332
+        lineNumber: 352
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5801,28 +5850,28 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.props.highlightTask(this.props.task),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 333
+        lineNumber: 353
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "try-number",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 333
+        lineNumber: 353
       },
       __self: this
     }, this.props.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskName, {
       task: this.props.task,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 333
+        lineNumber: 353
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskToolbar, {
       task: this.props.task,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 335
+        lineNumber: 355
       },
       __self: this
     }));

@@ -43,6 +43,7 @@ class ServerSentEvent(object):
                 data_client['version'] = data.code_version
                 data_client['is_pausing'] = data.pausing
                 data_client['is_saving'] = data.saving
+                data_client['creating_checkpoint'] = data.creating_checkpoint
                 data_client['paramValues'] = [[str(param_value[0].uuid)] + param_value[1:] for param_value in data.config.base_configs]
                 data_client['checkpoints'] = data.checkpoints
                 data_client['notes'] = data.notes

@@ -110,6 +110,19 @@ class PausedTask extends React.Component {
             )
     }
 
+    createCheckpoint() {
+        fetch("/create_checkpoint/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
     render() {
         return (
             <li ref={this.itemRef} className={this.itemClass()}>
@@ -161,11 +174,15 @@ class PausedTask extends React.Component {
                             <div className="action" onClick={this.openLog} title="View log">
                                 <i className="far fa-file-alt"></i>
                             </div>
+                            <div className="action" onClick={() => this.createCheckpoint()} title="Create checkpoint">
+                                <i className="far fa-flag"></i>
+                            </div>
                             {this.props.task.state !== State.RUNNING && this.props.task.state !== State.QUEUED &&
                             <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove task">
                                 <i className="far fa-trash-alt"></i>
                             </div>
                             }
+
                         </div>
                     </div>
                 </div>

@@ -250,3 +250,10 @@ class Controller:
 
     def add_device(self, device_address):
         self.scheduler.add_device(device_address, self.project_manager)
+
+    def create_checkpoint(self, task_uuid):
+        successful = self.scheduler.create_checkpoint_now(task_uuid)
+        if not successful:
+            task = self.project_manager.find_task_by_uuid(task_uuid)
+            task.create_checkpoint()
+            self.event_manager.throw(EventType.TASK_CHANGED, task)

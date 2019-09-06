@@ -121,6 +121,16 @@ class Scheduler:
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
                         return
 
+    def create_checkpoint_now(self, task_uuid):
+        with self._queue_mutex:
+            for device in self.devices:
+                for running in device.runnings:
+                    if str(running.uuid) == task_uuid:
+                        running.create_checkpoint_now()
+                        self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
+                        return True
+        return False
+
     def run_now(self, task_uuid):
         with self._queue_mutex:
             for device in self.devices:

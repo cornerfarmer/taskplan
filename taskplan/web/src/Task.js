@@ -98,6 +98,7 @@ class TaskToolbar extends React.Component {
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
         this.terminate = this.terminate.bind(this);
+        this.createCheckpoint = this.createCheckpoint.bind(this);
     }
 
     pause() {
@@ -125,6 +126,20 @@ class TaskToolbar extends React.Component {
                 }
             )
     }
+
+    createCheckpoint() {
+        fetch("/create_checkpoint/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
 
     cancel() {
         fetch("/cancel/" + this.props.task.uuid)
@@ -192,6 +207,8 @@ class TaskToolbar extends React.Component {
             currentAction = "pausing..."
         } else if (this.props.task.is_saving) {
             currentAction = "saving..."
+        } else if (this.props.task.creating_checkpoint) {
+            currentAction = "checkpoint..."
         }
         return (
             <div className="toolbar">
@@ -216,6 +233,9 @@ class TaskToolbar extends React.Component {
                                 </div>
                                 <div className="action" onClick={this.terminate} title="Terminate task">
                                    <i className="fas fa-skull-crossbones"></i><span>Terminate</span>
+                                </div>
+                                <div className="action" onClick={this.createCheckpoint} title="Create checkpoint">
+                                   <i className="far fa-flag"></i><span>Checkpoint</span>
                                 </div>
                             </div>
                         </div>

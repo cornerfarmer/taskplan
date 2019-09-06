@@ -33,6 +33,7 @@ class PipeMsg(Enum):
     IS_RUNNING = 6
     NEW_CHECKPOINT = 7
     SAVED_FINISHED_ITERATIONS = 8
+    CREATE_CHECKPOINT = 9
 
 
 class TaskWrapper:
@@ -60,6 +61,7 @@ class TaskWrapper:
         self.iteration_update_time = 0.0
         self.pausing = False
         self.saving = False
+        self.creating_checkpoint = False
         self.notes = ""
 
         self._create_metadata_lock()
@@ -149,6 +151,31 @@ class TaskWrapper:
 
         metadata["pipe"].send(PipeMsg.IS_RUNNING, False)
 
+
+    @staticmethod
+    def _create_checkpoint(metadata_lock, task_dir, finished_iterations):
+        with metadata_lock:
+            checkpoint_dir = task_dir / Path("checkpoints")
+            checkpoint_dir.mkdir(exist_ok=True)
+            checkpoint_dir /= Path(str(finished_iterations))
+
+            shutil.copytree(str(task_dir), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints', 'metadata.json.lock'] if directory == str(task_dir) else [])
+            for file in checkpoint_dir.glob("events.out.tfevents.*"):
+                file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
+
+            checkpoint = {
+                "finished_iterations": finished_iterations,
+                "time": time.mktime(datetime.datetime.now().timetuple())
+            }
+
+            with open(str(task_dir / Path("metadata.json")), 'r') as handle:
+                data = json.load(handle)
+            with open(str(task_dir / Path("metadata.json")), 'w') as handle:
+                data['checkpoints'].append(checkpoint)
+                data['finished_iterations'] = finished_iterations
+                json.dump(data, handle)
+            return checkpoint
+
     @staticmethod
     def _run_task(task_class, config, logger, metadata):
         config.set_logger(logger.get_with_module('config'))
@@ -172,28 +199,7 @@ class TaskWrapper:
 
         def checkpoint_func(finished_iterations):
             save_func(finished_iterations)
-
-            with metadata_lock:
-                checkpoint_dir = metadata["task_dir"] / Path("checkpoints")
-                checkpoint_dir.mkdir(exist_ok=True)
-                checkpoint_dir /= Path(str(finished_iterations))
-
-                shutil.copytree(str(metadata["task_dir"]), str(checkpoint_dir), ignore=lambda directory, contents: ['checkpoints', 'metadata.json.lock'] if directory == str(metadata["task_dir"]) else [])
-                for file in checkpoint_dir.glob("events.out.tfevents.*"):
-                    file.rename(str(file).replace("events.out.tfevents", "events.out.checkpoint"))
-
-                checkpoint = {
-                    "finished_iterations": finished_iterations,
-                    "time": time.mktime(datetime.datetime.now().timetuple())
-                }
-
-                with open(str(metadata["task_dir"] / Path("metadata.json")), 'r') as handle:
-                    data = json.load(handle)
-                with open(str(metadata["task_dir"] / Path("metadata.json")), 'w') as handle:
-                    data['checkpoints'].append(checkpoint)
-                    data['finished_iterations'] = finished_iterations
-                    json.dump(data, handle)
-
+            checkpoint = TaskWrapper._create_checkpoint(metadata_lock, metadata["task_dir"], finished_iterations)
             return checkpoint
 
         if metadata["finished_iterations"] > 0:
@@ -289,6 +295,8 @@ class TaskWrapper:
             elif msg_type == PipeMsg.TOTAL_ITERATIONS:
                 self.total_iterations = arg
                 self.save_metadata(["total_iterations"])
+            elif msg_type == PipeMsg.CREATE_CHECKPOINT:
+                self.creating_checkpoint = arg
 
             msg_type, arg = self.device.recv()
 
@@ -296,6 +304,15 @@ class TaskWrapper:
         if self.state == State.RUNNING:
             self.device.send(PipeMsg.SAVING, True)
 
+    def create_checkpoint_now(self):
+        if self.state == State.RUNNING:
+            self.device.send(PipeMsg.CREATE_CHECKPOINT, True)
+
     def set_notes(self, notes):
         self.notes = notes
         self.save_metadata(["notes"])
+
+    def create_checkpoint(self):
+        if self.state != State.RUNNING:
+            checkpoint = TaskWrapper._create_checkpoint(self.metadata_lock, self.build_save_dir(), self.finished_iterations)
+            self.checkpoints.append(checkpoint)

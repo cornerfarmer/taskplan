@@ -262,4 +262,9 @@ def run():
         controller.add_device(device_address)
         return jsonify({})
 
+    @app.route('/create_checkpoint/<string:task_uuid>')
+    def create_checkpoint(task_uuid):
+        controller.create_checkpoint(task_uuid)
+        return jsonify({})
+
     return app, controller
