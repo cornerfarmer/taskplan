@@ -5,11 +5,11 @@ class ParamFilterParam extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            extended: false
         };
 
         this.mapValueToValues = this.mapValueToValues.bind(this);
         this.calcParamValueName = this.calcParamValueName.bind(this);
+        this.toggleAll = this.toggleAll.bind(this);
     }
 
     calcParamValueName(paramValue, args) {
@@ -54,13 +54,50 @@ class ParamFilterParam extends React.Component {
         return paramValues;
     }
 
+    toggleAll(evt) {
+        this.props.toggleSelection(this.props.param, null, []);
+        evt.stopPropagation();
+    }
+
+    getSelectedValues() {
+        if (!(this.props.param.uuid in this.props.selectedParamValues))
+            return ["All"];
+        else if (this.props.selectedParamValues[this.props.param.uuid].length === 0)
+            return ["None"];
+        else {
+            let selectedParamValues = this.props.selectedParamValues[this.props.param.uuid];
+            if (!this.props.selectMultiple)
+                selectedParamValues = [selectedParamValues];
+
+            let values = [];
+            for (let selection of selectedParamValues) {
+                const paramValue = this.props.param.values.find(value => value.uuid === selection[0]);
+                values.push(this.calcParamValueName(paramValue, selection.slice(1)));
+            }
+            return values;
+        }
+    }
+
     render() {
         return (
             <div key={this.props.param.uuid} className="param">
-                <div className="param-name" onClick={() => this.setState({extended: !this.state.extended})}>
+                <div className={this.props.expanded ? "param-name param-name-expanded" : "param-name param-name-collapsed"} onClick={() => this.props.toggleExpandedParam(this.props.param.uuid)}>
                     {this.props.param.name}
+
+                    {this.props.expanded ?
+                        this.props.selectMultiple &&
+                        <span className={!(this.props.param.uuid in this.props.selectedParamValues) ? "all-button all-button-activated" : "all-button"} onClick={this.toggleAll}>
+                            All
+                        </span>
+                        :
+                        this.getSelectedValues().map(paramValue =>
+                            <span className="param-value-hint">
+                                {paramValue}
+                            </span>
+                        )
+                    }
                 </div>
-                {this.state.extended &&
+                {this.props.expanded &&
                     <div className="param-values-wrapper">
                         <div className="param-values">
                             {this.props.param.values.sort((a, b) => {
@@ -99,10 +136,12 @@ class ParamFilter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            paramValueArguments: {}
+            paramValueArguments: {},
+            expandedParam: null
         };
         this.onParamValueArgChange = this.onParamValueArgChange.bind(this);
         this.getParamValueArg = this.getParamValueArg.bind(this);
+        this.toggleExpandedParam = this.toggleExpandedParam.bind(this);
     }
 
 
@@ -138,6 +177,12 @@ class ParamFilter extends React.Component {
             return null;
     }
 
+    toggleExpandedParam(param) {
+        this.setState({
+            expandedParam: param === this.state.expandedParam ? null : param
+        })
+    }
+
     render() {
         return (
             <div className="param-filter">
@@ -159,6 +204,8 @@ class ParamFilter extends React.Component {
                                         getParamValueArg={this.getParamValueArg}
                                         numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                                         selectMultiple={this.props.selectMultiple}
+                                        expanded={param.uuid === this.state.expandedParam}
+                                        toggleExpandedParam={this.toggleExpandedParam}
                                         />
                                 ))}
                             </div>

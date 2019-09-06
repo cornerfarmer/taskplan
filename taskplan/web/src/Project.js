@@ -80,7 +80,7 @@ class Project extends React.Component {
     }
 
     removeTask(task) {
-        if ( !task.is_test) {
+        if (!task.is_test) {
             let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
             for (let paramValue of task.paramValues) {
                 if (paramValue[0].uuid in numberOfTasksPerParamValue) {
@@ -101,8 +101,7 @@ class Project extends React.Component {
     }
 
 
-
-    updateVisibleTasks(selectedParamValues=null, paramFilterEnabled=null) {
+    updateVisibleTasks(selectedParamValues = null, paramFilterEnabled = null) {
         if (selectedParamValues === null)
             selectedParamValues = this.state.selectedParamValues;
         if (paramFilterEnabled === null)
@@ -177,13 +176,13 @@ class Project extends React.Component {
 
     toggleShowAbstract() {
         this.setState({
-          showAbstract: !this.state.showAbstract,
+            showAbstract: !this.state.showAbstract,
         });
     }
 
     showTab(tab) {
         this.setState({
-          activeTab: tab,
+            activeTab: tab,
         });
     }
 
@@ -202,15 +201,23 @@ class Project extends React.Component {
     toggleSelection(param, value, args) {
         const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
 
-        const newValue = [value.uuid, ...args];
-        if (param.uuid in selectedParamValues) {
-            const existingIndex = selectedParamValues[param.uuid].findIndex(paramValue => newValue.length === paramValue.length && newValue.every((value, index) => value === paramValue[index]));
-            if (existingIndex !== -1)
-                selectedParamValues[param.uuid].splice(existingIndex, 1);
-            else
-                selectedParamValues[param.uuid].push(newValue);
+        if (value === null) {
+            if (param.uuid in selectedParamValues) {
+                delete selectedParamValues[param.uuid];
+            } else {
+                selectedParamValues[param.uuid] = [];
+            }
         } else {
-            selectedParamValues[param.uuid] = [newValue];
+            const newValue = [value.uuid, ...args];
+            if (param.uuid in selectedParamValues) {
+                const existingIndex = selectedParamValues[param.uuid].findIndex(paramValue => newValue.length === paramValue.length && newValue.every((value, index) => value === paramValue[index]));
+                if (existingIndex !== -1)
+                    selectedParamValues[param.uuid].splice(existingIndex, 1);
+                else
+                    selectedParamValues[param.uuid].push(newValue);
+            } else {
+                selectedParamValues[param.uuid] = [newValue];
+            }
         }
 
         this.updateVisibleTasks(selectedParamValues);
@@ -225,7 +232,7 @@ class Project extends React.Component {
 
         for (const param of this.state.params) {
             let value = this.filterView.getValueToParam(task, param);
-            selectedParamValues[param.uuid] = [value[0].uuid, ...value[1]];
+            selectedParamValues[param.uuid] = [[value[0].uuid, ...value[1]]];
         }
 
         this.setState({
@@ -273,26 +280,26 @@ class Project extends React.Component {
                     <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Tasks</div>
                 </div>
                 <div className="sorting">
-                        {this.state.activeTab === 0 &&
-                            <div>
-                                <span onClick={this.toggleParamSortingMode} className={"fas fa-sort"}></span>
-                            </div>
-                        }
-                        {this.state.activeTab === 1 &&
-                            <div>
-                                <label>Sorting:</label>
-                                <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
-                                    <option value="0">Finished</option>
-                                    <option value="1">Name</option>
-                                    <option value="2">Created</option>
-                                    <option value="3">Iterations</option>
-                                    <option value="4">Started</option>
-                                </select>
-                                <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
+                    {this.state.activeTab === 0 &&
+                    <div>
+                        <span onClick={this.toggleParamSortingMode} className={"fas fa-sort"}></span>
+                    </div>
+                    }
+                    {this.state.activeTab === 1 &&
+                    <div>
+                        <label>Sorting:</label>
+                        <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
+                            <option value="0">Finished</option>
+                            <option value="1">Name</option>
+                            <option value="2">Created</option>
+                            <option value="3">Iterations</option>
+                            <option value="4">Started</option>
+                        </select>
+                        <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
-                                <span className={this.state.paramFilterEnabled ? "fas fa-sliders-h filter-enabled" : "fas fa-sliders-h"}onClick={this.openParamViewer}></span>
-                            </div>
-                        }
+                        <span className={this.state.paramFilterEnabled ? "fas fa-sliders-h filter-enabled" : "fas fa-sliders-h"} onClick={this.openParamViewer}></span>
+                    </div>
+                    }
                 </div>
                 <ParamTab
                     active={this.state.activeTab === 0}
