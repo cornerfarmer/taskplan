@@ -4949,6 +4949,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.updateTasks = this.updateTasks.bind(this);
     this.openMaxRunningDialog = this.openMaxRunningDialog.bind(this);
     this.hideDevice = this.hideDevice.bind(this);
+    this.shouldShowDevice = this.shouldShowDevice.bind(this);
   }
 
   static refreshRunTime(task) {
@@ -4997,6 +4998,11 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.setState({
       hiddenDevices: hiddenDevices
     });
+    fetch("/connect_device/" + device.uuid).then(res => res.json()).then(result => {});
+  }
+
+  shouldShowDevice(device) {
+    return device.uuid in this.state.hiddenDevices && !this.state.hiddenDevices[device.uuid] || !(device.uuid in this.state.hiddenDevices) && device.is_connected !== 0;
   }
 
   render() {
@@ -5004,14 +5010,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       id: "scheduler",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 86
+        lineNumber: 99
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
+        lineNumber: 100
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5021,7 +5027,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 88
+        lineNumber: 101
       },
       __self: this
     }, "Add device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5029,22 +5035,22 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       "aria-labelledby": "dropdownMenuButton",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 91
+        lineNumber: 104
       },
       __self: this
-    }, this.props.devices.filter(device => device.uuid in this.state.hiddenDevices && this.state.hiddenDevices[device.uuid]).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, this.props.devices.filter(device => !this.shouldShowDevice(device)).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-item",
       onClick: () => this.showDevice(device),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
+        lineNumber: 106
       },
       __self: this
-    }, device.name)), this.props.devices.filter(device => device.uuid in this.state.hiddenDevices && this.state.hiddenDevices[device.uuid]).length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, device.name)), this.props.devices.filter(device => !this.shouldShowDevice(device)).length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-divider",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 96
+        lineNumber: 109
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5052,7 +5058,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.promptAddDeviceRefs.current.openDialog(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 98
+        lineNumber: 111
       },
       __self: this
     }, "Add new device"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -5062,31 +5068,31 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       url: "/add_device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 101
+        lineNumber: 114
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 103
+        lineNumber: 116
       },
       __self: this
-    }), this.props.devices.filter(device => !(device.uuid in this.state.hiddenDevices) || !this.state.hiddenDevices[device.uuid]).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), this.props.devices.filter(this.shouldShowDevice).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
       device: device,
       tasks: this.state.tasks.filter(task => task.device === device.uuid),
       hideDevice: this.hideDevice,
       highlightTask: this.props.highlightTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
+        lineNumber: 118
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
+        lineNumber: 120
       },
       __self: this
     }));

@@ -7,18 +7,29 @@ import taskplan.EventManager as EventManager
 from taskplan.Device import LocalDevice
 from taskplan.Remote import RemoteDevice
 from taskplan.TaskWrapper import State
-
+import json
 
 class Scheduler:
 
-    def __init__(self, event_manager, max_running, remote_devices):
+    def __init__(self, event_manager, global_config, allow_remote):
         self.event_manager = event_manager
         self._queue_mutex = RLock()
         self.wakeup_sem = Semaphore(0)
-        self._max_running = max_running
+        self.global_config = global_config
+        self._max_running = global_config.get_int("max_running_tasks")
         self.devices = [LocalDevice()]
-        for remote_device in remote_devices:
-            self.devices.append(RemoteDevice(remote_device.split(":")[0], int(remote_device.split(":")[1])))
+
+        if allow_remote:
+            for remote_device in global_config.get_list("remote_devices"):
+                self.devices.append(RemoteDevice(remote_device.split(":")[0], int(remote_device.split(":")[1])))
+
+
+    def _save_metadata(self):
+        data = {"config": self.global_config.data["config"]}
+        data["config"]["max_running_tasks"] = self._max_running
+        data["config"]["remote_devices"] = [(remote_device.host + ":" + str(remote_device.port)) for remote_device in self.devices[1:]]
+        with open('taskplan.json', "w") as f:
+            json.dump(data, f)
 
     def start(self, project_manager):
         self.run_scheduler = True
@@ -258,6 +269,7 @@ class Scheduler:
         self.devices.append(RemoteDevice(device_address.split(":")[0], int(device_address.split(":")[1])))
         self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
         self.connect_device(str(self.devices[-1].uuid), project_manager)
+        self._save_metadata()
 
     def connect_all(self, project_manager):
         device_changed = False
