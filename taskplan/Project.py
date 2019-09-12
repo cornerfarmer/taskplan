@@ -160,7 +160,7 @@ class Project:
     def _run_tensorboard(self):
         self.tensorboard_port = 6006
         while True:
-            process = subprocess.Popen(["tensorboard", "--logdir", str(self.tasks_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
+            process = subprocess.Popen(["tensorboard", "--logdir", str(self.view_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
             output, error = process.communicate()
 
             if output.startswith(b'TensorBoard attempted to bind to port'):
