@@ -50,7 +50,7 @@ class Connection:
         socket.sendall(counter + message)
 
     def recv(self, socket):
-        message = socket.recv(1024)
+        message = socket.recv(4096)
         if not message:
             return False
 
@@ -95,10 +95,10 @@ class RemoteDevice(Device):
             self.connection.send(self.socket, [msg] + args)
             data = self.connection.recv(self.socket)
         except:
-            raise Exception("Error with remote agent")
+            raise Exception("Error with remote agent " + str(msg))
 
         if data[0] != 0:
-            raise Exception("Error with remote agent")
+            raise Exception("Error with remote agent (Returned != 0)" + str(msg))
 
         return data[1:]
 

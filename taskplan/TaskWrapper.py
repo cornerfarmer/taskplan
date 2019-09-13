@@ -271,7 +271,11 @@ class TaskWrapper:
 
     def remove_data(self):
         save_dir = self.build_save_dir()
-        shutil.rmtree(save_dir)
+        try:
+            shutil.rmtree(save_dir)
+        except OSError:
+            time.sleep(1)
+            shutil.rmtree(save_dir)
 
     def receive_updates(self):
         msg_type, arg = self.device.recv()

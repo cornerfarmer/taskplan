@@ -80,12 +80,12 @@ class Project:
             self._load_saved_task(self.test_dir, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
-        try:
-            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
-            task.load_metadata(path)
-        except:
-            print("Warning: Could not load task: " + str(path))
-            return
+        #try:
+        task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
+        task.load_metadata(path)
+        #except:
+        #    print("Warning: Could not load task: " + str(path))
+        #    return
 
         task.state = State.STOPPED
         self.tasks.append(task)
@@ -160,7 +160,7 @@ class Project:
     def _run_tensorboard(self):
         self.tensorboard_port = 6006
         while True:
-            process = subprocess.Popen(["tensorboard", "--logdir", str(self.tasks_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
+            process = subprocess.Popen(["tensorboard", "--logdir", str(self.view_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
             output, error = process.communicate()
 
             if output.startswith(b'TensorBoard attempted to bind to port'):
