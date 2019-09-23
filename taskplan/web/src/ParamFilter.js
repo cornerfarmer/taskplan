@@ -39,10 +39,12 @@ class ParamFilterParam extends React.Component {
         let paramValues = [];
         if (!paramValue.isTemplate) {
             let numberOfTasks = 0;
-            if (paramValue.uuid in this.props.numberOfTasksPerParamValue)
-                numberOfTasks += this.props.numberOfTasksPerParamValue[paramValue.uuid].length;
-            if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue)
-                numberOfTasks += this.props.numberOfTasksPerParamValue[deprecatedKey].length;
+            if (this.props.numberOfTasksPerParamValue !== undefined) {
+                if (paramValue.uuid in this.props.numberOfTasksPerParamValue)
+                    numberOfTasks += this.props.numberOfTasksPerParamValue[paramValue.uuid].length;
+                if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue)
+                    numberOfTasks += this.props.numberOfTasksPerParamValue[deprecatedKey].length;
+            }
 
             paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": paramValue.name, "numberOfTasks": numberOfTasks, "args": []});
         } else {

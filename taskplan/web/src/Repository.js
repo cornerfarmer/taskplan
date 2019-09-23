@@ -171,7 +171,8 @@ class Repository {
             updateTaskNames();
         });
         this.onRemove("tasks", (task) => {
-            this.standardView.removeTask(task);
+            if (!task.is_test)
+                this.standardView.removeTask(task);
 
             updateTaskNames();
         });
