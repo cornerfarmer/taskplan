@@ -13,6 +13,7 @@ try:
   from pathlib2 import Path
 except ImportError:
   from pathlib import Path
+import struct
 
 class RemoteMsg(Enum):
     RUN_TASK = 0
@@ -47,10 +48,16 @@ class Connection:
         message = pickle.dumps(message)
         counter = os.urandom(16)
         message = self.encrypt(message, counter)
-        socket.sendall(counter + message)
+        message = counter + message
+        socket.sendall(struct.pack('>I', len(message)) + message)
 
     def recv(self, socket):
-        message = socket.recv(4096)
+        message = self._recvall(socket, 4)
+        if not message:
+            return False
+        msglen = struct.unpack('>I', message)[0]
+
+        message = self._recvall(socket, msglen)
         if not message:
             return False
 
@@ -58,6 +65,15 @@ class Connection:
         message = self.decrypt(message, counter)
         message = pickle.loads(message)
         return message
+
+    def _recvall(self, socket, n):
+        data = b''
+        while len(data) < n:
+            packet = socket.recv(n - len(data))
+            if not packet:
+                return None
+            data += packet
+        return data
 
 class RemoteDevice(Device):
     def __init__(self, host, port):
@@ -147,6 +163,7 @@ class RemoteAgent:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((self.host, self.port))
             s.listen(0)
+            print("Listening at " + str(self.host) + ":" + str(self.port))
 
             while True:
                 print("Waiting for connection...")
