@@ -32,7 +32,7 @@ class ConsoleUI:
             self.ui_thread.start()
 
             with tqdm() as pbar:
-                pbar.write("Commands: (P)ause, (E)xtend")
+                pbar.write("Commands: (P)ause, (E)xtend, (S)ave")
                 while True:
                     try:
                         event = self.event_queue.get(timeout=1000)
@@ -80,5 +80,7 @@ class ConsoleUI:
                             pass
                         finally:
                             self.hide_pbar = False
+                    elif c == "s":
+                        self.controller.save_now_task(self.task_uuid)
         finally:
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)

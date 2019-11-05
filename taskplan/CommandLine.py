@@ -121,7 +121,7 @@ def test_task(project_name, total_iterations, params, save, checkpoint, load):
 def add_version(project_name, version_name):
     event_manager, controller = _start_controller()
 
-    controller.add_version(project_name, version_name)
+    controller.add_code_version(project_name, version_name)
     controller.stop()
 
 @cli.command(name="agent")
