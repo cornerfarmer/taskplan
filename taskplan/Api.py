@@ -15,10 +15,12 @@ class Api:
     def __init__(self):
         self.global_config = Controller.load_global_config()
         self.project_manager = ProjectManager(EventManager())
-        self.project_manager.load_projects(self.global_config)
+        self.project_manager.load_projects(self.global_config, load_saved_tasks=False)
 
-    def load_task(self, task_uuid):
-        task = self.project_manager.find_task_by_uuid(task_uuid)
+    def load_task(self, project_name, task_path):
+        project = self.project_manager.project_by_name(project_name)
+        task = project._load_saved_task(Path(task_path))
+        project.configuration.renew_task_config(task.config)
         return task.build_save_dir(), task.config
 
     @staticmethod

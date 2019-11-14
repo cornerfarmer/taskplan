@@ -14,7 +14,7 @@ class ProjectManager:
         self.projects = []
         self.event_manager = event_manager
 
-    def load_projects(self, global_config):
+    def load_projects(self, global_config, load_saved_tasks=True):
         if Path("taskplan_metadata.json").exists():
             with open('taskplan_metadata.json') as f:
                 metadata = json.load(f)
@@ -41,7 +41,8 @@ class ProjectManager:
                     global_config.get_string(config_prefix + "tasks_dir", fallback_prefix + "tasks_dir"),
                     global_config.get_string(config_prefix + "config_dir", fallback_prefix + "config_dir"),
                     global_config.get_string(config_prefix + "config_file_name", fallback_prefix + "config_file_name"),
-                    global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder")
+                    global_config.get_bool(config_prefix + "use_project_subfolder", fallback_prefix + "use_project_subfolder"),
+                    load_saved_tasks=load_saved_tasks
                 ))
 
         self.save_metadata()

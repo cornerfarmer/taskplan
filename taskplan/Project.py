@@ -18,7 +18,7 @@ import uuid
 
 class Project:
 
-    def __init__(self, metadata, key, task_dir, task_class_name, name="", tasks_dir="tasks", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests", view_dir="results"):
+    def __init__(self, metadata, key, task_dir, task_class_name, name="", tasks_dir="tasks", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests", view_dir="results", load_saved_tasks=True):
         self.task_dir = Path(task_dir).resolve()
         self.key = key
         self.task_class_name = task_class_name
@@ -56,7 +56,8 @@ class Project:
         self.add_code_version("initial")
         self.load_metadata(metadata)
 
-        self._load_saved_tasks()
+        if load_saved_tasks:
+            self._load_saved_tasks()
 
     def save_metadata(self):
         return {
@@ -90,6 +91,7 @@ class Project:
         task.state = State.STOPPED
         self.tasks.append(task)
         self.configuration.register_task(task)
+        return task
 
     def create_task(self, param_values, config, total_iterations, is_test=False):
         params = self.configuration.get_params()
