@@ -19,7 +19,7 @@ class Api:
 
     def load_task(self, project_name, task_path):
         project = self.project_manager.project_by_name(project_name)
-        task = project._load_saved_task(Path(task_path))
+        task = project._load_saved_task(Path(task_path), task_path.startswith("tests"))
         project.configuration.renew_task_config(task.config)
         return task.build_save_dir(), task.config
 

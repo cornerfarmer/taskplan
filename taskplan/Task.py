@@ -83,6 +83,10 @@ class Task(object):
             self.receive_updates()
 
             self.config.iteration_cursor = self.finished_iterations
+
+            if self.finished_iterations == 0:
+                self.before_first_iteration()
+
             self.step(tensorboard_writer, self.finished_iterations)
 
             self.finished_iterations = self.finished_iterations + 1
@@ -131,4 +135,5 @@ class Task(object):
     def stop(self):
         pass
 
-
+    def before_first_iteration(self):
+        pass
