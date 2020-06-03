@@ -111,3 +111,7 @@ class ProjectManager:
         if param_value is not None:
             self.event_manager.throw(EventType.PARAM_VALUE_REMOVED, param_value, project)
             self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+
+    def reload(self):
+        for project in self.projects:
+            project.reload(self.event_manager)

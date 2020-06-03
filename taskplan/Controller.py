@@ -8,17 +8,47 @@ from taskconf.config.Configuration import Configuration
 from taskplan.EventManager import EventType
 from taskplan.ProjectManager import ProjectManager
 from taskplan.Scheduler import Scheduler
-
+import queue
 
 class Controller:
     def __init__(self, event_manager, allow_remote=False):
         self.global_config = Controller.load_global_config()
 
+        self.call_queue = queue.Queue(maxsize=1)
+        self.return_queue = queue.Queue(maxsize=1)
         self.scheduler = Scheduler(event_manager, self.global_config, allow_remote)#, self.global_config.get_list("remote_devices") if allow_remote else [])
         self.project_manager = ProjectManager(event_manager)
         self.project_manager.load_projects(self.global_config)
 
         self.event_manager = event_manager
+
+    def start(self):
+        self.run_update_thread = True
+        self.scheduler.start(self.project_manager)
+        self.update_thread = threading.Thread(target=self._update)
+        self.update_thread.start()
+
+    def _update(self):
+        while self.run_update_thread:
+            self.scheduler.update_clients(self.project_manager)
+            self.project_manager.update_clients()
+            self.scheduler.schedule()
+
+            try:
+                function, args, kwargs = self.call_queue.get(timeout=1)
+                function = getattr(self, function)
+                result = function(*args, **kwargs)
+                self.return_queue.put(result)
+            except queue.Empty:
+                pass
+
+    def __getattr__(self, name):
+        name = "_" + name
+        def method(*args, **kwargs):
+            self.call_queue.put((name, args, kwargs))
+            return self.return_queue.get()
+
+        return method
 
     @staticmethod
     def load_global_config():
@@ -30,58 +60,45 @@ class Controller:
             data = json.load(f)
         return Configuration(data, [default_config])
 
-    def start(self):
-        self.scheduler.start(self.project_manager)
-        self.run_update_thread = True
-        self.update_thread = threading.Thread(target=self._update_clients)
-        self.update_thread.start()
-
-    def _update_clients(self):
-        while self.run_update_thread:
-            self.scheduler.update_clients(self.project_manager)
-            self.project_manager.update_clients()
-
-            time.sleep(3)
-
-    def update_new_client(self, client):
+    def _update_new_client(self, client):
         self.project_manager.update_new_client(client)
         self.scheduler.update_new_client(client)
 
-    def start_new_task(self, project_name, params, config, total_iterations, is_test=False, device_uuid=None):
+    def _start_new_task(self, project_name, params, config, total_iterations, is_test=False, device_uuid=None):
         task = self.project_manager.create_task(project_name, params, config, total_iterations, is_test)
         self.scheduler.enqueue(task, device_uuid)
         return task
 
-    def pause_task(self, task_uuid):
+    def _pause_task(self, task_uuid):
         self.scheduler.pause(task_uuid)
 
-    def pause_all_tasks(self):
+    def _pause_all_tasks(self):
         self.scheduler.pause_and_cancel_all()
 
-    def terminate_task(self, task_uuid):
+    def _terminate_task(self, task_uuid):
         self.scheduler.terminate(task_uuid)
 
-    def save_now_task(self, task_uuid):
+    def _save_now_task(self, task_uuid):
         self.scheduler.save_now(task_uuid)
 
-    def cancel_task(self, task_uuid):
+    def _cancel_task(self, task_uuid):
         removed_task = self.scheduler.cancel(task_uuid)
         if removed_task is not None:
             self.event_manager.throw(EventType.TASK_CHANGED, removed_task)
 
-    def remove_task(self, task_uuid):
+    def _remove_task(self, task_uuid):
         self.project_manager.remove_task(task_uuid)
 
-    def remove_param(self, project_name, param_uuid):
+    def _remove_param(self, project_name, param_uuid):
         self.project_manager.remove_param(project_name, param_uuid)
 
-    def remove_param_value(self, project_name, param_value_uuid):
+    def _remove_param_value(self, project_name, param_value_uuid):
         self.project_manager.remove_param_value(project_name, param_value_uuid)
 
-    def run_task_now(self, task_uuid):
+    def _run_task_now(self, task_uuid):
         self.scheduler.run_now(task_uuid)
 
-    def continue_task(self, task_uuid, total_iterations, device_uuid=None):
+    def _continue_task(self, task_uuid, total_iterations, device_uuid=None):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         if total_iterations > 0:
             task.set_total_iterations(total_iterations)
@@ -92,23 +109,23 @@ class Controller:
         else:
             return None
 
-    def finish_task(self, task_uuid):
+    def _finish_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         task.finish()
         self.event_manager.log("The total iterations of task \"" + str(task) + "\" has decreased to " + str(task.total_iterations) + ", so the task is now considered finished", "The task has been finished")
         self.event_manager.throw(EventType.TASK_CHANGED, task)
 
-    def reorder_task(self, task_uuid, new_index):
+    def _reorder_task(self, task_uuid, new_index):
         self.scheduler.reorder(task_uuid, new_index)
 
-    def reorder_param(self, project_name, param_uuid, new_index):
+    def _reorder_param(self, project_name, param_uuid, new_index):
         project = self.project_manager.project_by_name(project_name)
         changed_params = project.change_sorting(param_uuid, new_index)
 
         for param in changed_params:
             self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
 
-    def edit_param(self, project_name, param_uuid, new_data):
+    def _edit_param(self, project_name, param_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
         param = project.configuration.edit_param(param_uuid, new_data)
@@ -116,7 +133,7 @@ class Controller:
         self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
         self.event_manager.log("Param \"" + param.uuid + "\" has been changed", "Param has been changed")
 
-    def edit_param_value(self, project_name, param_uuid, param_value_uuid, new_data):
+    def _edit_param_value(self, project_name, param_uuid, param_value_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
         param, param_value = project.configuration.edit_param_value(param_uuid, param_value_uuid, new_data)
@@ -125,7 +142,7 @@ class Controller:
         self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
         self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
-    def add_param(self, project_name, new_data):
+    def _add_param(self, project_name, new_data):
         project = self.project_manager.project_by_name(project_name)
 
         param = project.configuration.add_param(new_data)
@@ -133,7 +150,7 @@ class Controller:
         self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
         self.event_manager.log("Param \"" + param.uuid + "\" has been added", "Param has been added")
 
-    def add_param_batch(self, project_name, config):
+    def _add_param_batch(self, project_name, config):
         project = self.project_manager.project_by_name(project_name)
 
         added_params, added_param_values = project.configuration.add_param_batch(config)
@@ -146,7 +163,7 @@ class Controller:
             self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value, project)
             self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
-    def add_param_value(self, project_name, param_uuid, new_data):
+    def _add_param_value(self, project_name, param_uuid, new_data):
         project = self.project_manager.project_by_name(project_name)
 
         param, param_value = project.configuration.add_param_value(param_uuid, new_data)
@@ -155,7 +172,7 @@ class Controller:
         self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
         self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
-    def config_param_value(self, project_name, base_uuid=None, param_value_uuid=None):
+    def _config_param_value(self, project_name, base_uuid=None, param_value_uuid=None):
         project = self.project_manager.project_by_name(project_name)
 
         if base_uuid is None and param_value_uuid is None:
@@ -177,7 +194,7 @@ class Controller:
 
         return {'inherited_config': inherited_config, "config": config, 'dynamic': dynamic}
 
-    def task_config(self, project_name, param_value_uuids):
+    def _task_config(self, project_name, param_value_uuids):
         project = self.project_manager.project_by_name(project_name)
         param_values = [[project.configuration.get_config(uuid[0])] + uuid[1:] for uuid in param_value_uuids]
 
@@ -185,23 +202,23 @@ class Controller:
 
         return {'inherited_config': {}, "config": config.get_merged_config(), 'dynamic': config.treat_dynamic()}
 
-    def existing_task_config(self, task_uuid):
+    def _existing_task_config(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         return {'inherited_config': {}, 'config': task.config.get_merged_config(), 'dynamic': task.config.treat_dynamic()}
         
-    def change_total_iterations(self, task_uuid, total_iterations):
+    def _change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)
 
-    def open_tensorboard(self, project_name):
+    def _open_tensorboard(self, project_name):
         project = self.project_manager.project_by_name(project_name)
         self.event_manager.log("Starting tensorboard for project \"" + str(project_name) + "\"...", "Starting tensorboard...")
         project.start_tensorboard(self.event_manager)
         return project.tensorboard_port
 
-    def change_max_running_tasks(self, new_max_running):
+    def _change_max_running_tasks(self, new_max_running):
         self.scheduler.set_max_running(new_max_running)
 
-    def add_code_version(self, project_name, version_name):
+    def _add_code_version(self, project_name, version_name):
         if version_name != "":
             project = self.project_manager.project_by_name(project_name)
             code_version = project.add_code_version(version_name)
@@ -210,26 +227,26 @@ class Controller:
             self.event_manager.throw(EventType.PROJECT_CHANGED, project)
             self.select_code_version(project_name, code_version["uuid"])
 
-    def select_code_version(self, project_name, version_uuid):
+    def _select_code_version(self, project_name, version_uuid):
         project = self.project_manager.project_by_name(project_name)
         project.select_code_version(version_uuid)
         self.project_manager.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, project)
 
 
-    def clone_task(self, task_uuid):
+    def _clone_task(self, task_uuid):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         cloned_task = task.project.clone_task(task)
         self.event_manager.throw(EventType.TASK_CHANGED, cloned_task)
 
         self.event_manager.log("Task \"" + str(task) + "\" has been cloned", "Task has been cloned")
 
-    def set_task_notes(self, task_uuid, new_notes):
+    def _set_task_notes(self, task_uuid, new_notes):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         task.set_notes(new_notes)
         self.event_manager.throw(EventType.TASK_CHANGED, task)
 
-    def extract_checkpoint(self, task_uuid, checkpoint_id):
+    def _extract_checkpoint(self, task_uuid, checkpoint_id):
         task = self.project_manager.find_task_by_uuid(task_uuid)
         new_task = task.project.extract_checkpoint(task, checkpoint_id)
         self.event_manager.throw(EventType.TASK_CHANGED, new_task)
@@ -240,20 +257,21 @@ class Controller:
         self.run_update_thread = False
         self.update_thread.join()
 
-        self.scheduler.stop()
-
-    def connect_device(self, device_uuid):
+    def _connect_device(self, device_uuid):
         self.scheduler.connect_device(device_uuid, self.project_manager)
 
-    def disconnect_device(self, device_uuid):
+    def _disconnect_device(self, device_uuid):
         self.scheduler.disconnect_device(device_uuid)
 
-    def add_device(self, device_address):
+    def _add_device(self, device_address):
         self.scheduler.add_device(device_address, self.project_manager)
 
-    def create_checkpoint(self, task_uuid):
+    def _create_checkpoint(self, task_uuid):
         successful = self.scheduler.create_checkpoint_now(task_uuid)
         if not successful:
             task = self.project_manager.find_task_by_uuid(task_uuid)
             task.create_checkpoint()
             self.event_manager.throw(EventType.TASK_CHANGED, task)
+
+    def _reload(self):
+        self.project_manager.reload()

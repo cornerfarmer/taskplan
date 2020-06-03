@@ -6,8 +6,15 @@ except ImportError:
 
 try:
     import tensorflow as tf
+
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+
+    # Currently, memory growth needs to be the same across GPUs
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
 except ImportError:
     tf = None
+
 import time
 import taskplan
 
@@ -28,7 +35,8 @@ class TestTask(taskplan.Task):
         self.logger.log("Test: " + str(self.config.get_list("test_list")[0]))
 
         if tensorboard_writer is not None:
-            tensorboard_writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="sum", simple_value=self.sum)]), current_iteration)
+            with tensorboard_writer.as_default():
+                tf.summary.scalar("sum", self.sum, step=current_iteration)
             #tensorboard_writer.add_scalar('sum', self.sum, current_iteration)
 
     def load(self, path):

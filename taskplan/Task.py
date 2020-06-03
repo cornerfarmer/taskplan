@@ -41,7 +41,10 @@ class Task(object):
                 return None
         else:
             if tf is not None:
-                return tf.summary.FileWriter(task_dir)
+                if hasattr(tf.summary, "FileWriter"):
+                    return tf.summary.FileWriter(task_dir)
+                else:
+                    return tf.summary.create_file_writer(task_dir)
             else:
                 return None
 

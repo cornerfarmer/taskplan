@@ -38,6 +38,11 @@ class PipeMsg(Enum):
 
 class TaskWrapper:
     def __init__(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test=False):
+        self._reset_state(task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test)
+
+        self._create_metadata_lock()
+
+    def _reset_state(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test):
         self.task_dir = task_dir
         self.class_name = class_name
         self.config = config
@@ -63,8 +68,6 @@ class TaskWrapper:
         self.saving = False
         self.creating_checkpoint = False
         self.notes = ""
-
-        self._create_metadata_lock()
 
     def _create_metadata_lock(self):
         path = self.build_save_dir()
@@ -320,3 +323,12 @@ class TaskWrapper:
         if self.state != State.RUNNING:
             checkpoint = TaskWrapper._create_checkpoint(self.metadata_lock, self.build_save_dir(), self.finished_iterations)
             self.checkpoints.append(checkpoint)
+
+    def reload(self):
+        path = self.build_save_dir()
+        if not path.exists():
+            return False
+
+        self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.code_version, self.tasks_dir, self.is_test)
+        self.load_metadata(path)
+        return True

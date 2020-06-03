@@ -79,7 +79,6 @@ class ServerSentEvent(object):
             data_client = data.copy()
             data_client['project_name'] = parent_data.name
         elif event_type is EventType.SCHEDULER_OPTIONS:
-            data_client['max_running'] = data.max_running()
             data_client['devices'] = [{"uuid": str(device.uuid), "name": device.get_name(), "is_connected": device.is_connected()} for device in data.devices]
         elif event_type is EventType.FLASH_MESSAGE:
             data_client['message'] = data.message

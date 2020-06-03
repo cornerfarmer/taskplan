@@ -5,6 +5,9 @@ import json
 
 class ProjectConfiguration:
     def __init__(self, config_dir):
+        self._reset(config_dir)
+
+    def _reset(self, config_dir):
         self.configuration = ConfigurationManager(str(config_dir))
         self.params_conf_path = "taskplan_params.json"
         self.param_values_conf_path = "taskplan_param_values.json"
@@ -301,3 +304,6 @@ class ProjectConfiguration:
                 self.configuration.remove_config(param)
                 return param
         return None
+
+    def reload(self):
+        self._reset(self.configuration.config_path)

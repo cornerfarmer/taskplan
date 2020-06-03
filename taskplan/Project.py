@@ -259,3 +259,23 @@ class Project:
 
         self.view.add_param(param)
         return changed_params
+
+    def reload(self, event_manager):
+        self.configuration.reload()
+
+        task_uuids = []
+        for task in self.tasks:
+            success = task.reload()
+            if success:
+                task_uuids.append(str(task.uuid))
+                event_manager.throw(EventType.TASK_CHANGED, task)
+            else:
+                event_manager.throw(EventType.TASK_REMOVED, task)
+                self.tasks.remove(task)
+
+        for task in self.tasks_dir.iterdir():
+            if task.is_dir() and task.name not in task_uuids:
+                task = self._load_saved_task(task)
+                event_manager.throw(EventType.TASK_CHANGED, task)
+
+        self.view.initialize(self.tasks)

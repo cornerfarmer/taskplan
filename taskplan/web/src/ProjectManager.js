@@ -19,6 +19,7 @@ class ProjectManager extends React.Component {
         this.openTaskViewer = this.openTaskViewer.bind(this);
         this.openCodeVersionViewer = this.openCodeVersionViewer.bind(this);
         this.closeViewer = this.closeViewer.bind(this);
+        this.reload = this.reload.bind(this);
         this.promptRefs = React.createRef();
         this.codeVersionViewerRef = React.createRef();
         this.taskViewerRef = React.createRef();
@@ -150,6 +151,19 @@ class ProjectManager extends React.Component {
         }
     }
 
+    reload() {
+        fetch("/reload")
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            );
+    }
+
     render() {
         return (
             <div id="project-manager">
@@ -171,6 +185,9 @@ class ProjectManager extends React.Component {
                         <span id="project-toolbar">
                             <div id="code-version" title="Add new code version" onClick={this.openCodeVersionViewer}>{this.props.repository.codeVersions[this.state.projects[this.state.currentProject].current_code_version].name}</div>
                             <div id="tb-link" onClick={this.gotoTB} title="Start and open tensorboard">TB</div>
+                            <div id="reload-tasks" onClick={this.reload} title="Reload tasks">
+                                <i className="fas fa-sync-alt"></i>
+                            </div>
                         </span>
                     }
                 </div>

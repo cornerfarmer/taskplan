@@ -80,6 +80,11 @@ def run():
         controller.cancel_task(task_uuid)
         return jsonify({})
 
+    @app.route('/reload')
+    def reload():
+        controller.reload()
+        return jsonify({})
+
     @app.route('/remove_task/<string:task_uuid>')
     def remove_task(task_uuid):
         controller.remove_task(task_uuid)
