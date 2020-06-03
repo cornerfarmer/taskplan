@@ -8,22 +8,21 @@ import json
 
 class Scheduler:
 
-    def __init__(self, event_manager, global_config, allow_remote):
+    def __init__(self, event_manager, metadata, allow_remote):
         self.event_manager = event_manager
-        self.global_config = global_config
-        self._max_running = global_config.get_int("max_running_tasks")
         self.devices = [LocalDevice()]
 
         if allow_remote:
-            for remote_device in global_config.get_list("remote_devices"):
+            if "remote_devices" not in metadata:
+                metadata["remote_devices"] = []
+
+            for remote_device in metadata["remote_devices"]:
                 self.devices.append(RemoteDevice(remote_device.split(":")[0], int(remote_device.split(":")[1])))
 
-    def _save_metadata(self):
-        data = {"config": self.global_config.data["config"]}
-        data["config"]["max_running_tasks"] = self._max_running
-        data["config"]["remote_devices"] = [(remote_device.host + ":" + str(remote_device.port)) for remote_device in self.devices[1:]]
-        with open('taskplan.json', "w") as f:
-            json.dump(data, f)
+    def save_metadata(self):
+        return {
+            "remote_devices":  [(remote_device.host + ":" + str(remote_device.port)) for remote_device in self.devices[1:]]
+        }
 
     def start(self, project_manager):
         self.connect_all(project_manager)
@@ -53,7 +52,7 @@ class Scheduler:
                             self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been finished")
                         device.runnings.remove(running)
 
-                if len(device.queue) > 0 and len(device.runnings) < self._max_running:
+                if len(device.queue) > 0 and len(device.runnings) < 1:
                     device.runnings.append(device.queue.pop(0))
                     self._update_indices()
                     device.runnings[-1].start()
@@ -113,7 +112,7 @@ class Scheduler:
             for task in device.queue:
                 if str(task.uuid) == task_uuid:
                     self.reorder(task_uuid, 0)
-                    for i in range(self._max_running - 1, len(device.runnings)):
+                    for i in range(0, len(device.runnings)):
                         self.pause(str(device.runnings[i].uuid))
                     self.event_manager.log("The task \"" + str(task) + "\" will be started as soon as possible", "Task has been prioritized")
                     break

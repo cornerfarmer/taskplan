@@ -142,9 +142,9 @@ class TaskWrapper:
 
         logger = Logger(metadata["task_dir"], "main")
         try:
-            sys.path.append(str(task_dir))
+            sys.path = [str(task_dir)] + sys.path
             os.chdir(str(task_dir))
-            task_class = getattr(importlib.import_module(class_name), class_name)
+            task_class = getattr(importlib.import_module(class_name, "."), class_name)
 
             TaskWrapper._run_task(task_class, config, logger, metadata)
 

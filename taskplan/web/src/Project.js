@@ -106,9 +106,7 @@ class Project extends React.Component {
 
     addTask(task) {
         if (!task.is_test) {
-            if (task.project_name === this.props.project.name) {
-                this.filterView.addTask(task);
-            }
+            this.filterView.addTask(task);
 
             this.addParamValueNumbers(task);
         }
@@ -151,7 +149,7 @@ class Project extends React.Component {
             this.removeParamValueNumbers(task);
         }
 
-        if (task.project_name === this.props.project.name && !task.is_test) {
+        if (!task.is_test) {
             this.filterView.removeTask(task);
         }
         this.updateVisibleTasks();
@@ -167,7 +165,7 @@ class Project extends React.Component {
         let selectedTasks = Object.keys(this.state.tasks).filter(taskUuid => {
             const task = this.state.tasks[taskUuid];
             let show = true;
-            show = show && task.version === this.props.project.current_code_version;
+            show = show && task.version === this.props.current_code_version;
 
             if (paramFilterEnabled && show) {
                 for (let selectedParamUuid in selectedParamValues) {
@@ -203,7 +201,7 @@ class Project extends React.Component {
     }
 
     updateParams(params) {
-        params = Object.values(params).filter(param => param.project_name === this.props.project.name);
+        params = Object.values(params);
         this.filterView.updateParams(params);
 
         let paramsByGroup = {};
@@ -223,8 +221,7 @@ class Project extends React.Component {
 
     updateTasks(tasks, changed) {
         for (let key in tasks) {
-            if (tasks[key].project_name === this.props.project.name)
-                this.filterView.updateTask(tasks[key]);
+            this.filterView.updateTask(tasks[key]);
             if (key === changed) {
                 this.removeParamValueNumbers(this.state.tasks[key]);
                 this.addParamValueNumbers(tasks[key]);
@@ -313,7 +310,7 @@ class Project extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.project.current_code_version !== this.props.project.current_code_version)
+        if (prevProps.current_code_version !== this.props.current_code_version)
             this.updateVisibleTasks();
         if (prevProps.highlightedTask !== this.props.highlightedTask && this.props.highlightedTask !== null) {
             this.setState({
@@ -336,7 +333,7 @@ class Project extends React.Component {
 
     render() {
         return (
-            <div className="project" style={this.props.visible ? {} : {display: 'none'}}>
+            <div className="project">
                 <div className="tabs">
                     <div className={this.state.activeTab === 0 ? "tab-active" : ""} onClick={() => this.showTab(0)}>Parameters</div>
                     <div className={this.state.activeTab === 1 ? "tab-active" : ""} onClick={() => this.showTab(1)}>Tasks</div>
@@ -367,7 +364,6 @@ class Project extends React.Component {
                     active={this.state.activeTab === 0}
                     paramsByGroup={this.state.paramsByGroup}
                     sorting={this.state.sorting}
-                    project={this.props.project}
                     sortingDescending={this.state.sortingDescending}
                     paramSortingMode={this.state.paramSortingMode}
                     params={this.state.params}
@@ -376,7 +372,6 @@ class Project extends React.Component {
                 <TaskTab
                     active={this.state.activeTab === 1}
                     params={this.state.params}
-                    project={this.props.project}
                     tasks={this.state.tasks}
                     selectedTasks={this.state.selectedTasks}
                     selectedParamValues={this.state.selectedParamValues}

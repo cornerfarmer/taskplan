@@ -37,7 +37,7 @@ class CodeVersionViewer extends React.Component {
     }
 
     addCodeVersion() {
-        fetch("/add_code_version/" + this.props.project_name + "/" + this.state.newName)
+        fetch("/add_code_version/" + this.state.newName)
         .then(res => res.json())
         .then(
             (result) => {
@@ -55,7 +55,7 @@ class CodeVersionViewer extends React.Component {
     }
 
     selectCodeVersion(code_version) {
-        fetch("/select_code_version/" + this.props.project_name + "/" + code_version)
+        fetch("/select_code_version/" + code_version)
         .then(res => res.json())
         .then(
             (result) => {

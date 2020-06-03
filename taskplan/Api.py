@@ -2,7 +2,6 @@ from taskconf.util.Logger import Logger
 
 from taskplan.Controller import Controller
 from taskplan.EventManager import EventManager
-from taskplan.ProjectManager import ProjectManager
 
 try:
   from pathlib2 import Path

@@ -33,7 +33,7 @@ class ParamTab extends React.Component {
     }
 
     addParam() {
-        this.paramEditor.current.new(this.props.project.name);
+        this.paramEditor.current.new();
     }
 
     addParamBatch() {
@@ -54,7 +54,6 @@ class ParamTab extends React.Component {
                                 key={param.uuid}
                                 param={param}
                                 sortMode={true}
-                                project_name={this.props.project.name}
                                 numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                             />
                         ))
@@ -76,7 +75,7 @@ class ParamTab extends React.Component {
                 </ul>
                 <ParamEditor ref={this.paramEditor} closeEditors={this.closeEditors} />
                 <ParamValueEditor ref={this.paramValueEditor} closeEditors={this.closeEditors} />
-                <ParamBatchEditor ref={this.paramBatchEditor} closeEditors={this.closeEditors} project_name={this.props.project.name} />
+                <ParamBatchEditor ref={this.paramBatchEditor} closeEditors={this.closeEditors} />
                 <div className="tab-toolbar">
                     <label>
                         <input type="checkbox" defaultChecked={this.state.showAbstract} onChange={this.toggleShowAbstract} />

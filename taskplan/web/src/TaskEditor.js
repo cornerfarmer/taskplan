@@ -112,7 +112,7 @@ class TaskEditor extends React.Component {
 
         data.append("data", JSON.stringify(dataJson));
 
-        var url = "/" + (this.state.isTest ? "test" : "start") + "/" + this.props.project_name + "/" + this.state.total_iterations;
+        var url = "/" + (this.state.isTest ? "test" : "start") + "/" + this.state.total_iterations;
 
         fetch(url,
             {
@@ -182,7 +182,7 @@ class TaskEditor extends React.Component {
 
         if (total_iterations !== "") {
             this.setState({
-                command: "taskplan " + (this.state.isTest ? "test " : "start ") + this.props.project_name + " " + total_iterations + " " + paramValues,
+                command: "taskplan " + (this.state.isTest ? "test " : "start ") + total_iterations + " " + paramValues,
                 commandHint: "Click to copy"
             });
         } else {
@@ -243,7 +243,7 @@ class TaskEditor extends React.Component {
                         <input checked={this.state.isTest} onChange={this.onIsTestChange} type="checkbox" />
                     </div>
                     <ParamFilter selectMultiple={false} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.state.selectedParamValues} toggleSelection={this.onSelectionChange} useTemplateFields={true}/>
-                    <ConfigEditor ref={this.configEditor} url={"/config/task/" + this.props.project_name} bases={Object.values(this.state.selectedParamValues)} preview={true} />
+                    <ConfigEditor ref={this.configEditor} url={"/config/task"} bases={Object.values(this.state.selectedParamValues)} preview={true} />
                     <div className="field">
                         <label>Device:</label>
                         <select value={this.state.device} onChange={this.onDeviceChange}>

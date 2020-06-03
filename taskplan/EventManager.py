@@ -28,7 +28,6 @@ class ServerSentEvent(object):
         data_client = {}
         if event_type in [EventType.TASK_CHANGED, EventType.TASK_REMOVED]:
             data_client['uuid'] = str(data.uuid)
-            data_client['project_name'] = data.project.name
             if event_type is not EventType.TASK_REMOVED:
                 data_client['state'] = data.state.value
                 data_client['config_name'] = ""
@@ -51,7 +50,6 @@ class ServerSentEvent(object):
                 data_client['device'] = None if data.device is None else str(data.device.uuid)
         elif event_type in [EventType.PARAM_CHANGED, EventType.PARAM_REMOVED]:
             data_client['uuid'] = str(data.uuid)
-            data_client['project_name'] = parent_data.name
             if event_type is not EventType.PARAM_REMOVED:
                 data_client['name'] = data.get_metadata("name")
                 data_client['deprecated_param_value'] = data.get_metadata("deprecated_param_value")
@@ -61,7 +59,6 @@ class ServerSentEvent(object):
         elif event_type in [EventType.PARAM_VALUE_CHANGED, EventType.PARAM_VALUE_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             data_client['param'] = data.get_metadata("param")
-            data_client['project_name'] = parent_data.name
             if event_type is not EventType.PARAM_VALUE_REMOVED:
                 data_client['name'] = data.get_metadata("name")
                 data_client['base_uuid'] = data.base_configs[0].uuid if len(data.base_configs) > 0 else ""
@@ -72,12 +69,10 @@ class ServerSentEvent(object):
                 data_client['template_deprecated'] = data.get_metadata("template_deprecated") if data.has_metadata("template_deprecated") else []
                 data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
         elif event_type is EventType.PROJECT_CHANGED:
-            data_client['name'] = data.name
             data_client['current_code_version'] = data.current_code_version
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif event_type is EventType.CODE_VERSION_CHANGED:
             data_client = data.copy()
-            data_client['project_name'] = parent_data.name
         elif event_type is EventType.SCHEDULER_OPTIONS:
             data_client['devices'] = [{"uuid": str(device.uuid), "name": device.get_name(), "is_connected": device.is_connected()} for device in data.devices]
         elif event_type is EventType.FLASH_MESSAGE:

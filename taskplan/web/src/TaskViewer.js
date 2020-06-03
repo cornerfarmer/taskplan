@@ -150,7 +150,6 @@ class TaskViewer extends React.Component {
                         <div><span>Iterations:</span> {this.state.task.finished_iterations} / {this.state.task.total_iterations}</div>
                         <div><span>Started:</span> {this.state.task.creation_time.toShortStr()}</div>
                         <div><span>Paused:</span> {this.state.task.saved_time.toShortStr()} {this.state.task.had_error == true && <span className="task-error">(Error)</span>}</div>
-                        <div><span>Project:</span> {this.state.task.project_name}</div>
                         <div><span>Code version:</span> {this.props.codeVersions[this.state.task.version].name}</div>
                     </div>
                     <ConfigEditor ref={this.configEditor} url={"/config/existing_task/" + this.state.task.uuid} bases={[]} preview={true}/>

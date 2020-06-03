@@ -33,12 +33,11 @@ def web():
 
 
 @cli.command()
-@click.argument('project_name')
 @click.argument('total_iterations', type=int)
 @click.argument('params', nargs=-1)
 @click.option('--save', type=int, default=0)
 @click.option('--checkpoint', type=int, default=0)
-def start(project_name, total_iterations, params, save, checkpoint):
+def start(total_iterations, params, save, checkpoint):
     event_manager, controller = _start_controller()
 
     try:
@@ -51,7 +50,7 @@ def start(project_name, total_iterations, params, save, checkpoint):
         for i in range(0, len(params), 2):
             values_per_param[params[i]] = params[i + 1].split(":")
 
-        task = controller.start_new_task(project_name, values_per_param, config, total_iterations)
+        task = controller.start_new_task(values_per_param, config, total_iterations)
         print("Starting task \"" + str(task.uuid))
 
         console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
@@ -81,13 +80,12 @@ def continue_task(task_uuid, total_iterations=0):
 
 
 @cli.command(name="test")
-@click.argument('project_name')
 @click.argument('total_iterations', type=int)
 @click.argument('params', nargs=-1)
 @click.option('--save', type=int, default=0)
 @click.option('--checkpoint', type=int, default=0)
 @click.option('--load', is_flag=True)
-def test_task(project_name, total_iterations, params, save, checkpoint, load):
+def test_task(total_iterations, params, save, checkpoint, load):
     event_manager, controller = _start_controller()
 
     try:
@@ -101,9 +99,9 @@ def test_task(project_name, total_iterations, params, save, checkpoint, load):
             values_per_param[params[i]] = params[i + 1].split(":")
 
         if not load:
-            task = controller.start_new_task(project_name, values_per_param, config, total_iterations, is_test=True)
+            task = controller.start_new_task(values_per_param, config, total_iterations, is_test=True)
         else:
-            task = controller.continue_test_task(project_name, values_per_param, config, total_iterations)
+            task = controller.continue_test_task(values_per_param, config, total_iterations)
 
         if task is not None:
             print("Testing task \"" + str(task.uuid))
@@ -116,12 +114,11 @@ def test_task(project_name, total_iterations, params, save, checkpoint, load):
 
 
 @cli.command(name="add_version")
-@click.argument('project_name')
 @click.argument('version_name')
-def add_version(project_name, version_name):
+def add_version(version_name):
     event_manager, controller = _start_controller()
 
-    controller.add_code_version(project_name, version_name)
+    controller.add_code_version(version_name)
     controller.stop()
 
 @cli.command(name="agent")

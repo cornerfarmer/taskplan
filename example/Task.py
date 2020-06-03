@@ -18,10 +18,10 @@ except ImportError:
 import time
 import taskplan
 
-class TestTask(taskplan.Task):
+class Task(taskplan.Task):
 
     def __init__(self, config, logger, metadata):
-        super(TestTask, self).__init__(config, logger, metadata)
+        super(Task, self).__init__(config, logger, metadata)
         self.sum = self.config.get_int('offset')
 
     def save(self, path):
@@ -32,7 +32,7 @@ class TestTask(taskplan.Task):
         time.sleep(1)
         self.sum += self.config.get_int('step')
         self.logger.log("Current sum: " + str(self.sum) + " (Iteration " + str(current_iteration) + ")")
-        self.logger.log("Test: " + str(self.config.get_list("test_list")[0]))
+        #self.logger.log("Test: " + str(self.config.get_list("test_list")[0]))
 
         if tensorboard_writer is not None:
             with tensorboard_writer.as_default():

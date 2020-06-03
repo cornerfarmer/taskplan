@@ -54,7 +54,7 @@ class App extends React.Component {
                             <Scheduler devices={this.state.devices} evtSource={this.evtSource} repository={this.repository} highlightTask={(task) => this.projectManagerRef.current.highlightTask(task)}/>
                         </div>
                         <div className="col-sm-4">
-                            <ProjectManager devices={this.state.devices} ref={this.projectManagerRef} repository={this.repository}/>
+                            <ProjectManager devices={this.state.devices} evtSource={this.evtSource}  ref={this.projectManagerRef} repository={this.repository}/>
                         </div>
                     </div>
                 </div>

@@ -1,1 +1,0 @@
-{"config": {"projects": {"test": {"task_class_name": "TestTask", "use_project_subfolder": true}, "mnist": {"task_class_name": "MnistFashionTask", "use_project_subfolder": true}}, "remote_devices": ["127.0.0.1:33333", "127.0.0.1:33334", "127.0.0.1:33335", "127.0.0.1:33336", "127.0.0.1:33338"], "max_running_tasks": 1}}

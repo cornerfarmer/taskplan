@@ -37,7 +37,7 @@ class ParamValueEditor extends React.Component {
         this.props.closeEditors();
         if (duplicate) {
             this.setState({
-                paramValue: {name: paramValue.name, project_name: paramValue.project_name},
+                paramValue: {name: paramValue.name},
                 name: paramValue.name,
                 base: paramValue.base_uuid,
                 uuid_to_load: paramValue.uuid,
@@ -71,7 +71,7 @@ class ParamValueEditor extends React.Component {
     new(param, possible_base_param_values) {
         this.props.closeEditors();
         this.setState({
-            paramValue: {name: 'New parameter value', project_name: param.project_name},
+            paramValue: {name: 'New parameter value'},
             name: '',
             base: '',
             abstract: false,
@@ -113,9 +113,9 @@ class ParamValueEditor extends React.Component {
 
         var url = "";
         if (this.state.paramValue.uuid)
-            url = "/edit_param_value/" + this.state.param.project_name  + "/" + this.state.param.uuid + "/" + this.state.paramValue.uuid;
+            url = "/edit_param_value/" + this.state.param.uuid + "/" + this.state.paramValue.uuid;
         else
-            url = "/add_param_value/" + this.state.param.project_name + "/" + this.state.param.uuid;
+            url = "/add_param_value/" + this.state.param.uuid;
 
         fetch(url,
             {
@@ -231,7 +231,7 @@ class ParamValueEditor extends React.Component {
                         <label>Template deprecated:</label>
                         <input value={this.state.templateDeprecated[0]} onChange={this.onTemplateDeprecatedChange} />
                     </div> }
-                    <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/param_value/" + this.state.paramValue.project_name + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} bases={[this.state.base]}/>
+                    <ConfigEditor ref={this.configEditor} onDynamicChange={this.onIsBaseDynamic} url={"/config/param_value" + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : "")} bases={[this.state.base]}/>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>

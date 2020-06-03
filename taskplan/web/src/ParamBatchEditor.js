@@ -35,7 +35,7 @@ class ParamBatchEditor extends React.Component {
 
         data.append("data", JSON.stringify(dataJson));
 
-        var url = "/add_param_batch/" + this.props.project_name;
+        var url = "/add_param_batch";
 
         fetch(url,
             {

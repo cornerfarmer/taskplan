@@ -15,28 +15,18 @@ import subprocess
 import time
 import shutil
 import uuid
+import json
 
 class Project:
 
-    def __init__(self, metadata, key, task_dir, task_class_name, name="", tasks_dir="tasks", config_dir="config", config_file_name="taskplan", use_project_subfolder=False, test_dir="tests", view_dir="results", load_saved_tasks=True):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", view_dir="results", load_saved_tasks=True):
         self.task_dir = Path(task_dir).resolve()
-        self.key = key
         self.task_class_name = task_class_name
-        self.config_file_name = config_file_name
-        self.name = task_class_name if name is "" else name
-
-        if use_project_subfolder:
-            tasks_dir += "/" + self.name
-            config_dir += "/" + self.name
-            view_dir += "/" + self.name
-            test_dir += "/" + self.name
-
+        self.event_manager = event_manager
 
         self.config_dir = self.task_dir / Path(config_dir)
         if not self.config_dir.exists() or len(list(self.config_dir.iterdir())) == 0:
             self.config_dir.mkdir(exist_ok=True, parents=True)
-            #with open(str(self.config_dir / Path(self.config_file_name + ".json")), 'w') as handle:
-            #    handle.write('[{"config": {"save_interval": 0, "checkpoint_interval": 0},"abstract": true,"name": "Default"}]')
 
         self.configuration = ProjectConfiguration(self.config_dir)
         self.tasks_dir = self.task_dir / Path(tasks_dir)
@@ -54,10 +44,19 @@ class Project:
         self.view = View(self.configuration, self.view_dir)
 
         self.add_code_version("initial")
-        self.load_metadata(metadata)
+        self._load_metadata(metadata)
 
         if load_saved_tasks:
             self._load_saved_tasks()
+
+    @staticmethod
+    def create_from_config_file(event_manager, metadata, path):
+        if Path(path).exists():
+            with open(path) as f:
+                data = json.load(f)
+        else:
+            data = {}
+        return Project(event_manager, metadata, **data)
 
     def save_metadata(self):
         return {
@@ -65,11 +64,12 @@ class Project:
             "current_code_version": self.current_code_version
         }
 
-    def load_metadata(self, metadata):
-        if metadata is not None:
+    def _load_metadata(self, metadata):
+        if 'code_versions' in metadata:
             self.code_versions = metadata['code_versions']
+        if 'current_code_version' in metadata:
             self.current_code_version = metadata['current_code_version']
-            self.view.update_code_versions(self.code_versions)
+        self.view.update_code_versions(self.code_versions)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -116,14 +116,13 @@ class Project:
         else:
             tasks_dir = self.tasks_dir
 
-        removed_tasks = []
         if is_test:
             for task in self.tasks:
                 if task.is_test:
                     if task.state in [State.RUNNING, State.QUEUED]:
                         raise Exception("A test is already running")
                     self.remove_task(task)
-                    removed_tasks.append(task)
+                    self.event_manager.throw(EventType.TASK_REMOVED, task)
                     break
 
         task = TaskWrapper(self.task_dir, self.task_class_name, task_config, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
@@ -133,7 +132,7 @@ class Project:
 
         if not is_test:
             self.view.add_task(task)
-        return task, removed_tasks
+        return task
 
     def find_task_by_uuid(self, uuid):
         for task in self.tasks:
@@ -179,11 +178,18 @@ class Project:
             self.configuration.deregister_task(task)
             task.remove_data()
 
+            self.event_manager.throw(EventType.TASK_REMOVED, task)
+
     def remove_param(self, param_uuid):
-        return self.configuration.remove_param(param_uuid)
+        param = self.configuration.remove_param(param_uuid)
+        if param is not None:
+            self.event_manager.throw(EventType.PARAM_REMOVED, param, project)
 
     def remove_param_value(self, param_value_uuid):
-        return self.configuration.remove_param_value(param_value_uuid)
+        param_value, param = self.configuration.remove_param_value(param_value_uuid)
+        if param_value is not None:
+            self.event_manager.throw(EventType.PARAM_VALUE_REMOVED, param_value, project)
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
 
     def add_code_version(self, name):
         code_version_uuid = str(uuid.uuid4())
@@ -210,7 +216,7 @@ class Project:
         if task in self.tasks and not task.is_test:
             task_config = self.configuration.add_task([], {})
 
-            cloned_task, _ = self._create_task_from_config(task_config, task.total_iterations)
+            cloned_task = self._create_task_from_config(task_config, task.total_iterations)
             new_uuid = cloned_task.uuid
 
             shutil.rmtree(str(cloned_task.build_save_dir()))
@@ -231,7 +237,7 @@ class Project:
             checkpoint_dir = task.build_checkpoint_dir(checkpoint_id)
             task_config = self.configuration.add_task([], {})
 
-            new_task, _ = self._create_task_from_config(task_config, task.total_iterations)
+            new_task = self._create_task_from_config(task_config, task.total_iterations)
             new_uuid = new_task.uuid
 
             new_task_dir = new_task.build_save_dir()
@@ -260,7 +266,7 @@ class Project:
         self.view.add_param(param)
         return changed_params
 
-    def reload(self, event_manager):
+    def reload(self):
         self.configuration.reload()
 
         task_uuids = []
@@ -268,14 +274,33 @@ class Project:
             success = task.reload()
             if success:
                 task_uuids.append(str(task.uuid))
-                event_manager.throw(EventType.TASK_CHANGED, task)
+                self.event_manager.throw(EventType.TASK_CHANGED, task)
             else:
-                event_manager.throw(EventType.TASK_REMOVED, task)
+                self.event_manager.throw(EventType.TASK_REMOVED, task)
                 self.tasks.remove(task)
 
         for task in self.tasks_dir.iterdir():
             if task.is_dir() and task.name not in task_uuids:
                 task = self._load_saved_task(task)
-                event_manager.throw(EventType.TASK_CHANGED, task)
+                self.event_manager.throw(EventType.TASK_CHANGED, task)
 
         self.view.initialize(self.tasks)
+
+
+    def update_new_client(self, client):
+        self.event_manager.throw_for_client(client, EventType.PROJECT_CHANGED, self)
+
+        for code_version in self.code_versions:
+            self.event_manager.throw_for_client(client, EventType.CODE_VERSION_CHANGED, code_version)
+
+        for param in self.configuration.get_params():
+            self.event_manager.throw_for_client(client, EventType.PARAM_CHANGED, param, self)
+
+        for param_value in self.configuration.get_param_values():
+            self.event_manager.throw_for_client(client, EventType.PARAM_VALUE_CHANGED, param_value)
+
+        for task in self.tasks:
+            self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, task)
+
+    def update_clients(self):
+        pass

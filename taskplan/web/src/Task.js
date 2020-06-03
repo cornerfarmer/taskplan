@@ -273,7 +273,6 @@ class TaskToolbar extends React.Component {
 class Task extends React.Component {
     constructor(props) {
         super(props);
-        this.projectName = React.createRef();
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onDragStart = this.onDragStart.bind(this);
         this.onDragOver = this.onDragOver.bind(this);
@@ -289,11 +288,7 @@ class Task extends React.Component {
     }
 
     onDragStart(e) {
-        if (this.projectName.current.contains(this.target)) {
-            e.dataTransfer.setData("text/plain", this.props.task.uuid);
-        } else {
-            e.preventDefault();
-        }
+        e.dataTransfer.setData("text/plain", this.props.task.uuid);
     }
 
     onDragOver(e) {
@@ -343,7 +338,7 @@ class Task extends React.Component {
             <li ref={this.taskRef} className="task" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} onMouseDown={this.onMouseDown} draggable={this.props.task.state === State.QUEUED ? "true" : "false"} >
                 <div className="content">
                     <div className="header">
-                        <div className="project-name" ref={this.projectName}>{this.props.task.project_name}</div>
+                        <div className="project-name">Task</div>
                         <div className="status">
                             <TaskStatus index={this.props.index} state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
                             <div className="iterations">{this.props.task.finished_iterations} / {this.props.task.total_iterations}</div>

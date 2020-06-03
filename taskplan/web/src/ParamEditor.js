@@ -30,10 +30,10 @@ class ParamEditor extends React.Component {
         });
     }
 
-    new(project_name) {
+    new() {
         this.props.closeEditors();
         this.setState({
-            param: {name: 'New parameter', project_name: project_name, values: []},
+            param: {name: 'New parameter', values: []},
             name: '',
             deprecatedParamValue: '',
             defaultParamValue: ''
@@ -59,9 +59,9 @@ class ParamEditor extends React.Component {
 
         var url = "";
         if (this.state.param.uuid)
-            url = "/edit_param/" + this.state.param.project_name + "/" + this.state.param.uuid;
+            url = "/edit_param/" + this.state.param.uuid;
         else
-            url = "/add_param/" + this.state.param.project_name;
+            url = "/add_param/";
 
         fetch(url,
             {
