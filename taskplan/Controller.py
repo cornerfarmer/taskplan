@@ -63,16 +63,6 @@ class Controller:
 
         return method
 
-    @staticmethod
-    def load_global_config():
-        with open(resource_filename('taskplan.resources', 'default_global_config.json'), 'r') as f:
-            default_data = json.load(f)
-        default_config = Configuration(default_data)
-
-        with open('taskplan.json') as f:
-            data = json.load(f)
-        return Configuration(data, [default_config])
-
     def _update_new_client(self, client):
         self.project.update_new_client(client)
         self.scheduler.update_new_client(client)

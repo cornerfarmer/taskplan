@@ -50,13 +50,13 @@ class Project:
             self._load_saved_tasks()
 
     @staticmethod
-    def create_from_config_file(event_manager, metadata, path):
+    def create_from_config_file(event_manager, metadata, path, load_saved_tasks=True):
         if Path(path).exists():
             with open(path) as f:
                 data = json.load(f)
         else:
             data = {}
-        return Project(event_manager, metadata, **data)
+        return Project(event_manager, metadata, load_saved_tasks=load_saved_tasks, **data)
 
     def save_metadata(self):
         return {

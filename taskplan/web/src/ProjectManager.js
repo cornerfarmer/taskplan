@@ -87,7 +87,7 @@ class ProjectManager extends React.Component {
 
     gotoTB() {
         if (this.state.tensorboard_port === -1) {
-             fetch("/tensorboard/")
+             fetch("/tensorboard")
                 .then(res => res.json())
                 .then(
                     (result) => {
