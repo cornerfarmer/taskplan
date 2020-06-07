@@ -271,4 +271,15 @@ def run():
         controller.create_checkpoint(task_uuid)
         return jsonify({})
 
+    @app.route('/filter_tasks', methods=['POST'])
+    def filter_tasks():
+        data = json.loads(request.form.get('data'))
+        tasks = controller.filter_tasks(data["filter"], data["collapse"], data["group"], None, None, None, None)
+        return jsonify(tasks)
+
+    @app.route('/task_details/<string:task_uuid>')
+    def task_details(task_uuid):
+        controller.task_details(task_uuid)
+        return jsonify({})
+
     return app, controller

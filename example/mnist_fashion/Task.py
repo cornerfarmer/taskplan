@@ -17,9 +17,9 @@ class Task(taskplan.Task):
         super(Task, self).__init__(config, logger, metadata)
         self.sum = 0
 
-        self.model = Model(config)
-        self.data = Data(config)
-        self.trainer = Trainer(config, self.model, self.data)
+        self.model = Model(config.get_with_prefix("model"))
+        self.data = Data(config.get_with_prefix("data"))
+        self.trainer = Trainer(config.get_with_prefix("trainer"), self.model, self.data)
 
     def save(self, path):
         self.model.save_weights(str(path / Path("model.h5py")))

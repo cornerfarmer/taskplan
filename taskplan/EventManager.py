@@ -55,7 +55,7 @@ class ServerSentEvent(object):
                 data_client['deprecated_param_value'] = data.get_metadata("deprecated_param_value")
                 data_client['default_param_value'] = data.get_metadata("default_param_value")
                 data_client['sorting'] = data.get_metadata("sorting")
-                data_client['group'] = parent_data.configuration.get_param_group(data)
+                data_client['group'] = parent_data.get_param_group(data)
         elif event_type in [EventType.PARAM_VALUE_CHANGED, EventType.PARAM_VALUE_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             data_client['param'] = data.get_metadata("param")
@@ -68,6 +68,7 @@ class ServerSentEvent(object):
                 data_client['template_defaults'] = data.get_metadata("template_defaults") if data.has_metadata("template_defaults") else []
                 data_client['template_deprecated'] = data.get_metadata("template_deprecated") if data.has_metadata("template_deprecated") else []
                 data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
+                data_client['number_of_tasks'] = parent_data.number_of_tasks_per_param_value_key[str(data.uuid)]
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['current_code_version'] = data.current_code_version
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port

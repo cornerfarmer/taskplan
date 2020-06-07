@@ -11,9 +11,9 @@ class Data:
         self.test_images = self.test_images / 255.0
 
     def _build_basic_dataset(self, images, labels):
-        dataset = tf.data.Dataset.from_tensor_slices((self.train_images, self.train_labels))
+        dataset = tf.data.Dataset.from_tensor_slices((images, labels))
         dataset = dataset.shuffle(10000)
-        dataset = dataset.batch(64)
+        dataset = dataset.batch(self.config.get_int("batch_size"))
         return dataset
 
     def build_train_dataset(self):

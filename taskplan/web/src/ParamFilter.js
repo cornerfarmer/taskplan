@@ -37,6 +37,9 @@ class ParamFilterParam extends React.Component {
 
     mapValueToValues(paramValue, deprecatedKey) {
         let paramValues = [];
+         for (let name in paramValue.number_of_tasks)
+                paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": name, "numberOfTasks": paramValue.number_of_tasks[name][0], "args": paramValue.number_of_tasks[name][1]});
+         return paramValues
         if (!paramValue.isTemplate) {
             let numberOfTasks = 0;
             if (this.props.numberOfTasksPerParamValue !== undefined) {
@@ -124,9 +127,7 @@ class ParamFilterParam extends React.Component {
                                         <div key={value.uuid} className={this.calcParamValueClasses(this.props.param, value)} onClick={() => this.props.toggleSelection(this.props.param, value, value.args)}>
                                             <React.Fragment>
                                                 {value.resolvedName}
-                                                {this.props.numberOfTasksPerParamValue &&
                                                 <span className="task-numbers">{value.numberOfTasks}</span>
-                                                }
                                             </React.Fragment>
                                         </div>
                                     )

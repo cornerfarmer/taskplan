@@ -7,9 +7,13 @@ class Model(KerasModel):
 
         self.config = config
 
-        layers = [tf.keras.layers.Flatten(input_shape=(28, 28))]
+        layers = [tf.keras.layers.Input((28, 28))]
+        layers.append(tf.keras.layers.Lambda(lambda x: x[..., None]))
+        for units in self.config.get_list("conv_layers"):
+            layers.append(tf.keras.layers.Conv2D(units, self.config.get_int("kernel_size"), activation=self.config.get_string("activation_function")))
+        layers.append(tf.keras.layers.Flatten())
         for units in self.config.get_list("hidden_layers"):
-            layers.append(tf.keras.layers.Dense(units, activation='relu'))
+            layers.append(tf.keras.layers.Dense(units, activation=self.config.get_string("activation_function")))
         layers.append(tf.keras.layers.Dense(10, activation='softmax'))
 
         self.seq = tf.keras.Sequential(layers)

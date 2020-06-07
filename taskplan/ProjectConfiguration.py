@@ -3,8 +3,12 @@ import collections
 from taskconf.config.ConfigurationManager import ConfigurationManager
 import json
 
+from taskplan.EventManager import EventType
+
+
 class ProjectConfiguration:
-    def __init__(self, config_dir):
+    def __init__(self, config_dir, event_manager):
+        self.event_manager = event_manager
         self._reset(config_dir)
 
     def _reset(self, config_dir):
@@ -21,16 +25,35 @@ class ProjectConfiguration:
 
         self.number_of_tasks_per_param_value = {}
 
+        self.number_of_tasks_per_param_value_key = {}
+
     def register_task(self, task):
         for param_values in task.config.base_configs:
             if str(param_values[0].uuid) not in self.number_of_tasks_per_param_value:
                 self.number_of_tasks_per_param_value[str(param_values[0].uuid)] = 0
             self.number_of_tasks_per_param_value[str(param_values[0].uuid)] += 1
 
+        for param_value in task.config.base_configs:
+            key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
+            if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value_key:
+                self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)] = {}
+            store = self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]
+            if key not in store:
+                store[key] = [0, param_value[1:]]
+            store[key][0] += 1
+            self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
+
     def deregister_task(self, task):
         for param_values in task.config.base_configs:
             if str(param_values[0].uuid) in self.number_of_tasks_per_param_value:
                 self.number_of_tasks_per_param_value[str(param_values[0].uuid)] -= 1
+
+        for param_value in task.config.base_configs:
+            key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
+            if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value_key:
+                if key in self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]:
+                    self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)][key][0] -= 1
+                    self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
 
     def is_param_value_removable(self, param_value):
         return str(param_value.uuid) not in self.number_of_tasks_per_param_value or self.number_of_tasks_per_param_value[str(param_value.uuid)] == 0
@@ -307,3 +330,4 @@ class ProjectConfiguration:
 
     def reload(self):
         self._reset(self.configuration.config_path)
+

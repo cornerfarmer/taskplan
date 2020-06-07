@@ -332,3 +332,33 @@ class TaskWrapper:
         self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.code_version, self.tasks_dir, self.is_test)
         self.load_metadata(path)
         return True
+
+
+    def get_param_value_to_param(self, param, project_config):
+        suitable_param_value = None
+        args = []
+        for param_value in self.config.base_configs:
+            if param_value[0].get_metadata("param") == str(param.uuid):
+                suitable_param_value = param_value[0]
+                args = param_value[1:]
+                break
+
+        if suitable_param_value is None:
+            deprecated_param_value = project_config.get_config(param.get_metadata("deprecated_param_value"))
+            key = deprecated_param_value.get_metadata("name")
+            if deprecated_param_value.has_metadata("template_deprecated"):
+                args = deprecated_param_value.get_metadata("template_deprecated")
+            suitable_param_value = deprecated_param_value
+        else:
+            key = suitable_param_value.get_metadata("name")
+        return key, args, suitable_param_value
+
+    def get_param_value_key_to_param(self, param, project_config):
+        key, args, _ = self.get_param_value_to_param(param, project_config)
+        key = self.fill_param_value_template(key, args)
+        return key
+
+    def fill_param_value_template(self, key, args):
+        for i in range(len(args)):
+            key = key.replace("$T" + str(i) + "$", str(args[i]))
+        return key

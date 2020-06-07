@@ -10,21 +10,21 @@ class Project extends React.Component {
         this.state = {
             params: [],
             paramsByGroup: {},
-            tasks: [],
+            tasks: {},
+            task_lookup: {},
             activeTab: 0,
             sorting: [0, 4],
             sortingDescending: [true, true],
             selectedParamValues: {},
-            selectedTasks: [],
+            collapsedParams: [],
+            groupedParams: [],
             paramFilterEnabled: false,
-            paramSortingMode: false,
-            numberOfTasksPerParamValue: {}
+            paramSortingMode: false
         };
-        this.updateTasks = this.updateTasks.bind(this);
+        this.filterHasUpdated = this.filterHasUpdated.bind(this);
         this.updateParams = this.updateParams.bind(this);
-        this.addTask = this.addTask.bind(this);
+        this.updateTasks = this.updateTasks.bind(this);
         this.addParam = this.addParam.bind(this);
-        this.removeTask = this.removeTask.bind(this);
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
         this.showTab = this.showTab.bind(this);
         this.onChangeSorting = this.onChangeSorting.bind(this);
@@ -34,7 +34,11 @@ class Project extends React.Component {
         this.toggleParamFilter = this.toggleParamFilter.bind(this);
         this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
-        this.filterView = new View(true);
+        this.addParamCollapse = this.addParamCollapse.bind(this);
+        this.removeParamCollapse = this.removeParamCollapse.bind(this);
+        this.addParamGroup = this.addParamGroup.bind(this);
+        this.removeParamGroup = this.removeParamGroup.bind(this);
+        this.replaceUuidsWithTasks = this.replaceUuidsWithTasks.bind(this);
         this.paramViewerRef = React.createRef();
     }
 
@@ -42,19 +46,15 @@ class Project extends React.Component {
         this.props.repository.onChange("tasks", this.updateTasks);
         this.props.repository.onChange("params", this.updateParams);
         this.props.repository.onAdd("params", this.addParam);
-        this.props.repository.onAdd("tasks", this.addTask);
-        this.props.repository.onRemove("tasks", this.removeTask);
         this.updateParams(this.props.repository.params);
-        for (let key in this.props.repository.tasks)
-            this.addTask(this.props.repository.tasks[key]);
+        this.updateTasks(this.props.repository.task_list);
+        this.filterHasUpdated();
     }
 
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
         this.props.repository.removeOnChange("params", this.updateParams);
         this.props.repository.removeOnAdd("params", this.addParam);
-        this.props.repository.removeOnAdd("tasks", this.addTask);
-        this.props.repository.removeOnRemove("tasks", this.removeTask);
     }
 
     addParam(param) {
@@ -80,129 +80,69 @@ class Project extends React.Component {
         });
     }
 
-
-    addParamValueNumbers(task) {
-        let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
-
-        for (let param of this.state.params) {
-            let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
-
-            let paramValueKey;
-            if (paramValue !== undefined) {
-                paramValueKey = paramValue[0].uuid;
+    replaceUuidsWithTasks(tasks, task_lookup) {
+        for (let key in tasks) {
+            if (tasks[key] instanceof Object) {
+                this.replaceUuidsWithTasks(tasks[key],task_lookup);
             } else {
-                paramValueKey = param.uuid + "_deprecated"
-            }
-
-            if (!(paramValueKey in numberOfTasksPerParamValue))
-                numberOfTasksPerParamValue[paramValueKey] = [];
-            numberOfTasksPerParamValue[paramValueKey].push([task.uuid, paramValue !== undefined ? paramValue.slice(1) : []]);
-        }
-
-        this.setState({
-            numberOfTasksPerParamValue: numberOfTasksPerParamValue
-        });
-    }
-
-    addTask(task) {
-        if (!task.is_test) {
-            this.filterView.addTask(task);
-
-            this.addParamValueNumbers(task);
-        }
-
-        let tasks = Object.assign({}, this.state.tasks);
-        tasks[task.uuid] = task;
-
-        this.setState({
-            tasks: tasks
-        });
-
-        this.updateVisibleTasks();
-    }
-
-    removeParamValueNumbers(task) {
-        let numberOfTasksPerParamValue = Object.assign({}, this.state.numberOfTasksPerParamValue);
-         for (let param of this.state.params) {
-            let paramValue = task.paramValues.find(paramValue => paramValue[0].param === param.uuid);
-
-            let paramValueKey;
-            if (paramValue !== undefined) {
-                paramValueKey = paramValue[0].uuid;
-            } else {
-                paramValueKey = param.uuid + "_deprecated"
-            }
-
-            if (paramValueKey in numberOfTasksPerParamValue) {
-                let index = numberOfTasksPerParamValue[paramValueKey].findIndex(x => x[0] === task.uuid);
-                numberOfTasksPerParamValue[paramValueKey].splice(index, 1);
-            }
-        }
-
-        this.setState({
-            numberOfTasksPerParamValue: numberOfTasksPerParamValue
-        });
-    }
-
-    removeTask(task) {
-        if (!task.is_test) {
-            this.removeParamValueNumbers(task);
-        }
-
-        if (!task.is_test) {
-            this.filterView.removeTask(task);
-        }
-        this.updateVisibleTasks();
-    }
-
-
-    updateVisibleTasks(selectedParamValues = null, paramFilterEnabled = null) {
-        if (selectedParamValues === null)
-            selectedParamValues = this.state.selectedParamValues;
-        if (paramFilterEnabled === null)
-            paramFilterEnabled = this.state.paramFilterEnabled;
-
-        let selectedTasks = Object.keys(this.state.tasks).filter(taskUuid => {
-            const task = this.state.tasks[taskUuid];
-            let show = true;
-            show = show && task.version === this.props.current_code_version;
-
-            if (paramFilterEnabled && show) {
-                for (let selectedParamUuid in selectedParamValues) {
-                    const param = this.props.repository.params[selectedParamUuid];
-                    let taskValue = null;
-                    let args = [];
-                    for (let paramValue of task.paramValues) {
-                        if (paramValue[0].param === param.uuid) {
-                            taskValue = paramValue[0];
-                            args = paramValue.slice(1);
-                            break;
-                        }
-                    }
-
-                    if (taskValue === null) {
-                        taskValue = param.deprecated_param_value;
-                        args = param.deprecated_param_value.template_deprecated !== undefined ? param.deprecated_param_value.template_deprecated : [];
-                    }
-                    taskValue = [taskValue.uuid, ...args];
-
-                    show = show && (selectedParamValues[selectedParamUuid].findIndex(paramValue => taskValue.length === paramValue.length && taskValue.every((value, index) => value === paramValue[index])) !== -1);
-                    if (!show)
-                        break
+                let replacement = {}
+                if (tasks[key] in this.props.repository.tasks)
+                    replacement["task"] = this.props.repository.tasks[tasks[key]]
+                else {
+                    replacement["task"] = null;
+                    fetch("/task_details/" + tasks[key])
+                        .then(res => res.json())
+                        .then(
+                            (result) => {
+                            }
+                        )
                 }
+                task_lookup[tasks[key]] = replacement;
+                tasks[key] = replacement;
             }
+        }
+    }
 
-            return show;
-        });
+    filterHasUpdated() {
+        var data = new FormData();
+        var dataJson = {};
+        if (this.state.paramFilterEnabled) {
+            dataJson['filter'] = this.state.selectedParamValues;
+        } else {
+            dataJson['filter'] = {};
+        }
+        dataJson['collapse'] = this.state.collapsedParams;
+        dataJson['group'] = this.state.groupedParams;
 
-        this.setState({
-            selectedTasks: selectedTasks
-        });
+        data.append("data", JSON.stringify(dataJson));
+
+        let self = this;
+        fetch("filter_tasks", {
+                method: "POST",
+                body: data
+            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    let task_lookup = {};
+                    console.log(result);
+                    this.replaceUuidsWithTasks(result, task_lookup);
+                    console.log(result);
+                    self.setState({
+                        tasks: result,
+                        task_lookup: task_lookup
+                    })
+                },
+                (error) => {
+
+                }
+            );
+
     }
 
     updateParams(params) {
         params = Object.values(params);
-        this.filterView.updateParams(params);
+       // this.filterView.updateParams(params);
 
         let paramsByGroup = {};
         for (const param of params) {
@@ -212,24 +152,20 @@ class Project extends React.Component {
             paramsByGroup[group].push(param);
         }
 
-
         this.setState({
             params: params,
             paramsByGroup: paramsByGroup
         });
     }
 
-    updateTasks(tasks, changed) {
-        for (let key in tasks) {
-            this.filterView.updateTask(tasks[key]);
-            if (key === changed) {
-                this.removeParamValueNumbers(this.state.tasks[key]);
-                this.addParamValueNumbers(tasks[key]);
-            }
+    updateTasks(all_tasks, changed) {
+        let task_lookup = Object.assign({}, this.state.task_lookup);
+        if (changed in task_lookup) {
+            task_lookup[changed].task = all_tasks[changed];
         }
-
         this.setState({
-            tasks: tasks
+            task_lookup: task_lookup,
+            tasks: Object.assign({}, this.state.tasks)
         });
     }
 
@@ -279,12 +215,74 @@ class Project extends React.Component {
             }
         }
 
-        this.updateVisibleTasks(selectedParamValues);
         this.setState({
             selectedParamValues: selectedParamValues
-        });
+        },() => this.filterHasUpdated());
     }
 
+    addParamCollapse(param) {
+        let collapsedParams = this.state.collapsedParams.slice();
+
+        let index = collapsedParams.indexOf(param.uuid);
+        if (index === -1) {
+            collapsedParams.push(param.uuid);
+        }
+
+        this.setState({collapsedParams: collapsedParams}, () =>this.filterHasUpdated());
+    }
+
+    removeParamCollapse(param) {
+        let collapsedParams = this.state.collapsedParams.slice();
+
+        let index = collapsedParams.indexOf(param.uuid);
+        if (index !== -1) {
+            collapsedParams.splice(index, 1);
+            ;
+        }
+
+        this.setState({collapsedParams: collapsedParams}, () =>this.filterHasUpdated());
+    }
+
+
+    addParamGroup(params) {
+        if (params.length === 0)
+            return;
+
+        for (let i = 0; i < params.length; i++)
+            params[i] = params[i].uuid;
+        let groupedParams = this.state.groupedParams.slice();
+
+        groupedParams.push(params);
+
+        this.setState({groupedParams: groupedParams}, () =>this.filterHasUpdated());
+    }
+
+    arraysEqual(a, b) {
+      if (a === b) return true;
+      if (a == null || b == null) return false;
+      if (a.length != b.length) return false;
+
+      for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+
+    removeParamGroup(params) {
+        let groupedParams = this.state.groupedParams.slice();
+
+        let index = -1;
+        for (let i = 0; i < groupedParams.length; i++) {
+            if (this.arraysEqual(groupedParams[i], params)) {
+                index = i;
+            }
+        }
+        if (index !== -1) {
+            groupedParams.splice(index, 1);
+        }
+
+        this.setState({groupedParams: groupedParams}, () =>this.filterHasUpdated());
+    }
 
     filterLikeTask(task) {
         const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
@@ -297,7 +295,7 @@ class Project extends React.Component {
         this.setState({
             selectedParamValues: selectedParamValues,
             paramFilterEnabled: true
-        }, () => this.updateVisibleTasks());
+        }, () => this.filterHasUpdated());
         this.openParamViewer();
     }
 
@@ -305,19 +303,18 @@ class Project extends React.Component {
         let paramFilterEnabled = !this.state.paramFilterEnabled;
         this.setState({
             paramFilterEnabled: paramFilterEnabled
-        });
-        this.updateVisibleTasks(null, paramFilterEnabled);
+        }, () => this.filterHasUpdated());
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.current_code_version !== this.props.current_code_version)
+        /*if (prevProps.current_code_version !== this.props.current_code_version)
             this.updateVisibleTasks();
         if (prevProps.highlightedTask !== this.props.highlightedTask && this.props.highlightedTask !== null) {
             this.setState({
                 paramFilterEnabled: false,
                 activeTab: 1
             }, () => this.updateVisibleTasks());
-        }
+        }*/
     }
 
     openParamViewer() {
@@ -373,7 +370,6 @@ class Project extends React.Component {
                     active={this.state.activeTab === 1}
                     params={this.state.params}
                     tasks={this.state.tasks}
-                    selectedTasks={this.state.selectedTasks}
                     selectedParamValues={this.state.selectedParamValues}
                     paramFilterEnabled={this.state.paramFilterEnabled}
                     sorting={this.state.sorting}
@@ -384,7 +380,22 @@ class Project extends React.Component {
                     filterLikeTask={this.filterLikeTask}
                     devices={this.props.devices}
                 />
-                <ParamViewer ref={this.paramViewerRef} numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue} paramsByGroup={this.state.paramsByGroup} selectedParamValues={this.state.selectedParamValues} toggleSelection={this.toggleSelection} toggleParamFilter={this.toggleParamFilter} paramFilterEnabled={this.state.paramFilterEnabled}/>
+                <ParamViewer
+                    ref={this.paramViewerRef}
+                    paramsByGroup={this.state.paramsByGroup}
+                    selectedParamValues={this.state.selectedParamValues}
+                    toggleSelection={this.toggleSelection}
+                    toggleParamFilter={this.toggleParamFilter}
+                    paramFilterEnabled={this.state.paramFilterEnabled}
+
+                    params={this.state.params}
+                    collapsedParams={this.state.collapsedParams}
+                    addParamCollapse={this.addParamCollapse}
+                    removeParamCollapse={this.removeParamCollapse}
+                    groupedParams={this.state.groupedParams}
+                    addParamGroup={this.addParamGroup}
+                    removeParamGroup={this.removeParamGroup}
+                />
             </div>
         );
     }

@@ -28,7 +28,7 @@ class Project:
         if not self.config_dir.exists() or len(list(self.config_dir.iterdir())) == 0:
             self.config_dir.mkdir(exist_ok=True, parents=True)
 
-        self.configuration = ProjectConfiguration(self.config_dir)
+        self.configuration = ProjectConfiguration(self.config_dir, self.event_manager)
         self.tasks_dir = self.task_dir / Path(tasks_dir)
         self.tasks_dir.mkdir(exist_ok=True, parents=True)
         self.test_dir = self.task_dir / Path(test_dir)
@@ -294,13 +294,61 @@ class Project:
             self.event_manager.throw_for_client(client, EventType.CODE_VERSION_CHANGED, code_version)
 
         for param in self.configuration.get_params():
-            self.event_manager.throw_for_client(client, EventType.PARAM_CHANGED, param, self)
+            self.event_manager.throw_for_client(client, EventType.PARAM_CHANGED, param, self.configuration)
 
         for param_value in self.configuration.get_param_values():
-            self.event_manager.throw_for_client(client, EventType.PARAM_VALUE_CHANGED, param_value)
+            self.event_manager.throw_for_client(client, EventType.PARAM_VALUE_CHANGED, param_value, self.configuration)
 
-        for task in self.tasks:
-            self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, task)
+        #for task in self.tasks:
+        #    self.event_manager.throw_for_client(client, EventType.TASK_CHANGED, task)
 
     def update_clients(self):
         pass
+
+    def filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
+        selected_tasks = {}
+        for task in self.tasks:
+            select = True
+            for param_uuid in filters.keys():
+                key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
+
+                found = False
+                for possible_value in filters[param_uuid]:
+                    if str(param_value.uuid) == possible_value[0] and args == possible_value[1:]:
+                        found = True
+                        break
+
+                if not found:
+                    select = False
+                    break
+
+            if not select:
+                continue
+
+            selected_tasks_level = selected_tasks
+            for group in groups:
+                group_name = []
+                for param_uuid in group:
+                    key = task.get_param_value_key_to_param(self.configuration.get_config(param_uuid), self.configuration)
+                    group_name.append(key)
+                group_name = " / ".join(group_name)
+                if group_name not in selected_tasks_level:
+                    selected_tasks_level[group_name] = {}
+                selected_tasks_level = selected_tasks_level[group_name]
+
+            if len(collapse) > 0:
+                collapse_props = []
+                for param in self.configuration.get_params():
+                    if str(param.uuid) not in collapse:
+                        key = task.get_param_value_key_to_param(param, self.configuration)
+                        collapse_props.append(key)
+
+                collapse_props = " / ".join(collapse_props)
+                if collapse_props not in selected_tasks_level:
+                    selected_tasks_level[collapse_props] = []
+                selected_tasks_level[collapse_props].append(str(task.uuid))
+            else:
+                selected_tasks_level[str(task.uuid)] = [str(task.uuid)]
+
+        return selected_tasks
+

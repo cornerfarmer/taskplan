@@ -67,8 +67,8 @@ class Trainer:
 
 
     def step(self, current_iteration):
-        self._train(10)
-        self._val(1)
+        self._train(100)
+        self._val(10)
 
         self.train_metric.plot(current_iteration)
         self.val_metric.plot(current_iteration)

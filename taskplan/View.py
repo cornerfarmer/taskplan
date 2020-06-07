@@ -110,7 +110,7 @@ class View:
             if type(branching_option) == Configuration:
                 if branching_option.get_metadata("deprecated_param_value") == "":
                     continue
-                key = self._get_param_value_key_to_param(task, branching_option)
+                key = task.get_param_value_key_to_param(branching_option, self.configuration)
                 node_exists = type(node) == ParamNode and node.param == branching_option
             elif branching_option == "code_version":
                 key = self.code_version_key(task.code_version)
@@ -124,7 +124,7 @@ class View:
                     continue
 
                 if type(branching_option) == Configuration:
-                    former_key = self._get_param_value_key_to_param(first_task, branching_option)
+                    former_key = first_task.get_param_value_key_to_param(branching_option, self.configuration)
                     if former_key == key:
                         continue
                     else:
@@ -181,12 +181,12 @@ class View:
         if (type(root) == ParamNode and root.param.get_metadata("sorting") > param.get_metadata("sorting")) or type(root) == TasksNode:
             first_task = root.get_first_task_in()
             if first_task is not None:
-                former_param_value_key = self._get_param_value_key_to_param(first_task, param)
+                former_param_value_key = first_task.get_param_value_key_to_param(param, self.configuration)
 
                 tasks = root.get_all_contained_tasks()
                 tasks_with_different_param_value = []
                 for task in tasks:
-                    if self._get_param_value_key_to_param(task, param) != former_param_value_key:
+                    if task.get_param_value_key_to_param(param, self.configuration) != former_param_value_key:
                         tasks_with_different_param_value.append(task)
 
                 if len(tasks_with_different_param_value) > 0:
@@ -273,27 +273,6 @@ class View:
                 return key
         return None
 
-    def _get_param_value_key_to_param(self, task, param):
-        suitable_param_value = None
-        args = []
-        for param_value in task.config.base_configs:
-            if param_value[0].get_metadata("param") == str(param.uuid):
-                suitable_param_value = param_value[0]
-                args = param_value[1:]
-                break
-
-        if suitable_param_value is None:
-            deprecated_param_value = self.configuration.get_config(param.get_metadata("deprecated_param_value"))
-            key = deprecated_param_value.get_metadata("name")
-            if deprecated_param_value.has_metadata("template_deprecated"):
-                args = deprecated_param_value.get_metadata("template_deprecated")
-        else:
-            key = suitable_param_value.get_metadata("name")
-
-        for i in range(len(args)):
-            key = key.replace("$T" + str(i) + "$", str(args[i]))
-
-        return key
 
     def _comp_tasks(self, first_task, second_task):
         return first_task.creation_time < second_task.creation_time
