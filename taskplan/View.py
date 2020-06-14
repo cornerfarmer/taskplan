@@ -62,6 +62,16 @@ class CodeVersionNode(Node):
     def __init__(self):
         Node.__init__(self)
 
+class GroupNode(Node):
+    def __init__(self, params):
+        Node.__init__(self)
+        self.params = params
+
+class CollapseNode(Node):
+    def __init__(self, param):
+        Node.__init__(self)
+        self.param = param
+
 class TasksNode(Node):
     def __init__(self):
         Node.__init__(self)
@@ -75,77 +85,129 @@ class TasksNode(Node):
     def get_all_contained_tasks(self):
         return self.children.values()
 
+class GroupBranch:
+    def __init__(self, params, configuration):
+        self.params = params
+        self.configuration = configuration
+
+    def key_from_task(self, task):
+        group_name = []
+        for param in self.params:
+            key = task.get_param_value_key_to_param(param, self.configuration)
+            group_name.append(key)
+        group_name = " / ".join(group_name)
+        return group_name
+
+    def exists_node(self, node):
+        node_exists = type(node) == GroupNode and node.params == self.params
+        return node_exists
+
+    def create_new_node(self):
+        return GroupNode(self.params)
+
+
+class ParamBranch:
+    def __init__(self, param, configuration):
+        self.param = param
+        self.configuration = configuration
+
+    def key_from_task(self, task):
+        return task.get_param_value_key_to_param(self.param, self.configuration)
+
+    def exists_node(self, node):
+        #if self.param.get_metadata("deprecated_param_value") == "":
+        #    return None, None
+        node_exists = type(node) == ParamNode and node.param == self.param
+
+        return node_exists
+
+    def create_new_node(self):
+        return ParamNode(self.param)
+
+class CodeVersionBranch:
+    def __init__(self, code_versions):
+        self.code_versions = code_versions
+
+    def key_from_task(self, task):
+        for code_version in self.code_versions:
+            if code_version["uuid"] == task.code_version:
+                return code_version["name"]
+        raise IndexError("No code version with uuid " + task.code_version)
+
+    def exists_node(self, node):
+        node_exists = type(node) == CodeVersionNode
+        return node_exists
+
+    def create_new_node(self):
+        return CodeVersionNode()
+
+
+class CollapseBranch(ParamBranch):
+    def __init__(self, param, configuration):
+        super().__init__(param, configuration)
+
+    def exists_node(self, node):
+        node_exists = type(node) == CollapseNode and node.param == self.param
+        return node_exists
+
+    def create_new_node(self):
+        return CollapseNode(self.param)
+
 
 class View:
 
-    def __init__(self, configuration, root):
+    def __init__(self, configuration, root, branch_options):
         self.configuration = configuration
         self.params = self.configuration.sorted_params()
+        self.branch_options = branch_options
 
         self.root_node = RootNode()
         self.root_node.set_child("default", TasksNode())
         self.root_path = root
         self.task_by_uuid = {}
-        self.code_versions = []
-
-    def update_code_versions(self, code_versions):
-        self.code_versions = code_versions
-
-    def code_version_key(self, code_version_uuid):
-        for code_version in self.code_versions:
-            if code_version["uuid"] == code_version_uuid:
-                return code_version["name"]
-        raise IndexError("No code version with uuid " + code_version_uuid)
 
     def initialize(self, tasks):
         for task in tasks:
             self.add_task(task, False)
         self._check_filesystem(self.root_node.children["default"], self.root_path)
 
+    def _insert_new_node(self, task, node, branching_option, key, path, change_dirs):
+        first_task = node.get_first_task_in()
+        if first_task is None:
+            return None
+
+        former_key = branching_option.key_from_task(first_task)
+        if former_key == key:
+            return None
+        else:
+            new_node = branching_option.create_new_node()
+
+        node = self._add_node_before_node(node, new_node, former_key, path, change_dirs)
+        return node
+
     def add_task(self, task, change_dirs=True):
         path = self.root_path
         node = self.root_node.children["default"]
-        for branching_option in ["code_version"] + self.params:
+        for branching_option in self.branch_options:
+            node_exists = branching_option.exists_node(node)
+            key = branching_option.key_from_task(task)
 
-            if type(branching_option) == Configuration:
-                if branching_option.get_metadata("deprecated_param_value") == "":
-                    continue
-                key = task.get_param_value_key_to_param(branching_option, self.configuration)
-                node_exists = type(node) == ParamNode and node.param == branching_option
-            elif branching_option == "code_version":
-                key = self.code_version_key(task.code_version)
-                node_exists = type(node) == CodeVersionNode
-            else:
-                raise Exception("")
+            if key is None:
+                continue
 
             if not node_exists:
-                first_task = node.get_first_task_in()
-                if first_task is None:
+                new_node = self._insert_new_node(task, node, branching_option, key, path, change_dirs)
+                if new_node is None:
                     continue
-
-                if type(branching_option) == Configuration:
-                    former_key = first_task.get_param_value_key_to_param(branching_option, self.configuration)
-                    if former_key == key:
-                        continue
-                    else:
-                        new_node = ParamNode(branching_option)
-
-                elif branching_option == "code_version":
-                    if self.code_version_key(first_task.code_version) == key:
-                        continue
-                    else:
-                        new_node = CodeVersionNode()
-                        former_key = self.code_version_key(first_task.code_version)
                 else:
-                    raise Exception("")
+                    node = new_node
 
-                node = self._add_node_before_node(node, new_node, former_key, path, change_dirs)
-
-            path = path / key
+            if path is not None:
+                path = path / key
             if key not in node.children:
                 node.set_child(key, TasksNode())
 
-                if change_dirs:
+                if path is not None and change_dirs:
                     path.mkdir()
 
             node = node.children[key]
@@ -259,7 +321,7 @@ class View:
     def _add_node_before_node(self, node, new_node, key, path, change_dirs=True):
         node.insert_as_parent(key, new_node)
 
-        if change_dirs:
+        if path is not None and change_dirs:
             (path / key).mkdir()
             for child_path in path.iterdir():
                 if child_path.name != key:
@@ -292,14 +354,14 @@ class View:
         for i in reversed(range(target_key, len(children.keys()))):
             children[str(i + 1)] = children[str(i)]
 
-            if change_dirs:
+            if path is not None and change_dirs:
                 if not (path / str(i)).exists():
                     task = task
                 (path / str(i)).rename((path / str(i + 1)))
 
         children[str(target_key)] = task
 
-        if change_dirs:
+        if path is not None and change_dirs:
             (path / str(target_key)).symlink_to(task.build_save_dir(), True)
 
     def _check_filesystem(self, node, path):

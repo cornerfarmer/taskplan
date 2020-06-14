@@ -333,7 +333,6 @@ class TaskWrapper:
         self.load_metadata(path)
         return True
 
-
     def get_param_value_to_param(self, param, project_config):
         suitable_param_value = None
         args = []

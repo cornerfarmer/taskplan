@@ -82,22 +82,23 @@ class Project extends React.Component {
 
     replaceUuidsWithTasks(tasks, task_lookup) {
         for (let key in tasks) {
-            if (tasks[key] instanceof Object) {
+            if (tasks[key] instanceof Object && !("uuid" in tasks[key])) {
                 this.replaceUuidsWithTasks(tasks[key],task_lookup);
             } else {
-                let replacement = {}
-                if (tasks[key] in this.props.repository.tasks)
-                    replacement["task"] = this.props.repository.tasks[tasks[key]]
+                let task = tasks[key];
+                let replacement = {"name": task.name};
+                if (task.uuid in this.props.repository.tasks)
+                    replacement["task"] = this.props.repository.tasks[task.uuid];
                 else {
                     replacement["task"] = null;
-                    fetch("/task_details/" + tasks[key])
+                    fetch("/task_details/" + task.uuid)
                         .then(res => res.json())
                         .then(
                             (result) => {
                             }
                         )
                 }
-                task_lookup[tasks[key]] = replacement;
+                task_lookup[task.uuid] = replacement;
                 tasks[key] = replacement;
             }
         }
@@ -165,7 +166,7 @@ class Project extends React.Component {
         }
         this.setState({
             task_lookup: task_lookup,
-            tasks: Object.assign({}, this.state.tasks)
+            tasks: (this.state.tasks instanceof Array ? this.state.tasks.slice() : Object.assign({}, this.state.tasks))
         });
     }
 

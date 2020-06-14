@@ -25,8 +25,9 @@ class GroupedTasks extends React.Component {
 
     render() {
         if (Object.values(this.props.tasks).length > 0) {
-            if ((Object.values(this.props.tasks)[0]) instanceof Array) {
-                return Object.values(this.props.tasks).map((tasks, i) => (
+            if (this.props.tasks instanceof Array) {
+                console.log(this.props.tasks);
+                return this.props.tasks.map((tasks, i) => (
                         <CollapsedTasks
                             tasks={tasks}
                             key={tasks[0] !== null ? tasks[0].uuid : i}

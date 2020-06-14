@@ -1,7 +1,7 @@
 import threading
 from datetime import datetime
 
-from taskplan.View import View
+from taskplan.View import *
 
 try:
   from pathlib2 import Path
@@ -41,7 +41,11 @@ class Project:
         self.code_versions = []
         self.current_code_version = None
 
-        self.view = View(self.configuration, self.view_dir)
+        branch_options = []
+        branch_options.append(CodeVersionBranch(self.code_versions))
+        for param in self.configuration.sorted_params():
+            branch_options.append(ParamBranch(param, self.configuration))
+        self.view = View(self.configuration, self.view_dir, branch_options)
 
         self.add_code_version("initial")
         self._load_metadata(metadata)
@@ -69,7 +73,7 @@ class Project:
             self.code_versions = metadata['code_versions']
         if 'current_code_version' in metadata:
             self.current_code_version = metadata['current_code_version']
-        self.view.update_code_versions(self.code_versions)
+        self.view.branch_options[0].code_versions = self.code_versions
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -202,7 +206,7 @@ class Project:
         if self.current_code_version is None:
             self.current_code_version = code_version_uuid
 
-        self.view.update_code_versions(self.code_versions)
+        self.view.branch_options[0].code_versions = self.code_versions
 
         return self.code_versions[-1]
 
@@ -305,8 +309,58 @@ class Project:
     def update_clients(self):
         pass
 
+    def view_to_json(self, root, name_prefix):
+        if isinstance(root, RootNode):
+            if len(root.children) > 0:
+                result = self.view_to_json(root.children["default"], name_prefix)
+                if isinstance(result, list) and not isinstance(result[0], list):
+                    result = [result]
+                return result
+            else:
+                return []
+        elif isinstance(root, TaskWrapper):
+            return [{"uuid": str(root.uuid), "name": name_prefix}]
+        elif isinstance(root, GroupNode):
+            output = {}
+            for group_key in root.children:
+                result = self.view_to_json(root.children[group_key], name_prefix)
+                if not isinstance(result, list) or isinstance(result[0], list):
+                    output[group_key] = result
+                else:
+                    output[group_key] = [result]
+            return output
+        elif isinstance(root, CollapseNode):
+            flatten = lambda l: [item for sublist in l for item in sublist]
+            output = []
+            for child_key in root.children:
+                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key])))
+            return output
+        else:
+            output = []
+            for child_key in root.children:
+                result = self.view_to_json(root.children[child_key], name_prefix + [child_key])
+                if isinstance(result[0], list):
+                    output.extend(result)
+                else:
+                    output.append(result)
+            return output
+
     def filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
-        selected_tasks = {}
+
+        branch_options = []
+        branch_options.append(CodeVersionBranch(self.code_versions))
+        for group in groups:
+            branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
+        for param in self.configuration.sorted_params():
+            if param.uuid not in collapse:
+                branch_options.append(ParamBranch(param, self.configuration))
+        for param_uuid in collapse:
+            branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration))
+
+
+        view = View(self.configuration, None, branch_options)
+
+
         for task in self.tasks:
             select = True
             for param_uuid in filters.keys():
@@ -325,30 +379,35 @@ class Project:
             if not select:
                 continue
 
-            selected_tasks_level = selected_tasks
-            for group in groups:
-                group_name = []
-                for param_uuid in group:
-                    key = task.get_param_value_key_to_param(self.configuration.get_config(param_uuid), self.configuration)
-                    group_name.append(key)
-                group_name = " / ".join(group_name)
-                if group_name not in selected_tasks_level:
-                    selected_tasks_level[group_name] = {}
-                selected_tasks_level = selected_tasks_level[group_name]
+            view.add_task(task)
 
-            if len(collapse) > 0:
-                collapse_props = []
-                for param in self.configuration.get_params():
-                    if str(param.uuid) not in collapse:
-                        key = task.get_param_value_key_to_param(param, self.configuration)
-                        collapse_props.append(key)
+        result = self.view_to_json(view.root_node, [])
 
-                collapse_props = " / ".join(collapse_props)
-                if collapse_props not in selected_tasks_level:
-                    selected_tasks_level[collapse_props] = []
-                selected_tasks_level[collapse_props].append(str(task.uuid))
-            else:
-                selected_tasks_level[str(task.uuid)] = [str(task.uuid)]
+        return result
+        selected_tasks_level = selected_tasks
+        for group in groups:
+            group_name = []
+            for param_uuid in group:
+                key = task.get_param_value_key_to_param(self.configuration.get_config(param_uuid), self.configuration)
+                group_name.append(key)
+            group_name = " / ".join(group_name)
+            if group_name not in selected_tasks_level:
+                selected_tasks_level[group_name] = {}
+            selected_tasks_level = selected_tasks_level[group_name]
+
+        if len(collapse) > 0:
+            collapse_props = []
+            for param in self.configuration.get_params():
+                if str(param.uuid) not in collapse:
+                    key = task.get_param_value_key_to_param(param, self.configuration)
+                    collapse_props.append(key)
+
+            collapse_props = " / ".join(collapse_props)
+            if collapse_props not in selected_tasks_level:
+                selected_tasks_level[collapse_props] = []
+            selected_tasks_level[collapse_props].append(str(task.uuid))
+        else:
+            selected_tasks_level[str(task.uuid)] = [str(task.uuid)]
 
         return selected_tasks
 

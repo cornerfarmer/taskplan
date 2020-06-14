@@ -20,25 +20,22 @@ export class TaskName extends React.Component {
 
 
     render() {
-        if (this.props.task.is_test) {
+        if (this.props.is_test) {
             return (
                 <span ref={this.wrapperRef}>Test</span>
             );
         } else {
-            if (this.props.task.nameParamValues.length > 0) {
+            if (this.props.name.length > 0) {
                 return (
                     <span ref={this.wrapperRef}>
-                {this.props.task.nameParamValues.map((paramValue, i) => {
-                    let valueName = paramValue[1].name;
-                    for (let i = 2; i < paramValue.length; i++)
-                        valueName = valueName.replace("$T" + (i - 2) + "$", paramValue[i]);
+                {this.props.name.map((name, i) => {
 
                     return (
                         <span key={i}>
                         {i !== 0 &&
                         <span className="separator">/</span>
                         }
-                            <span data-toggle="tooltip" data-placement="bottom" data-original-title={paramValue[0].name + ": " + valueName}>{valueName}</span>
+                            <span data-toggle="tooltip" data-placement="bottom" >{name}</span>
                     </span>
                     )
                 })}
