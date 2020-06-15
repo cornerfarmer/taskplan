@@ -39,6 +39,7 @@ class Project:
         self.tensorboard_port = None
 
         self.code_versions = []
+        self.saved_filters = {}
         self.current_code_version = None
 
         branch_options = []
@@ -65,7 +66,8 @@ class Project:
     def save_metadata(self):
         return {
             'code_versions': self.code_versions,
-            "current_code_version": self.current_code_version
+            "current_code_version": self.current_code_version,
+            "saved_filters": self.saved_filters
         }
 
     def _load_metadata(self, metadata):
@@ -73,6 +75,8 @@ class Project:
             self.code_versions = metadata['code_versions']
         if 'current_code_version' in metadata:
             self.current_code_version = metadata['current_code_version']
+        if 'saved_filters' in metadata:
+            self.saved_filters = metadata['saved_filters']
         self.view.branch_options[0].code_versions = self.code_versions
 
     def _load_saved_tasks(self):
@@ -309,21 +313,35 @@ class Project:
     def update_clients(self):
         pass
 
-    def view_to_json(self, root, name_prefix):
+    def col_from_task(self, task, col_name, task_name):
+        if col_name == "saved":
+            return task.saved_time
+        elif col_name == "name":
+            return " / ".join(task_name)
+        elif col_name == "created":
+            return task.creation_time
+        elif col_name == "iterations":
+            return task.finished_iterations
+        elif col_name == "started":
+            return task.start_time if task.start_time is not None else datetime.utcfromtimestamp(0)
+        else:
+            return ""
+
+    def view_to_json(self, root, name_prefix, sort_col):
         if isinstance(root, RootNode):
             if len(root.children) > 0:
-                result = self.view_to_json(root.children["default"], name_prefix)
+                result = self.view_to_json(root.children["default"], name_prefix, sort_col)
                 if isinstance(result, list) and not isinstance(result[0], list):
                     result = [result]
                 return result
             else:
                 return []
         elif isinstance(root, TaskWrapper):
-            return [{"uuid": str(root.uuid), "name": name_prefix}]
+            return [{"uuid": str(root.uuid), "name": name_prefix, "sort_col": self.col_from_task(root, sort_col, name_prefix)}]
         elif isinstance(root, GroupNode):
             output = {}
             for group_key in root.children:
-                result = self.view_to_json(root.children[group_key], name_prefix)
+                result = self.view_to_json(root.children[group_key], name_prefix, sort_col)
                 if not isinstance(result, list) or isinstance(result[0], list):
                     output[group_key] = result
                 else:
@@ -333,12 +351,12 @@ class Project:
             flatten = lambda l: [item for sublist in l for item in sublist]
             output = []
             for child_key in root.children:
-                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key])))
+                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col)))
             return output
         else:
             output = []
             for child_key in root.children:
-                result = self.view_to_json(root.children[child_key], name_prefix + [child_key])
+                result = self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col)
                 if isinstance(result[0], list):
                     output.extend(result)
                 else:
@@ -357,9 +375,7 @@ class Project:
         for param_uuid in collapse:
             branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration))
 
-
         view = View(self.configuration, None, branch_options)
-
 
         for task in self.tasks:
             select = True
@@ -381,7 +397,9 @@ class Project:
 
             view.add_task(task)
 
-        result = self.view_to_json(view.root_node, [])
+        result = self.view_to_json(view.root_node, [], sort_col)
+
+        result = sorted(result, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
         return result
         selected_tasks_level = selected_tasks
@@ -411,3 +429,8 @@ class Project:
 
         return selected_tasks
 
+    def save_filter(self, name, data):
+        self.saved_filters[name] = data
+
+    def delete_saved_filter(self, name):
+        del self.saved_filters[name]

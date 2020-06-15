@@ -7,13 +7,17 @@ class ParamViewer extends React.Component {
         super(props);
 
         this.state = {
-            open: false
+            open: false,
+            filterSaveName: ""
         };
 
         this.paramCollapseSelection = React.createRef();
         this.paramGroupSelection = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.saveFilter = this.saveFilter.bind(this);
+        this.deleteFilter = this.deleteFilter.bind(this);
+        this.handleFilterSaveNameChange = this.handleFilterSaveNameChange.bind(this);
     }
 
     open() {
@@ -28,10 +32,54 @@ class ParamViewer extends React.Component {
         });
     }
 
+    handleFilterSaveNameChange(event) {
+        this.setState({
+            filterSaveName: event.target.value
+        });
+    }
+
+
+    saveFilter() {
+        if (this.state.filterSaveName !== "") {
+            this.props.saveFilter(this.state.filterSaveName);
+        }
+    }
+
+
+    deleteFilter(name) {
+        var data = new FormData();
+        var dataJson = {};
+        dataJson['name'] = name;
+
+        data.append("data", JSON.stringify(dataJson));
+
+        fetch("delete_filter", {
+            method: "POST",
+            body: data
+        })
+    }
+
+
     render() {
         if (this.state.open) {
             return (
                 <div className="param-viewer slide-editor editor" >
+                    <div className="header">Save / Load</div>
+                    <div className="params-to-group param-filter">
+                       {Object.keys(this.props.saved_filters).map(savedFilterName => (
+                           <div className="param-name">
+                               <div onClick={() => this.props.loadFilter(this.props.saved_filters[savedFilterName])}>
+                                {savedFilterName}
+                               </div>
+                               <i className="fas fa-times" onClick={() => this.deleteFilter(savedFilterName)}></i>
+                           </div>
+                       ))}
+                    </div>
+                    <input type="text" name="filterSaveName" value={this.state.filterSaveName} onChange={this.handleFilterSaveNameChange} />
+                    <div className="buttons">
+                        <div onClick={this.saveFilter}>Save</div>
+                    </div>
+
                     <div className="header">Parameter filter<i className="fas fa-times" onClick={this.close}></i></div>
                     <label>
                         <input type="checkbox" checked={this.props.paramFilterEnabled} onChange={() => this.props.toggleParamFilter()} />
@@ -54,7 +102,7 @@ class ParamViewer extends React.Component {
                     <div className="params-to-group param-filter">
                        {this.props.groupedParams.map(params => (
                            <div className="param-name">
-                               {params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name)}
+                               {params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name).join(" / ")}
                                <i className="fas fa-times" onClick={() => this.props.removeParamGroup(params)}></i>
                            </div>
                        ))}

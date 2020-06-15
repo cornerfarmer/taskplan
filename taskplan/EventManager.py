@@ -71,6 +71,7 @@ class ServerSentEvent(object):
                 data_client['number_of_tasks'] = parent_data.number_of_tasks_per_param_value_key[str(data.uuid)]
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['current_code_version'] = data.current_code_version
+            data_client['saved_filters'] = data.saved_filters
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
         elif event_type is EventType.CODE_VERSION_CHANGED:
             data_client = data.copy()

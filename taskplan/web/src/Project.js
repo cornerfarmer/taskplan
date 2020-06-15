@@ -13,7 +13,7 @@ class Project extends React.Component {
             tasks: {},
             task_lookup: {},
             activeTab: 0,
-            sorting: [0, 4],
+            sorting: [0, "saved"],
             sortingDescending: [true, true],
             selectedParamValues: {},
             collapsedParams: [],
@@ -39,6 +39,8 @@ class Project extends React.Component {
         this.addParamGroup = this.addParamGroup.bind(this);
         this.removeParamGroup = this.removeParamGroup.bind(this);
         this.replaceUuidsWithTasks = this.replaceUuidsWithTasks.bind(this);
+        this.loadFilter = this.loadFilter.bind(this);
+        this.saveFilter = this.saveFilter.bind(this);
         this.paramViewerRef = React.createRef();
     }
 
@@ -114,6 +116,8 @@ class Project extends React.Component {
         }
         dataJson['collapse'] = this.state.collapsedParams;
         dataJson['group'] = this.state.groupedParams;
+        dataJson['sort_col'] = this.state.sorting[1];
+        dataJson['sort_dir'] = this.state.sortingDescending[1] ? "DESC" : "ASC";
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -139,6 +143,34 @@ class Project extends React.Component {
                 }
             );
 
+    }
+
+    saveFilter(saveName) {
+        var data = new FormData();
+        var dataJson = {};
+        if (this.state.paramFilterEnabled) {
+            dataJson['filter'] = this.state.selectedParamValues;
+        } else {
+            dataJson['filter'] = {};
+        }
+        dataJson['collapse'] = this.state.collapsedParams;
+        dataJson['group'] = this.state.groupedParams;
+        dataJson['saveName'] = saveName;
+
+        data.append("data", JSON.stringify(dataJson));
+
+        fetch("save_filter", {
+                method: "POST",
+                body: data
+            })
+    }
+
+    loadFilter(data) {
+        this.setState({
+            selectedParamValues: data.filter,
+            collapsedParams: data.collapse,
+            groupedParams: data.group,
+        }, () =>this.filterHasUpdated());
     }
 
     updateParams(params) {
@@ -184,14 +216,14 @@ class Project extends React.Component {
 
     onChangeSorting(e) {
         const sorting = this.state.sorting.slice();
-        sorting[this.state.activeTab] = parseInt(e.target.value);
-        this.setState({sorting: sorting});
+        sorting[this.state.activeTab] = this.state.activeTab === 1 ? e.target.value : parseInt(e.target.value);
+        this.setState({sorting: sorting}, (this.state.activeTab === 1 ? () => this.filterHasUpdated(): null));
     }
 
     switchSortingDirection() {
         const sortingDescending = this.state.sortingDescending.slice();
         sortingDescending[this.state.activeTab] = !sortingDescending[this.state.activeTab];
-        this.setState({sortingDescending: sortingDescending});
+        this.setState({sortingDescending: sortingDescending}, (this.state.activeTab === 1 ? () => this.filterHasUpdated(): null));
     }
 
     toggleSelection(param, value, args) {
@@ -346,11 +378,11 @@ class Project extends React.Component {
                     <div>
                         <label>Sorting:</label>
                         <select value={this.state.sorting[1]} onChange={this.onChangeSorting}>
-                            <option value="0">Finished</option>
-                            <option value="1">Name</option>
-                            <option value="2">Created</option>
-                            <option value="3">Iterations</option>
-                            <option value="4">Started</option>
+                            <option value="saved">Saved</option>
+                            <option value="name">Name</option>
+                            <option value="created">Created</option>
+                            <option value="iterations">Iterations</option>
+                            <option value="started">Started</option>
                         </select>
                         <span onClick={this.switchSortingDirection} className={this.state.sortingDescending[this.state.activeTab] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
@@ -396,6 +428,9 @@ class Project extends React.Component {
                     groupedParams={this.state.groupedParams}
                     addParamGroup={this.addParamGroup}
                     removeParamGroup={this.removeParamGroup}
+                    saveFilter={this.saveFilter}
+                    loadFilter={this.loadFilter}
+                    saved_filters={this.props.saved_filters}
                 />
             </div>
         );

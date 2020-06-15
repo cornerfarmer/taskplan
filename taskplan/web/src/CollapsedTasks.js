@@ -37,7 +37,15 @@ class CollapsedTasks extends React.Component {
                         filterLikeTask={this.props.filterLikeTask}
                         devices={this.props.devices}
                     />
-                    <div onClick={this.toggleCollapsed}>{this.state.collapsed ? "Expand" : "Collapse"}</div>
+                    {tasks.length > 1 &&
+                        <div class="collapse-toggle" onClick={this.toggleCollapsed}>{
+                            this.state.collapsed
+                                ?
+                                <div><i className="fas fa-angle-double-down"></i> {"Expand (" + tasks.length + ")"}</div>
+                                :
+                                <div><i className="fas fa-angle-double-up"></i> Collapse</div>
+                        }</div>
+                    }
                     {!this.state.collapsed && tasks.slice(1).map(task => (
                         <PausedTask
                             rerunTask={this.props.rerunTask}

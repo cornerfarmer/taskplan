@@ -26,6 +26,7 @@ class ProjectManager extends React.Component {
             const data = JSON.parse(e.data);
             this.setState({
                 current_code_version: data.current_code_version,
+                saved_filters: data.saved_filters,
                 tensorboard_port: data.tensorboard_port
             });
         });
@@ -169,6 +170,7 @@ class ProjectManager extends React.Component {
                         highlightedTask={this.state.highlightedTask}
                         devices={this.props.devices}
                         current_code_version={this.state.current_code_version}
+                        saved_filters={this.state.saved_filters}
                     />
                 </div>
                 {this.state.codeVersionTree !== null &&

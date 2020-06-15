@@ -274,7 +274,7 @@ def run():
     @app.route('/filter_tasks', methods=['POST'])
     def filter_tasks():
         data = json.loads(request.form.get('data'))
-        tasks = controller.filter_tasks(data["filter"], data["collapse"], data["group"], None, None, None, None)
+        tasks = controller.filter_tasks(data["filter"], data["collapse"], data["group"], None, None, data["sort_col"], data["sort_dir"])
         return jsonify(tasks)
 
     @app.route('/task_details/<string:task_uuid>')
@@ -282,4 +282,17 @@ def run():
         controller.task_details(task_uuid)
         return jsonify({})
 
+    @app.route('/save_filter', methods=['POST'])
+    def save_filter():
+        data = json.loads(request.form.get('data'))
+        name = data["saveName"]
+        del data["saveName"]
+        controller.save_filter(name, data)
+        return jsonify({})
+
+    @app.route('/delete_filter', methods=['POST'])
+    def delete_filter():
+        data = json.loads(request.form.get('data'))
+        controller.delete_saved_filter(data["name"])
+        return jsonify({})
     return app, controller

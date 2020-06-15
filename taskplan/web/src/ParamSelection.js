@@ -57,13 +57,13 @@ class ParamSelection extends React.Component {
         if (this.state.dialogOpen) {
             return (
                 <div className="prompt-wrapper">
-                    <div className= {this.props.paramEditor ? 'prompt param-prompt' : 'prompt'}>
+                    <div className= {this.props.paramEditor ? 'prompt param-prompt' : 'prompt'} style={{"width": "300px"}}>
                         <div className="prompt-header">{this.props.header}</div>
                             <div className="param-filter">
                                 {Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
                                     <div key={group} className="param-group">
                                         {group !== "" &&
-                                        <div className="group-header" onClick={() => this.toggleHideParamValues()}>
+                                        <div className="group-header" >
                                             <div className="title">{group}</div>
                                         </div>
                                         }
@@ -71,8 +71,8 @@ class ParamSelection extends React.Component {
                                             <div className="params">
                                                 {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => (
                                                     <div key={param.uuid} className="param">
-                                                        <div className="param-name param-name-collapsed" onClick={() => this.selectParam(param)}>
-                                                            {param.name} {this.state.selectedParams.indexOf(param) !== -1 && " Selected"}
+                                                        <div className={"param-name param-name-collapsed " + (this.state.selectedParams.indexOf(param) !== -1 ? " param-name-selected" : "")} onClick={() => this.selectParam(param)}>
+                                                            {param.name}
                                                         </div>
                                                     </div>
                                                 ))}

@@ -10,7 +10,18 @@
   padding: 5px 10px;
   display: flex;
   overflow: hidden;
+  justify-content: space-between;
 }
+
+.param-filter .param-name.param-name-selected {
+  background: #3f51b5;
+  color: white;
+}
+
+.param-filter .param-name i {
+  cursor: pointer;
+}
+
 
 .param-filter .param-name.param-name-collapsed {
   border-bottom: 1px solid rgba(158, 158, 158, 0.2);
@@ -101,4 +112,10 @@
     font-size: 24px;
     padding: 0 0 0 16px;
     text-transform: uppercase;
+}
+
+.param-viewer > input {
+    width: calc(100% - 32px);
+    margin: 10px 16px;
+    display: flex;
 }

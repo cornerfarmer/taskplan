@@ -10,6 +10,7 @@ from taskplan.EventManager import EventType
 from taskplan.Project import Project
 from taskplan.Scheduler import Scheduler
 import queue
+import traceback
 
 class Controller:
     def __init__(self, event_manager, allow_remote=False):
@@ -54,6 +55,9 @@ class Controller:
                 self.return_queue.put(result)
             except queue.Empty:
                 pass
+            except:
+                traceback.print_exc()
+                self.return_queue.put(None)
 
     def __getattr__(self, name):
         name = "_" + name
@@ -210,14 +214,14 @@ class Controller:
     def _add_code_version(self, version_name):
         if version_name != "":
             code_version = self.project.add_code_version(version_name)
-            self.project.save_metadata()
+            self.save_metadata()
             self.event_manager.throw(EventType.CODE_VERSION_CHANGED, code_version, self.project)
             self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
             self.select_code_version(code_version["uuid"])
 
     def _select_code_version(self, version_uuid):
         self.project.select_code_version(version_uuid)
-        self.project.save_metadata()
+        self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
 
 
@@ -272,3 +276,13 @@ class Controller:
 
     def _task_details(self, task_uuid):
         self.event_manager.throw(EventType.TASK_CHANGED, self.project.find_task_by_uuid(task_uuid))
+
+    def _save_filter(self, name, data):
+        self.project.save_filter(name, data)
+        self.save_metadata()
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+
+    def _delete_saved_filter(self, name):
+        self.project.delete_saved_filter(name)
+        self.save_metadata()
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)

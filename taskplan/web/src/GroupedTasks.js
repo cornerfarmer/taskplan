@@ -11,15 +11,22 @@ class GroupedTasks extends React.Component {
         super(props);
 
         this.state = {
-            collapsed: false
+            collapsed: {}
         };
 
         this.toggleCollapsed = this.toggleCollapsed.bind(this);
     }
 
-    toggleCollapsed() {
+    toggleCollapsed(group) {
+        let collapsed = Object.assign({}, this.state.collapsed);
+
+        if (!(group in collapsed))
+            collapsed[group] = true;
+        else
+            collapsed[group] = !collapsed[group];
+
         this.setState({
-            collapsed: !this.state.collapsed
+            collapsed: collapsed
         })
     }
 
@@ -40,10 +47,18 @@ class GroupedTasks extends React.Component {
             } else {
                 return Object.keys(this.props.tasks).sort((a, b) => a.localeCompare(b)).map((group) => (
                     <div key={group} className="param-group">
-                        <div className="group-header" onClick={() => this.toggleCollapsed()}>
-                            <div className="title">{group}</div>
+                        <div className="group-header" onClick={() => this.toggleCollapsed(group)}>
+                            <div className="title">
+                                {(!(group in this.state.collapsed) || !this.state.collapsed[group])
+                                    ?
+                                    <i className="fas fa-caret-down"></i>
+                                    :
+                                    <i className="fas fa-caret-right"></i>
+                                }
+                                {group}
+                            </div>
                         </div>
-                        {!this.state.collapsed &&
+                        {(!(group in this.state.collapsed) || !this.state.collapsed[group]) &&
                             <div className="group-tasks">
                                 <GroupedTasks
                                     tasks={this.props.tasks[group]}
