@@ -1,0 +1,46 @@
+@import "layout";
+@import "common";
+
+@import "editor";
+@import "prompt";
+@import "param_filter";
+
+#root > #page > .container {
+  height: 100%;
+}
+
+.task-table-wrapper {
+  flex: 2 1 0;
+  overflow: auto;
+}
+
+.task-table {
+  width: calc(100% - 1px);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.task-table th {
+  position: sticky;
+  background: white;
+  top: 0;
+  padding: 5px 10px;
+}
+
+.task-table th,
+.task-table td {
+  border-bottom: 1px solid rgba(158, 158, 158, 0.2);
+}
+
+.task-table th i {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.task-table .table-row:nth-child(odd) {
+  background: rgba(158, 158, 158, 0.05);
+}
+
+.task-table .table-row td {
+  padding: 10px;
+}

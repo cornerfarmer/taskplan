@@ -271,8 +271,8 @@ class Controller:
         return self.project.find_task_by_uuid(task_uuid).build_save_dir()
 
     def _filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
-        tasks = self.project.filter_tasks(filters, collapse, groups, offset, limit, sort_col, sort_dir)
-        return tasks
+        tasks, metric_superset = self.project.filter_tasks(filters, collapse, groups, offset, limit, sort_col, sort_dir)
+        return tasks, metric_superset
 
     def _task_details(self, task_uuid):
         self.event_manager.throw(EventType.TASK_CHANGED, self.project.find_task_by_uuid(task_uuid))

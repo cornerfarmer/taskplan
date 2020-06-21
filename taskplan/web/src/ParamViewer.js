@@ -7,7 +7,7 @@ class ParamViewer extends React.Component {
         super(props);
 
         this.state = {
-            open: false,
+            open: props.open == true,
             filterSaveName: ""
         };
 
@@ -63,7 +63,7 @@ class ParamViewer extends React.Component {
     render() {
         if (this.state.open) {
             return (
-                <div className="param-viewer slide-editor editor" >
+                <div className="param-viewer slide-editor editor" style={this.props.style}>
                     <div className="header">Save / Load</div>
                     <div className="params-to-group param-filter">
                        {Object.keys(this.props.saved_filters).map(savedFilterName => (

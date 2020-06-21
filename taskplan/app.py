@@ -1,7 +1,7 @@
 import json
 import time
 
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify, Response, Blueprint
 from flask import request, render_template
 
 from taskplan.Controller import Controller
@@ -18,12 +18,20 @@ def run():
     controller = Controller(event_manager, allow_remote=True)
     controller.start()
 
-    app = Flask(__name__, static_folder="web/build/static", static_url_path="/static", template_folder="web/build")
+    app = Flask(__name__, static_url_path="/static_web")
+    main_bp = Blueprint('main', __name__, static_folder="web/build/main/static_main", static_url_path="/static_main", template_folder="web/build/")
+    table_bp = Blueprint('table', __name__, static_folder="web/build/table/static_table", static_url_path="/static_table", template_folder="web/build/")
     app.config["DEBUG"] = True
+    #app.config["EXPLAIN_TEMPLATE_LOADING"] = True
 
-    @app.route('/')
+
+    @main_bp.route('/')
     def static_page():
-        return render_template('index.html')
+        return render_template('main/index.html')
+
+    @table_bp.route('/table')
+    def static_page():
+        return render_template('table/index.html')
 
     @app.route('/update')
     def update():
@@ -274,8 +282,8 @@ def run():
     @app.route('/filter_tasks', methods=['POST'])
     def filter_tasks():
         data = json.loads(request.form.get('data'))
-        tasks = controller.filter_tasks(data["filter"], data["collapse"], data["group"], None, None, data["sort_col"], data["sort_dir"])
-        return jsonify(tasks)
+        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["group"], None, None, data["sort_col"], data["sort_dir"])
+        return jsonify([tasks, metric_superset])
 
     @app.route('/task_details/<string:task_uuid>')
     def task_details(task_uuid):
@@ -295,4 +303,8 @@ def run():
         data = json.loads(request.form.get('data'))
         controller.delete_saved_filter(data["name"])
         return jsonify({})
+
+
+    app.register_blueprint(main_bp)
+    app.register_blueprint(table_bp)
     return app, controller

@@ -64,7 +64,7 @@ class ParamTab extends React.Component {
                                 params={this.props.paramsByGroup[group]}
                                 group={group}
                                 sorting={this.props.sorting[0]}
-                                sortingDescending={this.props.sortingDescending[0]}
+                                sortingDescending={this.props.sorting[1]}
                                 editParamFunc={this.paramEditor.current.open}
                                 editParamValueFunc={this.paramValueEditor.current.open}
                                 newParamValueFunc={this.paramValueEditor.current.new}

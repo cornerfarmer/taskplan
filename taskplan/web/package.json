@@ -24,7 +24,8 @@
     "url-loader": "^1.0.1"
   },
   "scripts": {
-    "start": "BROWSER=none react-app-rewired start",
+    "start-main": "REACT_APP_ENTRY=main BROWSER=none react-app-rewired start",
+    "start-table": "REACT_APP_ENTRY=table BROWSER=none PORT=3001 react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"

@@ -16,6 +16,7 @@ import time
 import shutil
 import uuid
 import json
+import tensorflow as tf
 
 class Project:
 
@@ -313,7 +314,7 @@ class Project:
     def update_clients(self):
         pass
 
-    def col_from_task(self, task, col_name, task_name):
+    def col_from_task(self, task, col_name, task_name, metrics):
         if col_name == "saved":
             return task.saved_time
         elif col_name == "name":
@@ -324,24 +325,38 @@ class Project:
             return task.finished_iterations
         elif col_name == "started":
             return task.start_time if task.start_time is not None else datetime.utcfromtimestamp(0)
+        elif col_name in metrics:
+            return metrics[col_name][2]
         else:
-            return ""
+            return 0
 
-    def view_to_json(self, root, name_prefix, sort_col):
+    def metrics_json(self, task, metric_superset):
+        metrics = {}
+        for path in task.build_save_dir().glob("events.out.tfevents.*"):
+            for e in tf.compat.v1.train.summary_iterator(str(path)):
+                for v in e.summary.value:
+                    if v.tag not in metrics or metrics[v.tag][0] < e.step or (metrics[v.tag][0] == e.step and metrics[v.tag][1] < e.step):
+                        metrics[v.tag] = (e.step, e.wall_time, float(tf.make_ndarray(v.tensor)))
+        for tag in metrics.keys():
+            metric_superset.add(tag)
+        return metrics
+
+    def view_to_json(self, root, name_prefix, sort_col, metric_superset):
         if isinstance(root, RootNode):
             if len(root.children) > 0:
-                result = self.view_to_json(root.children["default"], name_prefix, sort_col)
+                result = self.view_to_json(root.children["default"], name_prefix, sort_col, metric_superset)
                 if isinstance(result, list) and not isinstance(result[0], list):
                     result = [result]
                 return result
             else:
                 return []
         elif isinstance(root, TaskWrapper):
-            return [{"uuid": str(root.uuid), "name": name_prefix, "sort_col": self.col_from_task(root, sort_col, name_prefix)}]
+            metrics = self.metrics_json(root, metric_superset)
+            return [{"uuid": str(root.uuid), "name": name_prefix, "sort_col": self.col_from_task(root, sort_col, name_prefix, metrics), "metrics": metrics}]
         elif isinstance(root, GroupNode):
             output = {}
             for group_key in root.children:
-                result = self.view_to_json(root.children[group_key], name_prefix, sort_col)
+                result = self.view_to_json(root.children[group_key], name_prefix, sort_col, metric_superset)
                 if not isinstance(result, list) or isinstance(result[0], list):
                     output[group_key] = result
                 else:
@@ -351,12 +366,12 @@ class Project:
             flatten = lambda l: [item for sublist in l for item in sublist]
             output = []
             for child_key in root.children:
-                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col)))
+                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset)))
             return output
         else:
             output = []
             for child_key in root.children:
-                result = self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col)
+                result = self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset)
                 if isinstance(result[0], list):
                     output.extend(result)
                 else:
@@ -397,11 +412,12 @@ class Project:
 
             view.add_task(task)
 
-        result = self.view_to_json(view.root_node, [], sort_col)
+        metric_superset = set()
+        result = self.view_to_json(view.root_node, [], sort_col, metric_superset)
 
         result = sorted(result, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
-        return result
+        return result, list(metric_superset)
         selected_tasks_level = selected_tasks
         for group in groups:
             group_name = []
