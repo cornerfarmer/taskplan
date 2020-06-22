@@ -286,3 +286,14 @@ class Controller:
         self.project.delete_saved_filter(name)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+
+
+    def _add_view(self, path, data):
+        self.project.add_view(path, data)
+        self.save_metadata()
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+
+    def _delete_view(self, path):
+        self.project.delete_view(path)
+        self.save_metadata()
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)

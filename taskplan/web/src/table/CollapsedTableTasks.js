@@ -29,7 +29,7 @@ class CollapsedTableTasks extends React.Component {
                         task={tasks[0].task}
                         name={tasks[0].name}
                         metrics={tasks[0].metrics}
-                        metric_superset={this.props.metric_superset}
+                        selectedCols={this.props.selectedCols}
                     />
                     {tasks.length > 1 &&
                         <div class="collapse-toggle" onClick={this.toggleCollapsed}>{
@@ -46,7 +46,7 @@ class CollapsedTableTasks extends React.Component {
                             task={task.task}
                             name={task.name}
                             metrics={task.metrics}
-                            metric_superset={this.props.metric_superset}
+                            selectedCols={this.props.selectedCols}
                         />
                     ))}
                 </React.Fragment>

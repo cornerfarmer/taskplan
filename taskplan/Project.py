@@ -16,11 +16,12 @@ import time
 import shutil
 import uuid
 import json
+import shutil
 import tensorflow as tf
 
 class Project:
 
-    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", view_dir="results", load_saved_tasks=True):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", load_saved_tasks=True):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.event_manager = event_manager
@@ -34,8 +35,6 @@ class Project:
         self.tasks_dir.mkdir(exist_ok=True, parents=True)
         self.test_dir = self.task_dir / Path(test_dir)
         self.test_dir.mkdir(exist_ok=True, parents=True)
-        self.view_dir = self.task_dir / view_dir
-        self.view_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None
 
@@ -43,11 +42,8 @@ class Project:
         self.saved_filters = {}
         self.current_code_version = None
 
-        branch_options = []
-        branch_options.append(CodeVersionBranch(self.code_versions))
-        for param in self.configuration.sorted_params():
-            branch_options.append(ParamBranch(param, self.configuration))
-        self.view = View(self.configuration, self.view_dir, branch_options)
+        self.views = {}
+        self.views_data = {}
 
         self.add_code_version("initial")
         self._load_metadata(metadata)
@@ -68,7 +64,8 @@ class Project:
         return {
             'code_versions': self.code_versions,
             "current_code_version": self.current_code_version,
-            "saved_filters": self.saved_filters
+            "saved_filters": self.saved_filters,
+            "views": self.views_data
         }
 
     def _load_metadata(self, metadata):
@@ -78,14 +75,24 @@ class Project:
             self.current_code_version = metadata['current_code_version']
         if 'saved_filters' in metadata:
             self.saved_filters = metadata['saved_filters']
-        self.view.branch_options[0].code_versions = self.code_versions
+        if 'views' in metadata:
+            self.views_data = metadata['views']
+            self.views = {}
+            for key, view in self.views_data.items():
+                self.add_view(key, view, True)
+        else:
+            self.add_view("results", {"filter": {}, "collapse": [], "group": []}, True)
+
+        for view in self.views.values():
+            view.branch_options[0].code_versions = self.code_versions
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
             if task.is_dir():
                 self._load_saved_task(task)
 
-        self.view.initialize(self.tasks)
+        for view in self.views.values():
+            view.initialize(self.tasks)
         if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
             self._load_saved_task(self.test_dir, is_test=True)
 
@@ -140,7 +147,8 @@ class Project:
         self.configuration.register_task(task)
 
         if not is_test:
-            self.view.add_task(task)
+            for view in self.views.values():
+                view.add_task(task)
         return task
 
     def find_task_by_uuid(self, uuid):
@@ -182,7 +190,8 @@ class Project:
     def remove_task(self, task):
         if task in self.tasks:
             if not task.is_test:
-                self.view.remove_task(task)
+                for view in self.views.values():
+                    view.remove_task(task)
             self.tasks.remove(task)
             self.configuration.deregister_task(task)
             task.remove_data()
@@ -211,7 +220,8 @@ class Project:
         if self.current_code_version is None:
             self.current_code_version = code_version_uuid
 
-        self.view.branch_options[0].code_versions = self.code_versions
+        for view in self.views.values():
+            view.branch_options[0].code_versions = self.code_versions
 
         return self.code_versions[-1]
 
@@ -237,7 +247,9 @@ class Project:
             cloned_task.uuid = new_uuid
             cloned_task.creation_time = datetime.now()
             cloned_task.save_metadata()
-            self.view.add_task(cloned_task)
+
+            for view in self.views.values():
+                view.add_task(cloned_task)
 
             return cloned_task
 
@@ -262,17 +274,22 @@ class Project:
             new_task.creation_time = datetime.now()
             new_task.checkpoints = []
             new_task.save_metadata()
-            self.view.add_task(new_task)
+
+            for view in self.views.values():
+                view.add_task(new_task)
 
             return new_task
 
     def change_sorting(self, param_uuid, new_sorting):
         param = self.configuration.get_config(param_uuid)
-        self.view.remove_param(param)
+
+        for view in self.views.values():
+            view.remove_param(param)
 
         changed_params = self.configuration.change_sorting(param_uuid, new_sorting)
 
-        self.view.add_param(param)
+        for view in self.views.values():
+            view.add_param(param)
         return changed_params
 
     def reload(self):
@@ -293,7 +310,8 @@ class Project:
                 task = self._load_saved_task(task)
                 self.event_manager.throw(EventType.TASK_CHANGED, task)
 
-        self.view.initialize(self.tasks)
+        for view in self.views.values():
+            view.initialize(self.tasks)
 
 
     def update_new_client(self, client):
@@ -378,8 +396,7 @@ class Project:
                     output.append(result)
             return output
 
-    def filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
-
+    def _build_view(self, filters, collapse, groups, path=None):
         branch_options = []
         branch_options.append(CodeVersionBranch(self.code_versions))
         for group in groups:
@@ -390,7 +407,18 @@ class Project:
         for param_uuid in collapse:
             branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration))
 
-        view = View(self.configuration, None, branch_options)
+        return View(self.configuration, path, branch_options)
+
+    def _sort_tasks(self, tasks, sort_col, sort_dir):
+        if type(tasks) == dict:
+            for key in tasks:
+                tasks[key] = self._sort_tasks(tasks[key], sort_col, sort_dir)
+            return tasks
+        else:
+            return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
+
+    def filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
+        view = self._build_view(filters, collapse, groups)
 
         for task in self.tasks:
             select = True
@@ -415,7 +443,7 @@ class Project:
         metric_superset = set()
         result = self.view_to_json(view.root_node, [], sort_col, metric_superset)
 
-        result = sorted(result, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
+        result = self._sort_tasks(result, sort_col, sort_dir)
 
         return result, list(metric_superset)
         selected_tasks_level = selected_tasks
@@ -450,3 +478,19 @@ class Project:
 
     def delete_saved_filter(self, name):
         del self.saved_filters[name]
+
+    def add_view(self, path, data, ignore_path_check=False):
+        actual_path = (self.task_dir / path).resolve()
+        if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
+            raise Exception("Not empty")
+        view = self._build_view(data['filter'], data['collapse'], data['group'], actual_path)
+        view.initialize(self.tasks)
+        self.views[path] = view
+        self.views_data[path] = data
+
+    def delete_view(self, path):
+        actual_path = (self.task_dir / path).resolve()
+        shutil.rmtree(actual_path)
+
+        del self.views[path]
+        del self.views_data[path]

@@ -32,14 +32,14 @@ class GroupedTableTasks extends React.Component {
                 return this.props.tasks.map((tasks, i) => (
                         <CollapsedTableTasks
                             tasks={tasks}
-                            metric_superset={this.props.metric_superset}
+                            selectedCols={this.props.selectedCols}
                         />
                     ));
             } else {
                 return Object.keys(this.props.tasks).sort((a, b) => a.localeCompare(b)).map((group) => (
-                    <tr key={group} className="param-group">
-                        <div className="group-header" onClick={() => this.toggleCollapsed(group)}>
-                            <div className="title">
+                    <React.Fragment>
+                        <tr className="group-header table-row" onClick={() => this.toggleCollapsed(group)}>
+                            <td className="title" colSpan={this.props.selectedCols.length}>
                                 {(!(group in this.state.collapsed) || !this.state.collapsed[group])
                                     ?
                                     <i className="fas fa-caret-down"></i>
@@ -47,15 +47,15 @@ class GroupedTableTasks extends React.Component {
                                     <i className="fas fa-caret-right"></i>
                                 }
                                 {group}
-                            </div>
-                        </div>
+                            </td>
+                        </tr>
                         {(!(group in this.state.collapsed) || !this.state.collapsed[group]) &&
                             <GroupedTableTasks
                                 tasks={this.props.tasks[group]}
-                                metric_superset={this.props.metric_superset}
+                                selectedCols={this.props.selectedCols}
                             />
                         }
-                    </tr>
+                    </React.Fragment>
                 ));
             }
         } else {

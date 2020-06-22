@@ -304,6 +304,20 @@ def run():
         controller.delete_saved_filter(data["name"])
         return jsonify({})
 
+    @app.route('/add_view', methods=['POST'])
+    def add_view():
+        data = json.loads(request.form.get('data'))
+        path = data["path"]
+        del data["path"]
+        controller.add_view(path, data)
+        return jsonify({})
+
+    @app.route('/delete_view', methods=['POST'])
+    def delete_view():
+        data = json.loads(request.form.get('data'))
+        controller.delete_view(data["path"])
+        return jsonify({})
+
 
     app.register_blueprint(main_bp)
     app.register_blueprint(table_bp)

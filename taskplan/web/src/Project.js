@@ -32,8 +32,31 @@ class Project extends TaskContainer {
         this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
 
+        this.addView = this.addView.bind(this);
         this.paramViewerRef = React.createRef();
     }
+
+
+    addView(path) {
+        var data = new FormData();
+        var dataJson = {};
+        if (this.state.paramFilterEnabled) {
+            dataJson['filter'] = this.state.selectedParamValues;
+        } else {
+            dataJson['filter'] = {};
+        }
+        dataJson['collapse'] = this.state.collapsedParams;
+        dataJson['group'] = this.state.groupedParams;
+        dataJson['path'] = path;
+
+        data.append("data", JSON.stringify(dataJson));
+
+        fetch("add_view", {
+                method: "POST",
+                body: data
+            })
+    }
+
 
     toggleShowAbstract() {
         this.setState({
@@ -171,6 +194,8 @@ class Project extends TaskContainer {
                     saveFilter={this.saveFilter}
                     loadFilter={this.loadFilter}
                     saved_filters={this.props.saved_filters}
+                    views={this.props.views}
+                    addView={this.addView}
                 />
             </div>
         );

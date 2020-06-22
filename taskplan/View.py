@@ -72,6 +72,10 @@ class CollapseNode(Node):
         Node.__init__(self)
         self.param = param
 
+    def primary_child(self):
+        key = list(self.children.keys())[0]
+        return self.children[key]
+
 class TasksNode(Node):
     def __init__(self):
         Node.__init__(self)
@@ -164,6 +168,8 @@ class View:
         self.root_node = RootNode()
         self.root_node.set_child("default", TasksNode())
         self.root_path = root
+        if self.root_path is not None:
+            self.root_path.mkdir(exist_ok=True, parents=True)
         self.task_by_uuid = {}
 
     def initialize(self, tasks):
@@ -365,7 +371,11 @@ class View:
             (path / str(target_key)).symlink_to(task.build_save_dir(), True)
 
     def _check_filesystem(self, node, path):
-        if type(node) in [ParamNode, CodeVersionNode] or type(node) == TasksNode:
+        if type(node) == CollapseNode:
+            self._check_filesystem(node.primary_child(), path)
+        elif type(node) == TasksNode and len(node.children) == 1:
+            self._check_filesystem(list(node.children.values())[0], path)
+        elif type(node) not in [RootNode, TaskWrapper] or type(node) == TasksNode:
             if path.exists() and not path.is_dir():
                 self._remove_path(path)
 

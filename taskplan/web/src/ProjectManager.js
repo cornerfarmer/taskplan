@@ -27,6 +27,7 @@ class ProjectManager extends React.Component {
             this.setState({
                 current_code_version: data.current_code_version,
                 saved_filters: data.saved_filters,
+                views: data.views,
                 tensorboard_port: data.tensorboard_port
             });
         });
@@ -159,6 +160,9 @@ class ProjectManager extends React.Component {
                             <div id="reload-tasks" onClick={this.reload} title="Reload tasks">
                                 <i className="fas fa-sync-alt"></i>
                             </div>
+                            <a id="open-table" href="/table" target="_blank">
+                                <i className="fas fa-table"></i>
+                            </a>
                         </span>
                     }
                 </div>
@@ -171,6 +175,7 @@ class ProjectManager extends React.Component {
                         devices={this.props.devices}
                         current_code_version={this.state.current_code_version}
                         saved_filters={this.state.saved_filters}
+                        views={this.state.views}
                     />
                 </div>
                 {this.state.codeVersionTree !== null &&

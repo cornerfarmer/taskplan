@@ -2,13 +2,86 @@ import React from 'react';
 import ParamFilter from "./ParamFilter";
 import ParamSelection from "./ParamSelection";
 
+
+class Column extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        };
+
+        this.colRef = React.createRef();
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+        this.onDragEnter = this.onDragEnter.bind(this);
+        this.onDragLeave = this.onDragLeave.bind(this);
+        this.onDragOver = this.onDragOver.bind(this);
+        this.getClassName = this.getClassName.bind(this);
+        this.dragEnterCounter = 0
+    }
+
+    getClassName() {
+        return this.props.isDummy ? "table-col-dummy" : "table-col-entry";
+    }
+
+    onDragStart(e) {
+        e.dataTransfer.setData("text/plain", this.props.col);
+    }
+
+    onDragOver(e) {
+        e.preventDefault();
+    }
+
+    onDrop(e) {
+        if (this.props.allowDrop) {
+            e.preventDefault();
+            this.props.addCol(e.dataTransfer.getData("text/plain"), this.props.col);
+
+            this.dragEnterCounter = 0;
+            this.colRef.current.className = this.getClassName();
+        }
+    }
+
+    onDragEnter(e) {
+        if (this.props.allowDrop) {
+            e.preventDefault();
+            this.colRef.current.className = this.getClassName() + " on-drag-over";
+            this.dragEnterCounter++;
+        }
+    }
+
+    onDragLeave(e) {
+        if (this.props.allowDrop) {
+            e.preventDefault();
+            this.dragEnterCounter--;
+            if (this.dragEnterCounter === 0)
+                this.colRef.current.className = this.getClassName();
+        }
+    }
+
+    render() {
+        return (
+            <div className={this.getClassName()} ref={this.colRef} onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} draggable={"true"}>
+                {!this.props.isDummy &&
+                    <React.Fragment>
+                        <div>{this.props.col}</div>
+                        {this.props.removeCol && <i className="fas fa-times" onClick={() => this.props.removeCol(this.props.col)}></i>}
+                    </React.Fragment>
+                }
+            </div>
+        );
+    }
+
+}
+
 class ParamViewer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             open: props.open == true,
-            filterSaveName: ""
+            filterSaveName: "",
+            viewPath: ""
         };
 
         this.paramCollapseSelection = React.createRef();
@@ -18,6 +91,8 @@ class ParamViewer extends React.Component {
         this.saveFilter = this.saveFilter.bind(this);
         this.deleteFilter = this.deleteFilter.bind(this);
         this.handleFilterSaveNameChange = this.handleFilterSaveNameChange.bind(this);
+        this.handleViewPathChange = this.handleViewPathChange.bind(this);
+        this.addView = this.addView.bind(this);
     }
 
     open() {
@@ -45,6 +120,18 @@ class ParamViewer extends React.Component {
         }
     }
 
+    handleViewPathChange(event) {
+        this.setState({
+            viewPath: event.target.value
+        });
+    }
+
+
+    addView() {
+        if (this.state.viewPath !== "") {
+            this.props.addView(this.state.viewPath);
+        }
+    }
 
     deleteFilter(name) {
         var data = new FormData();
@@ -58,6 +145,21 @@ class ParamViewer extends React.Component {
             body: data
         })
     }
+
+    deleteView(path) {
+        var data = new FormData();
+        var dataJson = {};
+        dataJson['path'] = path;
+
+        data.append("data", JSON.stringify(dataJson));
+
+        fetch("delete_view", {
+            method: "POST",
+            body: data
+        })
+    }
+
+
 
 
     render() {
@@ -79,6 +181,26 @@ class ParamViewer extends React.Component {
                     <div className="buttons">
                         <div onClick={this.saveFilter}>Save</div>
                     </div>
+
+                    {!this.props.hideViews &&
+                        <React.Fragment>
+                            <div className="header">Filesystem</div>
+                            <div className="params-to-group param-filter">
+                               {Object.keys(this.props.views).map(path => (
+                                   <div className="param-name">
+                                       <div onClick={() => this.props.loadFilter(this.props.views[path])}>
+                                        {path}
+                                       </div>
+                                       <i className="fas fa-times" onClick={() => this.deleteView(path)}></i>
+                                   </div>
+                               ))}
+                            </div>
+                            <input type="text" name="viewPath" value={this.state.viewPath} onChange={this.handleViewPathChange} />
+                            <div className="buttons">
+                                <div onClick={this.addView}>Add</div>
+                            </div>
+                        </React.Fragment>
+                    }
 
                     <div className="header">Parameter filter<i className="fas fa-times" onClick={this.close}></i></div>
                     <label>
@@ -111,6 +233,41 @@ class ParamViewer extends React.Component {
                     <div className="buttons">
                         <div onClick={() => this.paramGroupSelection.current.openDialog()}>Add</div>
                     </div>
+
+
+                    {this.props.selectedCols !== undefined &&
+                        <React.Fragment>
+                            <div className="header">Columns</div>
+                            <div className="table-cols">
+                                <div className="table-col">
+                                    <div className="table-col-header">Used:</div>
+                                    {this.props.selectedCols.map(col => (
+                                        <Column
+                                            col={col}
+                                            allowDrop={true}
+                                            removeCol={this.props.removeCol}
+                                            addCol={this.props.addCol}
+                                        />
+                                    ))}
+                                    <Column
+                                        col={null}
+                                        allowDrop={true}
+                                        removeCol={this.props.removeCol}
+                                        addCol={this.props.addCol}
+                                        isDummy={true}
+                                    />
+                                </div>
+                                <div className="table-col">
+                                    <div className="table-col-header">Not used:</div>
+                                    {this.props.allCols.filter(col => (this.props.selectedCols.findIndex(x => x === col) === -1)).map(col => (
+                                        <Column
+                                            col={col}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    }
                 </div>
             );
         } else {

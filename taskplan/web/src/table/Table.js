@@ -16,9 +16,13 @@ class Table extends TaskContainer {
             selectedParamValues: {},
             collapsedParams: [],
             groupedParams: [],
+            selectedCols: [],
+            metric_superset: []
         };
 
         this.changeSorting = this.changeSorting.bind(this);
+        this.addCol = this.addCol.bind(this);
+        this.removeCol = this.removeCol.bind(this);
 
         this.paramViewerRef = React.createRef();
     }
@@ -29,6 +33,30 @@ class Table extends TaskContainer {
         sorting_tasks[0] = name;
         sorting_tasks[1] = direction;
         this.setState({sorting_tasks: sorting_tasks}, () => this.filterHasUpdated());
+    }
+
+    addCol(col, position_col) {
+        if (col !== position_col) {
+            const selectedCols = this.state.selectedCols.slice();
+
+            if (selectedCols.findIndex(x => x === col) !== -1)
+                selectedCols.splice(selectedCols.findIndex(x => x === col), 1);
+            let position = selectedCols.length;
+            if (position_col !== null) {
+                position = selectedCols.findIndex(x => x === position_col);
+            }
+            selectedCols.splice(position, 0, col);
+
+            this.setState({selectedCols: selectedCols});
+        }
+    }
+
+    removeCol(col) {
+        if (this.state.selectedCols.findIndex(x => x === col) !== -1) {
+            const selectedCols = this.state.selectedCols.slice();
+            selectedCols.splice(selectedCols.findIndex(x => x === col), 1);
+            this.setState({selectedCols: selectedCols});
+        }
     }
 
 
@@ -55,12 +83,17 @@ class Table extends TaskContainer {
                     saved_filters={this.props.saved_filters}
                     open={true}
                     style={{"position": "static"}}
+                    hideViews={true}
+                    selectedCols={this.state.selectedCols}
+                    allCols={["name", "iterations"].concat(this.state.metric_superset)}
+                    addCol={this.addCol}
+                    removeCol={this.removeCol}
                 />
                 <div className="task-table-wrapper">
                     <TaskTable
                         params={this.state.params}
                         tasks={this.state.tasks}
-                        metric_superset={this.state.metric_superset}
+                        selectedCols={this.state.selectedCols}
                         changeSorting={this.changeSorting}
                     />
                 </div>

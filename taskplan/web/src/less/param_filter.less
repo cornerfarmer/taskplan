@@ -119,3 +119,42 @@
     margin: 10px 16px;
     display: flex;
 }
+
+.param-viewer .table-cols {
+  display: flex;
+}
+
+.param-viewer .table-cols .table-col {
+  flex: 1 1 0;
+  margin: 10px;
+}
+
+.param-viewer .table-cols .table-col .table-col-entry  {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 5px 0;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+}
+
+.param-viewer .table-cols .table-col .table-col-dummy {
+  height: 30px;
+  margin: 5px 0;
+}
+
+.param-viewer .table-cols .table-col .table-col-dummy.on-drag-over,
+.param-viewer .table-cols .table-col .table-col-entry.on-drag-over {
+  border: 3px dashed #3f51b5;
+  box-shadow: none;
+}
+
+.param-viewer .table-cols .table-col .table-col-entry i {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.param-viewer .table-cols .table-col .table-col-entry div {
+  flex: 2 1 0;
+}

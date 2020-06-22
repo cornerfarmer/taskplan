@@ -1,5 +1,6 @@
 import React from 'react';
 import GroupedTableTasks from "./GroupedTableTasks";
+import ParamViewer from "../ParamViewer";
 
 class TaskTable extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class TaskTable extends React.Component {
             <table className="task-table">
                 <thead>
                 <tr className="task-table-header">
-                    {["name", "iterations"].concat(this.props.metric_superset).map(name => (
+                    {this.props.selectedCols.map(name => (
                         <th>{name} <i className="fas fa-caret-down" onClick={() => this.props.changeSorting(name, true)}></i><i className="fas fa-caret-up" onClick={() => this.props.changeSorting(name, false)}></i></th>
                         )
                     )}
@@ -23,7 +24,7 @@ class TaskTable extends React.Component {
                 <tbody>
                     <GroupedTableTasks
                         tasks={this.props.tasks}
-                        metric_superset={this.props.metric_superset}
+                        selectedCols={this.props.selectedCols}
                     />
                 </tbody>
             </table>
