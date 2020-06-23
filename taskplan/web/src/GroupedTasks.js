@@ -38,10 +38,11 @@ class GroupedTasks extends React.Component {
                         <CollapsedTasks
                             tasks={tasks}
                             key={tasks[0] !== null ? tasks[0].uuid : i}
-                            rerunTask={this.rerunTask}
+                            rerunTask={this.props.rerunTask}
                             showTask={this.props.showTask}
                             filterLikeTask={this.props.filterLikeTask}
                             devices={this.props.devices}
+                            detailCol={this.props.detailCol}
                         />
                     ));
             } else {
@@ -66,6 +67,7 @@ class GroupedTasks extends React.Component {
                                     showTask={this.props.showTask}
                                     filterLikeTask={this.props.filterLikeTask}
                                     devices={this.props.devices}
+                                    detailCol={this.props.detailCol}
                                 />
                             </div>
                         }

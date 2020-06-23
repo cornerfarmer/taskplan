@@ -4,6 +4,7 @@ import ParamTab from "./ParamTab";
 import TaskTab from "./TaskTab";
 import ParamViewer from "./ParamViewer";
 import TaskContainer from "./TaskContainer";
+import Param from "./Param";
 
 class Project extends TaskContainer {
     constructor(props) {
@@ -14,13 +15,14 @@ class Project extends TaskContainer {
             tasks: {},
             task_lookup: {},
             activeTab: 0,
-            sorting_tasks: [0, true],
-            sorting_params: ["saved", false],
+            sorting_tasks: ["saved", true],
+            sorting_params: [0, false],
             selectedParamValues: {},
             collapsedParams: [],
             groupedParams: [],
-            paramFilterEnabled: false,
-            paramSortingMode: false
+            paramSortingMode: false,
+            paramSorting: {},
+            collapseSorting: ["saved", true]
         };
 
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -28,9 +30,9 @@ class Project extends TaskContainer {
         this.onChangeSorting = this.onChangeSorting.bind(this);
         this.switchSortingDirection = this.switchSortingDirection.bind(this);
         this.openParamViewer = this.openParamViewer.bind(this);
-        this.toggleParamFilter = this.toggleParamFilter.bind(this);
         this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
+        this.reorderParam = this.reorderParam.bind(this);
 
         this.addView = this.addView.bind(this);
         this.paramViewerRef = React.createRef();
@@ -40,13 +42,10 @@ class Project extends TaskContainer {
     addView(path) {
         var data = new FormData();
         var dataJson = {};
-        if (this.state.paramFilterEnabled) {
-            dataJson['filter'] = this.state.selectedParamValues;
-        } else {
-            dataJson['filter'] = {};
-        }
+        dataJson['filter'] = this.state.selectedParamValues;
         dataJson['collapse'] = this.state.collapsedParams;
         dataJson['group'] = this.state.groupedParams;
+        dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['path'] = path;
 
         data.append("data", JSON.stringify(dataJson));
@@ -103,18 +102,11 @@ class Project extends TaskContainer {
         }
 
         this.setState({
-            selectedParamValues: selectedParamValues,
-            paramFilterEnabled: true
+            selectedParamValues: selectedParamValues
         }, () => this.filterHasUpdated());
         this.openParamViewer();
     }
 
-    toggleParamFilter() {
-        let paramFilterEnabled = !this.state.paramFilterEnabled;
-        this.setState({
-            paramFilterEnabled: paramFilterEnabled
-        }, () => this.filterHasUpdated());
-    }
 
     openParamViewer() {
         this.props.closeViewer();
@@ -152,7 +144,7 @@ class Project extends TaskContainer {
                         </select>
                         <span onClick={this.switchSortingDirection} className={this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
-                        <span className={this.state.paramFilterEnabled ? "fas fa-sliders-h filter-enabled" : "fas fa-sliders-h"} onClick={this.openParamViewer}></span>
+                        <span className="fas fa-sliders-h" onClick={this.openParamViewer}></span>
                     </div>
                     }
                 </div>
@@ -169,20 +161,18 @@ class Project extends TaskContainer {
                     params={this.state.params}
                     tasks={this.state.tasks}
                     selectedParamValues={this.state.selectedParamValues}
-                    paramFilterEnabled={this.state.paramFilterEnabled}
                     showTask={this.props.showTask}
                     paramsByGroup={this.state.paramsByGroup}
                     highlightedTask={this.props.highlightedTask}
                     filterLikeTask={this.filterLikeTask}
                     devices={this.props.devices}
+                    detailCol={this.state.collapseSorting[0]}
                 />
                 <ParamViewer
                     ref={this.paramViewerRef}
                     paramsByGroup={this.state.paramsByGroup}
                     selectedParamValues={this.state.selectedParamValues}
                     toggleSelection={this.toggleSelection}
-                    toggleParamFilter={this.toggleParamFilter}
-                    paramFilterEnabled={this.state.paramFilterEnabled}
 
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}
@@ -196,6 +186,12 @@ class Project extends TaskContainer {
                     saved_filters={this.props.saved_filters}
                     views={this.props.views}
                     addView={this.addView}
+                    paramSorting={this.state.paramSorting}
+                    reorderParam={this.reorderParam}
+                    allCols={this.state.metric_superset}
+                    collapseSorting={this.state.collapseSorting}
+                    onChangeCollapseSorting={this.onChangeCollapseSorting}
+                    flipCollapseSortingDirection={this.flipCollapseSortingDirection}
                 />
             </div>
         );

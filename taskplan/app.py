@@ -251,12 +251,6 @@ def run():
 
         return jsonify({})
 
-
-    @app.route('/reorder_param/<string:param_uuid>/<int:new_index>')
-    def reorder_param(param_uuid, new_index):
-        controller.reorder_param(param_uuid, new_index)
-        return jsonify({})
-
     @app.route('/connect_device/<string:device_uuid>')
     def connect_device(device_uuid):
         controller.connect_device(device_uuid)
@@ -282,7 +276,7 @@ def run():
     @app.route('/filter_tasks', methods=['POST'])
     def filter_tasks():
         data = json.loads(request.form.get('data'))
-        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["group"], None, None, data["sort_col"], data["sort_dir"])
+        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["collapse_sorting"], data["group"], data["param_sorting"], None, None, data["sort_col"], data["sort_dir"])
         return jsonify([tasks, metric_superset])
 
     @app.route('/task_details/<string:task_uuid>')

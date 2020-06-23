@@ -1,6 +1,7 @@
 import React from 'react';
 import ParamFilter from "./ParamFilter";
 import ParamSelection from "./ParamSelection";
+import Param from "./Param";
 
 
 class Column extends React.Component {
@@ -203,10 +204,6 @@ class ParamViewer extends React.Component {
                     }
 
                     <div className="header">Parameter filter<i className="fas fa-times" onClick={this.close}></i></div>
-                    <label>
-                        <input type="checkbox" checked={this.props.paramFilterEnabled} onChange={() => this.props.toggleParamFilter()} />
-                        <span>Enabled</span>
-                    </label>
                     <ParamFilter selectMultiple={true} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.props.selectedParamValues} toggleSelection={this.props.toggleSelection}/>
 
                     <div className="header">Collapsing</div>
@@ -215,6 +212,21 @@ class ParamViewer extends React.Component {
                            <div className="param-name">{param.name} <i className="fas fa-times" onClick={() => this.props.removeParamCollapse(param)}></i></div>
                         ))}
                     </div>
+                    <div style={{"display": "flex", "align-items": "center"}}>
+                        <label>Sorting:</label>
+                        <select value={this.props.collapseSorting[0]} onChange={this.props.onChangeCollapseSorting}>
+                            <option value="saved">Saved</option>
+                            <option value="name">Name</option>
+                            <option value="created">Created</option>
+                            <option value="iterations">Iterations</option>
+                            <option value="started">Started</option>
+                            {this.props.allCols.map(col => (
+                                <option value={col}>{col}</option>
+                            ))}
+                        </select>
+                        <span style={{"margin-left": "5px", "cursor": "pointer"}} onClick={this.props.flipCollapseSortingDirection} className={this.props.collapseSorting[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
+                    </div>
+
                     <ParamSelection header="Select param to collapse" ref={this.paramCollapseSelection} paramsByGroup={this.props.paramsByGroup} onSelect={this.props.addParamCollapse}/>
                     <div className="buttons">
                         <div onClick={() => this.paramCollapseSelection.current.openDialog()}>Add</div>
@@ -234,6 +246,19 @@ class ParamViewer extends React.Component {
                         <div onClick={() => this.paramGroupSelection.current.openDialog()}>Add</div>
                     </div>
 
+                    <div className="header">Parameter sorting</div>
+                    <div className="params-to-collapse param-filter">
+                        <ul className="params-tab" >
+                           {this.props.params.sort((a, b) => this.props.paramSorting[a.uuid] - this.props.paramSorting[b.uuid]).map((param) => (
+                                <Param
+                                    key={param.uuid}
+                                    param={param}
+                                    sortMode={true}
+                                    reorderParam={this.props.reorderParam}
+                                />
+                            ))}
+                        </ul>
+                    </div>
 
                     {this.props.selectedCols !== undefined &&
                         <React.Fragment>

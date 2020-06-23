@@ -45,6 +45,7 @@ class TaskTab extends React.Component {
                         showTask={this.props.showTask}
                         filterLikeTask={this.props.filterLikeTask}
                         devices={this.props.devices}
+                        detailCol={this.props.detailCol}
                     />
                 </ul>
                 <TaskEditor devices={this.props.devices} ref={this.taskEditor} params={this.props.params} paramsByGroup={this.props.paramsByGroup} />

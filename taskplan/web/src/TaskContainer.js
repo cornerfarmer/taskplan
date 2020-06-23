@@ -18,6 +18,8 @@ class TaskContainer extends React.Component {
         this.replaceUuidsWithTasks = this.replaceUuidsWithTasks.bind(this);
         this.loadFilter = this.loadFilter.bind(this);
         this.saveFilter = this.saveFilter.bind(this);
+        this.onChangeCollapseSorting = this.onChangeCollapseSorting.bind(this);
+        this.flipCollapseSortingDirection = this.flipCollapseSortingDirection.bind(this);
     }
 
     componentDidMount() {
@@ -61,15 +63,13 @@ class TaskContainer extends React.Component {
     filterHasUpdated() {
         var data = new FormData();
         var dataJson = {};
-        if (this.state.paramFilterEnabled) {
-            dataJson['filter'] = this.state.selectedParamValues;
-        } else {
-            dataJson['filter'] = {};
-        }
+        dataJson['filter'] = this.state.selectedParamValues;
         dataJson['collapse'] = this.state.collapsedParams;
         dataJson['group'] = this.state.groupedParams;
+        dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['sort_col'] = this.state.sorting_tasks[0];
         dataJson['sort_dir'] = this.state.sorting_tasks[1] ? "DESC" : "ASC";
+        dataJson['collapse_sorting'] = [this.state.collapseSorting[0], this.state.collapseSorting[1] ? "DESC" : "ASC"];
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -101,13 +101,10 @@ class TaskContainer extends React.Component {
     saveFilter(saveName) {
         var data = new FormData();
         var dataJson = {};
-        if (this.state.paramFilterEnabled) {
-            dataJson['filter'] = this.state.selectedParamValues;
-        } else {
-            dataJson['filter'] = {};
-        }
+        dataJson['filter'] = this.state.selectedParamValues;
         dataJson['collapse'] = this.state.collapsedParams;
         dataJson['group'] = this.state.groupedParams;
+        dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['saveName'] = saveName;
 
         data.append("data", JSON.stringify(dataJson));
@@ -119,10 +116,18 @@ class TaskContainer extends React.Component {
     }
 
     loadFilter(data) {
+        let param_sorting = data.param_sorting;
+        for (const param of this.state.params) {
+            if (!(param.uuid in param_sorting)) {
+                param_sorting[param.uuid] = Object.keys(param_sorting).length;
+            }
+        }
+
         this.setState({
             selectedParamValues: data.filter,
             collapsedParams: data.collapse,
             groupedParams: data.group,
+            paramSorting: data.param_sorting,
         }, () =>this.filterHasUpdated());
     }
 
@@ -138,9 +143,17 @@ class TaskContainer extends React.Component {
             paramsByGroup[group].push(param);
         }
 
+        let paramSorting = Object.assign({}, this.state.paramSorting);
+        for (const param of params) {
+            if (!(param.uuid in paramSorting)) {
+                paramSorting[param.uuid] = Object.keys(paramSorting).length;
+            }
+        }
+
         this.setState({
             params: params,
-            paramsByGroup: paramsByGroup
+            paramsByGroup: paramsByGroup,
+            paramSorting: paramSorting
         });
     }
 
@@ -247,9 +260,39 @@ class TaskContainer extends React.Component {
     }
 
 
+    reorderParam(first_param_uuid, second_param_uuid) {
+        let paramSorting = Object.assign({}, this.state.paramSorting);
+        if (paramSorting[first_param_uuid] > paramSorting[second_param_uuid]) {
+            let tmp = first_param_uuid;
+            first_param_uuid = second_param_uuid;
+            second_param_uuid = tmp;
+        }
 
+        let startIndex = paramSorting[first_param_uuid];
+        let endIndex = paramSorting[second_param_uuid];
+        for (let key in paramSorting) {
+            if (paramSorting[key] >= startIndex && paramSorting[key] < endIndex) {
+                paramSorting[key] += 1;
+            }
+        }
+        paramSorting[second_param_uuid] = startIndex;
 
+        this.setState({
+            paramSorting: paramSorting
+        }, () =>this.filterHasUpdated());
+    }
 
+    onChangeCollapseSorting(e) {
+        const collapseSorting = this.state.collapseSorting.slice();
+        collapseSorting[0] = e.target.value;
+        this.setState({collapseSorting: collapseSorting}, () => this.filterHasUpdated());
+    }
+
+    flipCollapseSortingDirection() {
+        const collapseSorting = this.state.collapseSorting.slice();
+        collapseSorting[1] = !collapseSorting[1];
+        this.setState({collapseSorting: collapseSorting}, () => this.filterHasUpdated());
+    }
 }
 
 

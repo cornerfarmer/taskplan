@@ -3,6 +3,7 @@ import Prompt from "./Prompt";
 import {TaskName} from "./Task";
 import State from "./Global";
 import ReassuringPrompt from "./ReassuringPrompt";
+import GroupedTasks from "./GroupedTasks";
 
 class PausedTask extends React.Component {
     constructor(props) {
@@ -123,6 +124,7 @@ class PausedTask extends React.Component {
             )
     }
 
+
     render() {
         return (
             <li ref={this.itemRef} className={this.itemClass()}>
@@ -132,6 +134,9 @@ class PausedTask extends React.Component {
                         <span><span>Iterations:</span> {this.props.task.finished_iterations} / {this.props.task.total_iterations}</span>
                         <span><span>Created:</span> {this.props.task.creation_time.toShortStr()}</span>
                         <span><span>Last saved:</span> {this.props.task.saved_time.toShortStr()} {this.props.task.had_error == true && <span className="task-error">(Error)</span>}</span>
+                        {["name", "saved", "created", "iterations", "started"].findIndex(x => x === this.props.detailCol) === -1 &&
+                            <span><span>{this.props.detailCol}:</span> {this.props.detailCol in this.props.metrics ? this.props.metrics[this.props.detailCol][2].toFixed(2) : "N/A"}</span>
+                        }
                     </div>
                 </div>
                 <div className="toolbar">

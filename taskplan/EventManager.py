@@ -54,7 +54,6 @@ class ServerSentEvent(object):
                 data_client['name'] = data.get_metadata("name")
                 data_client['deprecated_param_value'] = data.get_metadata("deprecated_param_value")
                 data_client['default_param_value'] = data.get_metadata("default_param_value")
-                data_client['sorting'] = data.get_metadata("sorting")
                 data_client['group'] = parent_data.get_param_group(data)
         elif event_type in [EventType.PARAM_VALUE_CHANGED, EventType.PARAM_VALUE_REMOVED]:
             data_client['uuid'] = str(data.uuid)

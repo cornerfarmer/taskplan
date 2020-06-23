@@ -160,10 +160,10 @@ class CollapseBranch(ParamBranch):
 
 class View:
 
-    def __init__(self, configuration, root, branch_options):
+    def __init__(self, configuration, root, branch_options, filters):
         self.configuration = configuration
-        self.params = self.configuration.sorted_params()
         self.branch_options = branch_options
+        self.filters = filters
 
         self.root_node = RootNode()
         self.root_node.set_child("default", TasksNode())
@@ -172,7 +172,14 @@ class View:
             self.root_path.mkdir(exist_ok=True, parents=True)
         self.task_by_uuid = {}
 
-    def initialize(self, tasks):
+    def set_branch_options(self, branch_options, tasks):
+        self.branch_options = branch_options
+        self.refresh(tasks)
+
+    def refresh(self, tasks):
+        self.root_node = RootNode()
+        self.root_node.set_child("default", TasksNode())
+
         for task in tasks:
             self.add_task(task, False)
         self._check_filesystem(self.root_node.children["default"], self.root_path)
@@ -191,7 +198,27 @@ class View:
         node = self._add_node_before_node(node, new_node, former_key, path, change_dirs)
         return node
 
+    def _filter_task(self, task):
+        select = True
+        for param_uuid in self.filters.keys():
+            key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
+
+            found = False
+            for possible_value in self.filters[param_uuid]:
+                if str(param_value.uuid) == possible_value[0] and args == possible_value[1:]:
+                    found = True
+                    break
+
+            if not found:
+                select = False
+                break
+
+        return select
+
     def add_task(self, task, change_dirs=True):
+        if not self._filter_task(task):
+            return
+
         path = self.root_path
         node = self.root_node.children["default"]
         for branching_option in self.branch_options:
@@ -220,110 +247,6 @@ class View:
 
         self._insert_task(node, path, task, change_dirs)
 
-    def remove_task(self, task):
-        node = self.task_by_uuid[str(task.uuid)]
-        path = self._path_of_node(node)
-        children = node.children
-        key = int(self._key_in_dict(children, task))
-
-        self._remove_path(path / str(key))
-        del children[str(key)]
-        for i in range(key, len(children)):
-            children[str(i)] = children[str(i + 1)]
-            del children[str(i + 1)]
-            (path / str(i + 1)).rename((path / str(i)))
-
-        self._check_node_for_removal(node, path)
-
-        del self.task_by_uuid[str(task.uuid)]
-
-    def add_param(self, param):
-        insert_index = 0
-        while insert_index < len(self.params) and self.params[insert_index].get_metadata("sorting") < param.get_metadata("sorting"):
-            insert_index += 1
-
-        self.params.insert(insert_index, param)
-        self._add_node_with_param(param, self.root_node.children["default"], self.root_path)
-
-    def _add_node_with_param(self, param, root, path):
-        if (type(root) == ParamNode and root.param.get_metadata("sorting") > param.get_metadata("sorting")) or type(root) == TasksNode:
-            first_task = root.get_first_task_in()
-            if first_task is not None:
-                former_param_value_key = first_task.get_param_value_key_to_param(param, self.configuration)
-
-                tasks = root.get_all_contained_tasks()
-                tasks_with_different_param_value = []
-                for task in tasks:
-                    if task.get_param_value_key_to_param(param, self.configuration) != former_param_value_key:
-                        tasks_with_different_param_value.append(task)
-
-                if len(tasks_with_different_param_value) > 0:
-                    new_node = ParamNode(param)
-                    self._add_node_before_node(root, new_node, former_param_value_key, path)
-
-                    for task in tasks_with_different_param_value:
-                        self.remove_task(task)
-                        self.add_task(task)
-        else:
-
-            for key in root.children:
-                self._add_node_with_param(param, root.children[key], path / key)
-
-    def remove_param(self, param):
-        if param in self.params:
-            self.params.remove(param)
-            self._remove_nodes_with_param(param, self.root_node.children["default"], self.root_path)
-
-    def _remove_nodes_with_param(self, param, root, path):
-        if type(root) == ParamNode and root.param == param:
-            tasks = []
-            for key in list(root.children.keys())[1:]:
-                tasks.extend(self._remove_subtree(root.children[key], path / key))
-
-            self._remove_param_at_node(root, path)
-            for task in tasks:
-                self.add_task(task)
-
-        elif type(root) != TasksNode:
-            for key in root.children:
-                self._remove_nodes_with_param(param, root.children[key], path / key)
-
-    def _remove_subtree(self, root, path):
-        tasks = root.get_all_contained_tasks()
-        for task in tasks:
-            del self.task_by_uuid[str(task.uuid)]
-
-        root.remove_subtree()
-        self._remove_path(path)
-        return tasks
-
-    def _check_node_for_removal(self, node, path):
-        if len(node.children) == 0 and type(node.parent) != RootNode:
-            del node.parent.children[node.parent_key]
-            self._remove_path(path)
-            self._check_node_for_removal(node.parent, path.parent)
-        elif len(node.children) == 1 and type(node) in [ParamNode, CodeVersionNode]:
-            self._remove_param_at_node(node, path)
-
-    def _remove_param_at_node(self, node, path):
-        key = node.remove()
-        path = path / key
-
-        for child_path in path.iterdir():
-            assert(child_path.name != path.name)
-            child_path.rename(path.parent / child_path.name)
-        self._remove_path(path)
-
-    def _path_of_node(self, node):
-        path = None
-        while type(node) != RootNode and type(node.parent) != RootNode:
-            if path is None:
-                path = Path(node.parent_key)
-            else:
-                path = node.parent_key / path
-            node = node.parent
-        return self.root_path if path is None else self.root_path / path
-
     def _add_node_before_node(self, node, new_node, key, path, change_dirs=True):
         node.insert_as_parent(key, new_node)
 
@@ -334,13 +257,6 @@ class View:
                     child_path.rename(path / key / child_path.name)
 
         return new_node
-
-    def _key_in_dict(self, dictionary, value_to_find):
-        for key, value in dictionary.items():
-            if value == value_to_find:
-                return key
-        return None
-
 
     def _comp_tasks(self, first_task, second_task):
         return first_task.creation_time < second_task.creation_time

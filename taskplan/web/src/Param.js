@@ -39,16 +39,7 @@ class Param extends React.Component {
     onDrop(e) {
         if (this.props.sortMode && this.props.param.uuid !== e.dataTransfer.getData("text/plain")) {
             e.preventDefault();
-            fetch("/reorder_param/" + this.props.project_name + "/" + e.dataTransfer.getData("text/plain") + "/" + this.props.param.sorting)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-
-                }
-            );
+            this.props.reorderParam(e.dataTransfer.getData("text/plain"), this.props.param.uuid);
 
             this.dragEnterCounter = 0;
             this.paramRef.current.className = "item item-param";
@@ -77,7 +68,7 @@ class Param extends React.Component {
         return (
             <li ref={this.paramRef} className="item item-param" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} draggable={this.props.sortMode ? "true" : "false"}>
                 <div className="header" onClick={() => this.toggleHideParamValues()}>
-                    <div className="title">{this.props.param.name}</div>
+                    <div className="title">{this.props.sortMode ? this.props.param.name : this.props.param.name}</div>
                     {!this.props.sortMode ?
                         <div className="toolbar">
                             <div className="action" onClick={(e) => {this.props.newParamValueFunc(this.props.param, this.props.param.values); e.stopPropagation();}} title="New parameter value">

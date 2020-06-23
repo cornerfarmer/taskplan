@@ -25,7 +25,7 @@ export class TaskName extends React.Component {
                 <span ref={this.wrapperRef}>Test</span>
             );
         } else {
-            if (this.props.name.length > 0) {
+            if (this.props.name !== undefined && this.props.name.length > 0) {
                 return (
                     <span ref={this.wrapperRef}>
                 {this.props.name.map((name, i) => {

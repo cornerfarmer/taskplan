@@ -4,6 +4,7 @@ import {TaskName} from "./Task";
 import State from "./Global";
 import ReassuringPrompt from "./ReassuringPrompt";
 import PausedTask from "./PausedTask";
+import GroupedTasks from "./GroupedTasks";
 
 class CollapsedTasks extends React.Component {
     constructor(props) {
@@ -31,11 +32,13 @@ class CollapsedTasks extends React.Component {
                         rerunTask={this.props.rerunTask}
                         key={tasks[0].task.uuid}
                         task={tasks[0].task}
+                        metrics={tasks[0].metrics}
                         name={tasks[0].name}
                         showTask={this.props.showTask}
                         highlight={tasks[0].task.uuid === this.props.highlightedTask}
                         filterLikeTask={this.props.filterLikeTask}
                         devices={this.props.devices}
+                        detailCol={this.props.detailCol}
                     />
                     {tasks.length > 1 &&
                         <div class="collapse-toggle" onClick={this.toggleCollapsed}>{
@@ -56,6 +59,8 @@ class CollapsedTasks extends React.Component {
                             highlight={task.task.uuid === this.props.highlightedTask}
                             filterLikeTask={this.props.filterLikeTask}
                             devices={this.props.devices}
+                            detailCol={this.props.detailCol}
+                            metrics={task.metrics}
                         />
                     ))}
                 </div>

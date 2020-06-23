@@ -68,8 +68,6 @@ class Table extends TaskContainer {
                     paramsByGroup={this.state.paramsByGroup}
                     selectedParamValues={this.state.selectedParamValues}
                     toggleSelection={this.toggleSelection}
-                    toggleParamFilter={this.toggleParamFilter}
-                    paramFilterEnabled={this.state.paramFilterEnabled}
 
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}

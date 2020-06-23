@@ -13,7 +13,6 @@ from taskplan.TaskWrapper import TaskWrapper, State
 from taskplan.ProjectConfiguration import ProjectConfiguration
 import subprocess
 import time
-import shutil
 import uuid
 import json
 import shutil
@@ -92,7 +91,7 @@ class Project:
                 self._load_saved_task(task)
 
         for view in self.views.values():
-            view.initialize(self.tasks)
+            view.refresh(self.tasks)
         if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
             self._load_saved_task(self.test_dir, is_test=True)
 
@@ -189,11 +188,11 @@ class Project:
 
     def remove_task(self, task):
         if task in self.tasks:
-            if not task.is_test:
-                for view in self.views.values():
-                    view.remove_task(task)
             self.tasks.remove(task)
             self.configuration.deregister_task(task)
+            if not task.is_test:
+                for view in self.views.values():
+                    view.refresh(self.tasks)
             task.remove_data()
 
             self.event_manager.throw(EventType.TASK_REMOVED, task)
@@ -280,18 +279,6 @@ class Project:
 
             return new_task
 
-    def change_sorting(self, param_uuid, new_sorting):
-        param = self.configuration.get_config(param_uuid)
-
-        for view in self.views.values():
-            view.remove_param(param)
-
-        changed_params = self.configuration.change_sorting(param_uuid, new_sorting)
-
-        for view in self.views.values():
-            view.add_param(param)
-        return changed_params
-
     def reload(self):
         self.configuration.reload()
 
@@ -311,8 +298,25 @@ class Project:
                 self.event_manager.throw(EventType.TASK_CHANGED, task)
 
         for view in self.views.values():
-            view.initialize(self.tasks)
+            view.refresh(self.tasks)
 
+    def add_param(self, new_data):
+        param = self.configuration.add_param(new_data)
+        self.add_param_to_views(param)
+
+    def add_param_to_views(self, param):
+        for view in self.views.values():
+            for i, branch_option in reversed(enumerate(view.branch_options)):
+                if type(branch_option) == ParamBranch:
+                    view.branch_options.insert(i + 1, param)
+                    break
+        return param
+
+    def add_param_batch(self, config):
+        added_params, added_param_values = self.configuration.add_param_batch(config)
+        for param in added_params:
+            self.add_param_to_views(param)
+        return added_params, added_param_values
 
     def update_new_client(self, client):
         self.event_manager.throw_for_client(client, EventType.PROJECT_CHANGED, self)
@@ -359,10 +363,10 @@ class Project:
             metric_superset.add(tag)
         return metrics
 
-    def view_to_json(self, root, name_prefix, sort_col, metric_superset):
+    def view_to_json(self, root, name_prefix, sort_col, metric_superset, collapse_sorting):
         if isinstance(root, RootNode):
             if len(root.children) > 0:
-                result = self.view_to_json(root.children["default"], name_prefix, sort_col, metric_superset)
+                result = self.view_to_json(root.children["default"], name_prefix, sort_col, metric_superset, collapse_sorting)
                 if isinstance(result, list) and not isinstance(result[0], list):
                     result = [result]
                 return result
@@ -370,11 +374,11 @@ class Project:
                 return []
         elif isinstance(root, TaskWrapper):
             metrics = self.metrics_json(root, metric_superset)
-            return [{"uuid": str(root.uuid), "name": name_prefix, "sort_col": self.col_from_task(root, sort_col, name_prefix, metrics), "metrics": metrics}]
+            return [{"uuid": str(root.uuid), "name": name_prefix, "collapse_sort_col": self.col_from_task(root, collapse_sorting[0], name_prefix, metrics), "sort_col": self.col_from_task(root, sort_col, name_prefix, metrics), "metrics": metrics}]
         elif isinstance(root, GroupNode):
             output = {}
             for group_key in root.children:
-                result = self.view_to_json(root.children[group_key], name_prefix, sort_col, metric_superset)
+                result = self.view_to_json(root.children[group_key], name_prefix, sort_col, metric_superset, collapse_sorting)
                 if not isinstance(result, list) or isinstance(result[0], list):
                     output[group_key] = result
                 else:
@@ -384,30 +388,31 @@ class Project:
             flatten = lambda l: [item for sublist in l for item in sublist]
             output = []
             for child_key in root.children:
-                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset)))
+                output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset, collapse_sorting)))
+            output = sorted(output, key=lambda x: x["collapse_sort_col"], reverse=collapse_sorting[1] == "DESC")
             return output
         else:
             output = []
             for child_key in root.children:
-                result = self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset)
+                result = self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset, collapse_sorting)
                 if isinstance(result[0], list):
                     output.extend(result)
                 else:
                     output.append(result)
             return output
 
-    def _build_view(self, filters, collapse, groups, path=None):
+    def _build_view(self, filters, collapse, groups, param_sorting, path=None):
         branch_options = []
         branch_options.append(CodeVersionBranch(self.code_versions))
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
-        for param in self.configuration.sorted_params():
+        for param in self.configuration.sorted_params(param_sorting):
             if param.uuid not in collapse:
                 branch_options.append(ParamBranch(param, self.configuration))
         for param_uuid in collapse:
             branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration))
 
-        return View(self.configuration, path, branch_options)
+        return View(self.configuration, path, branch_options, filters)
 
     def _sort_tasks(self, tasks, sort_col, sort_dir):
         if type(tasks) == dict:
@@ -417,61 +422,18 @@ class Project:
         else:
             return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
-    def filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
-        view = self._build_view(filters, collapse, groups)
+    def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir):
+        view = self._build_view(filters, collapse, groups, param_sorting)
 
         for task in self.tasks:
-            select = True
-            for param_uuid in filters.keys():
-                key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
-
-                found = False
-                for possible_value in filters[param_uuid]:
-                    if str(param_value.uuid) == possible_value[0] and args == possible_value[1:]:
-                        found = True
-                        break
-
-                if not found:
-                    select = False
-                    break
-
-            if not select:
-                continue
-
             view.add_task(task)
 
         metric_superset = set()
-        result = self.view_to_json(view.root_node, [], sort_col, metric_superset)
+        result = self.view_to_json(view.root_node, [], sort_col, metric_superset, collapse_sorting)
 
         result = self._sort_tasks(result, sort_col, sort_dir)
 
         return result, list(metric_superset)
-        selected_tasks_level = selected_tasks
-        for group in groups:
-            group_name = []
-            for param_uuid in group:
-                key = task.get_param_value_key_to_param(self.configuration.get_config(param_uuid), self.configuration)
-                group_name.append(key)
-            group_name = " / ".join(group_name)
-            if group_name not in selected_tasks_level:
-                selected_tasks_level[group_name] = {}
-            selected_tasks_level = selected_tasks_level[group_name]
-
-        if len(collapse) > 0:
-            collapse_props = []
-            for param in self.configuration.get_params():
-                if str(param.uuid) not in collapse:
-                    key = task.get_param_value_key_to_param(param, self.configuration)
-                    collapse_props.append(key)
-
-            collapse_props = " / ".join(collapse_props)
-            if collapse_props not in selected_tasks_level:
-                selected_tasks_level[collapse_props] = []
-            selected_tasks_level[collapse_props].append(str(task.uuid))
-        else:
-            selected_tasks_level[str(task.uuid)] = [str(task.uuid)]
-
-        return selected_tasks
 
     def save_filter(self, name, data):
         self.saved_filters[name] = data
@@ -483,8 +445,8 @@ class Project:
         actual_path = (self.task_dir / path).resolve()
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], actual_path)
-        view.initialize(self.tasks)
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], actual_path)
+        view.refresh(self.tasks)
         self.views[path] = view
         self.views_data[path] = data
 

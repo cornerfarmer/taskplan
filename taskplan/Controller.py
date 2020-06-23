@@ -126,12 +126,6 @@ class Controller:
     def _reorder_task(self, task_uuid, new_index):
         self.scheduler.reorder(task_uuid, new_index)
 
-    def _reorder_param(self, param_uuid, new_index):
-        changed_params = self.project.change_sorting(param_uuid, new_index)
-
-        for param in changed_params:
-            self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
-
     def _edit_param(self, param_uuid, new_data):
         param = self.project.configuration.edit_param(param_uuid, new_data)
 
@@ -146,13 +140,13 @@ class Controller:
         self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
     def _add_param(self, new_data):
-        param = self.project.configuration.add_param(new_data)
+        param = self.project.add_param(new_data)
 
         self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project)
         self.event_manager.log("Param \"" + param.uuid + "\" has been added", "Param has been added")
 
     def _add_param_batch(self, config):
-        added_params, added_param_values = self.project.configuration.add_param_batch(config)
+        added_params, added_param_values = self.project.add_param_batch(config)
 
         for param in added_params:
             self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project)
@@ -270,8 +264,8 @@ class Controller:
     def _get_task_dir(self, task_uuid):
         return self.project.find_task_by_uuid(task_uuid).build_save_dir()
 
-    def _filter_tasks(self, filters, collapse, groups, offset, limit, sort_col, sort_dir):
-        tasks, metric_superset = self.project.filter_tasks(filters, collapse, groups, offset, limit, sort_col, sort_dir)
+    def _filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir):
+        tasks, metric_superset = self.project.filter_tasks(filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir)
         return tasks, metric_superset
 
     def _task_details(self, task_uuid):
