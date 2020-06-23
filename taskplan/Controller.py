@@ -71,8 +71,8 @@ class Controller:
         self.project.update_new_client(client)
         self.scheduler.update_new_client(client)
 
-    def _start_new_task(self, params, config, total_iterations, is_test=False, device_uuid=None):
-        task = self.project.create_task(params, config, total_iterations, is_test)
+    def _start_new_task(self, params, config, total_iterations, is_test=False, device_uuid=None, tags=[]):
+        task = self.project.create_task(params, config, total_iterations, is_test, tags)
         self.scheduler.enqueue(task, device_uuid)
         return task
 
@@ -291,3 +291,6 @@ class Controller:
         self.project.delete_view(path)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+
+    def _set_tags(self, task_uuid, tags):
+        self.project.set_tags(task_uuid, tags)

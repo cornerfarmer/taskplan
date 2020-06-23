@@ -8,7 +8,8 @@ class ProjectManager extends React.Component {
         super(props);
         this.state = {
             codeVersionTree: null,
-            highlightedTask: null
+            highlightedTask: null,
+            allTags: []
         };
         this.gotoTB = this.gotoTB.bind(this);
         this.addVersion = this.addVersion.bind(this);
@@ -28,7 +29,8 @@ class ProjectManager extends React.Component {
                 current_code_version: data.current_code_version,
                 saved_filters: data.saved_filters,
                 views: data.views,
-                tensorboard_port: data.tensorboard_port
+                tensorboard_port: data.tensorboard_port,
+                allTags: data.all_tags
             });
         });
     }
@@ -176,6 +178,7 @@ class ProjectManager extends React.Component {
                         current_code_version={this.state.current_code_version}
                         saved_filters={this.state.saved_filters}
                         views={this.state.views}
+                        allTags={this.state.allTags}
                     />
                 </div>
                 {this.state.codeVersionTree !== null &&
@@ -185,7 +188,7 @@ class ProjectManager extends React.Component {
                         currentCodeVersion={this.state.current_code_version}
                     />
                 }
-                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} codeVersions={this.props.repository.codeVersions} />
+                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} allTags={this.state.allTags} codeVersions={this.props.repository.codeVersions} />
             </div>
         );
     }

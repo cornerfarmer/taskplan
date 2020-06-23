@@ -157,6 +157,7 @@ class Project extends TaskContainer {
                     numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue}
                 />
                 <TaskTab
+                    allTags={this.props.allTags}
                     active={this.state.activeTab === 1}
                     params={this.state.params}
                     tasks={this.state.tasks}

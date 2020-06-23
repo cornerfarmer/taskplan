@@ -2,6 +2,7 @@ import React from 'react';
 import ConfigEditor from "./ConfigEditor";
 import {TaskName} from "./Task";
 import State from "./Global";
+import TagsEdit from "./TagsEdit";
 
 class TaskViewer extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class TaskViewer extends React.Component {
         this.extractCheckpoint = this.extractCheckpoint.bind(this);
         this.notesTextarea = React.createRef();
         this.updateNotes = this.updateNotes.bind(this);
+        this.updateTags = this.updateTags.bind(this);
         this.timer = null;
     }
 
@@ -138,6 +140,36 @@ class TaskViewer extends React.Component {
         });
     }
 
+
+    updateTags(tags) {
+        var data = new FormData();
+
+        var dataJson = {};
+        dataJson['tags'] = tags;
+
+        data.append("data", JSON.stringify(dataJson));
+
+        var url = "set_tags/" + this.state.task.uuid;
+
+        fetch(url,
+            {
+                method: "POST",
+                body: data
+            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            );
+
+
+    }
+
+
     render() {
         if (this.state.task !== null) {
             return (
@@ -156,6 +188,10 @@ class TaskViewer extends React.Component {
                     <h2>Notes:</h2>
                     <div className="notes">
                         <textarea ref={this.notesTextarea} value={this.state.notes} onChange={evt => this.updateNotes(evt)}/>
+                    </div>
+                    <h2>Tags:</h2>
+                    <div className="tags">
+                        <TagsEdit tags={this.state.task.tags} allTags={this.props.allTags} updateTags={this.updateTags} />
                     </div>
                     <h2>Parameters</h2>
                     <div className="params">

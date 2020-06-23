@@ -1,4 +1,5 @@
 import threading
+from collections import Counter
 from datetime import datetime
 
 from taskplan.View import *
@@ -46,6 +47,8 @@ class Project:
 
         self.add_code_version("initial")
         self._load_metadata(metadata)
+
+        self.all_tags = Counter()
 
         if load_saved_tasks:
             self._load_saved_tasks()
@@ -104,11 +107,23 @@ class Project:
         #    return
 
         task.state = State.STOPPED
+
+        self._register_tags_from_task(task)
         self.tasks.append(task)
         self.configuration.register_task(task)
         return task
 
-    def create_task(self, param_values, config, total_iterations, is_test=False):
+    def _register_tags_from_task(self, task):
+        for tag in task.tags:
+            self.all_tags[tag] += 1
+
+    def _deregister_tags_from_task(self, task):
+        for tag in task.tags:
+            self.all_tags[tag] -= 1
+            if tag in self.all_tags:
+                del self.all_tags[tag]
+
+    def create_task(self, param_values, config, total_iterations, is_test=False, tags=[]):
         params = self.configuration.get_params()
 
         base_uuids = []
@@ -123,9 +138,12 @@ class Project:
                 base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
 
         task_config = self.configuration.add_task(base_uuids, config)
-        return self._create_task_from_config(task_config, total_iterations, is_test)
+        task = self._create_task_from_config(task_config, total_iterations, is_test, tags)
 
-    def _create_task_from_config(self, task_config, total_iterations, is_test=False):
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+        return task
+
+    def _create_task_from_config(self, task_config, total_iterations, is_test=False, tags=[]):
         if is_test:
             tasks_dir = self.test_dir
         else:
@@ -140,10 +158,11 @@ class Project:
                     self.event_manager.throw(EventType.TASK_REMOVED, task)
                     break
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_config, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_config, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test, tags=tags)
         task.save_metadata()
         self.tasks.append(task)
         self.configuration.register_task(task)
+        self._register_tags_from_task(task)
 
         if not is_test:
             for view in self.views.values():
@@ -456,3 +475,11 @@ class Project:
 
         del self.views[path]
         del self.views_data[path]
+
+    def set_tags(self, task_uuid, tags):
+        task = self.find_task_by_uuid(task_uuid)
+        self._deregister_tags_from_task(task)
+        task.set_tags(tags)
+        self._register_tags_from_task(task)
+        self.event_manager.throw(EventType.TASK_CHANGED, task)
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self)

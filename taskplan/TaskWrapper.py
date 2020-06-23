@@ -37,12 +37,12 @@ class PipeMsg(Enum):
 
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test=False):
-        self._reset_state(task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test)
+    def __init__(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test=False, tags=[]):
+        self._reset_state(task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test, tags)
 
         self._create_metadata_lock()
 
-    def _reset_state(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test):
+    def _reset_state(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test, tags):
         self.task_dir = task_dir
         self.class_name = class_name
         self.config = config
@@ -68,6 +68,7 @@ class TaskWrapper:
         self.saving = False
         self.creating_checkpoint = False
         self.notes = ""
+        self.tags = tags
 
     def _create_metadata_lock(self):
         path = self.build_save_dir()
@@ -234,6 +235,7 @@ class TaskWrapper:
             new_data['code_version'] = self.code_version
             new_data['checkpoints'] = self.checkpoints
             new_data['notes'] = self.notes
+            new_data['tags'] = self.tags
 
             if path.exists():
                 with open(str(path), "r") as handle:
@@ -263,6 +265,7 @@ class TaskWrapper:
             self.code_version = data['code_version']
             self.checkpoints = data['checkpoints']
             self.notes = data['notes']
+            self.tags = data['tags'] if "tags" in data else []
             self._create_metadata_lock()
 
     def set_total_iterations(self, total_iterations):
@@ -319,6 +322,10 @@ class TaskWrapper:
         self.notes = notes
         self.save_metadata(["notes"])
 
+    def set_tags(self, tags):
+        self.tags = tags
+        self.save_metadata(["tags"])
+
     def create_checkpoint(self):
         if self.state != State.RUNNING:
             checkpoint = TaskWrapper._create_checkpoint(self.metadata_lock, self.build_save_dir(), self.finished_iterations)
@@ -329,7 +336,7 @@ class TaskWrapper:
         if not path.exists():
             return False
 
-        self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.code_version, self.tasks_dir, self.is_test)
+        self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.code_version, self.tasks_dir, self.is_test, self.tags)
         self.load_metadata(path)
         return True
 

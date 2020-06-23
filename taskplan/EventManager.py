@@ -48,6 +48,7 @@ class ServerSentEvent(object):
                 data_client['notes'] = data.notes
                 data_client['is_test'] = data.is_test
                 data_client['device'] = None if data.device is None else str(data.device.uuid)
+                data_client['tags'] = data.tags
         elif event_type in [EventType.PARAM_CHANGED, EventType.PARAM_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             if event_type is not EventType.PARAM_REMOVED:
@@ -73,6 +74,7 @@ class ServerSentEvent(object):
             data_client['saved_filters'] = data.saved_filters
             data_client['views'] = data.views_data
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
+            data_client['all_tags'] = list(data.all_tags.keys())
         elif event_type is EventType.CODE_VERSION_CHANGED:
             data_client = data.copy()
         elif event_type is EventType.SCHEDULER_OPTIONS:

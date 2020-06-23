@@ -54,13 +54,13 @@ def run():
     @app.route('/start/<int:total_iterations>', methods=['POST'])
     def start(total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(data["params"], data["config"], total_iterations, device_uuid=data["device"])
+        controller.start_new_task(data["params"], data["config"], total_iterations, device_uuid=data["device"], tags=data["tags"])
         return jsonify({})
 
     @app.route('/test/<int:total_iterations>', methods=['POST'])
     def test(total_iterations):
         data = json.loads(request.form.get('data'))
-        controller.start_new_task(data["params"], data["config"], total_iterations, is_test=True, device_uuid=data["device"])
+        controller.start_new_task(data["params"], data["config"], total_iterations, is_test=True, device_uuid=data["device"], tags=data["tags"])
         return jsonify({})
 
     @app.route('/pause/<string:task_uuid>')
@@ -312,6 +312,11 @@ def run():
         controller.delete_view(data["path"])
         return jsonify({})
 
+    @app.route('/set_tags/<string:task_uuid>', methods=['POST'])
+    def set_tags(task_uuid):
+        data = json.loads(request.form.get('data'))
+        controller.set_tags(task_uuid, data["tags"])
+        return jsonify({})
 
     app.register_blueprint(main_bp)
     app.register_blueprint(table_bp)

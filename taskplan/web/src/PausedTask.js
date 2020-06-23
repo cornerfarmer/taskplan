@@ -138,6 +138,11 @@ class PausedTask extends React.Component {
                             <span><span>{this.props.detailCol}:</span> {this.props.detailCol in this.props.metrics ? this.props.metrics[this.props.detailCol][2].toFixed(2) : "N/A"}</span>
                         }
                     </div>
+                    <div className="tags">
+                        {this.props.task.tags.map(tag => (
+                            <div>{tag}</div>
+                        ))}
+                    </div>
                 </div>
                 <div className="toolbar">
                     {

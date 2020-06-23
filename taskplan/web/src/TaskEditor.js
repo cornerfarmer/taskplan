@@ -2,6 +2,7 @@ import React from 'react';
 import ConfigEditor from "./ConfigEditor";
 import ParamFilter from "./ParamFilter";
 import $ from "jquery";
+import TagsEdit from "./TagsEdit";
 
 class TaskEditor extends React.Component {
     constructor(props) {
@@ -24,7 +25,8 @@ class TaskEditor extends React.Component {
             command: "",
             commandHint: "",
             isTest: false,
-            device: null
+            device: null,
+            tags: []
         };
 
 
@@ -40,6 +42,7 @@ class TaskEditor extends React.Component {
         this.copyCommand = this.copyCommand.bind(this);
         this.onIsTestChange = this.onIsTestChange.bind(this);
         this.onDeviceChange = this.onDeviceChange.bind(this);
+        this.updateTags = this.updateTags.bind(this);
         this.wrapperRef = React.createRef();
         this.commandInput = React.createRef();
     }
@@ -109,6 +112,7 @@ class TaskEditor extends React.Component {
             "checkpoint_interval": parseInt(this.state.checkpoint_interval)
         };
         dataJson['device'] = this.state.device;
+        dataJson['tags'] = this.state.tags;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -221,6 +225,12 @@ class TaskEditor extends React.Component {
         });
     }
 
+    updateTags(tags) {
+        this.setState({
+            tags: tags
+        });
+    }
+
     render() {
         return (
             <div ref={this.wrapperRef} style={{'display': (this.state.open ? 'block' : 'none')}}>
@@ -255,6 +265,10 @@ class TaskEditor extends React.Component {
                     <div className="field">
                         <label>Command:</label>
                         <input className="command" ref={this.commandInput} onClick={this.copyCommand} data-toggle="tooltip" data-placement="bottom" data-original-title={this.state.commandHint} value={this.state.command} readOnly={true} />
+                    </div>
+                    <div className="field">
+                        <label>Tags:</label>
+                        <TagsEdit tags={this.state.tags} allTags={this.props.allTags} updateTags={this.updateTags} />
                     </div>
                     <div className="buttons">
                         <div onClick={this.run}>Run</div>
