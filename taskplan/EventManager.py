@@ -49,12 +49,15 @@ class ServerSentEvent(object):
                 data_client['is_test'] = data.is_test
                 data_client['device'] = None if data.device is None else str(data.device.uuid)
                 data_client['tags'] = data.tags
+                data_client['name'] = data.name[:-1]
+                data_client['try'] = data.name[-1]
         elif event_type in [EventType.PARAM_CHANGED, EventType.PARAM_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             if event_type is not EventType.PARAM_REMOVED:
                 data_client['name'] = data.get_metadata("name")
                 data_client['deprecated_param_value'] = data.get_metadata("deprecated_param_value")
                 data_client['default_param_value'] = data.get_metadata("default_param_value")
+                data_client['sorting'] = data.get_metadata("sorting")
                 data_client['group'] = parent_data.get_param_group(data)
         elif event_type in [EventType.PARAM_VALUE_CHANGED, EventType.PARAM_VALUE_REMOVED]:
             data_client['uuid'] = str(data.uuid)

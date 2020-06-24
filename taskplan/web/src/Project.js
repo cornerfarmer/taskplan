@@ -1,5 +1,4 @@
 import React from 'react';
-import View from "./View";
 import ParamTab from "./ParamTab";
 import TaskTab from "./TaskTab";
 import ParamViewer from "./ParamViewer";

@@ -251,6 +251,11 @@ def run():
 
         return jsonify({})
 
+    @app.route('/reorder_param/<string:param_uuid>/<int:new_index>')
+    def reorder_param(param_uuid, new_index):
+        controller.reorder_param(param_uuid, new_index)
+        return jsonify({})
+
     @app.route('/connect_device/<string:device_uuid>')
     def connect_device(device_uuid):
         controller.connect_device(device_uuid)

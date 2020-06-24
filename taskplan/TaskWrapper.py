@@ -69,6 +69,7 @@ class TaskWrapper:
         self.creating_checkpoint = False
         self.notes = ""
         self.tags = tags
+        self.name = []
 
     def _create_metadata_lock(self):
         path = self.build_save_dir()

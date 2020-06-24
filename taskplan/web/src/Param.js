@@ -39,7 +39,7 @@ class Param extends React.Component {
     onDrop(e) {
         if (this.props.sortMode && this.props.param.uuid !== e.dataTransfer.getData("text/plain")) {
             e.preventDefault();
-            this.props.reorderParam(e.dataTransfer.getData("text/plain"), this.props.param.uuid);
+            this.props.reorderParam(e.dataTransfer.getData("text/plain"), this.props.param);
 
             this.dragEnterCounter = 0;
             this.paramRef.current.className = "item item-param";

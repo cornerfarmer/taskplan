@@ -1,6 +1,5 @@
 import State from "./Global";
 import Scheduler from "./Scheduler";
-import View from "./View";
 
 class Repository {
     constructor(evtSource) {
@@ -140,41 +139,6 @@ class Repository {
             this.removeEntity(this.params, changedParam, "params")
         });
 
-        this.standardView = new View(true);
-
-        let updateTaskNames = () => {
-            for (const key of Object.keys(this.tasks)) {
-                if (!this.tasks[key].is_test) {
-                    let node = this.standardView.taskByUuid[key];
-                    this.tasks[key].nameParamValues = this.standardView.getNodeParamValuePath(node, this.tasks[key]);
-                    this.tasks[key].try = this.standardView.keyInDict(node.children, key);
-                } else {
-                    this.tasks[key].nameParamValues = [];
-                    this.tasks[key].try = 0
-                }
-            }
-        };
-
-        this.onAdd("tasks", (task) => {
-            if (!task.is_test)
-                this.standardView.addTask(task);
-
-            updateTaskNames();
-        });
-        this.onRemove("tasks", (task) => {
-            if (!task.is_test)
-                this.standardView.removeTask(task);
-
-            updateTaskNames();
-        });
-        this.onChange("params", (params) => {
-            this.standardView.updateParams(Object.values(params));
-
-            updateTaskNames();
-        });
-        this.onChange("tasks", (tasks) => {
-            this.standardView.updateTasks(tasks);
-        });
     }
 
     updateEntity(entities, newEntity, entityType, key="uuid") {

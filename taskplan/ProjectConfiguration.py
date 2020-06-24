@@ -21,6 +21,7 @@ class ProjectConfiguration:
         self.param_groups = {}
         for param in self.get_params():
             self._recalc_param_group(param)
+        self._correct_sorting()
 
         self.number_of_tasks_per_param_value = {}
 
@@ -57,12 +58,63 @@ class ProjectConfiguration:
     def is_param_value_removable(self, param_value):
         return str(param_value.uuid) not in self.number_of_tasks_per_param_value or self.number_of_tasks_per_param_value[str(param_value.uuid)] == 0
 
+    def _correct_sorting(self):
+        save_necessary = False
+
+        for param in self.get_params():
+            if not param.has_metadata("sorting"):
+                param.set_metadata("sorting", self._max_sorting() + 1)
+                save_necessary = True
+
+        for i, param in enumerate(self.default_sorted_params()):
+            if param.get_metadata("sorting") != i:
+                param.set_metadata("sorting", i)
+                save_necessary = True
+
+        if save_necessary:
+            self.configuration.save()
+
+    def _max_sorting(self):
+        max_sorting = 0
+        for param in self.get_params():
+            if param.has_metadata("sorting"):
+                max_sorting = max(max_sorting, param.get_metadata("sorting"))
+        return max_sorting
+
     def sorted_params(self, sorting):
         params = self.get_params()
         for param in params:
             if param.uuid not in sorting:
                 sorting[param.uuid] = len(sorting.keys())
         return sorted(params, key=lambda param: sorting[param.uuid])
+
+    def default_sorted_params(self):
+        return sorted(self.get_params(), key=lambda param: param.get_metadata("sorting"))
+
+    def change_sorting(self, param_uuid, new_sorting):
+        param = self.get_config(param_uuid)
+        changed_params = []
+
+        if not param.has_metadata("sorting"):
+            param.set_metadata("sorting", self._max_sorting() + 1)
+        else:
+            old_sorting = param.get_metadata("sorting")
+            dir = -1 if new_sorting > old_sorting else 1
+            sorted_params = self.default_sorted_params()
+            for i in range(new_sorting, old_sorting, dir):
+                self._swap_sorting(sorted_params[i], sorted_params[i + dir])
+                changed_params.append(sorted_params[i])
+
+        changed_params.append(param)
+        self.configuration.save()
+
+        return changed_params
+
+    def _swap_sorting(self, first_param, second_param):
+        first_sorting = first_param.get_metadata("sorting")
+        first_param.set_metadata("sorting", second_param.get_metadata("sorting"))
+        second_param.set_metadata("sorting", first_sorting)
+
 
     def _recalc_param_group(self, param):
         merged_config = {}
@@ -94,6 +146,7 @@ class ProjectConfiguration:
         return d
 
     def add_param(self, new_data):
+        new_data["sorting"] = self._max_sorting() + 1
         param = self.configuration.add_config(new_data, self.params_conf_path)
         self.param_groups[str(param.uuid)] = []
         return param
@@ -158,9 +211,11 @@ class ProjectConfiguration:
         param = self.get_config(param_uuid)
         new_data['uuid'] = param.uuid
         new_data['creation_time'] = param.data['creation_time']
+        new_data["sorting"] = param.get_metadata("sorting")
         param.set_data(new_data)
         param.set_metadata("deprecated_param_value", new_data["deprecated_param_value"])
         param.set_metadata("default_param_value", new_data["default_param_value"])
+        param.set_metadata("sorting", new_data["sorting"])
 
         self.configuration.save()
         return param

@@ -44,6 +44,7 @@ class Project:
 
         self.views = {}
         self.views_data = {}
+        self._refresh_default_view()
 
         self.add_code_version("initial")
         self._load_metadata(metadata)
@@ -52,6 +53,19 @@ class Project:
 
         if load_saved_tasks:
             self._load_saved_tasks()
+
+    def _refresh_default_view(self):
+        branch_options = []
+        for param in self.configuration.default_sorted_params():
+            branch_options.append(ParamBranch(param, self.configuration))
+        self.default_view = View(self.configuration, None, branch_options, {})
+
+    def _default_view_refresh_names(self, throw_events=True, exclude_from_throw=[]):
+        for task in self.tasks:
+            prev_name = task.name
+            task.name = self.default_view.path_of_task(task)
+            if throw_events and prev_name != task.name and task not in exclude_from_throw:
+                self.event_manager.throw(EventType.TASK_CHANGED, task)
 
     @staticmethod
     def create_from_config_file(event_manager, metadata, path, load_saved_tasks=True):
@@ -95,6 +109,9 @@ class Project:
 
         for view in self.views.values():
             view.refresh(self.tasks)
+        self.default_view.refresh(self.tasks)
+        self._default_view_refresh_names(False)
+
         if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
             self._load_saved_task(self.test_dir, is_test=True)
 
@@ -167,6 +184,8 @@ class Project:
         if not is_test:
             for view in self.views.values():
                 view.add_task(task)
+            self.default_view.add_task(task)
+            self._default_view_refresh_names(exclude_from_throw=[task])
         return task
 
     def find_task_by_uuid(self, uuid):
@@ -212,6 +231,7 @@ class Project:
             if not task.is_test:
                 for view in self.views.values():
                     view.refresh(self.tasks)
+                self._default_view_refresh_names(exclude_from_throw=[task])
             task.remove_data()
 
             self.event_manager.throw(EventType.TASK_REMOVED, task)
@@ -268,6 +288,8 @@ class Project:
 
             for view in self.views.values():
                 view.add_task(cloned_task)
+            self.default_view.add_task(cloned_task)
+            self._default_view_refresh_names(exclude_from_throw=[cloned_task])
 
             return cloned_task
 
@@ -295,8 +317,17 @@ class Project:
 
             for view in self.views.values():
                 view.add_task(new_task)
+            self.default_view.add_task(new_task)
+            self._default_view_refresh_names(exclude_from_throw=[new_task])
 
             return new_task
+
+    def change_sorting(self, param_uuid, new_sorting):
+        param = self.configuration.get_config(param_uuid)
+
+        changed_params = self.configuration.change_sorting(param_uuid, new_sorting)
+
+        return changed_params
 
     def reload(self):
         self.configuration.reload()
@@ -327,7 +358,7 @@ class Project:
         for view in self.views.values():
             for i, branch_option in reversed(enumerate(view.branch_options)):
                 if type(branch_option) == ParamBranch:
-                    view.branch_options.insert(i + 1, param)
+                    view.branch_options.insert(i + 1, ParamBranch(param, self.configuration))
                     break
         return param
 

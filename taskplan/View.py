@@ -182,7 +182,9 @@ class View:
 
         for task in tasks:
             self.add_task(task, False)
-        self._check_filesystem(self.root_node.children["default"], self.root_path)
+
+        if self.root_path is not None:
+            self._check_filesystem(self.root_node.children["default"], self.root_path)
 
     def _insert_new_node(self, task, node, branching_option, key, path, change_dirs):
         first_task = node.get_first_task_in()
@@ -316,3 +318,17 @@ class View:
                 path.unlink()
             else:
                 shutil.rmtree(str(path))
+
+    def path_of_task(self, task):
+        node = self.task_by_uuid[str(task.uuid)]
+        path = []
+
+        for i, child in node.children.items():
+            if child == task:
+                path.append(i)
+                break
+
+        while type(node) != RootNode and type(node.parent) != RootNode:
+            path.insert(0, node.parent_key)
+            node = node.parent
+        return path

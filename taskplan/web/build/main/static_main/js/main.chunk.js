@@ -1649,7 +1649,7 @@ class Param extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   onDrop(e) {
     if (this.props.sortMode && this.props.param.uuid !== e.dataTransfer.getData("text/plain")) {
       e.preventDefault();
-      this.props.reorderParam(e.dataTransfer.getData("text/plain"), this.props.param.uuid);
+      this.props.reorderParam(e.dataTransfer.getData("text/plain"), this.props.param);
       this.dragEnterCounter = 0;
       this.paramRef.current.className = "item item-param";
     }
@@ -2808,6 +2808,7 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.addParam = this.addParam.bind(this);
     this.addParamBatch = this.addParamBatch.bind(this);
     this.closeEditors = this.closeEditors.bind(this);
+    this.reorderParam = this.reorderParam.bind(this);
     this.paramEditor = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.paramBatchEditor = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.paramValueEditor = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
@@ -2837,6 +2838,10 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.paramValueEditor.current.new(param);
   }
 
+  reorderParam(param_uuid, target_param) {
+    fetch("/reorder_param/" + param_uuid + "/" + target_param.sorting).then(res => res.json()).then(result => {}, error => {});
+  }
+
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab",
@@ -2845,14 +2850,14 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49
+        lineNumber: 63
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "params-tab",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50
+        lineNumber: 64
       },
       __self: this
     }, this.props.paramSortingMode ? this.props.params.sort((a, b) => a.sorting - b.sorting).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2860,9 +2865,10 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       param: param,
       sortMode: true,
       numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
+      reorderParam: this.reorderParam,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53
+        lineNumber: 67
       },
       __self: this
     })) : Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -2877,7 +2883,7 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 62
+        lineNumber: 77
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -2885,7 +2891,7 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       closeEditors: this.closeEditors,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
+        lineNumber: 91
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -2893,7 +2899,7 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       closeEditors: this.closeEditors,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 77
+        lineNumber: 92
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -2901,20 +2907,20 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       closeEditors: this.closeEditors,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
+        lineNumber: 93
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
+        lineNumber: 94
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 80
+        lineNumber: 95
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2923,34 +2929,34 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onChange: this.toggleShowAbstract,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
+        lineNumber: 96
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 82
+        lineNumber: 97
       },
       __self: this
     }, "Show abstract parameter values")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 84
+        lineNumber: 99
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.addParam,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 85
+        lineNumber: 100
       },
       __self: this
     }, "Add parameter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.addParamBatch,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 86
+        lineNumber: 101
       },
       __self: this
     }, "Add batch"))));
@@ -4674,12 +4680,11 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./View */ "./src/View.js");
-/* harmony import */ var _ParamTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamTab */ "./src/ParamTab.js");
-/* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskTab */ "./src/TaskTab.js");
-/* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamViewer */ "./src/ParamViewer.js");
-/* harmony import */ var _TaskContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TaskContainer */ "./src/TaskContainer.js");
-/* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
+/* harmony import */ var _ParamTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamTab */ "./src/ParamTab.js");
+/* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskTab */ "./src/TaskTab.js");
+/* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamViewer */ "./src/ParamViewer.js");
+/* harmony import */ var _TaskContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TaskContainer */ "./src/TaskContainer.js");
+/* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
 var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Project.js";
 
 
@@ -4688,8 +4693,7 @@ var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Project.js";
 
 
 
-
-class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
+class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(props) {
     super(props);
     this.state = {
@@ -4808,14 +4812,14 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       className: "project",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 124
+        lineNumber: 123
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 125
+        lineNumber: 124
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4823,7 +4827,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       onClick: () => this.showTab(0),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 126
+        lineNumber: 125
       },
       __self: this
     }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4831,20 +4835,20 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       onClick: () => this.showTab(1),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 127
+        lineNumber: 126
       },
       __self: this
     }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 129
+        lineNumber: 128
       },
       __self: this
     }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 131
+        lineNumber: 130
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4852,19 +4856,19 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       className: "fas fa-sort",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 132
+        lineNumber: 131
       },
       __self: this
     })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 136
+        lineNumber: 135
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 137
+        lineNumber: 136
       },
       __self: this
     }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -4872,42 +4876,42 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       onChange: this.onChangeSorting,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 138
+        lineNumber: 137
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "saved",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 139
+        lineNumber: 138
       },
       __self: this
     }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "name",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 140
+        lineNumber: 139
       },
       __self: this
     }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "created",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 141
+        lineNumber: 140
       },
       __self: this
     }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 142
+        lineNumber: 141
       },
       __self: this
     }, "Iterations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "started",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 143
+        lineNumber: 142
       },
       __self: this
     }, "Started")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4915,7 +4919,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       className: this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 145
+        lineNumber: 144
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4923,10 +4927,10 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       onClick: this.openParamViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 147
+        lineNumber: 146
       },
       __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_1__["default"], {
       active: this.state.activeTab === 0,
       paramsByGroup: this.state.paramsByGroup,
       sorting: this.state.sorting_params,
@@ -4935,10 +4939,10 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 151
+        lineNumber: 150
       },
       __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
       allTags: this.props.allTags,
       active: this.state.activeTab === 1,
       params: this.state.params,
@@ -4952,10 +4956,10 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       detailCol: this.state.collapseSorting[0],
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 159
+        lineNumber: 158
       },
       __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
       ref: this.paramViewerRef,
       paramsByGroup: this.state.paramsByGroup,
       selectedParamValues: this.state.selectedParamValues,
@@ -4980,7 +4984,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_5__["default"] {
       flipCollapseSortingDirection: this.flipCollapseSortingDirection,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 172
+        lineNumber: 171
       },
       __self: this
     }));
@@ -5578,8 +5582,6 @@ class ReassuringPrompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Scheduler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Scheduler */ "./src/Scheduler.js");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./View */ "./src/View.js");
-
 
 
 
@@ -5711,36 +5713,6 @@ class Repository {
       const changedParam = JSON.parse(e.data);
       this.removeEntity(this.params, changedParam, "params");
     });
-    this.standardView = new _View__WEBPACK_IMPORTED_MODULE_2__["default"](true);
-
-    let updateTaskNames = () => {
-      for (const key of Object.keys(this.tasks)) {
-        if (!this.tasks[key].is_test) {
-          let node = this.standardView.taskByUuid[key];
-          this.tasks[key].nameParamValues = this.standardView.getNodeParamValuePath(node, this.tasks[key]);
-          this.tasks[key].try = this.standardView.keyInDict(node.children, key);
-        } else {
-          this.tasks[key].nameParamValues = [];
-          this.tasks[key].try = 0;
-        }
-      }
-    };
-
-    this.onAdd("tasks", task => {
-      if (!task.is_test) this.standardView.addTask(task);
-      updateTaskNames();
-    });
-    this.onRemove("tasks", task => {
-      if (!task.is_test) this.standardView.removeTask(task);
-      updateTaskNames();
-    });
-    this.onChange("params", params => {
-      this.standardView.updateParams(Object.values(params));
-      updateTaskNames();
-    });
-    this.onChange("tasks", tasks => {
-      this.standardView.updateTasks(tasks);
-    });
   }
 
   updateEntity(entities, newEntity, entityType, key = "uuid") {
@@ -5838,12 +5810,6 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       max_running: 1,
       hiddenDevices: {}
     };
-    this.props.evtSource.addEventListener("SCHEDULER_OPTIONS", e => {
-      const options = JSON.parse(e.data);
-      this.setState({
-        max_running: options.max_running
-      });
-    });
     this.promptAddDeviceRefs = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.openMaxRunningDialogRefs = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.updateTasks = this.updateTasks.bind(this);
@@ -5910,14 +5876,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       id: "scheduler",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 99
+        lineNumber: 92
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 100
+        lineNumber: 93
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5927,7 +5893,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 101
+        lineNumber: 94
       },
       __self: this
     }, "Add device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5935,7 +5901,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       "aria-labelledby": "dropdownMenuButton",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 104
+        lineNumber: 97
       },
       __self: this
     }, this.props.devices.filter(device => !this.shouldShowDevice(device)).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5943,14 +5909,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showDevice(device),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 106
+        lineNumber: 99
       },
       __self: this
     }, device.name)), this.props.devices.filter(device => !this.shouldShowDevice(device)).length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-divider",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 102
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5958,7 +5924,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.promptAddDeviceRefs.current.openDialog(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 111
+        lineNumber: 104
       },
       __self: this
     }, "Add new device"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -5968,14 +5934,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       url: "/add_device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 114
+        lineNumber: 107
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 116
+        lineNumber: 109
       },
       __self: this
     }), this.props.devices.filter(this.shouldShowDevice).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5985,14 +5951,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       highlightTask: this.props.highlightTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 118
+        lineNumber: 111
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 120
+        lineNumber: 113
       },
       __self: this
     }));
@@ -6821,6 +6787,7 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       __self: this
     }, this.props.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskName, {
       task: this.props.task,
+      name: this.props.task.name,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 345
@@ -6853,14 +6820,6 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./View */ "./src/View.js");
-/* harmony import */ var _ParamTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamTab */ "./src/ParamTab.js");
-/* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskTab */ "./src/TaskTab.js");
-/* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamViewer */ "./src/ParamViewer.js");
-
-
-
-
 
 
 class TaskContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -7108,7 +7067,8 @@ class TaskContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
     }, () => this.filterHasUpdated());
   }
 
-  reorderParam(first_param_uuid, second_param_uuid) {
+  reorderParam(first_param_uuid, second_param) {
+    let second_param_uuid = second_param.uuid;
     let paramSorting = Object.assign({}, this.state.paramSorting);
 
     if (paramSorting[first_param_uuid] > paramSorting[second_param_uuid]) {
@@ -7931,6 +7891,7 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         __self: this
       }, this.state.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
         task: this.state.task,
+        name: this.state.task.name,
         __source: {
           fileName: _jsxFileName,
           lineNumber: 178
@@ -8161,413 +8122,6 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (TaskViewer);
-
-/***/ }),
-
-/***/ "./src/View.js":
-/*!*********************!*\
-  !*** ./src/View.js ***!
-  \*********************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-class Node {
-  constructor() {
-    this.children = {};
-    this.parent = null;
-    this.parentKey = "";
-  }
-
-  setChild(key, child) {
-    this.children[key] = child;
-    child.parent = this;
-    child.parentKey = key;
-  }
-
-  insertAsParent(key, newParent) {
-    this.parent.setChild(this.parentKey, newParent);
-    newParent.setChild(key, this);
-  }
-
-  remove() {
-    const key = Object.keys(this.children)[0];
-    let child = this.children[key];
-    this.parent.children[this.parentKey] = child;
-    child.parent = this.parent;
-    child.parentKey = this.parentKey;
-    return key;
-  }
-
-  removeSubtree() {
-    delete this.parent.children[this.parentKey];
-  }
-
-  getFirstTaskIn() {
-    if (Object.keys(this.children).length > 0) return this.children[Object.keys(this.children)[0]].getFirstTaskIn();else return null;
-  }
-
-  getAllContainedTasks() {
-    let tasks = [];
-
-    for (let child of Object.values(this.children)) {
-      tasks = tasks.concat(child.getAllContainedTasks());
-    }
-
-    return tasks;
-  }
-
-}
-
-class RootNode extends Node {}
-
-class ParamNode extends Node {
-  constructor(param) {
-    super();
-    this.param = param;
-  }
-
-}
-
-class CodeVersionNode extends Node {
-  constructor() {
-    super();
-  }
-
-}
-
-class TasksNode extends Node {
-  getFirstTaskIn() {
-    if (Object.keys(this.children).length > 0) return this.children["0"];else return null;
-  }
-
-  getAllContainedTasks() {
-    return Object.values(this.children);
-  }
-
-}
-
-class View {
-  constructor(includeCodeVersion) {
-    this.root = new RootNode();
-    this.root.setChild("default", new TasksNode());
-    this.taskByUuid = {};
-    this.tasks = {};
-    this.params = [];
-    this.paramsByUuid = {};
-    this.includeCodeVersion = includeCodeVersion;
-  }
-
-  paramCompare(a, b) {
-    if (a.sorting !== b.sorting) return a.sorting - b.sorting;else return a.uuid.localeCompare(b.uuid);
-  }
-
-  updateParams(params) {
-    for (let param of params) {
-      this.paramsByUuid[param.uuid] = param;
-    }
-
-    let sortedParams = params.slice().sort((a, b) => this.paramCompare(a, b));
-
-    for (let i = 0; i < this.params.length; i++) {
-      if (sortedParams.findIndex(x => x.uuid === this.params[i].uuid) === -1) {
-        this.removeParam(this.params[i]);
-        i--;
-      }
-    }
-
-    for (let i = 0; i < sortedParams.length; i++) {
-      if (i >= this.params.length) {
-        this.addParam(sortedParams[i], i);
-        continue;
-      }
-
-      if (this.params[i].uuid !== sortedParams[i].uuid) {
-        if (this.params.findIndex(x => x.uuid === sortedParams[i].uuid) !== -1) {
-          const param = this.params.find(x => x.uuid === sortedParams[i].uuid);
-          this.removeParam(param);
-        }
-
-        this.addParam(sortedParams[i], i);
-        if (this.params[i].uuid !== sortedParams[i].uuid) throw new Error("Error with the params in the view");
-      } else {
-        this.params[i] = sortedParams[i];
-      }
-    }
-  }
-
-  addParam(param, insert_index) {
-    this.params.splice(insert_index, 0, param);
-    this.addNodeWithParam(param, this.root.children["default"]);
-  }
-
-  addNodeWithParam(param, root) {
-    if (root instanceof ParamNode && this.paramCompare(this.paramsByUuid[root.param], param) > 0 || root instanceof TasksNode) {
-      const firstTask = root.getFirstTaskIn();
-
-      if (firstTask !== null) {
-        const formerValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
-        const tasks = root.getAllContainedTasks();
-        let tasksWithDifferentParamValue = [];
-
-        for (let task of tasks) {
-          if (this.getValueKeyToParam(this.tasks[task], param) !== formerValueKey) tasksWithDifferentParamValue.push(task);
-        }
-
-        if (tasksWithDifferentParamValue.length > 0) {
-          let newNode = new ParamNode(param.uuid);
-          this.addParamBeforeNode(root, newNode, formerValueKey);
-
-          for (let task of tasksWithDifferentParamValue) {
-            this.removeTask(this.tasks[task]);
-            this.addTask(this.tasks[task]);
-          }
-        }
-      }
-    } else {
-      for (let key in root.children) this.addNodeWithParam(param, root.children[key]);
-    }
-  }
-
-  removeParam(param) {
-    if (this.params.includes(param)) {
-      this.params.splice(this.params.indexOf(param), 1);
-      this.removeNodesWithParam(param, this.root.children["default"]);
-    }
-  }
-
-  removeNodesWithParam(param, root) {
-    if (root instanceof ParamNode && root.param === param.uuid) {
-      let tasks = [];
-
-      for (let key of Object.keys(root.children).slice(1)) {
-        tasks = tasks.concat(this.removeSubtree(root.children[key]));
-      }
-
-      root.remove();
-
-      for (let task of tasks) this.addTask(this.tasks[task]);
-    } else if (!(root instanceof TasksNode)) {
-      for (let key in root.children) this.removeNodesWithParam(param, root.children[key]);
-    }
-  }
-
-  removeSubtree(root) {
-    const tasks = root.getAllContainedTasks();
-
-    for (let task of tasks) {
-      delete this.taskByUuid[task.uuid];
-    }
-
-    root.removeSubtree();
-    return tasks;
-  }
-
-  updateTasks(tasks) {
-    this.tasks = tasks;
-  }
-
-  updateTask(task) {
-    this.tasks[task.uuid] = task;
-  }
-
-  addTasks(tasks) {
-    for (const task of tasks) this.addTask(task);
-  }
-
-  addTask(task) {
-    this.tasks[task.uuid] = task;
-    let node = this.root.children["default"];
-    let branching_options = [];
-    if (this.includeCodeVersion) branching_options.push("code_version");
-    branching_options = branching_options.concat(this.params);
-
-    for (const branching_option of branching_options) {
-      let key, nodeExists, suitableParamValue;
-
-      if (typeof branching_option === "object") {
-        if (branching_option.deprecated_param_value === '') continue;
-        key = this.getValueKeyToParam(task, branching_option);
-        nodeExists = node instanceof ParamNode && node.param === branching_option.uuid;
-      } else if (branching_option === "code_version") {
-        key = task.version;
-        nodeExists = node instanceof CodeVersionNode;
-      } else {
-        throw new Error("Invalid branching option");
-      }
-
-      if (!nodeExists) {
-        const firstTask = node.getFirstTaskIn();
-        if (firstTask === null) continue;
-        let newNode, formerKey;
-
-        if (typeof branching_option === "object") {
-          formerKey = this.getValueKeyToParam(this.tasks[firstTask], branching_option);
-          if (formerKey === key) continue;else {
-            newNode = new ParamNode(branching_option.uuid);
-          }
-        } else if (branching_option === "code_version") {
-          if (this.tasks[firstTask].version === key) continue;else {
-            newNode = new CodeVersionNode();
-            formerKey = this.tasks[firstTask].version;
-          }
-        } else {
-          throw "";
-        }
-
-        node = this.addParamBeforeNode(node, newNode, formerKey);
-      }
-
-      if (!(key in node.children)) {
-        node.setChild(key, new TasksNode());
-      }
-
-      node = node.children[key];
-    }
-
-    this.insertTask(node, task);
-  }
-
-  removeTask(task) {
-    let node = this.taskByUuid[task.uuid];
-    const key = parseInt(this.keyInDict(node.children, task.uuid));
-    delete node.children[key];
-    let i = key;
-
-    while (i + 1 in node.children) {
-      node.children[i] = node.children[i + 1];
-      delete node.children[i + 1];
-      i++;
-    }
-
-    this.checkNodeForRemoval(node);
-    delete this.taskByUuid[task.uuid];
-  }
-
-  keyInDict(dict, value) {
-    return Object.keys(dict).find(key => dict[key] === value);
-  }
-
-  checkNodeForRemoval(node) {
-    if (Object.keys(node.children).length === 0 && !(node.parent instanceof RootNode)) {
-      delete node.parent.children[node.parentKey];
-      this.checkNodeForRemoval(node.parent);
-    } else if (Object.keys(node.children).length === 1 && (node instanceof ParamNode || node instanceof CodeVersionNode)) {
-      node.remove();
-    }
-  }
-
-  addParamBeforeNode(node, newNode, formerKey) {
-    node.insertAsParent(formerKey, newNode);
-    return newNode;
-  }
-
-  getValueToParam(task, param) {
-    let suitableValue = null;
-    let args = [];
-
-    for (const paramValue of task.paramValues) {
-      if (paramValue[0].param === param.uuid) {
-        suitableValue = paramValue[0];
-        args = paramValue.slice(1);
-        break;
-      }
-    }
-
-    if (suitableValue === null) return [param.deprecated_param_value, param.deprecated_param_value.template_deprecated !== undefined ? param.deprecated_param_value.template_deprecated : []];else return [suitableValue, args];
-  }
-
-  getValueKeyToParam(task, param) {
-    let value = this.getValueToParam(task, param);
-    return this.getKeyToParamValue(value);
-  }
-
-  getKeyToParamValue(paramValue) {
-    let key = paramValue[0].name;
-
-    for (let i = 0; i < paramValue[1].length; i++) {
-      key = key.replace("$T" + i + "$", paramValue[1][i]);
-    }
-
-    return key;
-  }
-
-  compTasks(firstTask, secondTask) {
-    return this.tasks[firstTask].creation_time < this.tasks[secondTask].creation_time;
-  }
-
-  insertTask(node, task) {
-    this.taskByUuid[task.uuid] = node;
-    const keys = Object.keys(node.children);
-    let targetKey = keys.length;
-
-    for (let i = 0; i < keys.length; i++) {
-      if (!this.compTasks(node.children[i], task.uuid)) {
-        targetKey = i;
-        break;
-      }
-    }
-
-    for (let i = keys.length - 1; i >= targetKey; i--) {
-      node.children[i + 1] = node.children[i];
-    }
-
-    node.children[targetKey] = task.uuid;
-  }
-
-  getNodeParamValuePath(node, task) {
-    let values = [];
-
-    while (!(node instanceof RootNode) && !(node.parent instanceof RootNode) && !(node instanceof CodeVersionNode) && !(node.parent instanceof CodeVersionNode)) {
-      values.unshift([this.paramsByUuid[node.parent.param], ...this.getValueToParam(task, this.paramsByUuid[node.parent.param])]);
-      node = node.parent;
-    }
-
-    return values;
-  }
-
-  getSelectedTask(selectedParamValues, codeVersion = null) {
-    let node = this.root.children["default"];
-
-    if (node instanceof CodeVersionNode) {
-      if (!(codeVersion in node.children)) {
-        return [];
-      }
-
-      node = node.children[codeVersion];
-    }
-
-    for (const param of this.params) {
-      if (param.deprecated_param_value !== '') {
-        const suitableParamValue = param.values.find(value => value.uuid === selectedParamValues[param.uuid][0]);
-
-        if (suitableParamValue !== undefined) {
-          const suitableKey = this.getKeyToParamValue([suitableParamValue, selectedParamValues[param.uuid].slice(1)]);
-
-          if (node instanceof TasksNode || node.param !== param.uuid) {
-            const firstTask = node.getFirstTaskIn();
-            if (firstTask === null) return [];
-            const formerParamValueKey = this.getValueKeyToParam(this.tasks[firstTask], param);
-            if (formerParamValueKey === suitableKey) continue;else return [];
-          }
-
-          if (!(suitableKey in node.children)) {
-            return [];
-          }
-
-          node = node.children[suitableKey];
-        }
-      }
-    }
-
-    if (!(node instanceof TasksNode)) throw new Error("Error in selecting tasks");
-    return Object.values(node.children);
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (View);
 
 /***/ }),
 
@@ -8979,5 +8533,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",0]]]);
+},[[0,"runtime~main",1]]]);
 //# sourceMappingURL=main.chunk.js.map

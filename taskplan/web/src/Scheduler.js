@@ -12,13 +12,6 @@ class Scheduler extends React.Component {
             hiddenDevices: {}
         };
 
-        this.props.evtSource.addEventListener("SCHEDULER_OPTIONS", (e) => {
-            const options = JSON.parse(e.data);
-            this.setState({
-                max_running: options.max_running
-            });
-        });
-
         this.promptAddDeviceRefs = React.createRef();
         this.openMaxRunningDialogRefs = React.createRef();
         this.updateTasks = this.updateTasks.bind(this);

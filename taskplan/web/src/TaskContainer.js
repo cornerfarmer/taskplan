@@ -1,8 +1,4 @@
 import React from 'react';
-import View from "./View";
-import ParamTab from "./ParamTab";
-import TaskTab from "./TaskTab";
-import ParamViewer from "./ParamViewer";
 
 class TaskContainer extends React.Component {
     constructor(props) {
@@ -260,7 +256,8 @@ class TaskContainer extends React.Component {
     }
 
 
-    reorderParam(first_param_uuid, second_param_uuid) {
+    reorderParam(first_param_uuid, second_param) {
+        let second_param_uuid = second_param.uuid;
         let paramSorting = Object.assign({}, this.state.paramSorting);
         if (paramSorting[first_param_uuid] > paramSorting[second_param_uuid]) {
             let tmp = first_param_uuid;

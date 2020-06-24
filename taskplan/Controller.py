@@ -126,30 +126,36 @@ class Controller:
     def _reorder_task(self, task_uuid, new_index):
         self.scheduler.reorder(task_uuid, new_index)
 
+    def _reorder_param(self, param_uuid, new_index):
+        changed_params = self.project.change_sorting(param_uuid, new_index)
+
+        for param in changed_params:
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project.configuration)
+
     def _edit_param(self, param_uuid, new_data):
         param = self.project.configuration.edit_param(param_uuid, new_data)
 
-        self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project.configuration)
         self.event_manager.log("Param \"" + param.uuid + "\" has been changed", "Param has been changed")
 
     def _edit_param_value(self, param_uuid, param_value_uuid, new_data):
         param, param_value = self.project.configuration.edit_param_value(param_uuid, param_value_uuid, new_data)
 
         self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value, self.project)
-        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project.configuration)
         self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
     def _add_param(self, new_data):
         param = self.project.add_param(new_data)
 
-        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project.configuration)
         self.event_manager.log("Param \"" + param.uuid + "\" has been added", "Param has been added")
 
     def _add_param_batch(self, config):
         added_params, added_param_values = self.project.add_param_batch(config)
 
         for param in added_params:
-            self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project)
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project.configuration)
             self.event_manager.log("Param \"" + param.uuid + "\" has been added", "Param has been added")
 
         for param_value in added_param_values:
@@ -160,7 +166,7 @@ class Controller:
         param, param_value = self.project.configuration.add_param_value(param_uuid, new_data)
 
         self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value, self.project)
-        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.project.configuration)
         self.event_manager.log("Param value \"" + param_value.uuid + "\" has been added", "Param value has been added")
 
     def _config_param_value(self, base_uuid=None, param_value_uuid=None):
