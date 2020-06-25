@@ -25,7 +25,7 @@ class CollapsedTableTasks extends React.Component {
         if (tasks.length > 0) {
             return (
                 <React.Fragment>
-                    <LazyLoad once={true} key={tasks[0].uuid} height={102} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
+                    <LazyLoad once={true} key={tasks[0].uuid} height={40} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
                         <TableRowTask
                             uuid={tasks[0].uuid}
                             task={tasks[0].task}
@@ -44,7 +44,7 @@ class CollapsedTableTasks extends React.Component {
                         }</td></tr>
                     }
                     {!this.state.collapsed && tasks.slice(1).map(task => (
-                        <LazyLoad key={tasks.uuid} height={102} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
+                        <LazyLoad key={tasks.uuid} height={40} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
                             <TableRowTask
                                 uuid={task.uuid}
                                 task={task.task}

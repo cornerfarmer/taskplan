@@ -373,7 +373,7 @@ class TaskWrapper:
             key = key.replace("$T" + str(i) + "$", str(args[i]))
         return key
 
-    def update_metrics(self):
+    def update_metrics(self, metric_superset=None):
         current_time = time.time()
 
         for path in self.build_save_dir().glob("events.out.tfevents.*"):
@@ -383,8 +383,9 @@ class TaskWrapper:
                         if v.tag not in self.metrics or self.metrics[v.tag][0] < e.step or (self.metrics[v.tag][0] == e.step and self.metrics[v.tag][1] < e.step):
                             self.metrics[v.tag] = (e.step, e.wall_time, float(tf.make_ndarray(v.tensor)))
 
-        #for tag in metrics.keys():
-        #   metric_superset.add(tag)
+        if metric_superset is not None:
+            for tag in self.metrics.keys():
+               metric_superset.add(tag)
         self.last_metrics_update = current_time
 
     def col_from_task(self, col_name, task_name):

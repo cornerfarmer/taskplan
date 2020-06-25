@@ -6,6 +6,7 @@ import React from 'react';
 import ReconnectingEventSource from "reconnecting-eventsource";
 import Repository from "../Repository";
 import Table from "./Table";
+import Project from "../Project";
 
 
 class TableApp extends React.Component {
@@ -15,7 +16,8 @@ class TableApp extends React.Component {
         this.state = {
             noConnection: true,
             devices: [],
-            saved_filters: []
+            saved_filters: [],
+            refreshRate: null
         };
 
         this.evtSource = new ReconnectingEventSource("/update", {});
@@ -34,7 +36,9 @@ class TableApp extends React.Component {
             this.setState({
                // current_code_version: data.current_code_version,
                 saved_filters: data.saved_filters,
-               // tensorboard_port: data.tensorboard_port
+               // tensorboard_port: data.tensorboard_port,
+                refreshRate: parseInt(data.refreshRate),
+                allTags: data.all_tags,
             });
         });
     }
@@ -49,10 +53,14 @@ class TableApp extends React.Component {
             <div id="page">
                 <div className="container">
                     <div className="row">
-                        <Table
-                            repository={this.repository}
-                            saved_filters={this.state.saved_filters}
-                        />
+                        {this.state.refreshRate !== null &&
+                            <Table
+                                repository={this.repository}
+                                saved_filters={this.state.saved_filters}
+                                allTags={this.state.allTags}
+                                refreshRate={this.state.refreshRate}
+                            />
+                        }
                     </div>
                 </div>
             </div>

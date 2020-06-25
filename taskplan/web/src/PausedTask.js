@@ -89,6 +89,8 @@ class PausedTask extends React.Component {
             classname += "task-running ";
         else if (this.props.task.state === State.QUEUED)
             classname += "task-queued ";
+        if (this.props.collapsed)
+            classname += "item-task-collapsed ";
         return classname;
     }
 

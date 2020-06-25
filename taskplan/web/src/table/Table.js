@@ -71,6 +71,7 @@ class Table extends TaskContainer {
                     selectedParamValues={this.state.selectedParamValues}
                     toggleSelection={this.toggleSelection}
 
+                    tags={this.props.allTags}
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}
                     addParamCollapse={this.addParamCollapse}

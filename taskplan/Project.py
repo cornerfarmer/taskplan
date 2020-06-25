@@ -401,7 +401,7 @@ class Project:
             else:
                 return []
         elif isinstance(root, TaskWrapper):
-            root.update_metrics()
+            root.update_metrics(metric_superset)
             return [{"uuid": str(root.uuid), "name": name_prefix, "collapse_sort_col": root.col_from_task(collapse_sorting[0], name_prefix), "sort_col": root.col_from_task(sort_col, name_prefix), "metrics": root.metrics}]
         elif isinstance(root, GroupNode):
             output = {}

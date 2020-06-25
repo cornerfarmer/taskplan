@@ -1,4 +1,5 @@
 import React from 'react';
+import { forceCheck } from 'react-lazyload';
 
 class TaskContainer extends React.Component {
     constructor(props) {
@@ -86,7 +87,7 @@ class TaskContainer extends React.Component {
                         tasks: result[0], 
                         metric_superset: result[1].sort(),
                         task_lookup: task_lookup
-                    })
+                    }, forceCheck)
                 },
                 (error) => {
 

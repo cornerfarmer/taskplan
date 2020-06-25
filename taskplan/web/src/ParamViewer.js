@@ -203,8 +203,8 @@ class ParamViewer extends React.Component {
                         </React.Fragment>
                     }
 
-                    <div className="header">Parameter filter</div>
-                    <ParamFilter selectMultiple={true} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.props.selectedParamValues} toggleSelection={this.props.toggleSelection}/>
+                    <div className="header">Filter</div>
+                    <ParamFilter tags={this.props.tags} selectMultiple={true} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.props.selectedParamValues} toggleSelection={this.props.toggleSelection}/>
 
                     <div className="header">Collapsing</div>
                     <div className="params-to-collapse param-filter">

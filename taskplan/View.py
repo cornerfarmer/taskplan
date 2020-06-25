@@ -206,12 +206,19 @@ class View:
     def _filter_task(self, task):
         select = True
         for param_uuid in self.filters.keys():
-            key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
+            if param_uuid == "tags":
+                found = False
+                for tag in self.filters[param_uuid]:
+                    if tag[0] in task.tags:
+                        found = True
+                        break
+            else:
+                key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
 
-            found = False
-            for possible_value in self.filters[param_uuid]:
-                if str(param_value.uuid) == possible_value[0] and args == possible_value[1:]:
-                    found = True
+                found = False
+                for possible_value in self.filters[param_uuid]:
+                    if str(param_value.uuid) == possible_value[0] and args == possible_value[1:]:
+                        found = True
                     break
 
             if not found:

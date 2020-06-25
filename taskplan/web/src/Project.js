@@ -4,6 +4,7 @@ import TaskTab from "./TaskTab";
 import ParamViewer from "./ParamViewer";
 import TaskContainer from "./TaskContainer";
 import Param from "./Param";
+import ParamFilter from "./ParamFilter";
 
 class Project extends TaskContainer {
     constructor(props) {
@@ -187,6 +188,7 @@ class Project extends TaskContainer {
                     toggleSelection={this.toggleSelection}
                     allowClose={true}
 
+                    tags={this.props.allTags}
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}
                     addParamCollapse={this.addParamCollapse}

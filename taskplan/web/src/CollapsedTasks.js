@@ -42,7 +42,7 @@ class CollapsedTasks extends React.Component {
                         <div class="collapse-toggle" onClick={this.toggleCollapsed}>{
                             this.state.collapsed
                                 ?
-                                <div><i className="fas fa-angle-double-down"></i> {"Expand (" + tasks.length + ")"}</div>
+                                <div><i className="fas fa-angle-double-down"></i> {"Expand (" + (tasks.length - 1) + ")"}</div>
                                 :
                                 <div><i className="fas fa-angle-double-up"></i> Collapse</div>
                         }</div>
@@ -60,6 +60,7 @@ class CollapsedTasks extends React.Component {
                                 devices={this.props.devices}
                                 detailCol={this.props.detailCol}
                                 metrics={task.metrics}
+                                collapsed={true}
                             />
                         </LazyLoad>
                     ))}

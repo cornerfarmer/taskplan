@@ -35,41 +35,10 @@ class ParamFilterParam extends React.Component {
         return classes;
     }
 
-    mapValueToValues(paramValue, deprecatedKey) {
+    mapValueToValues(paramValue) {
         let paramValues = [];
-         for (let name in paramValue.number_of_tasks)
-                paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": name, "numberOfTasks": paramValue.number_of_tasks[name][0], "args": paramValue.number_of_tasks[name][1]});
-         return paramValues
-        if (!paramValue.isTemplate) {
-            let numberOfTasks = 0;
-            if (this.props.numberOfTasksPerParamValue !== undefined) {
-                if (paramValue.uuid in this.props.numberOfTasksPerParamValue)
-                    numberOfTasks += this.props.numberOfTasksPerParamValue[paramValue.uuid].length;
-                if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue)
-                    numberOfTasks += this.props.numberOfTasksPerParamValue[deprecatedKey].length;
-            }
-
-            paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": paramValue.name, "numberOfTasks": numberOfTasks, "args": []});
-        } else {
-            let numbersPerArg = {};
-
-            if (deprecatedKey !== null && deprecatedKey in this.props.numberOfTasksPerParamValue) {
-                let name = this.calcParamValueName(paramValue, paramValue.template_deprecated);
-                numbersPerArg[name] = [this.props.numberOfTasksPerParamValue[deprecatedKey].length, paramValue.template_deprecated];
-            }
-
-            if (paramValue.uuid in this.props.numberOfTasksPerParamValue) {
-                for (let task of this.props.numberOfTasksPerParamValue[paramValue.uuid]) {
-                    const name = this.calcParamValueName(paramValue, task[1]);
-                    if (!(name in numbersPerArg))
-                        numbersPerArg[name] = [0, task[1]];
-                    numbersPerArg[name][0]++;
-                }
-            }
-
-            for (let name in numbersPerArg)
-                paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": name, "numberOfTasks": numbersPerArg[name][0], "args": numbersPerArg[name][1]});
-        }
+        for (let name in paramValue.number_of_tasks)
+            paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": name, "numberOfTasks": paramValue.number_of_tasks[name][0], "args": paramValue.number_of_tasks[name][1]});
         return paramValues;
     }
 
@@ -123,7 +92,7 @@ class ParamFilterParam extends React.Component {
                                 return a.name.localeCompare(b.name);
                             }).map(paramValue =>
                                 !paramValue.isTemplate || !this.props.useTemplateFields ?
-                                this.mapValueToValues(paramValue, paramValue.uuid === this.props.param.deprecated_param_value.uuid ? this.props.param.uuid + "_deprecated" : null).map(value => (
+                                this.mapValueToValues(paramValue).map(value => (
                                         <div key={value.uuid} className={this.calcParamValueClasses(this.props.param, value)} onClick={() => this.props.toggleSelection(this.props.param, value, value.args)}>
                                             <React.Fragment>
                                                 {value.resolvedName}
@@ -201,8 +170,37 @@ class ParamFilter extends React.Component {
     }
 
     render() {
+        let tagsParam = null;
+
+        if (this.props.tags !== undefined && this.props.tags.length > 0) {
+            tagsParam = {
+                "uuid": "tags",
+                "name": "tags",
+                "deprecated_param_value": "test",
+                "default_param_value": "test",
+                "values": []
+            };
+            tagsParam["values"] = [];
+            for (const tag of this.props.tags) {
+                tagsParam["values"].push({"name": tag, "uuid": tag, "number_of_tasks": {[tag]: [1, []]}});
+            }
+        }
         return (
             <div className="param-filter">
+                {tagsParam !== null &&
+                    <ParamFilterParam
+                        param={tagsParam}
+                        useTemplateFields={this.props.useTemplateFields}
+                        toggleSelection={this.props.toggleSelection}
+                        selectedParamValues={this.props.selectedParamValues}
+                        getParamValueArg={this.getParamValueArg}
+                        numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
+                        selectMultiple={this.props.selectMultiple}
+                        expanded={"tags" === this.state.expandedParam}
+                        toggleExpandedParam={this.toggleExpandedParam}
+                        onParamValueArgChange={this.onParamValueArgChange}
+                        />
+                }
                 {Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
                     <div key={group} className="param-group">
                         {group !== "" &&
