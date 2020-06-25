@@ -11,9 +11,11 @@ from taskplan.Project import Project
 from taskplan.Scheduler import Scheduler
 import queue
 import traceback
+from time import time
 
 class Controller:
-    def __init__(self, event_manager, allow_remote=False):
+    def __init__(self, event_manager, refresh_interval, allow_remote=False):
+        self.refresh_interval = refresh_interval
         self.call_queue = queue.Queue(maxsize=1)
         self.return_queue = queue.Queue(maxsize=1)
 
@@ -25,9 +27,11 @@ class Controller:
 
         self.scheduler = Scheduler(event_manager, metadata["scheduler"], allow_remote)#, self.global_config.get_list("remote_devices") if allow_remote else [])
         self.project = Project.create_from_config_file(event_manager, metadata["project"], "taskplan.json")
+        self.project.refresh_interval = refresh_interval
 
         self.save_metadata()
         self.event_manager = event_manager
+        self.last_refresh = 0
 
     def save_metadata(self):
         metadata = {}
@@ -47,6 +51,9 @@ class Controller:
             self.scheduler.update_clients(self.project)
             self.project.update_clients()
             self.scheduler.schedule()
+            if time() - self.last_refresh > self.refresh_interval / 1000:
+                self.project.refresh_views()
+                self.last_refresh = time()
 
             try:
                 function, args, kwargs = self.call_queue.get(timeout=1)

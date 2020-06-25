@@ -16,6 +16,7 @@ import json
 import os
 import time
 from filelock import SoftFileLock
+import tensorflow as tf
 
 class State(Enum):
     INIT = 0
@@ -70,6 +71,8 @@ class TaskWrapper:
         self.notes = ""
         self.tags = tags
         self.name = []
+        self.metrics = {}
+        self.last_metrics_update = 0
 
     def _create_metadata_lock(self):
         path = self.build_save_dir()
@@ -369,3 +372,34 @@ class TaskWrapper:
         for i in range(len(args)):
             key = key.replace("$T" + str(i) + "$", str(args[i]))
         return key
+
+    def update_metrics(self):
+        current_time = time.time()
+
+        for path in self.build_save_dir().glob("events.out.tfevents.*"):
+            if path.stat().st_mtime >= self.last_metrics_update:
+                for e in tf.compat.v1.train.summary_iterator(str(path)):
+                    for v in e.summary.value:
+                        if v.tag not in self.metrics or self.metrics[v.tag][0] < e.step or (self.metrics[v.tag][0] == e.step and self.metrics[v.tag][1] < e.step):
+                            self.metrics[v.tag] = (e.step, e.wall_time, float(tf.make_ndarray(v.tensor)))
+
+        #for tag in metrics.keys():
+        #   metric_superset.add(tag)
+        self.last_metrics_update = current_time
+
+    def col_from_task(self, col_name, task_name):
+        if col_name == "saved":
+            return self.saved_time
+        elif col_name == "name":
+            return " / ".join(task_name)
+        elif col_name == "created":
+            return self.creation_time
+        elif col_name == "iterations":
+            return self.finished_iterations
+        elif col_name == "started":
+            return self.start_time if self.start_time is not None else datetime.utcfromtimestamp(0)
+        elif col_name in self.metrics:
+            self.update_metrics()
+            return self.metrics[col_name][2]
+        else:
+            return 0

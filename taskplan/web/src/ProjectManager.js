@@ -10,7 +10,8 @@ class ProjectManager extends React.Component {
         this.state = {
             codeVersionTree: null,
             highlightedTask: null,
-            allTags: []
+            allTags: [],
+            refreshRate: null
         };
         this.gotoTB = this.gotoTB.bind(this);
         this.addVersion = this.addVersion.bind(this);
@@ -32,7 +33,8 @@ class ProjectManager extends React.Component {
                 saved_filters: data.saved_filters,
                 views: data.views,
                 tensorboard_port: data.tensorboard_port,
-                allTags: data.all_tags
+                allTags: data.all_tags,
+                refreshRate: parseInt(data.refreshRate)
             });
         });
     }
@@ -173,18 +175,21 @@ class ProjectManager extends React.Component {
                     }
                 </div>
                 <div id="projects">
-                    <Project
-                        ref={this.projectRef}
-                        repository={this.props.repository}
-                        showTask={this.openTaskViewer}
-                        closeViewer={this.closeViewer}
-                        highlightedTask={this.state.highlightedTask}
-                        devices={this.props.devices}
-                        current_code_version={this.state.current_code_version}
-                        saved_filters={this.state.saved_filters}
-                        views={this.state.views}
-                        allTags={this.state.allTags}
-                    />
+                    {this.state.refreshRate !== null &&
+                        <Project
+                            ref={this.projectRef}
+                            repository={this.props.repository}
+                            showTask={this.openTaskViewer}
+                            closeViewer={this.closeViewer}
+                            highlightedTask={this.state.highlightedTask}
+                            devices={this.props.devices}
+                            current_code_version={this.state.current_code_version}
+                            saved_filters={this.state.saved_filters}
+                            views={this.state.views}
+                            allTags={this.state.allTags}
+                            refreshRate={this.state.refreshRate}
+                        />
+                    }
                 </div>
                 {this.state.codeVersionTree !== null &&
                     <CodeVersionViewer

@@ -39,14 +39,15 @@ class Project extends TaskContainer {
         this.taskTabRef = React.createRef();
     }
 
-
     addView(path) {
         var data = new FormData();
         var dataJson = {};
         dataJson['filter'] = this.state.selectedParamValues;
         dataJson['collapse'] = this.state.collapsedParams;
+        dataJson['collapse_sorting'] = this.state.collapseSorting;
         dataJson['group'] = this.state.groupedParams;
         dataJson['param_sorting'] = this.state.paramSorting;
+        dataJson['sorting_tasks'] = this.state.sorting_tasks;
         dataJson['path'] = path;
 
         data.append("data", JSON.stringify(dataJson));
@@ -150,6 +151,8 @@ class Project extends TaskContainer {
                         <span onClick={this.switchSortingDirection} className={this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
                         <span className="fas fa-sliders-h" onClick={this.openParamViewer}></span>
+
+                        <span className="fas fa-sync-alt" onClick={this.filterHasUpdated}></span>
                     </div>
                     }
                 </div>

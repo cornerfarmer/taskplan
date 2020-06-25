@@ -68,13 +68,15 @@ class GroupNode(Node):
         self.params = params
 
 class CollapseNode(Node):
-    def __init__(self, param):
+    def __init__(self, param, collapse_sorting):
         Node.__init__(self)
         self.param = param
+        self.collapse_sorting = collapse_sorting
 
     def primary_child(self):
-        key = list(self.children.keys())[0]
-        return self.children[key]
+        tasks = self.get_all_contained_tasks()
+        tasks = sorted(tasks, key=lambda task: task.col_from_task(self.collapse_sorting[0], [""]), reverse=self.collapse_sorting[1])
+        return tasks[0]
 
 class TasksNode(Node):
     def __init__(self):
@@ -147,15 +149,16 @@ class CodeVersionBranch:
 
 
 class CollapseBranch(ParamBranch):
-    def __init__(self, param, configuration):
+    def __init__(self, param, configuration, collapse_sorting):
         super().__init__(param, configuration)
+        self.collapse_sorting = collapse_sorting
 
     def exists_node(self, node):
         node_exists = type(node) == CollapseNode and node.param == self.param
         return node_exists
 
     def create_new_node(self):
-        return CollapseNode(self.param)
+        return CollapseNode(self.param, self.collapse_sorting)
 
 
 class View:

@@ -56,6 +56,8 @@ class Project:
 
     def _refresh_default_view(self):
         branch_options = []
+
+        branch_options.append(CodeVersionBranch(self.code_versions))
         for param in self.configuration.default_sorted_params():
             branch_options.append(ParamBranch(param, self.configuration))
         self.default_view = View(self.configuration, None, branch_options, {})
@@ -101,6 +103,7 @@ class Project:
 
         for view in self.views.values():
             view.set_code_versions(self.code_versions)
+        self.default_view.set_code_versions(self.code_versions)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -261,6 +264,7 @@ class Project:
 
         for view in self.views.values():
             view.set_code_versions(self.code_versions)
+        self.default_view.set_code_versions(self.code_versions)
 
         return self.code_versions[-1]
 
@@ -387,33 +391,6 @@ class Project:
     def update_clients(self):
         pass
 
-    def col_from_task(self, task, col_name, task_name, metrics):
-        if col_name == "saved":
-            return task.saved_time
-        elif col_name == "name":
-            return " / ".join(task_name)
-        elif col_name == "created":
-            return task.creation_time
-        elif col_name == "iterations":
-            return task.finished_iterations
-        elif col_name == "started":
-            return task.start_time if task.start_time is not None else datetime.utcfromtimestamp(0)
-        elif col_name in metrics:
-            return metrics[col_name][2]
-        else:
-            return 0
-
-    def metrics_json(self, task, metric_superset):
-        metrics = {}
-        for path in task.build_save_dir().glob("events.out.tfevents.*"):
-            for e in tf.compat.v1.train.summary_iterator(str(path)):
-                for v in e.summary.value:
-                    if v.tag not in metrics or metrics[v.tag][0] < e.step or (metrics[v.tag][0] == e.step and metrics[v.tag][1] < e.step):
-                        metrics[v.tag] = (e.step, e.wall_time, float(tf.make_ndarray(v.tensor)))
-        for tag in metrics.keys():
-            metric_superset.add(tag)
-        return metrics
-
     def view_to_json(self, root, name_prefix, sort_col, metric_superset, collapse_sorting):
         if isinstance(root, RootNode):
             if len(root.children) > 0:
@@ -424,8 +401,8 @@ class Project:
             else:
                 return []
         elif isinstance(root, TaskWrapper):
-            metrics = self.metrics_json(root, metric_superset)
-            return [{"uuid": str(root.uuid), "name": name_prefix, "collapse_sort_col": self.col_from_task(root, collapse_sorting[0], name_prefix, metrics), "sort_col": self.col_from_task(root, sort_col, name_prefix, metrics), "metrics": metrics}]
+            root.update_metrics()
+            return [{"uuid": str(root.uuid), "name": name_prefix, "collapse_sort_col": root.col_from_task(collapse_sorting[0], name_prefix), "sort_col": root.col_from_task(sort_col, name_prefix), "metrics": root.metrics}]
         elif isinstance(root, GroupNode):
             output = {}
             for group_key in root.children:
@@ -452,7 +429,7 @@ class Project:
                     output.append(result)
             return output
 
-    def _build_view(self, filters, collapse, groups, param_sorting, path=None):
+    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, path=None):
         branch_options = []
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
@@ -461,7 +438,7 @@ class Project:
             if param.uuid not in collapse:
                 branch_options.append(ParamBranch(param, self.configuration))
         for param_uuid in collapse:
-            branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration))
+            branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration, collapse_sorting))
 
         return View(self.configuration, path, branch_options, filters)
 
@@ -474,7 +451,7 @@ class Project:
             return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
     def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir):
-        view = self._build_view(filters, collapse, groups, param_sorting)
+        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting)
 
         for task in self.tasks:
             view.add_task(task)
@@ -496,7 +473,7 @@ class Project:
         actual_path = (self.task_dir / path).resolve()
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], actual_path)
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], actual_path)
         view.refresh(self.tasks)
         self.views[path] = view
         self.views_data[path] = data
@@ -515,3 +492,8 @@ class Project:
         self._register_tags_from_task(task)
         self.event_manager.throw(EventType.TASK_CHANGED, task)
         self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+
+    def refresh_views(self):
+        print("refresh views")
+        for view in self.views.values():
+            view.refresh(self.tasks)

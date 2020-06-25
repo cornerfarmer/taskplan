@@ -25,8 +25,9 @@ def init():
 
 
 @cli.command()
-def web():
-    app, controller = run()
+@click.option('--refresh_interval', type=int, default=30000)
+def web(refresh_interval):
+    app, controller = run(refresh_interval)
 
     run_simple("0.0.0.0", 9998, app, threaded=True)
     controller.stop()

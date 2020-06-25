@@ -19,6 +19,7 @@ class TaskContainer extends React.Component {
         this.onChangeCollapseSorting = this.onChangeCollapseSorting.bind(this);
         this.flipCollapseSortingDirection = this.flipCollapseSortingDirection.bind(this);
         this.reorderParam = this.reorderParam.bind(this);
+        this.intervalId = null;
     }
 
     componentDidMount() {
@@ -28,11 +29,13 @@ class TaskContainer extends React.Component {
         this.props.repository.onChange("params", this.updateParams);
         this.updateParams(this.props.repository.params);
         this.filterHasUpdated();
+        this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
     }
 
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
         this.props.repository.removeOnChange("params", this.updateParams);
+        clearInterval(this.intervalId);
     }
 
 
@@ -101,7 +104,7 @@ class TaskContainer extends React.Component {
         dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['saveName'] = saveName;
         dataJson['sorting_tasks'] = this.state.sorting_tasks;
-        dataJson['collapseSorting'] = this.state.collapseSorting;
+        dataJson['collapse_sorting'] = this.state.collapseSorting;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -125,7 +128,7 @@ class TaskContainer extends React.Component {
             groupedParams: data.group,
             paramSorting: data.param_sorting,
             sorting_tasks: data.sorting_tasks,
-            collapseSorting: data.collapseSorting,
+            collapseSorting: data.collapse_sorting,
         }, () =>this.filterHasUpdated());
     }
 

@@ -78,6 +78,7 @@ class ServerSentEvent(object):
             data_client['views'] = data.views_data
             data_client['tensorboard_port'] = -1 if data.tensorboard_port is None else data.tensorboard_port
             data_client['all_tags'] = list(data.all_tags.keys())
+            data_client['refreshRate'] = data.refresh_interval
         elif event_type is EventType.CODE_VERSION_CHANGED:
             data_client = data.copy()
         elif event_type is EventType.SCHEDULER_OPTIONS:
