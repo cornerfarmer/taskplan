@@ -43,7 +43,7 @@ export class TaskName extends React.Component {
                 );
             } else {
                 return (
-                    <span ref={this.wrapperRef}>Default config</span>
+                    <span ref={this.wrapperRef}>Task</span>
                 );
             }
         }

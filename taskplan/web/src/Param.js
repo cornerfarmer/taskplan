@@ -68,7 +68,7 @@ class Param extends React.Component {
         return (
             <li ref={this.paramRef} className="item item-param" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} draggable={this.props.sortMode ? "true" : "false"}>
                 <div className="header" onClick={() => this.toggleHideParamValues()}>
-                    <div className="title">{this.props.sortMode ? this.props.param.name : this.props.param.name}</div>
+                    <div className="title">{this.props.sortMode ? this.props.param.group.concat([this.props.param.name]).join(" / ") : this.props.param.name}</div>
                     {!this.props.sortMode ?
                         <div className="toolbar">
                             <div className="action" onClick={(e) => {this.props.newParamValueFunc(this.props.param, this.props.param.values); e.stopPropagation();}} title="New parameter value">

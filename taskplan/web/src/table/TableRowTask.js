@@ -18,19 +18,38 @@ class TableRowTask extends React.Component {
         })
     }
 
+    componentDidMount() {
+        if (this.props.task === null) {
+            fetch("/task_details/" + this.props.uuid)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                    }
+                )
+        }
+    }
+
     render() {
-        return (
-          <tr className="table-row">
-              {this.props.selectedCols.map(col => {
-                  if (col === "name")
-                      return <td className="table-col"><TaskName name={this.props.name} is_test={this.props.task.is_test}/></td>;
-                  else if (col === "iterations")
-                      return <td className="table-col">{this.props.task.finished_iterations}</td>;
-                  else
-                      return <td className="table-col">{col in this.props.metrics ? this.props.metrics[col][2].toFixed(2) : "N/A"}</td>
-              })}
-          </tr>
-        );
+        if (this.props.task !== null) {
+            return (
+                <tr className="table-row">
+                    {this.props.selectedCols.map(col => {
+                        if (col === "name")
+                            return <td className="table-col"><TaskName name={this.props.name} is_test={this.props.task.is_test}/></td>;
+                        else if (col === "iterations")
+                            return <td className="table-col">{this.props.task.finished_iterations}</td>;
+                        else
+                            return <td className="table-col">{col in this.props.metrics ? this.props.metrics[col][2].toFixed(2) : "N/A"}</td>
+                    })}
+                </tr>
+            );
+        } else {
+            return (
+                <tr className="table-row" >
+                    <td  colSpan={this.props.selectedCols.length}>Loading...</td>
+                </tr>
+            )
+        }
     }
 }
 

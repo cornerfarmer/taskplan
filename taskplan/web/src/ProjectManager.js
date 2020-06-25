@@ -2,6 +2,7 @@ import React from 'react';
 import Project from "./Project";
 import CodeVersionViewer from "./CodeVersionViewer";
 import TaskViewer from "./TaskViewer";
+import ParamViewer from "./ParamViewer";
 
 class ProjectManager extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class ProjectManager extends React.Component {
         this.closeViewer = this.closeViewer.bind(this);
         this.reload = this.reload.bind(this);
         this.promptRefs = React.createRef();
+        this.projectRef = React.createRef();
         this.codeVersionViewerRef = React.createRef();
         this.taskViewerRef = React.createRef();
 
@@ -115,6 +117,8 @@ class ProjectManager extends React.Component {
     closeViewer() {
         this.codeVersionViewerRef.current.close();
         this.taskViewerRef.current.close();
+        this.projectRef.current.paramViewerRef.current.close();
+        this.projectRef.current.taskTabRef.current.taskEditor.current.close();
     }
 
     openTaskViewer(task) {
@@ -170,6 +174,7 @@ class ProjectManager extends React.Component {
                 </div>
                 <div id="projects">
                     <Project
+                        ref={this.projectRef}
                         repository={this.props.repository}
                         showTask={this.openTaskViewer}
                         closeViewer={this.closeViewer}

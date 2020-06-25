@@ -100,7 +100,7 @@ class Project:
             self.add_view("results", {"filter": {}, "collapse": [], "group": []}, True)
 
         for view in self.views.values():
-            view.branch_options[0].code_versions = self.code_versions
+            view.set_code_versions(self.code_versions)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -231,6 +231,7 @@ class Project:
             if not task.is_test:
                 for view in self.views.values():
                     view.refresh(self.tasks)
+                self.default_view.refresh(self.tasks)
                 self._default_view_refresh_names(exclude_from_throw=[task])
             task.remove_data()
 
@@ -259,7 +260,7 @@ class Project:
             self.current_code_version = code_version_uuid
 
         for view in self.views.values():
-            view.branch_options[0].code_versions = self.code_versions
+            view.set_code_versions(self.code_versions)
 
         return self.code_versions[-1]
 
@@ -417,7 +418,7 @@ class Project:
         if isinstance(root, RootNode):
             if len(root.children) > 0:
                 result = self.view_to_json(root.children["default"], name_prefix, sort_col, metric_superset, collapse_sorting)
-                if isinstance(result, list) and not isinstance(result[0], list):
+                if isinstance(result, list) and len(result) > 0 and not isinstance(result[0], list):
                     result = [result]
                 return result
             else:
@@ -453,9 +454,9 @@ class Project:
 
     def _build_view(self, filters, collapse, groups, param_sorting, path=None):
         branch_options = []
-        branch_options.append(CodeVersionBranch(self.code_versions))
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
+        branch_options.append(CodeVersionBranch(self.code_versions))
         for param in self.configuration.sorted_params(param_sorting):
             if param.uuid not in collapse:
                 branch_options.append(ParamBranch(param, self.configuration))

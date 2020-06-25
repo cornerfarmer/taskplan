@@ -105,12 +105,6 @@ class Repository {
                 Scheduler.refreshRunTime(changedTask);
             }
 
-            if (changedTask.uuid in this.tasks) {
-                changedTask.name = this.tasks[changedTask.uuid].name;
-                changedTask.try = this.tasks[changedTask.uuid].try;
-                changedTask.nameParamValues = this.tasks[changedTask.uuid].nameParamValues;
-            }
-
             this.updateEntity(this.tasks, changedTask, "tasks");
         });
 

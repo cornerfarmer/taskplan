@@ -21,10 +21,12 @@ class TaskTab extends React.Component {
     }
 
     newTask() {
+        this.props.closeViewer();
         this.taskEditor.current.new();
     }
 
     rerunTask(task) {
+        this.props.closeViewer();
         this.taskEditor.current.open(task);
     }
 
@@ -38,7 +40,8 @@ class TaskTab extends React.Component {
     render() {
         return (
             <div className="tab" style={{'display': (this.props.active ? 'flex' : 'none')}}>
-                <ul className="tasks-tab" >
+                <ul className="tasks-tab">
+                    {this.props.initialized &&
                     <GroupedTasks
                         tasks={this.props.tasks}
                         rerunTask={this.rerunTask}
@@ -47,8 +50,9 @@ class TaskTab extends React.Component {
                         devices={this.props.devices}
                         detailCol={this.props.detailCol}
                     />
+                    }
                 </ul>
-                <TaskEditor allTags={this.props.allTags} devices={this.props.devices} ref={this.taskEditor} params={this.props.params} paramsByGroup={this.props.paramsByGroup} />
+                <TaskEditor allTags={this.props.allTags} devices={this.props.devices} ref={this.taskEditor} params={this.props.params} paramsByGroup={this.props.paramsByGroup}/>
                 <div className="tab-toolbar">
                     <label>
                     </label>
@@ -59,6 +63,7 @@ class TaskTab extends React.Component {
             </div>
         );
     }
+
 }
 
 

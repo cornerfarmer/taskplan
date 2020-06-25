@@ -1,10 +1,6 @@
 import React from 'react';
-import Prompt from "./Prompt";
-import {TaskName} from "./Task";
-import State from "./Global";
-import ReassuringPrompt from "./ReassuringPrompt";
 import PausedTask from "./PausedTask";
-import GroupedTasks from "./GroupedTasks";
+import LazyLoad from 'react-lazyload';
 
 class CollapsedTasks extends React.Component {
     constructor(props) {
@@ -24,22 +20,24 @@ class CollapsedTasks extends React.Component {
     }
 
     render() {
-        let tasks = Object.values(this.props.tasks).filter(task => task.task !== null);
+        let tasks = Object.values(this.props.tasks);//.filter(task => task.task !== null);
         if (tasks.length > 0) {
             return (
                 <div>
-                    <PausedTask
-                        rerunTask={this.props.rerunTask}
-                        key={tasks[0].task.uuid}
-                        task={tasks[0].task}
-                        metrics={tasks[0].metrics}
-                        name={tasks[0].name}
-                        showTask={this.props.showTask}
-                        highlight={tasks[0].task.uuid === this.props.highlightedTask}
-                        filterLikeTask={this.props.filterLikeTask}
-                        devices={this.props.devices}
-                        detailCol={this.props.detailCol}
-                    />
+                    <LazyLoad key={tasks[0].uuid} height={102} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
+                        <PausedTask
+                            uuid={tasks[0].uuid}
+                            rerunTask={this.props.rerunTask}
+                            task={tasks[0].task}
+                            metrics={tasks[0].metrics}
+                            name={tasks[0].name}
+                            showTask={this.props.showTask}
+                            highlight={tasks[0].uuid === this.props.highlightedTask}
+                            filterLikeTask={this.props.filterLikeTask}
+                            devices={this.props.devices}
+                            detailCol={this.props.detailCol}
+                        />
+                     </LazyLoad>
                     {tasks.length > 1 &&
                         <div class="collapse-toggle" onClick={this.toggleCollapsed}>{
                             this.state.collapsed
@@ -50,18 +48,20 @@ class CollapsedTasks extends React.Component {
                         }</div>
                     }
                     {!this.state.collapsed && tasks.slice(1).map(task => (
-                        <PausedTask
-                            rerunTask={this.props.rerunTask}
-                            key={task.task.uuid}
-                            task={task.task}
-                            name={task.name}
-                            showTask={this.props.showTask}
-                            highlight={task.task.uuid === this.props.highlightedTask}
-                            filterLikeTask={this.props.filterLikeTask}
-                            devices={this.props.devices}
-                            detailCol={this.props.detailCol}
-                            metrics={task.metrics}
-                        />
+                        <LazyLoad key={tasks.uuid} height={102} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
+                            <PausedTask
+                                uuid={task.uuid}
+                                rerunTask={this.props.rerunTask}
+                                task={task.task}
+                                name={task.name}
+                                showTask={this.props.showTask}
+                                highlight={task.uuid === this.props.highlightedTask}
+                                filterLikeTask={this.props.filterLikeTask}
+                                devices={this.props.devices}
+                                detailCol={this.props.detailCol}
+                                metrics={task.metrics}
+                            />
+                        </LazyLoad>
                     ))}
                 </div>
             );

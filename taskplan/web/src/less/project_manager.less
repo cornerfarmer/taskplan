@@ -152,6 +152,7 @@
 #project-manager #projects .project .tasks-tab{
     overflow-y: auto;
     flex: 1 1 auto;
+    position: relative;
 }
 
 #project-manager #projects .project .tasks-tab .collapse-toggle {
@@ -302,6 +303,13 @@
 
 #project-manager #projects .project ul .item-param-value.item-abstract {
     font-style: italic;
+}
+
+#project-manager #projects .project ul .item-task.item-task-loading {
+    height: 102px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #project-manager #projects .project ul .item-task .content,

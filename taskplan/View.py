@@ -332,3 +332,8 @@ class View:
             path.insert(0, node.parent_key)
             node = node.parent
         return path
+
+    def set_code_versions(self, code_versions):
+        for branch_option in self.branch_options:
+            if type(branch_option) == CodeVersionBranch:
+                branch_option.code_versions = code_versions

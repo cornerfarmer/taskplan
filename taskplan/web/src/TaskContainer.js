@@ -14,15 +14,19 @@ class TaskContainer extends React.Component {
         this.replaceUuidsWithTasks = this.replaceUuidsWithTasks.bind(this);
         this.loadFilter = this.loadFilter.bind(this);
         this.saveFilter = this.saveFilter.bind(this);
+        this.newTask = this.newTask.bind(this);
+        this.removeTask = this.removeTask.bind(this);
         this.onChangeCollapseSorting = this.onChangeCollapseSorting.bind(this);
         this.flipCollapseSortingDirection = this.flipCollapseSortingDirection.bind(this);
+        this.reorderParam = this.reorderParam.bind(this);
     }
 
     componentDidMount() {
         this.props.repository.onChange("tasks", this.updateTasks);
+        this.props.repository.onAdd("tasks", this.newTask);
+        this.props.repository.onRemove("tasks", this.removeTask);
         this.props.repository.onChange("params", this.updateParams);
         this.updateParams(this.props.repository.params);
-        this.updateTasks(this.props.repository.task_list);
         this.filterHasUpdated();
     }
 
@@ -38,17 +42,11 @@ class TaskContainer extends React.Component {
                 this.replaceUuidsWithTasks(tasks[key],task_lookup);
             } else {
                 let task = tasks[key];
-                let replacement = {"name": task.name, "metrics": task.metrics};
+                let replacement = {"name": task.name, "metrics": task.metrics, "uuid": task.uuid};
                 if (task.uuid in this.props.repository.tasks)
                     replacement["task"] = this.props.repository.tasks[task.uuid];
                 else {
                     replacement["task"] = null;
-                    fetch("/task_details/" + task.uuid)
-                        .then(res => res.json())
-                        .then(
-                            (result) => {
-                            }
-                        )
                 }
                 task_lookup[task.uuid] = replacement;
                 tasks[key] = replacement;
@@ -102,6 +100,8 @@ class TaskContainer extends React.Component {
         dataJson['group'] = this.state.groupedParams;
         dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['saveName'] = saveName;
+        dataJson['sorting_tasks'] = this.state.sorting_tasks;
+        dataJson['collapseSorting'] = this.state.collapseSorting;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -124,6 +124,8 @@ class TaskContainer extends React.Component {
             collapsedParams: data.collapse,
             groupedParams: data.group,
             paramSorting: data.param_sorting,
+            sorting_tasks: data.sorting_tasks,
+            collapseSorting: data.collapseSorting,
         }, () =>this.filterHasUpdated());
     }
 
@@ -153,15 +155,28 @@ class TaskContainer extends React.Component {
         });
     }
 
-    updateTasks(all_tasks, changed) {
-        let task_lookup = Object.assign({}, this.state.task_lookup);
-        if (changed in task_lookup) {
-            task_lookup[changed].task = all_tasks[changed];
+
+    newTask(task) {
+        if (!(task.uuid in this.state.task_lookup)) {
+            this.filterHasUpdated();
         }
-        this.setState({
-            task_lookup: task_lookup,
-            tasks: (this.state.tasks instanceof Array ? this.state.tasks.slice() : Object.assign({}, this.state.tasks))
-        });
+    }
+
+    removeTask(task) {
+        this.filterHasUpdated();
+    }
+
+    updateTasks(all_tasks, changed) {
+        if (all_tasks[changed] !== undefined) {
+            let task_lookup = Object.assign({}, this.state.task_lookup);
+            if (changed in task_lookup) {
+                task_lookup[changed].task = all_tasks[changed];
+            }
+            this.setState({
+                task_lookup: task_lookup,
+                tasks: (this.state.tasks instanceof Array ? this.state.tasks.slice() : Object.assign({}, this.state.tasks))
+            });
+        }
     }
 
     toggleSelection(param, value, args) {

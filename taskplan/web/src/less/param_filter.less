@@ -158,3 +158,59 @@
 .param-viewer .table-cols .table-col .table-col-entry div {
   flex: 2 1 0;
 }
+
+.param-viewer .param-filter:empty {
+  border: none;
+}
+
+
+#project-manager #projects .project .param-viewer .param-filter ul,
+.param-viewer .param-filter ul {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+#project-manager #projects .project .param-viewer .param-filter ul .item,
+.param-viewer .param-filter ul .item{
+  list-style: none;
+}
+
+#project-manager #projects .project .param-viewer .param-filter ul .item-param .header,
+.param-viewer .param-filter ul .item-param .header{
+  height: auto;
+  padding: 5px 10px;
+  background: rgba(158, 158, 158, 0.05);
+  cursor: grab;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over,
+.param-viewer .param-filter ul .item-param.on-drag-over {
+    border: 3px dashed #3f51b5;
+    box-shadow: none;
+}
+
+#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over .header,
+.param-viewer .param-filter ul .item-param.on-drag-over .header
+{
+    visibility: hidden;
+}
+
+
+#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .title,
+.param-viewer .param-filter ul .item-param .header .title{
+  font-size: initial;
+  font-weight: initial;
+}
+
+
+#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .grip-icon,
+.param-viewer .param-filter ul .item-param .header .grip-icon{
+  height: auto;
+  width: auto;
+}

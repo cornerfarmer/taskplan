@@ -21,7 +21,8 @@ class ReassuringPrompt extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-
+                    if (this.props.onSuccess !== undefined)
+                        this.props.onSuccess();
                 },
                 (error) => {
 

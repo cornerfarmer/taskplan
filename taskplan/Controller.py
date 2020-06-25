@@ -217,7 +217,7 @@ class Controller:
             self.save_metadata()
             self.event_manager.throw(EventType.CODE_VERSION_CHANGED, code_version, self.project)
             self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
-            self.select_code_version(code_version["uuid"])
+            self._select_code_version(code_version["uuid"])
 
     def _select_code_version(self, version_uuid):
         self.project.select_code_version(version_uuid)

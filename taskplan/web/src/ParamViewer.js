@@ -167,10 +167,10 @@ class ParamViewer extends React.Component {
         if (this.state.open) {
             return (
                 <div className="param-viewer slide-editor editor" style={this.props.style}>
-                    <div className="header">Save / Load</div>
+                    <div className="header">Save / Load{this.props.allowClose && <i className="fas fa-times" onClick={this.close}></i>}</div>
                     <div className="params-to-group param-filter">
                        {Object.keys(this.props.saved_filters).map(savedFilterName => (
-                           <div className="param-name">
+                           <div className="param-name param-name-collapsed">
                                <div onClick={() => this.props.loadFilter(this.props.saved_filters[savedFilterName])}>
                                 {savedFilterName}
                                </div>
@@ -188,7 +188,7 @@ class ParamViewer extends React.Component {
                             <div className="header">Filesystem</div>
                             <div className="params-to-group param-filter">
                                {Object.keys(this.props.views).map(path => (
-                                   <div className="param-name">
+                                   <div className="param-name param-name-collapsed">
                                        <div onClick={() => this.props.loadFilter(this.props.views[path])}>
                                         {path}
                                        </div>
@@ -203,13 +203,13 @@ class ParamViewer extends React.Component {
                         </React.Fragment>
                     }
 
-                    <div className="header">Parameter filter<i className="fas fa-times" onClick={this.close}></i></div>
+                    <div className="header">Parameter filter</div>
                     <ParamFilter selectMultiple={true} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.props.selectedParamValues} toggleSelection={this.props.toggleSelection}/>
 
                     <div className="header">Collapsing</div>
                     <div className="params-to-collapse param-filter">
                        {this.props.collapsedParams.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => (
-                           <div className="param-name">{param.name} <i className="fas fa-times" onClick={() => this.props.removeParamCollapse(param)}></i></div>
+                           <div className="param-name param-name-collapsed">{param.name} <i className="fas fa-times" onClick={() => this.props.removeParamCollapse(param)}></i></div>
                         ))}
                     </div>
                     <div style={{"display": "flex", "align-items": "center"}}>
@@ -233,9 +233,10 @@ class ParamViewer extends React.Component {
                     </div>
 
                     <div className="header">Grouping</div>
+
                     <div className="params-to-group param-filter">
                        {this.props.groupedParams.map(params => (
-                           <div className="param-name">
+                           <div className="param-name param-name-collapsed">
                                {params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name).join(" / ")}
                                <i className="fas fa-times" onClick={() => this.props.removeParamGroup(params)}></i>
                            </div>

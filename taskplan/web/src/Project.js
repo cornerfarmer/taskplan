@@ -21,7 +21,9 @@ class Project extends TaskContainer {
             groupedParams: [],
             paramSortingMode: false,
             paramSorting: {},
-            collapseSorting: ["saved", true]
+            collapseSorting: ["saved", true],
+            metric_superset: [],
+            taskTabInitialized: false
         };
 
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -31,10 +33,10 @@ class Project extends TaskContainer {
         this.openParamViewer = this.openParamViewer.bind(this);
         this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
-        this.reorderParam = this.reorderParam.bind(this);
 
         this.addView = this.addView.bind(this);
         this.paramViewerRef = React.createRef();
+        this.taskTabRef = React.createRef();
     }
 
 
@@ -65,6 +67,7 @@ class Project extends TaskContainer {
     showTab(tab) {
         this.setState({
             activeTab: tab,
+            taskTabInitialized: this.state.taskTabInitialized || tab === 1
         });
     }
 
@@ -140,6 +143,9 @@ class Project extends TaskContainer {
                             <option value="created">Created</option>
                             <option value="iterations">Iterations</option>
                             <option value="started">Started</option>
+                            {this.state.metric_superset.map(col => (
+                                <option value={col}>{col}</option>
+                            ))}
                         </select>
                         <span onClick={this.switchSortingDirection} className={this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
@@ -156,6 +162,8 @@ class Project extends TaskContainer {
                     numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue}
                 />
                 <TaskTab
+                    ref={this.taskTabRef}
+                    closeViewer={this.props.closeViewer}
                     allTags={this.props.allTags}
                     active={this.state.activeTab === 1}
                     params={this.state.params}
@@ -167,12 +175,14 @@ class Project extends TaskContainer {
                     filterLikeTask={this.filterLikeTask}
                     devices={this.props.devices}
                     detailCol={this.state.collapseSorting[0]}
+                    initialized={this.state.taskTabInitialized}
                 />
                 <ParamViewer
                     ref={this.paramViewerRef}
                     paramsByGroup={this.state.paramsByGroup}
                     selectedParamValues={this.state.selectedParamValues}
                     toggleSelection={this.toggleSelection}
+                    allowClose={true}
 
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}

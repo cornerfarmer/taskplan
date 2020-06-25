@@ -16,8 +16,10 @@ class Table extends TaskContainer {
             selectedParamValues: {},
             collapsedParams: [],
             groupedParams: [],
-            selectedCols: [],
-            metric_superset: []
+            selectedCols: ["name", "iterations"],
+            metric_superset: [],
+            paramSorting: {},
+            collapseSorting: ["saved", true]
         };
 
         this.changeSorting = this.changeSorting.bind(this);
@@ -86,6 +88,11 @@ class Table extends TaskContainer {
                     allCols={["name", "iterations"].concat(this.state.metric_superset)}
                     addCol={this.addCol}
                     removeCol={this.removeCol}
+                    collapseSorting={this.state.collapseSorting}
+                    onChangeCollapseSorting={this.onChangeCollapseSorting}
+                    flipCollapseSortingDirection={this.flipCollapseSortingDirection}
+                    paramSorting={this.state.paramSorting}
+                    reorderParam={this.reorderParam}
                 />
                 <div className="task-table-wrapper">
                     <TaskTable
@@ -93,6 +100,7 @@ class Table extends TaskContainer {
                         tasks={this.state.tasks}
                         selectedCols={this.state.selectedCols}
                         changeSorting={this.changeSorting}
+                        sorting={this.state.sorting_tasks}
                     />
                 </div>
             </div>

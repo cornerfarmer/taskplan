@@ -1,6 +1,7 @@
 import React from 'react';
 import TableRowTask from "./TableRowTask";
 import GroupedTableTasks from "./GroupedTableTasks";
+import LazyLoad from "react-lazyload";
 
 class CollapsedTableTasks extends React.Component {
     constructor(props) {
@@ -20,34 +21,38 @@ class CollapsedTableTasks extends React.Component {
     }
 
     render() {
-        let tasks = Object.values(this.props.tasks).filter(task => task.task !== null);
+        let tasks = Object.values(this.props.tasks);
         if (tasks.length > 0) {
             return (
                 <React.Fragment>
-                    <TableRowTask
-                        key={tasks[0].task.uuid}
-                        task={tasks[0].task}
-                        name={tasks[0].name}
-                        metrics={tasks[0].metrics}
-                        selectedCols={this.props.selectedCols}
-                    />
+                    <LazyLoad once={true} key={tasks[0].uuid} height={102} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
+                        <TableRowTask
+                            uuid={tasks[0].uuid}
+                            task={tasks[0].task}
+                            name={tasks[0].name}
+                            metrics={tasks[0].metrics}
+                            selectedCols={this.props.selectedCols}
+                        />
+                    </LazyLoad>
                     {tasks.length > 1 &&
-                        <div class="collapse-toggle" onClick={this.toggleCollapsed}>{
+                        <tr><td class="collapse-toggle" onClick={this.toggleCollapsed}  colSpan={this.props.selectedCols.length}>{
                             this.state.collapsed
                                 ?
                                 <div><i className="fas fa-angle-double-down"></i> {"Expand (" + tasks.length + ")"}</div>
                                 :
                                 <div><i className="fas fa-angle-double-up"></i> Collapse</div>
-                        }</div>
+                        }</td></tr>
                     }
                     {!this.state.collapsed && tasks.slice(1).map(task => (
-                        <TableRowTask
-                            key={task.task.uuid}
-                            task={task.task}
-                            name={task.name}
-                            metrics={task.metrics}
-                            selectedCols={this.props.selectedCols}
-                        />
+                        <LazyLoad key={tasks.uuid} height={102} offset={[0, 0]} scrollContainer=".project" resize={true} overflow={true}>
+                            <TableRowTask
+                                uuid={task.uuid}
+                                task={task.task}
+                                name={task.name}
+                                metrics={task.metrics}
+                                selectedCols={this.props.selectedCols}
+                            />
+                        </LazyLoad>
                     ))}
                 </React.Fragment>
             );

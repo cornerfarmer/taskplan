@@ -16,7 +16,7 @@ class TaskTable extends React.Component {
                 <thead>
                 <tr className="task-table-header">
                     {this.props.selectedCols.map(name => (
-                        <th>{name} <i className="fas fa-caret-down" onClick={() => this.props.changeSorting(name, true)}></i><i className="fas fa-caret-up" onClick={() => this.props.changeSorting(name, false)}></i></th>
+                        <th>{name} <i className={"fas fa-caret-down " + (this.props.sorting[0] === name && this.props.sorting[1] ? "sort-active" : "")} onClick={() => this.props.changeSorting(name, true)}></i><i className={"fas fa-caret-up " + (this.props.sorting[0] === name && !this.props.sorting[1] ? "sort-active" : "")} onClick={() => this.props.changeSorting(name, false)}></i></th>
                         )
                     )}
                 </tr>
