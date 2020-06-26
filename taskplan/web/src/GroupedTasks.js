@@ -43,6 +43,7 @@ class GroupedTasks extends React.Component {
                             filterLikeTask={this.props.filterLikeTask}
                             devices={this.props.devices}
                             detailCol={this.props.detailCol}
+                            highlightedTask={this.props.highlightedTask}
                         />
                     ));
             } else {
@@ -68,6 +69,7 @@ class GroupedTasks extends React.Component {
                                     filterLikeTask={this.props.filterLikeTask}
                                     devices={this.props.devices}
                                     detailCol={this.props.detailCol}
+                                    highlightedTask={this.props.highlightedTask}
                                 />
                             </div>
                         }

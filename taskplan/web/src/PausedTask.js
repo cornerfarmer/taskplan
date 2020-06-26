@@ -56,21 +56,21 @@ class PausedTask extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.highlight !== this.props.highlight && this.props.highlight) {
+        /*if (prevProps.highlight !== this.props.highlight && this.props.highlight) {
             this.itemRef.current.scrollIntoView({
               behavior: 'smooth',
               block: 'start',
             });
-        }
+        }*/
     }
 
     componentDidMount() {
-        if (this.props.highlight) {
+        /*if (this.props.highlight) {
             this.itemRef.current.scrollIntoView({
               behavior: 'smooth',
               block: 'start',
             });
-        }
+        }*/
         if (this.props.task === null) {
             fetch("/task_details/" + this.props.uuid)
                 .then(res => res.json())
@@ -173,7 +173,7 @@ class PausedTask extends React.Component {
                                     </div>
 
                         }
-                        <div className="action" onClick={() => this.props.showTask(this.props.task)} title="Show detail information">
+                        <div className="action" onClick={() => this.props.showTask(this.props.task.uuid)} title="Show detail information">
                             <i className="fa fa-info"></i>
                         </div>
                         <div className="dropdown">

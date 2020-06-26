@@ -11,7 +11,8 @@ class ProjectManager extends React.Component {
             codeVersionTree: null,
             highlightedTask: null,
             allTags: [],
-            refreshRate: null
+            refreshRate: null,
+            detailTaskUuid: null
         };
         this.gotoTB = this.gotoTB.bind(this);
         this.addVersion = this.addVersion.bind(this);
@@ -19,6 +20,7 @@ class ProjectManager extends React.Component {
         this.openTaskViewer = this.openTaskViewer.bind(this);
         this.openCodeVersionViewer = this.openCodeVersionViewer.bind(this);
         this.closeViewer = this.closeViewer.bind(this);
+        this.closeTaskViewer = this.closeTaskViewer.bind(this);
         this.reload = this.reload.bind(this);
         this.promptRefs = React.createRef();
         this.projectRef = React.createRef();
@@ -118,14 +120,21 @@ class ProjectManager extends React.Component {
 
     closeViewer() {
         this.codeVersionViewerRef.current.close();
-        this.taskViewerRef.current.close();
+        this.closeTaskViewer();
         this.projectRef.current.paramViewerRef.current.close();
         this.projectRef.current.taskTabRef.current.taskEditor.current.close();
     }
 
-    openTaskViewer(task) {
+    openTaskViewer(task_uuid) {
         this.closeViewer();
-        this.taskViewerRef.current.open(task);
+        this.setState({
+            detailTaskUuid: task_uuid
+        })
+    }
+    closeTaskViewer(task) {
+        this.setState({
+            detailTaskUuid: null
+        })
     }
 
     openCodeVersionViewer() {
@@ -181,7 +190,7 @@ class ProjectManager extends React.Component {
                             repository={this.props.repository}
                             showTask={this.openTaskViewer}
                             closeViewer={this.closeViewer}
-                            highlightedTask={this.state.highlightedTask}
+                            highlightedTask={this.state.detailTaskUuid}
                             devices={this.props.devices}
                             current_code_version={this.state.current_code_version}
                             saved_filters={this.state.saved_filters}
@@ -198,7 +207,7 @@ class ProjectManager extends React.Component {
                         currentCodeVersion={this.state.current_code_version}
                     />
                 }
-                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} allTags={this.state.allTags} codeVersions={this.props.repository.codeVersions} />
+                <TaskViewer ref={this.taskViewerRef} close={this.closeTaskViewer} detailTaskUuid={this.state.detailTaskUuid} repository={this.props.repository} allTags={this.state.allTags} codeVersions={this.props.repository.codeVersions} />
             </div>
         );
     }

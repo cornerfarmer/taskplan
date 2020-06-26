@@ -9,14 +9,11 @@ class TaskViewer extends React.Component {
         super(props);
 
         this.state = {
-            task: null,
             selectedParamValues: {},
             notes: ""
         };
 
         this.configEditor = React.createRef();
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
         this.updateTasks = this.updateTasks.bind(this);
         this.updateParams = this.updateParams.bind(this);
         this.extractCheckpoint = this.extractCheckpoint.bind(this);
@@ -36,45 +33,43 @@ class TaskViewer extends React.Component {
         this.props.repository.removeOnChange("params", this.updateParams);
     }
 
-
-    open(task) {
-        let selectedParamValues = {};
-        for (const param of this.state.params) {
-            if (param.values.length > 0) {
-                let suitableParamValue = null;
-                let args = [];
-                for (const value of task.paramValues) {
-                    if (value[0].param === param.uuid) {
-                        suitableParamValue = value[0];
-                        args = value.slice(1);
-                        break;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.detailTaskUuid !== this.props.detailTaskUuid && nextProps.detailTaskUuid !== null) {
+            let task = this.state.tasks[nextProps.detailTaskUuid];
+            let selectedParamValues = {};
+            for (const param of this.state.params) {
+                if (param.values.length > 0) {
+                    let suitableParamValue = null;
+                    let args = [];
+                    for (const value of task.paramValues) {
+                        if (value[0].param === param.uuid) {
+                            suitableParamValue = value[0];
+                            args = value.slice(1);
+                            break;
+                        }
                     }
-                }
 
-                if (suitableParamValue === null) {
-                    selectedParamValues[param.uuid] = param.deprecated_param_value.name;
-                    args = param.deprecated_param_value.template_deprecated;
-                } else {
-                    selectedParamValues[param.uuid] = suitableParamValue.name;
+                    if (suitableParamValue === null) {
+                        selectedParamValues[param.uuid] = param.deprecated_param_value.name;
+                        args = param.deprecated_param_value.template_deprecated;
+                    } else {
+                        selectedParamValues[param.uuid] = suitableParamValue.name;
+                    }
+                    for (let i = 0; i < args.length; i++)
+                        selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
                 }
-                for (let i = 0; i < args.length; i++)
-                    selectedParamValues[param.uuid] = selectedParamValues[param.uuid].replace("$T" + (i) + "$", args[i]);
             }
-        }
 
-        this.setState({
-            task: task,
-            selectedParamValues: selectedParamValues,
-            notes: task.notes
-        });
+            this.setState({
+                selectedParamValues: selectedParamValues
+            });
+        }
     }
 
     updateTasks(tasks) {
-        if (this.state.task !== null) {
-            this.setState({
-                task: this.state.task.uuid in tasks ? tasks[this.state.task.uuid] : null
-            });
-        }
+        this.setState({
+            tasks: tasks
+        });
     }
 
     updateParams(params) {
@@ -83,28 +78,22 @@ class TaskViewer extends React.Component {
         });
     }
 
-    close() {
-        this.setState({
-            task: null
-        });
-    }
-
     extractCheckpoint(i) {
-        fetch("/extract_checkpoint/" + this.state.task.uuid + "/" + i)
-        .then(res => res.json())
-        .then(
-            (result) => {
-            },
-            (error) => {
+        fetch("/extract_checkpoint/" + this.state.detailTaskUuid + "/" + i)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                },
+                (error) => {
 
-            }
-        );
+                }
+            );
     }
 
 
     updateNotes(evt) {
         const newValue = evt.target.value;
-        const task_uuid = this.state.task.uuid;
+        const task_uuid = this.props.detailTaskUuid;
         if (this.timer !== null)
             clearTimeout(this.timer);
 
@@ -149,7 +138,7 @@ class TaskViewer extends React.Component {
 
         data.append("data", JSON.stringify(dataJson));
 
-        var url = "set_tags/" + this.state.task.uuid;
+        var url = "set_tags/" + this.props.detailTaskUuid;
 
         fetch(url,
             {
@@ -171,27 +160,28 @@ class TaskViewer extends React.Component {
 
 
     render() {
-        if (this.state.task !== null) {
+        if (this.props.detailTaskUuid !== null) {
+            let task = this.state.tasks[this.props.detailTaskUuid];
             return (
-                <div className="task-viewer slide-editor editor" >
-                    <div className="header">Task details<i class="fas fa-times" onClick={this.close}></i></div>
-                    <div className="title"><span className="try-number">{this.state.task.try}</span><TaskName task={this.state.task} name={this.state.task.name}/></div>
+                <div className="task-viewer slide-editor editor">
+                    <div className="header">Task details<i class="fas fa-times" onClick={this.props.close}></i></div>
+                    <div className="title"><span className="try-number">{task.try}</span><TaskName task={task} name={task.name}/></div>
                     <div className="metadata">
-                        <div>{this.state.task.uuid}</div>
-                        <div><span>Status:</span> {this.state.task.state === State.RUNNING ? "Running" : (this.state.task.state === State.QUEUED ? "Queued": "Stopped")}</div>
-                        <div><span>Iterations:</span> {this.state.task.finished_iterations} / {this.state.task.total_iterations}</div>
-                        <div><span>Started:</span> {this.state.task.creation_time.toShortStr()}</div>
-                        <div><span>Paused:</span> {this.state.task.saved_time.toShortStr()} {this.state.task.had_error == true && <span className="task-error">(Error)</span>}</div>
-                        <div><span>Code version:</span> {this.props.codeVersions[this.state.task.version].name}</div>
+                        <div>{task.uuid}</div>
+                        <div><span>Status:</span> {task.state === State.RUNNING ? "Running" : (task.state === State.QUEUED ? "Queued" : "Stopped")}</div>
+                        <div><span>Iterations:</span> {task.finished_iterations} / {task.total_iterations}</div>
+                        <div><span>Started:</span> {task.creation_time.toShortStr()}</div>
+                        <div><span>Paused:</span> {task.saved_time.toShortStr()} {task.had_error == true && <span className="task-error">(Error)</span>}</div>
+                        <div><span>Code version:</span> {this.props.codeVersions[task.version].name}</div>
                     </div>
-                    <ConfigEditor ref={this.configEditor} url={"/config/existing_task/" + this.state.task.uuid} bases={[]} preview={true}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/existing_task/" + task.uuid} bases={[]} preview={true}/>
                     <h2>Notes:</h2>
                     <div className="notes">
                         <textarea ref={this.notesTextarea} value={this.state.notes} onChange={evt => this.updateNotes(evt)}/>
                     </div>
                     <h2>Tags:</h2>
                     <div className="tags">
-                        <TagsEdit tags={this.state.task.tags} allTags={this.props.allTags} updateTags={this.updateTags} />
+                        <TagsEdit tags={task.tags} allTags={this.props.allTags} updateTags={this.updateTags}/>
                     </div>
                     <h2>Parameters</h2>
                     <div className="params">
@@ -203,16 +193,16 @@ class TaskViewer extends React.Component {
                     </div>
                     <h2>Checkpoints</h2>
                     <div className="checkpoints">
-                        {this.state.task.checkpoints.length > 0 ?
-                                this.state.task.checkpoints.map((checkpoint, i) => (
-                                    <div>
-                                        <span className="iteration">{checkpoint.finished_iterations}</span>
-                                        <span className="time">{checkpoint.time.toShortStr()}</span>
-                                        <div className="action" onClick={() => this.extractCheckpoint(i)} title="Add task based on checkpoint">
-                                            <i className="fas fa-arrow-right"></i>
-                                        </div>
+                        {task.checkpoints.length > 0 ?
+                            task.checkpoints.map((checkpoint, i) => (
+                                <div>
+                                    <span className="iteration">{checkpoint.finished_iterations}</span>
+                                    <span className="time">{checkpoint.time.toShortStr()}</span>
+                                    <div className="action" onClick={() => this.extractCheckpoint(i)} title="Add task based on checkpoint">
+                                        <i className="fas fa-arrow-right"></i>
                                     </div>
-                                ))
+                                </div>
+                            ))
                             :
                             <span>No checkpoints exist</span>
                         }

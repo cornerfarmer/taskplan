@@ -84,6 +84,16 @@
     flex-direction: column;
 }
 
+#project-manager #projects .project .search-bar {
+    padding: 5px 16px;
+    display: flex;
+    align-items: center;
+}
+
+#project-manager #projects .project .search-bar span {
+    margin-right: 10px;
+}
+
 #project-manager #projects .project .tabs {
     display: flex;
     border: 1px solid rgba(0,0,0,.1);
@@ -274,7 +284,7 @@
 }
 
 
-#project-manager #projects .project ul .item-task.task-running:not(.item-highlight) {
+#project-manager #projects .project ul .item-task.task-running {
     background-image: repeating-linear-gradient( -45deg, #f4f5ff, #f4f5ff 11px, white 10px, white 20px );
     background-size: 28px 28px;
     animation: move 2s linear infinite;
@@ -295,7 +305,9 @@
 }
 
 #project-manager #projects .project ul .item-task.item-highlight {
-  animation: highlight 1500ms ease-out;
+    border-bottom: 1px solid #3f51b5;
+    border-top: 1px solid #3f51b5;
+  //animation: highlight 1500ms ease-out;
 }
 @keyframes highlight {
   0% {

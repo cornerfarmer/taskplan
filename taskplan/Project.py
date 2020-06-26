@@ -99,7 +99,7 @@ class Project:
             for key, view in self.views_data.items():
                 self.add_view(key, view, True)
         else:
-            self.add_view("results", {"filter": {}, "collapse": [], "group": []}, True)
+            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True], "param_sorting": {}}, True)
 
         for view in self.views.values():
             view.set_code_versions(self.code_versions)

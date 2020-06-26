@@ -49,6 +49,7 @@ class TaskTab extends React.Component {
                         filterLikeTask={this.props.filterLikeTask}
                         devices={this.props.devices}
                         detailCol={this.props.detailCol}
+                        highlightedTask={this.props.highlightedTask}
                     />
                     }
                 </ul>
