@@ -23,7 +23,9 @@ class Project extends TaskContainer {
             collapseSorting: ["saved", true],
             metric_superset: [],
             taskTabInitialized: false,
-            versionInName: "label"
+            versionInName: "label",
+            showSearchBar: false,
+            searchValue: ""
         };
 
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -33,6 +35,8 @@ class Project extends TaskContainer {
         this.openParamViewer = this.openParamViewer.bind(this);
         this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
         this.filterLikeTask = this.filterLikeTask.bind(this);
+        this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
+        this.searchBarKeyDown = this.searchBarKeyDown.bind(this);
 
         this.addView = this.addView.bind(this);
         this.paramViewerRef = React.createRef();
@@ -53,9 +57,9 @@ class Project extends TaskContainer {
         data.append("data", JSON.stringify(dataJson));
 
         fetch("add_view", {
-                method: "POST",
-                body: data
-            })
+            method: "POST",
+            body: data
+        })
     }
 
 
@@ -122,6 +126,20 @@ class Project extends TaskContainer {
         });
     }
 
+    handleSearchValueChange(event) {
+        this.setState({searchValue: event.target.value});
+    }
+
+    searchBarKeyDown(e) {
+        if(e.keyCode === 13 && this.state.searchValue in this.props.repository.tasks){
+            this.props.showTask(this.state.searchValue);
+            this.setState({
+                showSearchBar: false
+            });
+        }
+    }
+
+
     render() {
         return (
             <div className="project">
@@ -153,9 +171,16 @@ class Project extends TaskContainer {
                         <span className="fas fa-sliders-h" onClick={this.openParamViewer}></span>
 
                         <span className="fas fa-sync-alt" onClick={this.filterHasUpdated}></span>
+                        <span className="fas fa-search" onClick={() => this.setState({showSearchBar: !this.state.showSearchBar, searchValue: ""})}></span>
                     </div>
                     }
                 </div>
+                {this.state.showSearchBar &&
+                <div className="search-bar">
+                    <span>Search:</span>
+                    <input value={this.state.searchValue} onKeyDown={this.searchBarKeyDown} onChange={this.handleSearchValueChange} />
+                </div>
+                }
                 <ParamTab
                     active={this.state.activeTab === 0}
                     paramsByGroup={this.state.paramsByGroup}

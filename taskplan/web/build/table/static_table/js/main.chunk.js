@@ -73,9 +73,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
-/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-lazyload */ "./node_modules/react-lazyload/lib/index.js");
-/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_2__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/CollapsedTasks.js";
+/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-lazyload */ "../../node_modules/react-lazyload/lib/index.js");
+/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_3__);
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/CollapsedTasks.js";
 
 
 
@@ -105,7 +105,7 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
           lineNumber: 26
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_3___default.a, {
         key: tasks[0].uuid,
         height: 102,
         offset: [0, 0],
@@ -167,7 +167,7 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
           lineNumber: 47
         },
         __self: this
-      }), " Collapse")), !this.state.collapsed && tasks.slice(1).map(task => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }), " Collapse")), !this.state.collapsed && tasks.slice(1).map(task => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_3___default.a, {
         key: tasks.uuid,
         height: 102,
         offset: [0, 0],
@@ -220,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ConfigEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ConfigEditor.js";
 
 
 
@@ -343,7 +343,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Device.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Device.js";
 
 
 
@@ -566,7 +566,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
 /* harmony import */ var _CollapsedTasks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CollapsedTasks */ "./src/CollapsedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/GroupedTasks.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/GroupedTasks.js";
 
 
 
@@ -604,6 +604,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           filterLikeTask: this.props.filterLikeTask,
           devices: this.props.devices,
           detailCol: this.props.detailCol,
+          highlightedTask: this.props.highlightedTask,
           __source: {
             fileName: _jsxFileName,
             lineNumber: 38
@@ -616,7 +617,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           className: "param-group",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 50
+            lineNumber: 51
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -624,35 +625,35 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           onClick: () => this.toggleCollapsed(group),
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 51
+            lineNumber: 52
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "title",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 52
+            lineNumber: 53
           },
           __self: this
         }, !(group in this.state.collapsed) || !this.state.collapsed[group] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-caret-down",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 55
+            lineNumber: 56
           },
           __self: this
         }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-caret-right",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 57
+            lineNumber: 58
           },
           __self: this
         }), group)), (!(group in this.state.collapsed) || !this.state.collapsed[group]) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-tasks",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 63
+            lineNumber: 64
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupedTasks, {
@@ -662,9 +663,10 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           filterLikeTask: this.props.filterLikeTask,
           devices: this.props.devices,
           detailCol: this.props.detailCol,
+          highlightedTask: this.props.highlightedTask,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 64
+            lineNumber: 65
           },
           __self: this
         }))));
@@ -707,7 +709,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var brace__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(brace__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! brace/mode/json */ "./node_modules/brace/mode/json.js");
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(brace_mode_json__WEBPACK_IMPORTED_MODULE_8__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/JsonEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/JsonEditor.js";
 
 
 
@@ -960,7 +962,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ParamValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamValue */ "./src/ParamValue.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Param.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Param.js";
 
 
 
@@ -1200,7 +1202,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamBatchEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamBatchEditor.js";
 
 
 
@@ -1310,7 +1312,7 @@ class ParamBatchEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamEditor.js";
 
 
 class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1534,7 +1536,7 @@ class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamFilter.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamFilter.js";
 
 
 class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1867,7 +1869,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamGroup.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamGroup.js";
 
 
 
@@ -1948,7 +1950,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamSelection.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamSelection.js";
 
 
 
@@ -2139,7 +2141,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamValueEditor */ "./src/ParamValueEditor.js");
 /* harmony import */ var _ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamBatchEditor */ "./src/ParamBatchEditor.js");
 /* harmony import */ var _ParamGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ParamGroup */ "./src/ParamGroup.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamTab.js";
 
 
 
@@ -2329,7 +2331,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValue.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValue.js";
 
 
 
@@ -2530,7 +2532,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValueEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValueEditor.js";
 
 
 
@@ -2946,7 +2948,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamFilter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamFilter */ "./src/ParamFilter.js");
 /* harmony import */ var _ParamSelection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamSelection */ "./src/ParamSelection.js");
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamViewer.js";
 
 
 
@@ -3602,7 +3604,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
 /* harmony import */ var _GroupedTasks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GroupedTasks */ "./src/GroupedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/PausedTask.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/PausedTask.js";
 
 
 
@@ -3641,22 +3643,21 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.highlight !== this.props.highlight && this.props.highlight) {
-      this.itemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+    /*if (prevProps.highlight !== this.props.highlight && this.props.highlight) {
+        this.itemRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+    }*/
   }
 
   componentDidMount() {
-    if (this.props.highlight) {
-      this.itemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-
+    /*if (this.props.highlight) {
+        this.itemRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+    }*/
     if (this.props.task === null) {
       fetch("/task_details/" + this.props.uuid).then(res => res.json()).then(result => {});
     }
@@ -3853,7 +3854,7 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
-        onClick: () => this.props.showTask(this.props.task),
+        onClick: () => this.props.showTask(this.props.task.uuid),
         title: "Show detail information",
         __source: {
           fileName: _jsxFileName,
@@ -4053,7 +4054,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TaskContainer */ "./src/TaskContainer.js");
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
 /* harmony import */ var _ParamFilter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ParamFilter */ "./src/ParamFilter.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Project.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Project.js";
 
 
 
@@ -4080,7 +4081,9 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       paramSorting: {},
       collapseSorting: ["saved", true],
       metric_superset: [],
-      taskTabInitialized: false
+      taskTabInitialized: false,
+      showSearchBar: false,
+      searchValue: ""
     };
     this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
     this.showTab = this.showTab.bind(this);
@@ -4089,6 +4092,8 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.openParamViewer = this.openParamViewer.bind(this);
     this.toggleParamSortingMode = this.toggleParamSortingMode.bind(this);
     this.filterLikeTask = this.filterLikeTask.bind(this);
+    this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
+    this.searchBarKeyDown = this.searchBarKeyDown.bind(this);
     this.addView = this.addView.bind(this);
     this.paramViewerRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.taskTabRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
@@ -4181,19 +4186,34 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
     });
   }
 
+  handleSearchValueChange(event) {
+    this.setState({
+      searchValue: event.target.value
+    });
+  }
+
+  searchBarKeyDown(e) {
+    if (e.keyCode === 13 && this.state.searchValue in this.props.repository.tasks) {
+      this.props.showTask(this.state.searchValue);
+      this.setState({
+        showSearchBar: false
+      });
+    }
+  }
+
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "project",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 128
+        lineNumber: 146
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 129
+        lineNumber: 147
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4201,7 +4221,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: () => this.showTab(0),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 130
+        lineNumber: 148
       },
       __self: this
     }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4209,20 +4229,20 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: () => this.showTab(1),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 131
+        lineNumber: 149
       },
       __self: this
     }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 133
+        lineNumber: 151
       },
       __self: this
     }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 135
+        lineNumber: 153
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4230,19 +4250,19 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       className: "fas fa-sort",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 136
+        lineNumber: 154
       },
       __self: this
     })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 140
+        lineNumber: 158
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 141
+        lineNumber: 159
       },
       __self: this
     }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -4250,49 +4270,49 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onChange: this.onChangeSorting,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 142
+        lineNumber: 160
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "saved",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 143
+        lineNumber: 161
       },
       __self: this
     }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "name",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 144
+        lineNumber: 162
       },
       __self: this
     }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "created",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 145
+        lineNumber: 163
       },
       __self: this
     }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 146
+        lineNumber: 164
       },
       __self: this
     }, "Iterations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "started",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 147
+        lineNumber: 165
       },
       __self: this
     }, "Started"), this.state.metric_superset.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: col,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 149
+        lineNumber: 167
       },
       __self: this
     }, col))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4300,7 +4320,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       className: this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 152
+        lineNumber: 170
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4308,7 +4328,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: this.openParamViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 154
+        lineNumber: 172
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4316,10 +4336,43 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: this.filterHasUpdated,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 156
+        lineNumber: 174
       },
       __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "fas fa-search",
+      onClick: () => this.setState({
+        showSearchBar: !this.state.showSearchBar,
+        searchValue: ""
+      }),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 175
+      },
+      __self: this
+    }))), this.state.showSearchBar && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "search-bar",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 180
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 181
+      },
+      __self: this
+    }, "Search:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      value: this.state.searchValue,
+      onKeyDown: this.searchBarKeyDown,
+      onChange: this.handleSearchValueChange,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 182
+      },
+      __self: this
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_1__["default"], {
       active: this.state.activeTab === 0,
       paramsByGroup: this.state.paramsByGroup,
       sorting: this.state.sorting_params,
@@ -4328,7 +4381,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 160
+        lineNumber: 185
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -4348,7 +4401,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       initialized: this.state.taskTabInitialized,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 168
+        lineNumber: 193
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -4378,7 +4431,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       flipCollapseSortingDirection: this.flipCollapseSortingDirection,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 184
+        lineNumber: 209
       },
       __self: this
     }));
@@ -4402,7 +4455,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Prompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Prompt.js";
 
 
 
@@ -4596,7 +4649,7 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ReassuringPrompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ReassuringPrompt.js";
 
 
 class ReassuringPrompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -4913,7 +4966,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Device__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Device */ "./src/Device.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Scheduler.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Scheduler.js";
 
 
 
@@ -5098,9 +5151,9 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-autocomplete */ "./node_modules/react-autocomplete/build/lib/Autocomplete.js");
-/* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_autocomplete__WEBPACK_IMPORTED_MODULE_1__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TagsEdit.js";
+/* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-autocomplete */ "../../node_modules/react-autocomplete/build/lib/Autocomplete.js");
+/* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_autocomplete__WEBPACK_IMPORTED_MODULE_2__);
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TagsEdit.js";
 
 
 
@@ -5206,7 +5259,7 @@ class TagsEdit extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         lineNumber: 81
       },
       __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_autocomplete__WEBPACK_IMPORTED_MODULE_2___default.a, {
       ref: this.autocompleteRef,
       autoHighlight: false,
       shouldItemRender: (item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1,
@@ -5267,7 +5320,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Task.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Task.js";
 
 
 
@@ -5937,8 +5990,8 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-lazyload */ "./node_modules/react-lazyload/lib/index.js");
-/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-lazyload */ "../../node_modules/react-lazyload/lib/index.js");
+/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -6024,7 +6077,7 @@ class TaskContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
         tasks: result[0],
         metric_superset: result[1].sort(),
         task_lookup: task_lookup
-      }, react_lazyload__WEBPACK_IMPORTED_MODULE_1__["forceCheck"]);
+      }, react_lazyload__WEBPACK_IMPORTED_MODULE_2__["forceCheck"]);
     }, error => {});
   }
 
@@ -6273,7 +6326,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _TagsEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsEdit */ "./src/TagsEdit.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskEditor.js";
 
 
 
@@ -6737,7 +6790,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskEditor */ "./src/TaskEditor.js");
 /* harmony import */ var _CollapsedTasks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollapsedTasks */ "./src/CollapsedTasks.js");
 /* harmony import */ var _GroupedTasks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GroupedTasks */ "./src/GroupedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskTab.js";
 
 
 
@@ -6802,6 +6855,7 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       filterLikeTask: this.props.filterLikeTask,
       devices: this.props.devices,
       detailCol: this.props.detailCol,
+      highlightedTask: this.props.highlightedTask,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 45
@@ -6815,34 +6869,34 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       paramsByGroup: this.props.paramsByGroup,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 55
+        lineNumber: 56
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 56
+        lineNumber: 57
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 57
+        lineNumber: 58
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 59
+        lineNumber: 60
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.newTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 60
+        lineNumber: 61
       },
       __self: this
     }, "New task"))));
@@ -7229,9 +7283,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _TableRowTask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableRowTask */ "./src/table/TableRowTask.js");
 /* harmony import */ var _GroupedTableTasks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GroupedTableTasks */ "./src/table/GroupedTableTasks.js");
-/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-lazyload */ "./node_modules/react-lazyload/lib/index.js");
-/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/CollapsedTableTasks.js";
+/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-lazyload */ "../../node_modules/react-lazyload/lib/index.js");
+/* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_4__);
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/CollapsedTableTasks.js";
 
 
 
@@ -7262,7 +7316,7 @@ class CollapsedTableTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.C
           lineNumber: 27
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_3___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_4___default.a, {
         once: true,
         key: tasks[0].uuid,
         height: 40,
@@ -7327,7 +7381,7 @@ class CollapsedTableTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.C
           lineNumber: 43
         },
         __self: this
-      }), " Collapse"))), !this.state.collapsed && tasks.slice(1).map(task => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_3___default.a, {
+      }), " Collapse"))), !this.state.collapsed && tasks.slice(1).map(task => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_4___default.a, {
         key: tasks.uuid,
         height: 40,
         offset: [0, 0],
@@ -7374,7 +7428,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _CollapsedTableTasks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CollapsedTableTasks */ "./src/table/CollapsedTableTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/GroupedTableTasks.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/GroupedTableTasks.js";
 
 
 
@@ -7481,7 +7535,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TaskContainer */ "./src/TaskContainer.js");
 /* harmony import */ var _TaskTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskTable */ "./src/table/TaskTable.js");
 /* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../TaskTab */ "./src/TaskTab.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/Table.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/Table.js";
 
 
 
@@ -7642,7 +7696,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Repository__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Repository */ "./src/Repository.js");
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Table */ "./src/table/Table.js");
 /* harmony import */ var _Project__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Project */ "./src/Project.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/TableApp.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/TableApp.js";
 
 
 
@@ -7739,7 +7793,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Task */ "./src/Task.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/TableRowTask.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/TableRowTask.js";
 
 
 
@@ -7843,7 +7897,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _GroupedTableTasks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupedTableTasks */ "./src/table/GroupedTableTasks.js");
 /* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ParamViewer */ "./src/ParamViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/TaskTable.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/TaskTable.js";
 
 
 
@@ -7934,7 +7988,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TableApp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableApp */ "./src/table/TableApp.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/table/index.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/table/index.js";
 
 
 
@@ -7960,8 +8014,8 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
-module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/src/table/index.js */"./src/table/index.js");
+__webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
+module.exports = __webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/src/table/index.js */"./src/table/index.js");
 
 
 /***/ })

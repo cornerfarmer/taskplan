@@ -93,7 +93,7 @@ class Project:
             for key, view in self.views_data.items():
                 self.add_view(key, view, True)
         else:
-            self.add_view("results", {"filter": {}, "collapse": [], "group": []}, True)
+            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True], "param_sorting": {}}, True)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
