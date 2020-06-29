@@ -167,11 +167,11 @@ class TaskViewer extends React.Component {
                     <div className="header">Task details<i class="fas fa-times" onClick={this.props.close}></i></div>
                     <div className="title"><span className="try-number">{task.try}</span><TaskName task={task} name={task.name}/></div>
                     <div className="metadata">
-                        <div>{this.state.task.uuid}</div>
-                        <div><span>Status:</span> {this.state.task.state === State.RUNNING ? "Running" : (this.state.task.state === State.QUEUED ? "Queued": "Stopped")}</div>
-                        <div><span>Iterations:</span> {this.state.task.finished_iterations} / {this.state.task.total_iterations}</div>
-                        <div><span>Started:</span> {this.state.task.creation_time.toShortStr()}</div>
-                        <div><span>Paused:</span> {this.state.task.saved_time.toShortStr()} {this.state.task.had_error == true && <span className="task-error">(Error)</span>}</div>
+                        <div>{task.uuid}</div>
+                        <div><span>Status:</span> {task.state === State.RUNNING ? "Running" : (task.state === State.QUEUED ? "Queued": "Stopped")}</div>
+                        <div><span>Iterations:</span> {task.finished_iterations} / {task.total_iterations}</div>
+                        <div><span>Created:</span> {task.creation_time.toShortStr()}</div>
+                        <div><span>Saved:</span> {task.saved_time.toShortStr()} {task.had_error == true && <span className="task-error">(Error)</span>}</div>
                     </div>
                     <ConfigEditor ref={this.configEditor} url={"/config/existing_task/" + task.uuid} bases={[]} preview={true}/>
                     <h2>Notes:</h2>
@@ -180,14 +180,14 @@ class TaskViewer extends React.Component {
                     </div>
                     <h2>Tags:</h2>
                     <div className="tags">
-                        <TagsEdit tags={this.state.task.tags} allTags={this.props.allTags} updateTags={this.updateTags} />
+                        <TagsEdit tags={task.tags} allTags={this.props.allTags} updateTags={this.updateTags} />
                     </div>
                     <h2>Code versions</h2>
                     <div className="code-versions">
-                        {Object.keys(this.state.task.versions).map(key => (
-                                    <div onClick={() => this.props.openCodeVersionViewer(this.state.task.versions[key])}>
+                        {Object.keys(task.versions).map(key => (
+                                    <div onClick={() => this.props.openCodeVersionViewer(task.versions[key])}>
                                         <span className="iteration">{key}</span>
-                                        <span className="name">{this.state.task.versions[key].substr(0, 7)}</span>
+                                        <span className="name">{task.versions[key].substr(0, 7)}</span>
                                     </div>
                                 ))
                         }

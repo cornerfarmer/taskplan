@@ -210,10 +210,9 @@ class Controller:
     def _change_total_iterations(self, task_uuid, total_iterations):
         self.scheduler.change_total_iterations(task_uuid, total_iterations)
 
-    def _open_tensorboard(self):
+    def _open_tensorboard(self, path):
         self.event_manager.log("Starting tensorboard...")
-        self.project.start_tensorboard(self.event_manager)
-        return self.project.tensorboard_port
+        return self.project.start_tensorboard(path)
 
     def _change_max_running_tasks(self, new_max_running):
         self.scheduler.set_max_running(new_max_running)

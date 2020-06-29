@@ -19,7 +19,8 @@ class Table extends TaskContainer {
             selectedCols: ["name", "iterations"],
             metric_superset: [],
             paramSorting: {},
-            collapseSorting: ["saved", true]
+            collapseSorting: ["saved", true],
+            versionInName: "label",
         };
 
         this.changeSorting = this.changeSorting.bind(this);
@@ -86,7 +87,8 @@ class Table extends TaskContainer {
                     style={{"position": "static"}}
                     hideViews={true}
                     selectedCols={this.state.selectedCols}
-                    allCols={["name", "iterations"].concat(this.state.metric_superset)}
+                    metric_superset={this.state.metric_superset}
+                    allCols={["name", "iterations", "created", "saved", "uuid"].concat(this.state.metric_superset)}
                     addCol={this.addCol}
                     removeCol={this.removeCol}
                     collapseSorting={this.state.collapseSorting}
@@ -94,6 +96,8 @@ class Table extends TaskContainer {
                     flipCollapseSortingDirection={this.flipCollapseSortingDirection}
                     paramSorting={this.state.paramSorting}
                     reorderParam={this.reorderParam}
+                    onChangeVersionInName={this.onChangeVersionInName}
+                    versionInName={this.state.versionInName}
                 />
                 <div className="task-table-wrapper">
                     <TaskTable

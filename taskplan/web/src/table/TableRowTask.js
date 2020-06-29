@@ -38,6 +38,12 @@ class TableRowTask extends React.Component {
                             return <td className="table-col"><TaskName name={this.props.name} is_test={this.props.task.is_test}/></td>;
                         else if (col === "iterations")
                             return <td className="table-col">{this.props.task.finished_iterations}</td>;
+                        else if (col === "saved")
+                            return <td className="table-col">{this.props.task.saved_time.toShortStr()}</td>;
+                        else if (col === "created")
+                            return <td className="table-col">{this.props.task.creation_time.toShortStr()}</td>;
+                        else if (col === "uuid")
+                            return <td className="table-col">{this.props.task.uuid}</td>;
                         else
                             return <td className="table-col">{col in this.props.metrics ? this.props.metrics[col][2].toFixed(2) : "N/A"}</td>
                     })}

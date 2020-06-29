@@ -37,7 +37,8 @@ class Project:
         self.test_dir = self.task_dir / Path(test_dir)
         self.test_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
-        self.tensorboard_port = None
+        self.tensorboard_ports = {}
+        self.next_tensorboard_port = 7000
         self.version_control = VersionControl(task_dir, git_white_list)
 
         self.saved_filters = {}
@@ -193,29 +194,21 @@ class Project:
                 return task
         return None
 
-    def start_tensorboard(self, event_manager):
-        if self.tensorboard_port is None:
-            port = self.tensorboard_port
-            t = threading.Thread(target=self._run_tensorboard)
+    def start_tensorboard(self, path):
+        if path not in self.tensorboard_ports:
+            t = threading.Thread(target=lambda: self._run_tensorboard(path, self.next_tensorboard_port))
             t.start()
+            time.sleep(5)
 
-            while port != self.tensorboard_port:
-                port = self.tensorboard_port
-                time.sleep(5)
+            self.tensorboard_ports[path] = self.next_tensorboard_port
+            self.next_tensorboard_port += 1
 
-            event_manager.throw(EventType.PROJECT_CHANGED, self)
+            self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+        return self.tensorboard_ports[path]
 
-    def _run_tensorboard(self):
-        self.tensorboard_port = 6006
-        while True:
-            process = subprocess.Popen(["tensorboard", "--logdir", str(self.view_dir), "--port", str(self.tensorboard_port)], stdout=subprocess.PIPE)
-            output, error = process.communicate()
-
-            if output.startswith(b'TensorBoard attempted to bind to port'):
-                self.tensorboard_port += 1
-            else:
-                self.tensorboard_port = -1
-                break
+    def _run_tensorboard(self, path, port):
+        process = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(port)], stdout=subprocess.PIPE)
+        #output, error = process.communicate()
 
     def remove_task(self, task):
         if task in self.tasks:
@@ -457,7 +450,7 @@ class Project:
         actual_path = (self.task_dir / path).resolve()
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['collapse_sorting'], data['version_in_name'], actual_path)
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], actual_path)
         view.refresh(self.tasks)
         self.views[path] = view
         self.views_data[path] = data

@@ -11,9 +11,9 @@ class ProjectManager extends React.Component {
             highlightedTask: null,
             allTags: [],
             refreshRate: null,
-            detailTaskUuid: null
+            detailTaskUuid: null,
+            tensorboard_ports: {}
         };
-        this.gotoTB = this.gotoTB.bind(this);
         this.addVersion = this.addVersion.bind(this);
         this.openTaskViewer = this.openTaskViewer.bind(this);
         this.openCodeVersionViewer = this.openCodeVersionViewer.bind(this);
@@ -32,31 +32,13 @@ class ProjectManager extends React.Component {
                 current_commit_id: data.current_commit_id,
                 saved_filters: data.saved_filters,
                 views: data.views,
-                tensorboard_port: data.tensorboard_port,
+                tensorboard_ports: data.tensorboard_ports,
                 allTags: data.all_tags,
                 refreshRate: parseInt(data.refreshRate)
             });
         });
     }
 
-    gotoTB() {
-        if (this.state.tensorboard_port === -1) {
-             fetch("/tensorboard")
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        if (result !== -1) {
-                            window.open("//" + window.location.hostname + ":" + result, '_blank');
-                        }
-                    },
-                    (error) => {
-
-                    }
-                )
-        } else {
-            window.open("//" + window.location.hostname + ":" + this.state.tensorboard_port,'_blank');
-        }
-    }
 
     addVersion() {
         this.promptRefs.current.openDialog();
@@ -116,7 +98,6 @@ class ProjectManager extends React.Component {
                 <div id="projects-toolbar">
                     <span id="project-toolbar">
                         <div id="code-version" title="Add new code version" onClick={() => this.openCodeVersionViewer(this.state.current_commit_id)}>{this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0,7)}</div>
-                        <div id="tb-link" onClick={this.gotoTB} title="Start and open tensorboard">TB</div>
                         <div id="reload-tasks" onClick={this.reload} title="Reload tasks">
                             <i className="fas fa-sync-alt"></i>
                         </div>
@@ -138,6 +119,7 @@ class ProjectManager extends React.Component {
                             views={this.state.views}
                             allTags={this.state.allTags}
                             refreshRate={this.state.refreshRate}
+                            tensorboard_ports={this.state.tensorboard_ports}
                         />
                     }
                 </div>
@@ -145,7 +127,7 @@ class ProjectManager extends React.Component {
                     ref={this.codeVersionViewerRef}
                     updateView={() => this.projectRef.current.filterHasUpdated()}
                 />
-                <TaskViewer ref={this.taskViewerRef} repository={this.props.repository} allTags={this.state.allTags} openCodeVersionViewer={this.openCodeVersionViewer} />
+                <TaskViewer ref={this.taskViewerRef} close={this.closeTaskViewer} detailTaskUuid={this.state.detailTaskUuid} repository={this.props.repository} allTags={this.state.allTags} openCodeVersionViewer={this.openCodeVersionViewer} />
             </div>
         );
     }

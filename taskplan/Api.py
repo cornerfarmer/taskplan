@@ -1,7 +1,6 @@
-from taskconf.util.Logger import Logger
+
 from taskplan.Project import Project
 
-from taskplan.Controller import Controller
 from taskplan.EventManager import EventManager
 
 try:
@@ -24,15 +23,11 @@ class Api:
     def load_task(self, task_path):
         task = self.project._load_saved_task(Path(task_path), task_path.startswith("tests"))
         self.project.configuration.renew_task_config(task.config)
-        return task.build_save_dir(), task.config
+        return task
 
     def load_config(self, project_name, config_uuid):
         project = self.project.project_by_name(project_name)
         return project.configuration.configs_by_uuid[config_uuid]
-
-    def logger_for_task(self, task_uuid):
-        task = self.project.find_task_by_uuid(task_uuid)
-        return Logger(task.build_save_dir(), "main")
 
     def build_config(self, data, data_has_metadata=False):
         if not data_has_metadata:

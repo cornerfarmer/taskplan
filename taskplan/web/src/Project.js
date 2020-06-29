@@ -53,6 +53,8 @@ class Project extends TaskContainer {
         dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['sorting_tasks'] = this.state.sorting_tasks;
         dataJson['path'] = path;
+        dataJson['version_in_name'] = this.state.versionInName;
+
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -161,7 +163,6 @@ class Project extends TaskContainer {
                             <option value="name">Name</option>
                             <option value="created">Created</option>
                             <option value="iterations">Iterations</option>
-                            <option value="started">Started</option>
                             {this.state.metric_superset.map(col => (
                                 <option value={col}>{col}</option>
                             ))}
@@ -227,12 +228,13 @@ class Project extends TaskContainer {
                     addView={this.addView}
                     paramSorting={this.state.paramSorting}
                     reorderParam={this.reorderParam}
-                    allCols={this.state.metric_superset}
+                    metric_superset={this.state.metric_superset}
                     collapseSorting={this.state.collapseSorting}
                     onChangeCollapseSorting={this.onChangeCollapseSorting}
                     flipCollapseSortingDirection={this.flipCollapseSortingDirection}
                     onChangeVersionInName={this.onChangeVersionInName}
                     versionInName={this.state.versionInName}
+                    tensorboard_ports={this.props.tensorboard_ports}
                 />
             </div>
         );

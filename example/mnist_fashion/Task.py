@@ -1,7 +1,5 @@
 import taskplan
 
-import tensorflow as tf
-from tensorflow import keras
 try:
   from pathlib2 import Path
 except ImportError:
