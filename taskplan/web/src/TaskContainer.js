@@ -18,6 +18,7 @@ class TaskContainer extends React.Component {
         this.newTask = this.newTask.bind(this);
         this.removeTask = this.removeTask.bind(this);
         this.onChangeCollapseSorting = this.onChangeCollapseSorting.bind(this);
+        this.onChangeVersionInName = this.onChangeVersionInName.bind(this);
         this.flipCollapseSortingDirection = this.flipCollapseSortingDirection.bind(this);
         this.reorderParam = this.reorderParam.bind(this);
         this.intervalId = null;
@@ -68,6 +69,7 @@ class TaskContainer extends React.Component {
         dataJson['sort_col'] = this.state.sorting_tasks[0];
         dataJson['sort_dir'] = this.state.sorting_tasks[1] ? "DESC" : "ASC";
         dataJson['collapse_sorting'] = [this.state.collapseSorting[0], this.state.collapseSorting[1] ? "DESC" : "ASC"];
+        dataJson['version_in_name'] = this.state.versionInName;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -308,6 +310,11 @@ class TaskContainer extends React.Component {
         const collapseSorting = this.state.collapseSorting.slice();
         collapseSorting[1] = !collapseSorting[1];
         this.setState({collapseSorting: collapseSorting}, () => this.filterHasUpdated());
+    }
+
+
+    onChangeVersionInName(e) {
+        this.setState({versionInName: e.target.value}, () => this.filterHasUpdated());
     }
 }
 

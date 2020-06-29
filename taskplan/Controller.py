@@ -218,13 +218,20 @@ class Controller:
     def _change_max_running_tasks(self, new_max_running):
         self.scheduler.set_max_running(new_max_running)
 
-    def _add_code_version(self, version_name):
-        if version_name != "":
-            code_version = self.project.add_code_version(version_name)
-            self.save_metadata()
-            self.event_manager.throw(EventType.CODE_VERSION_CHANGED, code_version, self.project)
-            self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
-            self._select_code_version(code_version["uuid"])
+    def _fetch_code_version(self, commit_id):
+        return self.project.version_control.fetch_code_version(commit_id)
+
+    def _set_version_label(self, commit_id, label):
+        self.project.set_version_label(commit_id, label)
+        self.save_metadata()
+
+    def _reset_hard(self, commit_id):
+        self.project.version_control.reset_hard(commit_id)
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+
+    def _reset_soft(self, commit_id):
+        self.project.version_control.reset_soft(commit_id)
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
 
     def _select_code_version(self, version_uuid):
         self.project.select_code_version(version_uuid)
@@ -277,8 +284,8 @@ class Controller:
     def _get_task_dir(self, task_uuid):
         return self.project.find_task_by_uuid(task_uuid).build_save_dir()
 
-    def _filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir):
-        tasks, metric_superset = self.project.filter_tasks(filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir)
+    def _filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name):
+        tasks, metric_superset = self.project.filter_tasks(filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name)
         return tasks, metric_superset
 
     def _task_details(self, task_uuid):

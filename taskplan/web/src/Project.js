@@ -3,8 +3,6 @@ import ParamTab from "./ParamTab";
 import TaskTab from "./TaskTab";
 import ParamViewer from "./ParamViewer";
 import TaskContainer from "./TaskContainer";
-import Param from "./Param";
-import ParamFilter from "./ParamFilter";
 
 class Project extends TaskContainer {
     constructor(props) {
@@ -24,7 +22,8 @@ class Project extends TaskContainer {
             paramSorting: {},
             collapseSorting: ["saved", true],
             metric_superset: [],
-            taskTabInitialized: false
+            taskTabInitialized: false,
+            versionInName: "label"
         };
 
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -207,6 +206,8 @@ class Project extends TaskContainer {
                     collapseSorting={this.state.collapseSorting}
                     onChangeCollapseSorting={this.onChangeCollapseSorting}
                     flipCollapseSortingDirection={this.flipCollapseSortingDirection}
+                    onChangeVersionInName={this.onChangeVersionInName}
+                    versionInName={this.state.versionInName}
                 />
             </div>
         );

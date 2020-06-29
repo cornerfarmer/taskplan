@@ -7,31 +7,21 @@ class Repository {
         this.params = {};
         this.paramValues = {};
         this.tasks = {};
-        this.codeVersions = {};
         this.onChangeListeners = {
             "params": [],
             "paramValues": [],
-            "tasks": [],
-            "codeVersions": []
+            "tasks": []
         };
         this.onAddListeners = {
             "params": [],
             "paramValues": [],
-            "tasks": [],
-            "codeVersions": []
+            "tasks": []
         };
         this.onRemoveListeners = {
             "params": [],
             "paramValues": [],
-            "tasks": [],
-            "codeVersions": []
+            "tasks": []
         };
-
-        this.evtSource.addEventListener("CODE_VERSION_CHANGED", (e) => {
-            const changedCodeVersion = JSON.parse(e.data);
-            changedCodeVersion.time = new Date(changedCodeVersion.time * 1000);
-            this.updateEntity(this.codeVersions, changedCodeVersion, "codeVersions");
-        });
 
         this.evtSource.addEventListener("PARAM_CHANGED", (e) => {
             const changedParam = JSON.parse(e.data);

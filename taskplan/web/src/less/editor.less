@@ -122,7 +122,9 @@
 .task-viewer h2,
 .task-viewer .notes,
 .task-viewer .params,
-.task-viewer .checkpoints {
+.task-viewer .checkpoints,
+.task-viewer .code-versions,
+.code-version-viewer .metadata {
     margin: 10px 16px;
 }
 
@@ -163,6 +165,31 @@
     width: 150px;
 }
 
+
+
+
+.code-version-viewer .metadata{
+    font-weight: 300;
+}
+
+.code-version-viewer .metadata div{
+    margin-bottom: 10px;
+}
+
+.code-version-viewer .metadata div:first-child {
+    margin: 10px 0;
+}
+
+.code-version-viewer .metadata div span{
+    font-weight: 400;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.code-version-viewer .buttons div:first-child {
+    background: rgba(158, 158, 158, 0.2);
+    color: inherit;
+}
 
 .task-viewer h2 {
     font-weight: 300;
@@ -206,6 +233,40 @@
 
 .task-viewer .checkpoints > div .time {
     font-weight: 300;
+}
+
+
+.task-viewer .code-versions {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.task-viewer .code-versions > div {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    border: 1px solid rgba(0,0,0,.1);
+    margin-bottom: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.task-viewer .code-versions > div .iteration {
+    background: rgba(158,158,158,.2);
+}
+
+.task-viewer .code-versions > div .iteration {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.task-viewer .code-versions > div .name {
+    font-weight: 300;
+    margin-left: 10px;
 }
 
 .task-viewer textarea {

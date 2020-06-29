@@ -207,15 +207,23 @@ def run(refresh_interval):
         controller.change_max_running_tasks(new_max_running)
         return jsonify({})
 
-    @app.route('/add_code_version/<string:version_name>')
-    def add_code_version(version_name):
-        controller.add_code_version(version_name)
+    @app.route('/fetch_code_version/<string:commit_id>')
+    def fetch_code_version(commit_id):
+        return jsonify(controller.fetch_code_version(commit_id))
+
+    @app.route('/set_version_label/<string:commit_id>/')
+    @app.route('/set_version_label/<string:commit_id>/<string:label>')
+    def set_version_label(commit_id, label=""):
+        controller.set_version_label(commit_id, label)
         return jsonify({})
 
-    @app.route('/select_code_version/<string:version_uuid>')
-    def select_code_version(version_uuid):
-        controller.select_code_version(version_uuid)
-        return jsonify({})
+    @app.route('/hard_reset/<string:commit_id>')
+    def reset_hard(commit_id):
+        return jsonify(controller.reset_hard(commit_id))
+
+    @app.route('/soft_reset/<string:commit_id>')
+    def reset_soft(commit_id):
+        return jsonify(controller.reset_soft(commit_id))
 
     @app.route('/config/param_value', methods=['POST'])
     @app.route('/config/param_value/<string:param_value_uuid>', methods=['POST'])
@@ -281,7 +289,7 @@ def run(refresh_interval):
     @app.route('/filter_tasks', methods=['POST'])
     def filter_tasks():
         data = json.loads(request.form.get('data'))
-        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["collapse_sorting"], data["group"], data["param_sorting"], None, None, data["sort_col"], data["sort_dir"])
+        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["collapse_sorting"], data["group"], data["param_sorting"], None, None, data["sort_col"], data["sort_dir"], data["version_in_name"])
         return jsonify([tasks, metric_superset])
 
     @app.route('/task_details/<string:task_uuid>')

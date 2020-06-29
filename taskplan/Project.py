@@ -2,6 +2,7 @@ import threading
 from collections import Counter
 from datetime import datetime
 
+from taskplan.VersionControl import VersionControl
 from taskplan.View import *
 
 try:
@@ -21,7 +22,7 @@ import tensorflow as tf
 
 class Project:
 
-    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", load_saved_tasks=True):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", load_saved_tasks=True, git_white_list=[]):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.event_manager = event_manager
@@ -37,16 +38,14 @@ class Project:
         self.test_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_port = None
+        self.version_control = VersionControl(task_dir, git_white_list)
 
-        self.code_versions = []
         self.saved_filters = {}
-        self.current_code_version = None
 
         self.views = {}
         self.views_data = {}
         self._refresh_default_view()
 
-        self.add_code_version("initial")
         self._load_metadata(metadata)
 
         self.all_tags = Counter()
@@ -57,7 +56,7 @@ class Project:
     def _refresh_default_view(self):
         branch_options = []
 
-        branch_options.append(CodeVersionBranch(self.code_versions))
+        #branch_options.append(CodeVersionBranch(self.version_control))
         for param in self.configuration.default_sorted_params():
             branch_options.append(ParamBranch(param, self.configuration))
         self.default_view = View(self.configuration, None, branch_options, {})
@@ -79,18 +78,13 @@ class Project:
         return Project(event_manager, metadata, load_saved_tasks=load_saved_tasks, **data)
 
     def save_metadata(self):
-        return {
-            'code_versions': self.code_versions,
-            "current_code_version": self.current_code_version,
+        return {**{
             "saved_filters": self.saved_filters,
             "views": self.views_data
-        }
+        }, **self.version_control.save_metadata()}
 
     def _load_metadata(self, metadata):
-        if 'code_versions' in metadata:
-            self.code_versions = metadata['code_versions']
-        if 'current_code_version' in metadata:
-            self.current_code_version = metadata['current_code_version']
+        self.version_control.load_metadata(metadata)
         if 'saved_filters' in metadata:
             self.saved_filters = metadata['saved_filters']
         if 'views' in metadata:
@@ -100,10 +94,6 @@ class Project:
                 self.add_view(key, view, True)
         else:
             self.add_view("results", {"filter": {}, "collapse": [], "group": []}, True)
-
-        for view in self.views.values():
-            view.set_code_versions(self.code_versions)
-        self.default_view.set_code_versions(self.code_versions)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -120,7 +110,7 @@ class Project:
 
     def _load_saved_task(self, path, is_test=False):
         #try:
-        task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, None, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
+        task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
         task.load_metadata(path)
         #except:
         #    print("Warning: Could not load task: " + str(path))
@@ -178,7 +168,7 @@ class Project:
                     self.event_manager.throw(EventType.TASK_REMOVED, task)
                     break
 
-        task = TaskWrapper(self.task_dir, self.task_class_name, task_config, self, total_iterations, self.current_code_version, tasks_dir=tasks_dir, is_test=is_test, tags=tags)
+        task = TaskWrapper(self.task_dir, self.task_class_name, task_config, self, total_iterations, tasks_dir=tasks_dir, is_test=is_test, tags=tags)
         task.save_metadata()
         self.tasks.append(task)
         self.configuration.register_task(task)
@@ -261,10 +251,6 @@ class Project:
         })
         if self.current_code_version is None:
             self.current_code_version = code_version_uuid
-
-        for view in self.views.values():
-            view.set_code_versions(self.code_versions)
-        self.default_view.set_code_versions(self.code_versions)
 
         return self.code_versions[-1]
 
@@ -376,9 +362,6 @@ class Project:
     def update_new_client(self, client):
         self.event_manager.throw_for_client(client, EventType.PROJECT_CHANGED, self)
 
-        for code_version in self.code_versions:
-            self.event_manager.throw_for_client(client, EventType.CODE_VERSION_CHANGED, code_version)
-
         for param in self.configuration.get_params():
             self.event_manager.throw_for_client(client, EventType.PARAM_CHANGED, param, self.configuration)
 
@@ -429,11 +412,12 @@ class Project:
                     output.append(result)
             return output
 
-    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, path=None):
+    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, path=None):
         branch_options = []
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
-        branch_options.append(CodeVersionBranch(self.code_versions))
+        if version_in_name != "none":
+            branch_options.append(CodeVersionBranch(version_in_name, self.version_control))
         for param in self.configuration.sorted_params(param_sorting):
             if param.uuid not in collapse:
                 branch_options.append(ParamBranch(param, self.configuration))
@@ -450,8 +434,8 @@ class Project:
         else:
             return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
-    def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir):
-        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting)
+    def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name):
+        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting, version_in_name)
 
         for task in self.tasks:
             view.add_task(task)
@@ -473,7 +457,7 @@ class Project:
         actual_path = (self.task_dir / path).resolve()
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], actual_path)
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['collapse_sorting'], data['version_in_name'], actual_path)
         view.refresh(self.tasks)
         self.views[path] = view
         self.views_data[path] = data
@@ -497,3 +481,7 @@ class Project:
         print("refresh views")
         for view in self.views.values():
             view.refresh(self.tasks)
+
+    def set_version_label(self, commit_id, label):
+        self.version_control.set_label(commit_id, label)
+        self.refresh_views()

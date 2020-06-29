@@ -38,12 +38,12 @@ class PipeMsg(Enum):
 
 
 class TaskWrapper:
-    def __init__(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test=False, tags=[]):
-        self._reset_state(task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test, tags)
+    def __init__(self, task_dir, class_name, config, project, total_iterations, tasks_dir, is_test=False, tags=[]):
+        self._reset_state(task_dir, class_name, config, project, total_iterations, tasks_dir, is_test, tags)
 
         self._create_metadata_lock()
 
-    def _reset_state(self, task_dir, class_name, config, project, total_iterations, code_version, tasks_dir, is_test, tags):
+    def _reset_state(self, task_dir, class_name, config, project, total_iterations, tasks_dir, is_test, tags):
         self.task_dir = task_dir
         self.class_name = class_name
         self.config = config
@@ -55,7 +55,7 @@ class TaskWrapper:
         self.creation_time = datetime.datetime.now()
         self.saved_time = datetime.datetime.now()
         self.queue_index = 0
-        self.code_version = code_version
+        self.code_versions = {}
         self.tasks_dir = tasks_dir
         self.is_test = is_test
         self.checkpoints = []
@@ -93,6 +93,11 @@ class TaskWrapper:
         did_update = self.project.configuration.renew_task_config(self.config)
         if did_update:
             self.save_metadata(["config"])
+
+        if not self.is_test:
+            commit_id = self.project.version_control.take_snapshot("Task: " + str(self.uuid))
+            self.code_versions[self.finished_iterations] = commit_id
+            self.save_metadata(["code_versions"])
 
         self.device.run_task(self.task_dir, self.class_name, self.config.clone(), metadata)
         self.start_time = datetime.datetime.now()
@@ -236,7 +241,7 @@ class TaskWrapper:
             new_data['saved_time'] = time.mktime(self.saved_time.timetuple()) if self.saved_time is not None else ""
             new_data['had_error'] = self.had_error
             new_data['config'] = self.config.data
-            new_data['code_version'] = self.code_version
+            new_data['code_versions'] = self.code_versions
             new_data['checkpoints'] = self.checkpoints
             new_data['notes'] = self.notes
             new_data['tags'] = self.tags
@@ -266,7 +271,7 @@ class TaskWrapper:
             self.creation_time = datetime.datetime.fromtimestamp(data['creation_time'])
             self.saved_time = datetime.datetime.fromtimestamp(data['saved_time']) if data['saved_time'] != "" else None
             self.had_error = data['had_error']
-            self.code_version = data['code_version']
+            self.code_versions = data['code_versions']
             self.checkpoints = data['checkpoints']
             self.notes = data['notes']
             self.tags = data['tags'] if "tags" in data else []
@@ -340,7 +345,7 @@ class TaskWrapper:
         if not path.exists():
             return False
 
-        self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.code_version, self.tasks_dir, self.is_test, self.tags)
+        self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.tasks_dir, self.is_test, self.tags)
         self.load_metadata(path)
         return True
 

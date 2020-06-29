@@ -57,6 +57,7 @@ class Scheduler:
                     self._update_indices()
                     device.runnings[-1].start()
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, device.runnings[-1])
+                    self.event_manager.throw(EventManager.EventType.PROJECT_CHANGED, device.runnings[-1].project)
                     self.event_manager.log("The task \"" + str(device.runnings[-1]) + "\" has been started, beginning with iteration " + str(device.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
 
 

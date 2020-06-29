@@ -131,14 +131,18 @@ class ParamBranch:
         return ParamNode(self.param)
 
 class CodeVersionBranch:
-    def __init__(self, code_versions):
-        self.code_versions = code_versions
+    def __init__(self, mode, version_control):
+        self.version_control = version_control
+        self.mode = mode
 
     def key_from_task(self, task):
-        for code_version in self.code_versions:
-            if code_version["uuid"] == task.code_version:
-                return code_version["name"]
-        raise IndexError("No code version with uuid " + task.code_version)
+        if len(task.code_versions) == 0:
+            return ""
+        commit_id = max(task.code_versions.items(), key=lambda x: x[0])[1]
+        if self.mode == "label":
+            return self.version_control.get_label(commit_id)
+        else:
+            return commit_id[:7]
 
     def exists_node(self, node):
         node_exists = type(node) == CodeVersionNode
@@ -342,8 +346,3 @@ class View:
             path.insert(0, node.parent_key)
             node = node.parent
         return path
-
-    def set_code_versions(self, code_versions):
-        for branch_option in self.branch_options:
-            if type(branch_option) == CodeVersionBranch:
-                branch_option.code_versions = code_versions

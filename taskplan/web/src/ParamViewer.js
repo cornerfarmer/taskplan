@@ -249,6 +249,12 @@ class ParamViewer extends React.Component {
 
                     <div className="header">Parameter sorting</div>
                     <div className="params-to-collapse param-filter">
+                        <label>Version:</label>
+                        <select value={this.props.versionInName} onChange={this.props.onChangeVersionInName}>
+                            <option value="none">None</option>
+                            <option value="commit_id">Commit id</option>
+                            <option value="label">Label</option>
+                        </select>
                         <ul className="params-tab" >
                            {this.props.params.sort((a, b) => this.props.paramSorting[a.uuid] - this.props.paramSorting[b.uuid]).map((param) => (
                                 <Param
