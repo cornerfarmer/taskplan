@@ -15,7 +15,7 @@ def cli():
 
 def _start_controller():
     event_manager = EventManager()
-    controller = Controller(event_manager)
+    controller = Controller(event_manager, None)
     return event_manager, controller
 
 

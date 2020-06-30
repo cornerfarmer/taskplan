@@ -118,8 +118,8 @@ class RemoteDevice(Device):
 
         return data[1:]
 
-    def run_task(self, task_dir, class_name, config, metadata):
-        self._send_msg(RemoteMsg.RUN_TASK, [task_dir, class_name, config.get_merged_data(), metadata])
+    def run_task(self, task_dir, class_name, config, metadata, print_log):
+        self._send_msg(RemoteMsg.RUN_TASK, [task_dir, class_name, config.get_merged_data(), metadata, print_log])
 
     def terminate(self):
         self._send_msg(RemoteMsg.TERMINATE)

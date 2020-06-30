@@ -15,7 +15,7 @@ except ImportError:
 def run(refresh_interval):
     event_manager = EventManager()
 
-    controller = Controller(event_manager, refresh_interval, allow_remote=True)
+    controller = Controller(event_manager, refresh_interval, allow_remote=True, print_log=False)
     controller.start()
 
     app = Flask(__name__, static_url_path="/static_web")

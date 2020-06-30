@@ -29,7 +29,7 @@ class Device:
         self.runnings = []
         self.queue = []
 
-    def run_task(self, task_dir, class_name, config, metadata):
+    def run_task(self, task_dir, class_name, config, metadata, print_log):
         raise NotImplemented
 
     def terminate(self):
@@ -56,15 +56,16 @@ class Device:
 class LocalDevice(Device):
     def __init__(self):
         super().__init__()
+        self.uuid = "local"
         self.process = None
 
         pipe_recv, pipe_send = Pipe(duplex=True)
         self.wrapper_pipe = PipeEnd(pipe_recv)
         self.task_pipe = PipeEnd(pipe_send)
 
-    def run_task(self, task_dir, class_name, config, metadata):
+    def run_task(self, task_dir, class_name, config, metadata, print_log):
         metadata["pipe"] = self.task_pipe
-        self.process = Process(target=TaskWrapper._run, args=(task_dir, class_name, config, metadata))
+        self.process = Process(target=TaskWrapper._run, args=(task_dir, class_name, config, metadata, print_log))
         self.process.start()
 
     def terminate(self):

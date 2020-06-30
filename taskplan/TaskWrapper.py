@@ -17,6 +17,7 @@ import os
 import time
 from filelock import SoftFileLock
 import tensorflow as tf
+import sys
 
 class State(Enum):
     INIT = 0
@@ -36,6 +37,24 @@ class PipeMsg(Enum):
     SAVED_FINISHED_ITERATIONS = 8
     CREATE_CHECKPOINT = 9
 
+class StdOut(object):
+    def __init__(self, logger):
+        self.logger = logger
+        self.buffer = ""
+
+    def write(self, message):
+        self.buffer += message
+        if '\n' in message:
+            i = self.buffer.find('\n')
+            self.logger.log(self.buffer[:i + 1])
+            self.buffer = self.buffer[i + 1:]
+
+
+    def flush(self):
+        #this flush method is needed for python 3 compatibility.
+        #this handles the flush command by doing nothing.
+        #you might want to specify some extra behavior here.
+        pass
 
 class TaskWrapper:
     def __init__(self, task_dir, class_name, config, project, total_iterations, tasks_dir, is_test=False, tags=[]):
@@ -79,7 +98,7 @@ class TaskWrapper:
         path = path / "metadata.json.lock"
         self.metadata_lock = SoftFileLock(path)
 
-    def start(self):
+    def start(self, print_log):
         sys.stdout.flush()
         self.pausing = False
         self._is_running = True
@@ -96,12 +115,17 @@ class TaskWrapper:
 
         if not self.is_test:
             commit_id = self.project.version_control.take_snapshot("Task: " + str(self.uuid))
-            self.code_versions[self.finished_iterations] = commit_id
-            self.save_metadata(["code_versions"])
+            recent_id = self.most_recent_code_version()
+            if recent_id != commit_id:
+                self.code_versions[str(self.finished_iterations)] = commit_id
+                self.save_metadata(["code_versions"])
 
-        self.device.run_task(self.task_dir, self.class_name, self.config.clone(), metadata)
+        self.device.run_task(self.task_dir, self.class_name, self.config.clone(), metadata, print_log)
         self.start_time = datetime.datetime.now()
         self.state = State.RUNNING
+
+    def most_recent_code_version(self):
+        return max(self.code_versions.items(), key=lambda x: int(x[0]))[1] if len(self.code_versions) > 0 else None
 
     def set_as_running(self, device, start_time):
         self.pausing = False
@@ -148,9 +172,11 @@ class TaskWrapper:
         return self.finished_iterations, self.iteration_update_time
 
     @staticmethod
-    def _run(task_dir, class_name, config, metadata):
+    def _run(task_dir, class_name, config, metadata, print_log):
 
-        logger = Logger(metadata["task_dir"], "main")
+        logger = Logger(metadata["task_dir"], "main", terminal=sys.stdout if print_log else None)
+        sys.stdout = StdOut(logger)
+        sys.stderr = sys.stdout
         try:
             sys.path = [str(task_dir)] + sys.path
             os.chdir(str(task_dir))

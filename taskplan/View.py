@@ -144,9 +144,10 @@ class CodeVersionBranch(BranchingOption):
         self.mode = mode
 
     def key_from_task(self, task):
-        if len(task.code_versions) == 0:
-            return ""
-        commit_id = max(task.code_versions.items(), key=lambda x: x[0])[1]
+        commit_id = task.most_recent_code_version()
+        if commit_id is None:
+            commit_id = self.version_control.current_commit_id
+
         if self.mode == "label":
             return self.version_control.get_label(commit_id)
         else:

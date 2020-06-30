@@ -8,9 +8,10 @@ import json
 
 class Scheduler:
 
-    def __init__(self, event_manager, metadata, allow_remote):
+    def __init__(self, event_manager, metadata, allow_remote, print_log):
         self.event_manager = event_manager
         self.devices = [LocalDevice()]
+        self.print_log = print_log
 
         if allow_remote:
             if "remote_devices" not in metadata:
@@ -55,7 +56,7 @@ class Scheduler:
                 if len(device.queue) > 0 and len(device.runnings) < 1:
                     device.runnings.append(device.queue.pop(0))
                     self._update_indices()
-                    device.runnings[-1].start()
+                    device.runnings[-1].start(self.print_log)
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, device.runnings[-1])
                     self.event_manager.throw(EventManager.EventType.PROJECT_CHANGED, device.runnings[-1].project)
                     self.event_manager.log("The task \"" + str(device.runnings[-1]) + "\" has been started, beginning with iteration " + str(device.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
