@@ -289,6 +289,8 @@ class ParamViewer extends React.Component {
                                     param={param}
                                     sortMode={true}
                                     reorderParam={this.props.reorderParam}
+                                    forceInName={param.uuid in this.props.forceParamInName && this.props.forceParamInName[param.uuid]}
+                                    onChangeForceParamInName={this.props.onChangeForceParamInName}
                                 />
                             ))}
                         </ul>

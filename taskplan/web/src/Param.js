@@ -68,7 +68,12 @@ class Param extends React.Component {
         return (
             <li ref={this.paramRef} className="item item-param" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} onDrop={this.onDrop} onDragStart={this.onDragStart} draggable={this.props.sortMode ? "true" : "false"}>
                 <div className="header" onClick={() => this.toggleHideParamValues()}>
+                    {this.props.sortMode &&
+                        <input type="checkbox" style={{"margin-right": "5px"}} checked={this.props.forceInName} onChange={(e) => this.props.onChangeForceParamInName(e, this.props.param.uuid)}/>
+                    }
+
                     <div className="title">{this.props.sortMode ? this.props.param.group.concat([this.props.param.name]).join(" / ") : this.props.param.name}</div>
+                    <div style={{"flex": "2 1 auto"}}></div>
                     {!this.props.sortMode ?
                         <div className="toolbar">
                             <div className="action" onClick={(e) => {this.props.newParamValueFunc(this.props.param, this.props.param.values); e.stopPropagation();}} title="New parameter value">

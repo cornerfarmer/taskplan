@@ -25,7 +25,8 @@ class Project extends TaskContainer {
             taskTabInitialized: false,
             versionInName: "label",
             showSearchBar: false,
-            searchValue: ""
+            searchValue: "",
+            forceParamInName: {}
         };
 
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -37,6 +38,7 @@ class Project extends TaskContainer {
         this.filterLikeTask = this.filterLikeTask.bind(this);
         this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
         this.searchBarKeyDown = this.searchBarKeyDown.bind(this);
+        this.onChangeForceParamInName = this.onChangeForceParamInName.bind(this);
 
         this.addView = this.addView.bind(this);
         this.paramViewerRef = React.createRef();
@@ -54,6 +56,7 @@ class Project extends TaskContainer {
         dataJson['sorting_tasks'] = this.state.sorting_tasks;
         dataJson['path'] = path;
         dataJson['version_in_name'] = this.state.versionInName;
+        dataJson['force_param_in_name'] = this.state.forceParamInName;
 
 
         data.append("data", JSON.stringify(dataJson));
@@ -141,6 +144,15 @@ class Project extends TaskContainer {
         }
     }
 
+    onChangeForceParamInName(e, param_uuid) {
+        const forceParamInName = Object.assign({}, this.state.forceParamInName);
+
+        forceParamInName[param_uuid] = e.target.checked;
+
+        this.setState({
+            forceParamInName: forceParamInName
+        }, () => this.filterHasUpdated());
+    }
 
     render() {
         return (
@@ -235,6 +247,8 @@ class Project extends TaskContainer {
                     onChangeVersionInName={this.onChangeVersionInName}
                     versionInName={this.state.versionInName}
                     tensorboard_ports={this.props.tensorboard_ports}
+                    forceParamInName={this.state.forceParamInName}
+                    onChangeForceParamInName={this.onChangeForceParamInName}
                 />
             </div>
         );

@@ -16,6 +16,7 @@ class ParamTab extends React.Component {
         this.addParamBatch = this.addParamBatch.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
         this.reorderParam = this.reorderParam.bind(this);
+        this.onChangeForceParamInName = this.onChangeForceParamInName.bind(this);
         this.paramEditor = React.createRef();
         this.paramBatchEditor = React.createRef();
         this.paramValueEditor = React.createRef();
@@ -58,6 +59,19 @@ class ParamTab extends React.Component {
             );
     }
 
+    onChangeForceParamInName(e, param_uuid) {
+          fetch("/force_param/" + param_uuid + "/" + (e.target.checked ? "1": "0"))
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            );
+    }
+
     render() {
         return (
             <div className="tab" style={{'display': (this.props.active ? 'flex' : 'none')}}>
@@ -70,6 +84,8 @@ class ParamTab extends React.Component {
                                 sortMode={true}
                                 numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                                 reorderParam={this.reorderParam}
+                                forceInName={param.force}
+                                onChangeForceParamInName={this.onChangeForceParamInName}
                             />
                         ))
                         :

@@ -70,6 +70,7 @@ class TaskContainer extends React.Component {
         dataJson['sort_dir'] = this.state.sorting_tasks[1] ? "DESC" : "ASC";
         dataJson['collapse_sorting'] = [this.state.collapseSorting[0], this.state.collapseSorting[1] ? "DESC" : "ASC"];
         dataJson['version_in_name'] = this.state.versionInName;
+        dataJson['force_param_in_name'] = this.state.forceParamInName;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -108,6 +109,8 @@ class TaskContainer extends React.Component {
         dataJson['saveName'] = saveName;
         dataJson['sorting_tasks'] = this.state.sorting_tasks;
         dataJson['collapse_sorting'] = this.state.collapseSorting;
+        dataJson['version_in_name'] = this.state.versionInName;
+        dataJson['force_param_in_name'] = this.state.forceParamInName;
 
         data.append("data", JSON.stringify(dataJson));
 

@@ -22,7 +22,8 @@ class Node:
 
     def insert_as_parent(self, key, new_parent):
         self.parent.set_child(self.parent_key, new_parent)
-        new_parent.set_child(key, self)
+        if key is not None:
+            new_parent.set_child(key, self)
 
     def remove(self):
         assert (len(self.children) == 1)
@@ -91,8 +92,13 @@ class TasksNode(Node):
     def get_all_contained_tasks(self):
         return self.children.values()
 
-class GroupBranch:
+class BranchingOption:
+    def __init__(self, force=False):
+        self.force = force
+
+class GroupBranch(BranchingOption):
     def __init__(self, params, configuration):
+        super().__init__()
         self.params = params
         self.configuration = configuration
 
@@ -112,8 +118,9 @@ class GroupBranch:
         return GroupNode(self.params)
 
 
-class ParamBranch:
-    def __init__(self, param, configuration):
+class ParamBranch(BranchingOption):
+    def __init__(self, param, configuration, force):
+        super().__init__(force)
         self.param = param
         self.configuration = configuration
 
@@ -130,8 +137,9 @@ class ParamBranch:
     def create_new_node(self):
         return ParamNode(self.param)
 
-class CodeVersionBranch:
+class CodeVersionBranch(BranchingOption):
     def __init__(self, mode, version_control):
+        super().__init__()
         self.version_control = version_control
         self.mode = mode
 
@@ -194,16 +202,18 @@ class View:
             self._check_filesystem(self.root_node.children["default"], self.root_path)
 
     def _insert_new_node(self, task, node, branching_option, key, path, change_dirs):
-        first_task = node.get_first_task_in()
-        if first_task is None:
-            return None
+        if not branching_option.force:
+            first_task = node.get_first_task_in()
+            if first_task is None:
+                return None
 
-        former_key = branching_option.key_from_task(first_task)
-        if former_key == key:
-            return None
+            former_key = branching_option.key_from_task(first_task)
+            if former_key == key:
+                return None
         else:
-            new_node = branching_option.create_new_node()
+            former_key = None
 
+        new_node = branching_option.create_new_node()
         node = self._add_node_before_node(node, new_node, former_key, path, change_dirs)
         return node
 
@@ -266,7 +276,7 @@ class View:
     def _add_node_before_node(self, node, new_node, key, path, change_dirs=True):
         node.insert_as_parent(key, new_node)
 
-        if path is not None and change_dirs:
+        if path is not None and change_dirs and key is not None:
             (path / key).mkdir()
             for child_path in path.iterdir():
                 if child_path.name != key:

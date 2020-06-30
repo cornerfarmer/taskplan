@@ -57,9 +57,9 @@ class Project:
     def _refresh_default_view(self):
         branch_options = []
 
-        #branch_options.append(CodeVersionBranch(self.version_control))
+        branch_options.append(CodeVersionBranch("label", self.version_control))
         for param in self.configuration.default_sorted_params():
-            branch_options.append(ParamBranch(param, self.configuration))
+            branch_options.append(ParamBranch(param, self.configuration, param.get_metadata("force") if param.has_metadata("force") else False))
         self.default_view = View(self.configuration, None, branch_options, {})
 
     def _default_view_refresh_names(self, throw_events=True, exclude_from_throw=[]):
@@ -307,11 +307,21 @@ class Project:
             return new_task
 
     def change_sorting(self, param_uuid, new_sorting):
-        param = self.configuration.get_config(param_uuid)
-
         changed_params = self.configuration.change_sorting(param_uuid, new_sorting)
 
+        self._refresh_default_view()
+        self.default_view.refresh(self.tasks)
+        self._default_view_refresh_names()
+
         return changed_params
+
+    def force_param(self, param_uuid, enabled):
+        param = self.configuration.force_param(param_uuid, enabled)
+        self.event_manager.throw(EventType.PARAM_CHANGED, param, self.configuration)
+
+        self._refresh_default_view()
+        self.default_view.refresh(self.tasks)
+        self._default_view_refresh_names()
 
     def reload(self):
         self.configuration.reload()
@@ -405,7 +415,7 @@ class Project:
                     output.append(result)
             return output
 
-    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, path=None):
+    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, path=None):
         branch_options = []
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
@@ -413,7 +423,7 @@ class Project:
             branch_options.append(CodeVersionBranch(version_in_name, self.version_control))
         for param in self.configuration.sorted_params(param_sorting):
             if param.uuid not in collapse:
-                branch_options.append(ParamBranch(param, self.configuration))
+                branch_options.append(ParamBranch(param, self.configuration, str(param.uuid) in force_param_in_name and force_param_in_name[str(param.uuid)]))
         for param_uuid in collapse:
             branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration, collapse_sorting))
 
@@ -427,8 +437,8 @@ class Project:
         else:
             return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
-    def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name):
-        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting, version_in_name)
+    def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
+        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name)
 
         for task in self.tasks:
             view.add_task(task)
@@ -450,7 +460,7 @@ class Project:
         actual_path = (self.task_dir / path).resolve()
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], actual_path)
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], data['force_param_in_name'], actual_path)
         view.refresh(self.tasks)
         self.views[path] = view
         self.views_data[path] = data

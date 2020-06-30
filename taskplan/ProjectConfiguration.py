@@ -110,6 +110,12 @@ class ProjectConfiguration:
 
         return changed_params
 
+    def force_param(self, param_uuid, enabled):
+        param = self.get_config(param_uuid)
+        param.set_metadata("force", enabled)
+        self.configuration.save()
+        return param
+
     def _swap_sorting(self, first_param, second_param):
         first_sorting = first_param.get_metadata("sorting")
         first_param.set_metadata("sorting", second_param.get_metadata("sorting"))
