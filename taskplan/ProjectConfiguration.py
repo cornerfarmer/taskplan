@@ -179,8 +179,8 @@ class ProjectConfiguration:
                 data = {}
                 data["name"] = key + "_$T0$"
                 data["isTemplate"] = True
-                data["template_defaults"] = [json.dumps(config[key])]
-                data["template_deprecated"] = [json.dumps(config[key])]
+                data["template_defaults"] = [json.dumps(config[key]).strip("\"")]
+                data["template_deprecated"] = [json.dumps(config[key]).strip("\"")]
                 data["config"] = {}
                 sub_config = data["config"]
                 for sub_key in prefix:
