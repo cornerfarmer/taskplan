@@ -82,7 +82,6 @@ class ParamTab extends React.Component {
                                 key={param.uuid}
                                 param={param}
                                 sortMode={true}
-                                numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                                 reorderParam={this.reorderParam}
                                 forceInName={param.force}
                                 onChangeForceParamInName={this.onChangeForceParamInName}
@@ -99,7 +98,6 @@ class ParamTab extends React.Component {
                                 editParamFunc={this.paramEditor.current.open}
                                 editParamValueFunc={this.paramValueEditor.current.open}
                                 newParamValueFunc={this.paramValueEditor.current.new}
-                                numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                             />
                         ))
                     }

@@ -194,7 +194,6 @@ class ParamFilter extends React.Component {
                         toggleSelection={this.props.toggleSelection}
                         selectedParamValues={this.props.selectedParamValues}
                         getParamValueArg={this.getParamValueArg}
-                        numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                         selectMultiple={this.props.selectMultiple}
                         expanded={"tags" === this.state.expandedParam}
                         toggleExpandedParam={this.toggleExpandedParam}
@@ -217,7 +216,6 @@ class ParamFilter extends React.Component {
                                         toggleSelection={this.props.toggleSelection}
                                         selectedParamValues={this.props.selectedParamValues}
                                         getParamValueArg={this.getParamValueArg}
-                                        numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                                         selectMultiple={this.props.selectMultiple}
                                         expanded={param.uuid === this.state.expandedParam}
                                         toggleExpandedParam={this.toggleExpandedParam}

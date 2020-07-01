@@ -34,7 +34,6 @@ class ParamGroup extends React.Component {
                                 editParamFunc={this.props.editParamFunc}
                                 editParamValueFunc={this.props.editParamValueFunc}
                                 newParamValueFunc={this.props.newParamValueFunc}
-                                numberOfTasksPerParamValue={this.props.numberOfTasksPerParamValue}
                             />
                         ))}
                 </ul>

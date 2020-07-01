@@ -110,12 +110,12 @@ class Param extends React.Component {
                                 paramValue={value}
                                 param={this.props.param}
                                 editFunc={this.props.editParamValueFunc}
-                                removable={!(value.uuid in this.props.numberOfTasksPerParamValue) || this.props.numberOfTasksPerParamValue[value.uuid].length === 0}
+                                removable={Object.values(value.number_of_tasks).map(x => x[0]).reduce((accumulator, currentValue) => accumulator + currentValue, 0) === 0}
                             />
                         ))}
                     </ul>
                 }
-                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this parameter?" url={"/remove_param/" + this.props.param.project_name + "/" + this.props.param.uuid}/>
+                <ReassuringPrompt ref={this.reassuringRemovePromptRefs} header="Really want to delete?" text="Do you really want to remove this parameter?" url={"/remove_param/" + this.props.param.uuid}/>
             </li>
         );
     }

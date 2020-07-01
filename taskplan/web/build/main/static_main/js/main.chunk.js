@@ -1797,7 +1797,7 @@ class Param extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       paramValue: value,
       param: this.props.param,
       editFunc: this.props.editParamValueFunc,
-      removable: !(value.uuid in this.props.numberOfTasksPerParamValue) || this.props.numberOfTasksPerParamValue[value.uuid].length === 0,
+      removable: Object.values(value.number_of_tasks).map(x => x[0]).reduce((accumulator, currentValue) => accumulator + currentValue, 0) === 0,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 108
@@ -1807,7 +1807,7 @@ class Param extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       ref: this.reassuringRemovePromptRefs,
       header: "Really want to delete?",
       text: "Do you really want to remove this parameter?",
-      url: "/remove_param/" + this.props.param.project_name + "/" + this.props.param.uuid,
+      url: "/remove_param/" + this.props.param.uuid,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 118
@@ -2417,7 +2417,6 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       toggleSelection: this.props.toggleSelection,
       selectedParamValues: this.props.selectedParamValues,
       getParamValueArg: this.getParamValueArg,
-      numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
       selectMultiple: this.props.selectMultiple,
       expanded: "tags" === this.state.expandedParam,
       toggleExpandedParam: this.toggleExpandedParam,
@@ -2432,7 +2431,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-group",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 205
+        lineNumber: 204
       },
       __self: this
     }, group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2440,28 +2439,28 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       onClick: () => this.toggleHideParamValues(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 207
+        lineNumber: 206
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 208
+        lineNumber: 207
       },
       __self: this
     }, group)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
+        lineNumber: 210
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 212
+        lineNumber: 211
       },
       __self: this
     }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
@@ -2470,14 +2469,13 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       toggleSelection: this.props.toggleSelection,
       selectedParamValues: this.props.selectedParamValues,
       getParamValueArg: this.getParamValueArg,
-      numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
       selectMultiple: this.props.selectMultiple,
       expanded: param.uuid === this.state.expandedParam,
       toggleExpandedParam: this.toggleExpandedParam,
       onParamValueArgChange: this.onParamValueArgChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214
+        lineNumber: 213
       },
       __self: this
     })))))));
@@ -2555,7 +2553,6 @@ class ParamGroup extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       editParamFunc: this.props.editParamFunc,
       editParamValueFunc: this.props.editParamValueFunc,
       newParamValueFunc: this.props.newParamValueFunc,
-      numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 31
@@ -2852,7 +2849,6 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       key: param.uuid,
       param: param,
       sortMode: true,
-      numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
       reorderParam: this.reorderParam,
       forceInName: param.force,
       onChangeForceParamInName: this.onChangeForceParamInName,
@@ -2870,10 +2866,9 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       editParamFunc: this.paramEditor.current.open,
       editParamValueFunc: this.paramValueEditor.current.open,
       newParamValueFunc: this.paramValueEditor.current.new,
-      numberOfTasksPerParamValue: this.props.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
+        lineNumber: 92
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -2881,7 +2876,7 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       closeEditors: this.closeEditors,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
+        lineNumber: 105
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -2889,7 +2884,7 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       closeEditors: this.closeEditors,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
+        lineNumber: 106
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -2897,20 +2892,20 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       closeEditors: this.closeEditors,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 107
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
+        lineNumber: 108
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 111
+        lineNumber: 109
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2919,34 +2914,34 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onChange: this.toggleShowAbstract,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 112
+        lineNumber: 110
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 113
+        lineNumber: 111
       },
       __self: this
     }, "Show abstract parameter values")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 115
+        lineNumber: 113
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.addParam,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 116
+        lineNumber: 114
       },
       __self: this
     }, "Add parameter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.addParamBatch,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
+        lineNumber: 115
       },
       __self: this
     }, "Add batch"))));
@@ -3144,7 +3139,7 @@ class ParamValue extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       ref: this.reassuringRemovePromptRefs,
       header: "Really want to delete?",
       text: "Do you really want to remove this parameter value?",
-      url: "/remove_param_value/" + this.props.paramValue.project_name + "/" + this.props.paramValue.uuid,
+      url: "/remove_param_value/" + this.props.paramValue.uuid,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 45
@@ -5096,7 +5091,6 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       sorting: this.state.sorting_params,
       paramSortingMode: this.state.paramSortingMode,
       params: this.state.params,
-      numberOfTasksPerParamValue: this.state.numberOfTasksPerParamValue,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 197
@@ -5119,7 +5113,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       initialized: this.state.taskTabInitialized,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 205
+        lineNumber: 204
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -5154,7 +5148,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onChangeForceParamInName: this.onChangeForceParamInName,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 221
+        lineNumber: 220
       },
       __self: this
     }));
@@ -6364,12 +6358,13 @@ function TaskProgress(props) {
     var style = {
       width: (props.mean_iteration_time > 0 ? Math.min(1, ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations) * 100 : 0) + '%'
     };
+    console.log(props.mean_iteration_time, style);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "progress",
       style: style,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 80
+        lineNumber: 81
       },
       __self: this
     });
@@ -6444,13 +6439,13 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
+        lineNumber: 212
       },
       __self: this
     }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 213
+        lineNumber: 214
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6459,20 +6454,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Pause the task after the current iteration",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214
+        lineNumber: 215
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-pause",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
+        lineNumber: 216
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
+        lineNumber: 216
       },
       __self: this
     }, "Pause")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6481,20 +6476,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Force the task to save after the current iteration",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 217
+        lineNumber: 218
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-save",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
+        lineNumber: 219
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
+        lineNumber: 219
       },
       __self: this
     }, "Save now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6503,27 +6498,27 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 220
+        lineNumber: 221
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 221
+        lineNumber: 222
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 221
+        lineNumber: 222
       },
       __self: this
     }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 223
+        lineNumber: 224
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6533,21 +6528,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 224
+        lineNumber: 225
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 225
+        lineNumber: 226
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 227
+        lineNumber: 228
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6556,20 +6551,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "View the log",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
+        lineNumber: 229
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-file-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
+        lineNumber: 230
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
+        lineNumber: 230
       },
       __self: this
     }, "Log")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6578,20 +6573,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Terminate task",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 231
+        lineNumber: 232
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-skull-crossbones",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
+        lineNumber: 233
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
+        lineNumber: 233
       },
       __self: this
     }, "Terminate")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6600,33 +6595,33 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Create checkpoint",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 234
+        lineNumber: 235
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-flag",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
+        lineNumber: 236
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
+        lineNumber: 236
       },
       __self: this
     }, "Checkpoint")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "current-action",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 239
+        lineNumber: 240
       },
       __self: this
     }, currentAction)), this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 245
+        lineNumber: 246
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6635,20 +6630,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Pause one of the running tasks and start this one instead",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
+        lineNumber: 247
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-exclamation-triangle",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
+        lineNumber: 248
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
+        lineNumber: 248
       },
       __self: this
     }, "Run now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6657,27 +6652,27 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 249
+        lineNumber: 250
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
+        lineNumber: 251
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
+        lineNumber: 251
       },
       __self: this
     }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 252
+        lineNumber: 253
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6687,21 +6682,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
+        lineNumber: 254
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
+        lineNumber: 255
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 256
+        lineNumber: 257
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6710,20 +6705,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Remove this task from the queue",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 257
+        lineNumber: 258
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 259
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 259
       },
       __self: this
     }, "Cancel"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -6734,7 +6729,7 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       url: "/change/" + this.props.task.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 264
+        lineNumber: 265
       },
       __self: this
     }));
@@ -6807,35 +6802,35 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       draggable: this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED ? "true" : "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 335
+        lineNumber: 336
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "content",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 336
+        lineNumber: 337
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 337
+        lineNumber: 338
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "project-name",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 338
+        lineNumber: 339
       },
       __self: this
     }, "Task"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "status",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 339
+        lineNumber: 340
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskStatus, {
@@ -6845,14 +6840,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       run_time: this.props.task.run_time,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 340
+        lineNumber: 341
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 341
+        lineNumber: 342
       },
       __self: this
     }, this.props.task.finished_iterations, " / ", this.props.task.total_iterations))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskProgress, {
@@ -6865,7 +6860,7 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       iteration_update_time: this.props.task.iteration_update_time,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 344
+        lineNumber: 345
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6873,14 +6868,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.props.highlightTask(this.props.task),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
+        lineNumber: 346
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "try-number",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
+        lineNumber: 346
       },
       __self: this
     }, this.props.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskName, {
@@ -6888,14 +6883,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       name: this.props.task.name,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
+        lineNumber: 346
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskToolbar, {
       task: this.props.task,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 347
+        lineNumber: 348
       },
       __self: this
     }));

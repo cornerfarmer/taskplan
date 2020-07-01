@@ -200,7 +200,6 @@ class Project extends TaskContainer {
                     sorting={this.state.sorting_params}
                     paramSortingMode={this.state.paramSortingMode}
                     params={this.state.params}
-                    numberOfTasksPerParamValue={this.state.numberOfTasksPerParamValue}
                 />
                 <TaskTab
                     ref={this.taskTabRef}

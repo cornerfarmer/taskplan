@@ -1,7 +1,7 @@
 {
   "files": {
-    "static_table/js/1.chunk.js": "/static_table/js/1.chunk.js",
-    "static_table/js/1.chunk.js.map": "/static_table/js/1.chunk.js.map",
+    "static_table/js/0.chunk.js": "/static_table/js/0.chunk.js",
+    "static_table/js/0.chunk.js.map": "/static_table/js/0.chunk.js.map",
     "main.js": "/static_table/js/main.chunk.js",
     "main.js.map": "/static_table/js/main.chunk.js.map",
     "runtime~main.js": "/static_table/js/bundle.js",

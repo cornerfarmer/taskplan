@@ -226,13 +226,13 @@ class Project:
     def remove_param(self, param_uuid):
         param = self.configuration.remove_param(param_uuid)
         if param is not None:
-            self.event_manager.throw(EventType.PARAM_REMOVED, param, project)
+            self.event_manager.throw(EventType.PARAM_REMOVED, param, self.configuration)
 
     def remove_param_value(self, param_value_uuid):
         param_value, param = self.configuration.remove_param_value(param_value_uuid)
         if param_value is not None:
-            self.event_manager.throw(EventType.PARAM_VALUE_REMOVED, param_value, project)
-            self.event_manager.throw(EventType.PARAM_CHANGED, param, project)
+            self.event_manager.throw(EventType.PARAM_VALUE_REMOVED, param_value, self.configuration)
+            self.event_manager.throw(EventType.PARAM_CHANGED, param, self.configuration)
 
     def add_code_version(self, name):
         code_version_uuid = str(uuid.uuid4())

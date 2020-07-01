@@ -72,7 +72,7 @@ class ServerSentEvent(object):
                 data_client['template_defaults'] = data.get_metadata("template_defaults") if data.has_metadata("template_defaults") else []
                 data_client['template_deprecated'] = data.get_metadata("template_deprecated") if data.has_metadata("template_deprecated") else []
                 data_client['creation_time'] = time.mktime(data.creation_time.timetuple())
-                data_client['number_of_tasks'] = parent_data.number_of_tasks_per_param_value_key[str(data.uuid)] if str(data.uuid) in parent_data.number_of_tasks_per_param_value_key else 0
+                data_client['number_of_tasks'] = parent_data.number_of_tasks_per_param_value_key[str(data.uuid)] if str(data.uuid) in parent_data.number_of_tasks_per_param_value_key else []
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['current_commit_id'] = data.version_control.current_commit_id
             data_client['saved_filters'] = data.saved_filters
