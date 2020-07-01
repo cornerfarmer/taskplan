@@ -5766,22 +5766,6 @@ class Repository {
         checkpoint.time = new Date(checkpoint.time * 1000);
       }
 
-      if (changedTask.state === _Global__WEBPACK_IMPORTED_MODULE_0__["default"].RUNNING) {
-        if (changedTask.uuid in this.tasks) {
-          if (changedTask.finished_iterations !== this.tasks[changedTask.uuid].finished_iterations) {
-            changedTask.mean_iteration_time = (changedTask.iteration_update_time - (this.tasks[changedTask.uuid].iteration_update_time === 0 ? changedTask.start_time : this.tasks[changedTask.uuid].iteration_update_time)) / (changedTask.finished_iterations - this.tasks[changedTask.uuid].finished_iterations);
-            changedTask.total_time = parseInt(changedTask.iteration_update_time - changedTask.start_time + changedTask.mean_iteration_time * (changedTask.total_iterations - changedTask.finished_iterations));
-          } else {
-            changedTask.mean_iteration_time = this.tasks[changedTask.uuid].mean_iteration_time;
-            changedTask.total_time = this.tasks[changedTask.uuid].total_time;
-          }
-        }
-
-        changedTask.start_time_timestamp = changedTask.start_time;
-        changedTask.start_time = new Date(changedTask.start_time * 1000);
-        _Scheduler__WEBPACK_IMPORTED_MODULE_1__["default"].refreshRunTime(changedTask);
-      }
-
       this.updateEntity(this.tasks, changedTask, "tasks");
     });
     this.evtSource.addEventListener("TASK_REMOVED", e => {
@@ -5910,25 +5894,12 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.shouldShowDevice = this.shouldShowDevice.bind(this);
   }
 
-  static refreshRunTime(task) {
-    task.run_time = parseInt((Date.now() - task.start_time) / 1000);
-  }
-
   componentDidMount() {
-    var pm = this;
-    this.timerID = setInterval(function () {
-      const tasks = pm.state.tasks.slice();
-      tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_2__["default"].RUNNING).forEach(task => Scheduler.refreshRunTime(task));
-      pm.setState({
-        tasks: tasks
-      });
-    }, 1000);
     this.props.repository.onChange("tasks", this.updateTasks);
     this.updateTasks(this.props.repository.tasks);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
     this.props.repository.removeOnChange("tasks", this.updateTasks);
   }
 
@@ -5968,14 +5939,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       id: "scheduler",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 92
+        lineNumber: 76
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
+        lineNumber: 77
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5985,7 +5956,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 94
+        lineNumber: 78
       },
       __self: this
     }, "Add device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5993,7 +5964,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       "aria-labelledby": "dropdownMenuButton",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 97
+        lineNumber: 81
       },
       __self: this
     }, this.props.devices.filter(device => !this.shouldShowDevice(device)).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6001,14 +5972,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.showDevice(device),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 99
+        lineNumber: 83
       },
       __self: this
     }, device.name)), this.props.devices.filter(device => !this.shouldShowDevice(device)).length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-divider",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 102
+        lineNumber: 86
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6016,7 +5987,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.promptAddDeviceRefs.current.openDialog(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 104
+        lineNumber: 88
       },
       __self: this
     }, "Add new device"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -6026,14 +5997,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       url: "/add_device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
+        lineNumber: 91
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 93
       },
       __self: this
     }), this.props.devices.filter(this.shouldShowDevice).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -6043,14 +6014,14 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       highlightTask: this.props.highlightTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 111
+        lineNumber: 95
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 113
+        lineNumber: 97
       },
       __self: this
     }));
@@ -6328,7 +6299,7 @@ function TaskStatus(props) {
     }
 
     function renderTime(time) {
-      if (time > 0) {
+      if (time !== null) {
         if (time >= 3600) return pad(time / 3600) + ":" + pad(time % 3600 / 60) + ":" + pad(time % 60);else return pad(time / 60) + ":" + pad(time % 60);
       } else return "--:--";
     }
@@ -6340,7 +6311,7 @@ function TaskStatus(props) {
         lineNumber: 71
       },
       __self: this
-    }, renderTime(props.run_time), " / ", renderTime(props.total_time));
+    }, renderTime(props.run_time), " / ", renderTime(props.time_left));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "time",
@@ -6356,15 +6327,14 @@ function TaskStatus(props) {
 function TaskProgress(props) {
   if (props.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING) {
     var style = {
-      width: (props.mean_iteration_time > 0 ? Math.min(1, ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations) * 100 : 0) + '%'
+      width: Math.min(1, props.finished_iterations / props.total_iterations) * 100 + '%'
     };
-    console.log(props.mean_iteration_time, style);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "progress",
       style: style,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
+        lineNumber: 80
       },
       __self: this
     });
@@ -6439,13 +6409,13 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 212
+        lineNumber: 211
       },
       __self: this
     }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214
+        lineNumber: 213
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6454,20 +6424,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Pause the task after the current iteration",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
+        lineNumber: 214
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-pause",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 216
+        lineNumber: 215
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 216
+        lineNumber: 215
       },
       __self: this
     }, "Pause")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6476,20 +6446,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Force the task to save after the current iteration",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
+        lineNumber: 217
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-save",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 219
+        lineNumber: 218
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 219
+        lineNumber: 218
       },
       __self: this
     }, "Save now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6498,27 +6468,27 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 221
+        lineNumber: 220
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 222
+        lineNumber: 221
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 222
+        lineNumber: 221
       },
       __self: this
     }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 224
+        lineNumber: 223
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6528,21 +6498,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 225
+        lineNumber: 224
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 226
+        lineNumber: 225
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
+        lineNumber: 227
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6551,20 +6521,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "View the log",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
+        lineNumber: 228
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-file-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 230
+        lineNumber: 229
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 230
+        lineNumber: 229
       },
       __self: this
     }, "Log")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6573,20 +6543,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Terminate task",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
+        lineNumber: 231
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-skull-crossbones",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233
+        lineNumber: 232
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233
+        lineNumber: 232
       },
       __self: this
     }, "Terminate")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6595,33 +6565,33 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Create checkpoint",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
+        lineNumber: 234
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-flag",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 236
+        lineNumber: 235
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 236
+        lineNumber: 235
       },
       __self: this
     }, "Checkpoint")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "current-action",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 240
+        lineNumber: 239
       },
       __self: this
     }, currentAction)), this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
+        lineNumber: 245
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6630,20 +6600,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Pause one of the running tasks and start this one instead",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
+        lineNumber: 246
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-exclamation-triangle",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 248
+        lineNumber: 247
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 248
+        lineNumber: 247
       },
       __self: this
     }, "Run now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6652,27 +6622,27 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
+        lineNumber: 249
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 251
+        lineNumber: 250
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 251
+        lineNumber: 250
       },
       __self: this
     }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
+        lineNumber: 252
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6682,21 +6652,21 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       "aria-expanded": "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
+        lineNumber: 253
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 255
+        lineNumber: 254
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 257
+        lineNumber: 256
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6705,20 +6675,20 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       title: "Remove this task from the queue",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 257
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 259
+        lineNumber: 258
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 259
+        lineNumber: 258
       },
       __self: this
     }, "Cancel"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -6729,7 +6699,7 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       url: "/change/" + this.props.task.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 265
+        lineNumber: 264
       },
       __self: this
     }));
@@ -6802,65 +6772,61 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       draggable: this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED ? "true" : "false",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 336
+        lineNumber: 335
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "content",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 337
+        lineNumber: 336
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 338
+        lineNumber: 337
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "project-name",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 339
+        lineNumber: 338
       },
       __self: this
     }, "Task"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "status",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 340
+        lineNumber: 339
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskStatus, {
       index: this.props.index,
       state: this.props.task.state,
-      total_time: this.props.task.total_time,
+      time_left: this.props.task.time_left,
       run_time: this.props.task.run_time,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 341
+        lineNumber: 340
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 342
+        lineNumber: 341
       },
       __self: this
     }, this.props.task.finished_iterations, " / ", this.props.task.total_iterations))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskProgress, {
       state: this.props.task.state,
       total_iterations: this.props.task.total_iterations,
-      run_time: this.props.task.run_time,
-      start_time: this.props.task.start_time_timestamp,
-      mean_iteration_time: this.props.task.mean_iteration_time,
       finished_iterations: this.props.task.finished_iterations,
-      iteration_update_time: this.props.task.iteration_update_time,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
+        lineNumber: 344
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6868,14 +6834,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: () => this.props.highlightTask(this.props.task),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 346
+        lineNumber: 345
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "try-number",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 346
+        lineNumber: 345
       },
       __self: this
     }, this.props.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskName, {
@@ -6883,14 +6849,14 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       name: this.props.task.name,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 346
+        lineNumber: 345
       },
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskToolbar, {
       task: this.props.task,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 348
+        lineNumber: 347
       },
       __self: this
     }));
@@ -8679,5 +8645,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",0]]]);
+},[[0,"runtime~main",1]]]);
 //# sourceMappingURL=main.chunk.js.map

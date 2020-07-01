@@ -59,7 +59,7 @@ function TaskStatus(props) {
         }
 
         function renderTime(time) {
-            if (time > 0) {
+            if (time !== null) {
                 if (time >= 3600)
                     return pad(time / 3600) + ":" + pad((time % 3600) / 60) + ":" + pad(time % 60);
                 else
@@ -68,7 +68,7 @@ function TaskStatus(props) {
                 return "--:--";
         }
 
-        return <div className="time">{renderTime(props.run_time)} / {renderTime(props.total_time)}</div>;
+        return <div className="time">{renderTime(props.run_time)} / {renderTime(props.time_left)}</div>;
     } else {
         return <div className="time">{props.index + 1}</div>
     }
@@ -76,7 +76,7 @@ function TaskStatus(props) {
 
 function TaskProgress(props) {
     if (props.state === State.RUNNING) {
-        var style = {width: (props.mean_iteration_time > 0 ? Math.min(1, ((props.run_time + props.start_time - props.iteration_update_time) / props.mean_iteration_time + props.finished_iterations) / props.total_iterations) * 100 : 0) + '%'};
+        var style = {width: Math.min(1, props.finished_iterations / props.total_iterations) * 100 + '%'};
         return <div className="progress" style={style}></div>;
     } else {
         return "";
@@ -337,11 +337,11 @@ class Task extends React.Component {
                     <div className="header">
                         <div className="project-name">Task</div>
                         <div className="status">
-                            <TaskStatus index={this.props.index} state={this.props.task.state} total_time={this.props.task.total_time} run_time={this.props.task.run_time}/>
+                            <TaskStatus index={this.props.index} state={this.props.task.state} time_left={this.props.task.time_left} run_time={this.props.task.run_time}/>
                             <div className="iterations">{this.props.task.finished_iterations} / {this.props.task.total_iterations}</div>
                         </div>
                     </div>
-                    <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} run_time={this.props.task.run_time} start_time={this.props.task.start_time_timestamp} mean_iteration_time={this.props.task.mean_iteration_time} finished_iterations={this.props.task.finished_iterations} iteration_update_time={this.props.task.iteration_update_time}/>
+                    <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} finished_iterations={this.props.task.finished_iterations} />
                     <div className="param-name" onClick={() => this.props.highlightTask(this.props.task)}><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task} name={this.props.task.name}/></div>
                 </div>
                 <TaskToolbar task={this.props.task}/>

@@ -46,11 +46,11 @@ class Scheduler:
                         running.stop()
                         self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
                         if running.had_error:
-                            self.event_manager.log("The task \"" + str(running) + "\" has been stopped due to an error after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Error occurred in task", logging.ERROR)
-                        elif running.finished_iterations_and_update_time()[0] < running.total_iterations:
-                            self.event_manager.log("The task \"" + str(running) + "\" has been paused after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been paused")
+                            self.event_manager.log("The task \"" + str(running) + "\" has been stopped due to an error after " + str(running.finished_iterations) + " finished iterations", "Error occurred in task", logging.ERROR)
+                        elif running.finished_iterations < running.total_iterations:
+                            self.event_manager.log("The task \"" + str(running) + "\" has been paused after " + str(running.finished_iterations) + " finished iterations", "Task has been paused")
                         else:
-                            self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations_and_update_time()[0]) + " finished iterations", "Task has been finished")
+                            self.event_manager.log("The task \"" + str(running) + "\" has been finished after " + str(running.finished_iterations) + " finished iterations", "Task has been finished")
                         device.runnings.remove(running)
 
                 if len(device.queue) > 0 and len(device.runnings) < 1:
@@ -59,7 +59,7 @@ class Scheduler:
                     device.runnings[-1].start(self.print_log)
                     self.event_manager.throw(EventManager.EventType.TASK_CHANGED, device.runnings[-1])
                     self.event_manager.throw(EventManager.EventType.PROJECT_CHANGED, device.runnings[-1].project)
-                    self.event_manager.log("The task \"" + str(device.runnings[-1]) + "\" has been started, beginning with iteration " + str(device.runnings[-1].finished_iterations_and_update_time()[0]), "Next task has been started")
+                    self.event_manager.log("The task \"" + str(device.runnings[-1]) + "\" has been started, beginning with iteration " + str(device.runnings[-1].finished_iterations), "Next task has been started")
 
 
     def pause(self, task_uuid):

@@ -24,7 +24,7 @@ class Task(object):
         self.total_iterations = metadata["total_iterations"]
         self.pipe = metadata["pipe"]
         self.task_dir = metadata["task_dir"]
-        self.iteration_update_time = 0
+        self.iteration_rate = None
         self.pause_computation = False
         self.save_now = False
         self.creating_checkpoint = False
@@ -75,12 +75,16 @@ class Task(object):
                 self.pipe.send(PipeMsg.CREATE_CHECKPOINT, arg)
 
             update_available = self.pipe.poll(0)
+
+    def exp_moving_average(self, x, avg=None, alpha=0.3):
+        return x if avg is None else (alpha * x) + (1 - alpha) * avg
   
     def run(self, save_func, checkpoint_func):
         tensorboard_writer = self._create_tensorboard_writer(str(self.task_dir))
         save_interval = self.config.get_int('save_interval')
         checkpoint_interval = self.config.get_int('checkpoint_interval')
 
+        last_t = time.time()
         self.start()
         while self.finished_iterations < self.total_iterations:
             self.receive_updates()
@@ -93,8 +97,10 @@ class Task(object):
             self.step(tensorboard_writer, self.finished_iterations)
 
             self.finished_iterations = self.finished_iterations + 1
-            self.iteration_update_time = time.mktime(datetime.now().timetuple())
-            self.pipe.send(PipeMsg.FINISHED_ITERATIONS, {"finished_iterations": self.finished_iterations, "iteration_update_time": self.iteration_update_time})
+            self.iteration_rate = self.exp_moving_average((time.time() - last_t) / 1, self.iteration_rate)
+            last_t = time.time()
+            self.iteration_update_time = time.time()
+            self.pipe.send(PipeMsg.FINISHED_ITERATIONS, {"finished_iterations": self.finished_iterations, "iteration_rate": self.iteration_rate, "iteration_update_time": self.iteration_update_time})
 
             if self.pause_computation:
                 break

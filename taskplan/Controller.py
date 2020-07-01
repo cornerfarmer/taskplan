@@ -118,7 +118,7 @@ class Controller:
         if total_iterations > 0:
             task.set_total_iterations(total_iterations)
 
-        if task is not None and task.finished_iterations_and_update_time()[0] < task.total_iterations:
+        if task is not None and task.finished_iterations < task.total_iterations:
             self.scheduler.enqueue(task, device_uuid)
             return task
         else:

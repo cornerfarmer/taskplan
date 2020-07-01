@@ -31,11 +31,12 @@ class ServerSentEvent(object):
             if event_type is not EventType.TASK_REMOVED:
                 data_client['state'] = data.state.value
                 data_client['config_name'] = ""
-                data_client['start_time'] = 0 if data.start_time is None else time.mktime(data.start_time.timetuple())
                 data_client['creation_time'] = 0 if data.creation_time is None else time.mktime(data.creation_time.timetuple())
                 data_client['saved_time'] = 0 if data.saved_time is None else time.mktime(data.saved_time.timetuple())
                 data_client['total_iterations'] = data.total_iterations
-                data_client['finished_iterations'], data_client['iteration_update_time'] = data.finished_iterations_and_update_time()
+                data_client['finished_iterations'] = data.finished_iterations
+                data_client['run_time'] = data.run_time()
+                data_client['time_left'] = data.time_left()
                 data_client['config_dynamic'] = data.config.dynamic
                 data_client['queue_index'] = data.queue_index
                 data_client['had_error'] = data.had_error

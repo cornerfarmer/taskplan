@@ -20,28 +20,12 @@ class Scheduler extends React.Component {
         this.shouldShowDevice = this.shouldShowDevice.bind(this);
     }
 
-    static refreshRunTime(task) {
-        task.run_time = parseInt((Date.now() - task.start_time) / 1000);
-    }
-
     componentDidMount() {
-        var pm = this;
-        this.timerID = setInterval(
-            function() {
-                const tasks = pm.state.tasks.slice();
-                tasks.filter(task => task.state === State.RUNNING).forEach(task => Scheduler.refreshRunTime(task));
-                pm.setState({
-                    tasks: tasks
-                });
-            },
-            1000
-        );
         this.props.repository.onChange("tasks", this.updateTasks);
         this.updateTasks(this.props.repository.tasks);
     }
 
     componentWillUnmount() {
-        clearInterval(this.timerID);
         this.props.repository.removeOnChange("tasks", this.updateTasks);
     }
 

@@ -80,21 +80,6 @@ class Repository {
                 checkpoint.time = new Date(checkpoint.time * 1000);
             }
 
-            if (changedTask.state === State.RUNNING) {
-                if (changedTask.uuid in this.tasks) {
-                    if (changedTask.finished_iterations !== this.tasks[changedTask.uuid].finished_iterations) {
-                        changedTask.mean_iteration_time = (changedTask.iteration_update_time - (this.tasks[changedTask.uuid].iteration_update_time === 0 ? changedTask.start_time : this.tasks[changedTask.uuid].iteration_update_time)) / (changedTask.finished_iterations - this.tasks[changedTask.uuid].finished_iterations);
-                        changedTask.total_time = parseInt(changedTask.iteration_update_time - changedTask.start_time + changedTask.mean_iteration_time * (changedTask.total_iterations - changedTask.finished_iterations));
-                    } else {
-                        changedTask.mean_iteration_time = this.tasks[changedTask.uuid].mean_iteration_time;
-                        changedTask.total_time = this.tasks[changedTask.uuid].total_time;
-                    }
-                }
-                changedTask.start_time_timestamp = changedTask.start_time;
-                changedTask.start_time = new Date(changedTask.start_time * 1000);
-                Scheduler.refreshRunTime(changedTask);
-            }
-
             this.updateEntity(this.tasks, changedTask, "tasks");
         });
 

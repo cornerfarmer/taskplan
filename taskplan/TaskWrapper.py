@@ -70,6 +70,7 @@ class TaskWrapper:
         self.state = State.INIT
         self.uuid = uuid.uuid4()
         self.project = project
+        self.iteration_rate = None
         self.start_time = None
         self.creation_time = datetime.datetime.now()
         self.saved_time = datetime.datetime.now()
@@ -121,7 +122,7 @@ class TaskWrapper:
                 self.save_metadata(["code_versions"])
 
         self.device.run_task(self.task_dir, self.class_name, self.config.clone(), metadata, print_log)
-        self.start_time = datetime.datetime.now()
+        self.start_time = time.time()
         self.state = State.RUNNING
 
     def most_recent_code_version(self):
@@ -332,6 +333,7 @@ class TaskWrapper:
                 self._is_running = arg
             elif msg_type == PipeMsg.FINISHED_ITERATIONS:
                 self.finished_iterations, self.iteration_update_time = arg["finished_iterations"], arg["iteration_update_time"]
+                self.iteration_rate = arg["iteration_rate"]
             elif msg_type == PipeMsg.SAVED_FINISHED_ITERATIONS:
                 self.saved_finished_iterations = arg["saved_finished_iterations"]
                 self.saved_time = datetime.datetime.fromtimestamp(arg["saved_time"])
@@ -428,10 +430,20 @@ class TaskWrapper:
             return self.creation_time
         elif col_name == "iterations":
             return self.finished_iterations
-        elif col_name == "started":
-            return self.start_time if self.start_time is not None else datetime.utcfromtimestamp(0)
         elif col_name in self.metrics:
             self.update_metrics()
             return self.metrics[col_name][2]
         else:
             return 0
+
+    def run_time(self):
+        if self.state == State.RUNNING:
+            return time.time() - self.start_time
+        else:
+            None
+
+    def time_left(self):
+        if self.state == State.RUNNING and self.iteration_rate is not None:
+            return (self.total_iterations - self.finished_iterations) * self.iteration_rate - (time.time() - self.iteration_update_time)
+        else:
+            return None
