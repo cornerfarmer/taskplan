@@ -176,7 +176,7 @@ class CollapseBranch(ParamBranch):
 
 class View:
 
-    def __init__(self, configuration, root, branch_options, filters):
+    def __init__(self, configuration, root, branch_options, filters, version_control):
         self.configuration = configuration
         self.branch_options = branch_options
         self.filters = filters
@@ -187,6 +187,7 @@ class View:
         if self.root_path is not None:
             self.root_path.mkdir(exist_ok=True, parents=True)
         self.task_by_uuid = {}
+        self.version_control = version_control
 
     def set_branch_options(self, branch_options, tasks):
         self.branch_options = branch_options
@@ -227,6 +228,11 @@ class View:
                     if tag[0] in task.tags:
                         found = True
                         break
+            elif param_uuid == "versions":
+                commit_id = task.most_recent_code_version()
+                if commit_id is None:
+                    commit_id = self.version_control.current_commit_id
+                found = self.version_control.get_label(commit_id) in [f[0] for f in self.filters[param_uuid]]
             else:
                 key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
 

@@ -225,6 +225,7 @@ class Project extends TaskContainer {
                     allowClose={true}
 
                     tags={this.props.allTags}
+                    codeVersions={this.props.codeVersions}
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}
                     addParamCollapse={this.addParamCollapse}

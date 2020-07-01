@@ -34,7 +34,8 @@ class ProjectManager extends React.Component {
                 views: data.views,
                 tensorboard_ports: data.tensorboard_ports,
                 allTags: data.all_tags,
-                refreshRate: parseInt(data.refreshRate)
+                refreshRate: parseInt(data.refreshRate),
+                codeVersions: data.code_versions
             });
         });
     }
@@ -118,6 +119,7 @@ class ProjectManager extends React.Component {
                             saved_filters={this.state.saved_filters}
                             views={this.state.views}
                             allTags={this.state.allTags}
+                            codeVersions={this.state.codeVersions}
                             refreshRate={this.state.refreshRate}
                             tensorboard_ports={this.state.tensorboard_ports}
                         />

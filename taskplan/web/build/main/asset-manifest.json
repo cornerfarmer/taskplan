@@ -1,7 +1,7 @@
 {
   "files": {
-    "static_main/js/1.chunk.js": "/static_main/js/1.chunk.js",
-    "static_main/js/1.chunk.js.map": "/static_main/js/1.chunk.js.map",
+    "static_main/js/0.chunk.js": "/static_main/js/0.chunk.js",
+    "static_main/js/0.chunk.js.map": "/static_main/js/0.chunk.js.map",
     "main.js": "/static_main/js/main.chunk.js",
     "main.js.map": "/static_main/js/main.chunk.js.map",
     "runtime~main.js": "/static_main/js/bundle.js",

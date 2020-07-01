@@ -1690,7 +1690,7 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
         lineNumber: 97
       },
       __self: this
-    }, value.resolvedName, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, value.resolvedName, value.numberOfTasks !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "task-numbers",
       __source: {
         fileName: _jsxFileName,
@@ -1776,8 +1776,8 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       tagsParam = {
         "uuid": "tags",
         "name": "tags",
-        "deprecated_param_value": "test",
-        "default_param_value": "test",
+        "deprecated_param_value": this.props.tags[0],
+        "default_param_value": this.props.tags[0],
         "values": []
       };
       tagsParam["values"] = [];
@@ -1787,7 +1787,30 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
           "name": tag,
           "uuid": tag,
           "number_of_tasks": {
-            [tag]: [1, []]
+            [tag]: [null, []]
+          }
+        });
+      }
+    }
+
+    let versionsParam = null;
+
+    if (this.props.codeVersions !== undefined && this.props.codeVersions.length > 0) {
+      versionsParam = {
+        "uuid": "versions",
+        "name": "versions",
+        "deprecated_param_value": "test",
+        "default_param_value": "test",
+        "values": []
+      };
+      versionsParam["values"] = [];
+
+      for (const version of this.props.codeVersions) {
+        versionsParam["values"].push({
+          "name": version,
+          "uuid": version,
+          "number_of_tasks": {
+            [version]: [null, []]
           }
         });
       }
@@ -1797,10 +1820,25 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-filter",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 189
+        lineNumber: 205
       },
       __self: this
-    }, tagsParam !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+    }, versionsParam !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+      param: versionsParam,
+      useTemplateFields: this.props.useTemplateFields,
+      toggleSelection: this.props.toggleSelection,
+      selectedParamValues: this.props.selectedParamValues,
+      getParamValueArg: this.getParamValueArg,
+      selectMultiple: this.props.selectMultiple,
+      expanded: "versions" === this.state.expandedParam,
+      toggleExpandedParam: this.toggleExpandedParam,
+      onParamValueArgChange: this.onParamValueArgChange,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 207
+      },
+      __self: this
+    }), tagsParam !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
       param: tagsParam,
       useTemplateFields: this.props.useTemplateFields,
       toggleSelection: this.props.toggleSelection,
@@ -1812,7 +1850,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       onParamValueArgChange: this.onParamValueArgChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 191
+        lineNumber: 220
       },
       __self: this
     }), Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1820,7 +1858,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       className: "param-group",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 204
+        lineNumber: 233
       },
       __self: this
     }, group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1828,28 +1866,28 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       onClick: () => this.toggleHideParamValues(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 206
+        lineNumber: 235
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 207
+        lineNumber: 236
       },
       __self: this
     }, group)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 210
+        lineNumber: 239
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
+        lineNumber: 240
       },
       __self: this
     }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
@@ -1864,7 +1902,7 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       onParamValueArgChange: this.onParamValueArgChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 213
+        lineNumber: 242
       },
       __self: this
     })))))));
@@ -3334,6 +3372,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         __self: this
       }, "Filter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tags: this.props.tags,
+        codeVersions: this.props.codeVersions,
         selectMultiple: true,
         paramsByGroup: this.props.paramsByGroup,
         selectedParamValues: this.props.selectedParamValues,
@@ -4512,6 +4551,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       toggleSelection: this.toggleSelection,
       allowClose: true,
       tags: this.props.allTags,
+      codeVersions: this.props.codeVersions,
       params: this.state.params,
       collapsedParams: this.state.collapsedParams,
       addParamCollapse: this.addParamCollapse,

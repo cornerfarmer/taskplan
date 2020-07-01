@@ -96,7 +96,7 @@ class ParamFilterParam extends React.Component {
                                         <div key={value.uuid} className={this.calcParamValueClasses(this.props.param, value)} onClick={() => this.props.toggleSelection(this.props.param, value, value.args)}>
                                             <React.Fragment>
                                                 {value.resolvedName}
-                                                <span className="task-numbers">{value.numberOfTasks}</span>
+                                                {value.numberOfTasks !== null && <span className="task-numbers">{value.numberOfTasks}</span>}
                                             </React.Fragment>
                                         </div>
                                     )
@@ -176,17 +176,46 @@ class ParamFilter extends React.Component {
             tagsParam = {
                 "uuid": "tags",
                 "name": "tags",
-                "deprecated_param_value": "test",
-                "default_param_value": "test",
+                "deprecated_param_value": this.props.tags[0],
+                "default_param_value": this.props.tags[0],
                 "values": []
             };
             tagsParam["values"] = [];
             for (const tag of this.props.tags) {
-                tagsParam["values"].push({"name": tag, "uuid": tag, "number_of_tasks": {[tag]: [1, []]}});
+                tagsParam["values"].push({"name": tag, "uuid": tag, "number_of_tasks": {[tag]: [null, []]}});
             }
         }
+
+        let versionsParam = null;
+        if (this.props.codeVersions !== undefined && this.props.codeVersions.length > 0) {
+            versionsParam = {
+                "uuid": "versions",
+                "name": "versions",
+                "deprecated_param_value": "test",
+                "default_param_value": "test",
+                "values": []
+            };
+            versionsParam["values"] = [];
+            for (const version of this.props.codeVersions) {
+                versionsParam["values"].push({"name": version, "uuid": version, "number_of_tasks": {[version]: [null, []]}});
+            }
+        }
+
         return (
             <div className="param-filter">
+                {versionsParam !== null &&
+                    <ParamFilterParam
+                        param={versionsParam}
+                        useTemplateFields={this.props.useTemplateFields}
+                        toggleSelection={this.props.toggleSelection}
+                        selectedParamValues={this.props.selectedParamValues}
+                        getParamValueArg={this.getParamValueArg}
+                        selectMultiple={this.props.selectMultiple}
+                        expanded={"versions" === this.state.expandedParam}
+                        toggleExpandedParam={this.toggleExpandedParam}
+                        onParamValueArgChange={this.onParamValueArgChange}
+                        />
+                }
                 {tagsParam !== null &&
                     <ParamFilterParam
                         param={tagsParam}

@@ -83,3 +83,9 @@ class VersionControl:
     def reset_soft(self, commit_id):
         self.repo.git.reset('--soft', commit_id)
         self.current_commit_id = self.repo.head.commit.hexsha
+
+    def all_code_version_labels(self):
+        labels = list(self.commit_labels.values())
+        if "initial" not in labels:
+            labels.append("initial")
+        return labels

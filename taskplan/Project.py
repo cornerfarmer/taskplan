@@ -60,7 +60,7 @@ class Project:
         branch_options.append(CodeVersionBranch("label", self.version_control))
         for param in self.configuration.default_sorted_params():
             branch_options.append(ParamBranch(param, self.configuration, param.get_metadata("force") if param.has_metadata("force") else False))
-        self.default_view = View(self.configuration, None, branch_options, {})
+        self.default_view = View(self.configuration, None, branch_options, {}, version_control=self.version_control)
 
     def _default_view_refresh_names(self, throw_events=True, exclude_from_throw=[]):
         for task in self.tasks:
@@ -427,7 +427,7 @@ class Project:
         for param_uuid in collapse:
             branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration, collapse_sorting))
 
-        return View(self.configuration, path, branch_options, filters)
+        return View(self.configuration, path, branch_options, filters, version_control=self.version_control)
 
     def _sort_tasks(self, tasks, sort_col, sort_dir):
         if type(tasks) == dict:
@@ -488,3 +488,7 @@ class Project:
     def set_version_label(self, commit_id, label):
         self.version_control.set_label(commit_id, label)
         self.refresh_views()
+        self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+
+    def all_code_version_labels(self):
+        return self.version_control.all_code_version_labels()
