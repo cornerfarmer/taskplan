@@ -21,6 +21,8 @@ class TaskContainer extends React.Component {
         this.onChangeVersionInName = this.onChangeVersionInName.bind(this);
         this.flipCollapseSortingDirection = this.flipCollapseSortingDirection.bind(this);
         this.reorderParam = this.reorderParam.bind(this);
+        this.onChangeForceParamInName = this.onChangeForceParamInName.bind(this);
+        this.toggleCollapse = this.toggleCollapse.bind(this);
         this.intervalId = null;
     }
 
@@ -71,6 +73,7 @@ class TaskContainer extends React.Component {
         dataJson['collapse_sorting'] = [this.state.collapseSorting[0], this.state.collapseSorting[1] ? "DESC" : "ASC"];
         dataJson['version_in_name'] = this.state.versionInName;
         dataJson['force_param_in_name'] = this.state.forceParamInName;
+        dataJson['collapse_enabled'] = this.state.collapseEnabled;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -111,6 +114,7 @@ class TaskContainer extends React.Component {
         dataJson['collapse_sorting'] = this.state.collapseSorting;
         dataJson['version_in_name'] = this.state.versionInName;
         dataJson['force_param_in_name'] = this.state.forceParamInName;
+        dataJson['collapse_enabled'] = this.state.collapseEnabled;
 
         data.append("data", JSON.stringify(dataJson));
 
@@ -319,6 +323,24 @@ class TaskContainer extends React.Component {
     onChangeVersionInName(e) {
         this.setState({versionInName: e.target.value}, () => this.filterHasUpdated());
     }
+
+
+    onChangeForceParamInName(e, param_uuid) {
+        const forceParamInName = Object.assign({}, this.state.forceParamInName);
+
+        forceParamInName[param_uuid] = e.target.checked;
+
+        this.setState({
+            forceParamInName: forceParamInName
+        }, () => this.filterHasUpdated());
+    }
+
+    toggleCollapse(e) {
+        this.setState({
+            collapseEnabled: e.target.checked
+        }, () => this.filterHasUpdated());
+    }
+
 }
 
 

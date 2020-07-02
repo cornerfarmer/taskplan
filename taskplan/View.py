@@ -80,8 +80,9 @@ class CollapseNode(Node):
         return tasks[0]
 
 class TasksNode(Node):
-    def __init__(self):
+    def __init__(self, collapse):
         Node.__init__(self)
+        self.collapse = collapse
 
     def get_first_task_in(self):
         if len(self.children.keys()) > 0:
@@ -125,7 +126,10 @@ class ParamBranch(BranchingOption):
         self.configuration = configuration
 
     def key_from_task(self, task):
-        return task.get_param_value_key_to_param(self.param, self.configuration)
+        if self.param.get_metadata("deprecated_param_value") == "":
+            return None
+        else:
+            return task.get_param_value_key_to_param(self.param, self.configuration)
 
     def exists_node(self, node):
         #if self.param.get_metadata("deprecated_param_value") == "":
@@ -163,7 +167,7 @@ class CodeVersionBranch(BranchingOption):
 
 class CollapseBranch(ParamBranch):
     def __init__(self, param, configuration, collapse_sorting):
-        super().__init__(param, configuration)
+        super().__init__(param, configuration, False)
         self.collapse_sorting = collapse_sorting
 
     def exists_node(self, node):
@@ -176,13 +180,14 @@ class CollapseBranch(ParamBranch):
 
 class View:
 
-    def __init__(self, configuration, root, branch_options, filters, version_control):
+    def __init__(self, configuration, root, branch_options, filters, version_control, collapse_multiple_tries):
         self.configuration = configuration
         self.branch_options = branch_options
         self.filters = filters
 
+        self.collapse_multiple_tries = collapse_multiple_tries
         self.root_node = RootNode()
-        self.root_node.set_child("default", TasksNode())
+        self.root_node.set_child("default", TasksNode(self.collapse_multiple_tries))
         self.root_path = root
         if self.root_path is not None:
             self.root_path.mkdir(exist_ok=True, parents=True)
@@ -195,7 +200,7 @@ class View:
 
     def refresh(self, tasks):
         self.root_node = RootNode()
-        self.root_node.set_child("default", TasksNode())
+        self.root_node.set_child("default", TasksNode(self.collapse_multiple_tries))
 
         for task in tasks:
             self.add_task(task, False)
@@ -271,7 +276,7 @@ class View:
             if path is not None:
                 path = path / key
             if key not in node.children:
-                node.set_child(key, TasksNode())
+                node.set_child(key, TasksNode(self.collapse_multiple_tries))
 
                 if path is not None and change_dirs:
                     path.mkdir()

@@ -433,6 +433,8 @@ class TaskWrapper:
         elif col_name in self.metrics:
             self.update_metrics()
             return self.metrics[col_name][2]
+        elif col_name == "uuid":
+            return str(self.uuid)
         else:
             return 0
 

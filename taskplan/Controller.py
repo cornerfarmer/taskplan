@@ -286,8 +286,8 @@ class Controller:
     def _get_task_dir(self, task_uuid):
         return self.project.find_task_by_uuid(task_uuid).build_save_dir()
 
-    def _filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
-        tasks, metric_superset = self.project.filter_tasks(filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name)
+    def _filter_tasks(self, filters, collapse, collapse_sorting, collapse_enabled, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
+        tasks, metric_superset = self.project.filter_tasks(filters, collapse, collapse_sorting, collapse_enabled, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name)
         return tasks, metric_superset
 
     def _task_details(self, task_uuid):

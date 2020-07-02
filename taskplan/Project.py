@@ -60,14 +60,13 @@ class Project:
         branch_options.append(CodeVersionBranch("label", self.version_control))
         for param in self.configuration.default_sorted_params():
             branch_options.append(ParamBranch(param, self.configuration, param.get_metadata("force") if param.has_metadata("force") else False))
-        self.default_view = View(self.configuration, None, branch_options, {}, version_control=self.version_control)
+        self.default_view = View(self.configuration, None, branch_options, {}, version_control=self.version_control, collapse_multiple_tries=False)
 
     def _default_view_refresh_names(self, throw_events=True, exclude_from_throw=[]):
         for task in self.tasks:
-            prev_name = task.name
             task.name = self.default_view.path_of_task(task)
-            if throw_events and prev_name != task.name and task not in exclude_from_throw:
-                self.event_manager.throw(EventType.TASK_CHANGED, task)
+        if throw_events:
+            self.event_manager.throw(EventType.TASK_NAMES_CHANGED, None)
 
     @staticmethod
     def create_from_config_file(event_manager, metadata, path, load_saved_tasks=True):
@@ -378,6 +377,7 @@ class Project:
         pass
 
     def view_to_json(self, root, name_prefix, sort_col, metric_superset, collapse_sorting):
+        flatten = lambda l: [item for sublist in l for item in sublist]
         if isinstance(root, RootNode):
             if len(root.children) > 0:
                 result = self.view_to_json(root.children["default"], name_prefix, sort_col, metric_superset, collapse_sorting)
@@ -399,7 +399,6 @@ class Project:
                     output[group_key] = [result]
             return output
         elif isinstance(root, CollapseNode):
-            flatten = lambda l: [item for sublist in l for item in sublist]
             output = []
             for child_key in root.children:
                 output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset, collapse_sorting)))
@@ -413,21 +412,24 @@ class Project:
                     output.extend(result)
                 else:
                     output.append(result)
+            if isinstance(root, TasksNode) and root.collapse:
+                output = [sorted(flatten(output), key=lambda x: x["collapse_sort_col"], reverse=collapse_sorting[1] == "DESC")]
             return output
 
-    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, path=None):
+    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, collapse_enabled, path=None):
         branch_options = []
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
         if version_in_name != "none":
             branch_options.append(CodeVersionBranch(version_in_name, self.version_control))
         for param in self.configuration.sorted_params(param_sorting):
-            if param.uuid not in collapse:
+            if param.uuid not in collapse or not collapse_enabled:
                 branch_options.append(ParamBranch(param, self.configuration, str(param.uuid) in force_param_in_name and force_param_in_name[str(param.uuid)]))
-        for param_uuid in collapse:
-            branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration, collapse_sorting))
+        if collapse_enabled:
+            for param_uuid in collapse:
+                branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration, collapse_sorting))
 
-        return View(self.configuration, path, branch_options, filters, version_control=self.version_control)
+        return View(self.configuration, path, branch_options, filters, version_control=self.version_control, collapse_multiple_tries=collapse_enabled)
 
     def _sort_tasks(self, tasks, sort_col, sort_dir):
         if type(tasks) == dict:
@@ -437,8 +439,8 @@ class Project:
         else:
             return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
 
-    def filter_tasks(self, filters, collapse, collapse_sorting, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
-        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name)
+    def filter_tasks(self, filters, collapse, collapse_sorting, collapse_enabled, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
+        view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, collapse_enabled)
 
         for task in self.tasks:
             view.add_task(task)
@@ -460,7 +462,7 @@ class Project:
         actual_path = (self.task_dir / path).resolve()
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], data['force_param_in_name'], actual_path)
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], data['force_param_in_name'], data['collapse_enabled'], actual_path)
         view.refresh(self.tasks)
         self.views[path] = view
         self.views_data[path] = data

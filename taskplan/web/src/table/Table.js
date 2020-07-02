@@ -3,6 +3,7 @@ import ParamViewer from "../ParamViewer";
 import TaskContainer from "../TaskContainer";
 import TaskTable from "./TaskTable";
 import TaskTab from "../TaskTab";
+import TableRowTask from "./TableRowTask";
 
 class Table extends TaskContainer {
     constructor(props) {
@@ -21,6 +22,8 @@ class Table extends TaskContainer {
             paramSorting: {},
             collapseSorting: ["saved", true],
             versionInName: "label",
+            forceParamInName: {},
+            collapseEnabled: false
         };
 
         this.changeSorting = this.changeSorting.bind(this);
@@ -98,6 +101,10 @@ class Table extends TaskContainer {
                     reorderParam={this.reorderParam}
                     onChangeVersionInName={this.onChangeVersionInName}
                     versionInName={this.state.versionInName}
+                    forceParamInName={this.state.forceParamInName}
+                    onChangeForceParamInName={this.onChangeForceParamInName}
+                    collapseEnabled={this.state.collapseEnabled}
+                    toggleCollapse={this.toggleCollapse}
                 />
                 <div className="task-table-wrapper">
                     <TaskTable

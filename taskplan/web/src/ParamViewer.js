@@ -233,6 +233,10 @@ class ParamViewer extends React.Component {
                     <ParamFilter tags={this.props.tags} codeVersions={this.props.codeVersions} selectMultiple={true} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.props.selectedParamValues} toggleSelection={this.props.toggleSelection}/>
 
                     <div className="header">Collapsing</div>
+                    <label>
+                        <input type="checkbox" defaultChecked={this.props.collapseEnabled} onChange={this.props.toggleCollapse} />
+                        <span>Enabled</span>
+                    </label>
                     <div className="params-to-collapse param-filter">
                         {this.props.collapsedParams.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => (
                             <div className="param-name param-name-collapsed">{param.name} <i className="fas fa-times" onClick={() => this.props.removeParamCollapse(param)}></i></div>

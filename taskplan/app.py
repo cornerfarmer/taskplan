@@ -295,7 +295,7 @@ def run(refresh_interval):
     @app.route('/filter_tasks', methods=['POST'])
     def filter_tasks():
         data = json.loads(request.form.get('data'))
-        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["collapse_sorting"], data["group"], data["param_sorting"], None, None, data["sort_col"], data["sort_dir"], data["version_in_name"], data["force_param_in_name"])
+        tasks, metric_superset = controller.filter_tasks(data["filter"], data["collapse"], data["collapse_sorting"], data["collapse_enabled"], data["group"], data["param_sorting"], None, None, data["sort_col"], data["sort_dir"], data["version_in_name"], data["force_param_in_name"])
         return jsonify([tasks, metric_superset])
 
     @app.route('/task_details/<string:task_uuid>')

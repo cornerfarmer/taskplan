@@ -25,6 +25,7 @@ class TaskTable extends React.Component {
                     <GroupedTableTasks
                         tasks={this.props.tasks}
                         selectedCols={this.props.selectedCols}
+                        intend={0}
                     />
                 </tbody>
             </table>

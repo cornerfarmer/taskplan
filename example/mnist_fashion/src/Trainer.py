@@ -67,11 +67,13 @@ class Trainer:
 
 
     def step(self, current_iteration):
+        self.train_metric.reset()
+        self.val_metric.reset()
+
         self._train(100)
         self._val(10)
 
         self.train_metric.plot(current_iteration)
         self.val_metric.plot(current_iteration)
 
-        self.train_metric.reset()
-        self.val_metric.reset()
+        return self.val_metric.acc.result()

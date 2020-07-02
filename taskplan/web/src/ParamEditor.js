@@ -61,7 +61,7 @@ class ParamEditor extends React.Component {
         if (this.state.param.uuid)
             url = "/edit_param/" + this.state.param.uuid;
         else
-            url = "/add_param/";
+            url = "/add_param";
 
         fetch(url,
             {

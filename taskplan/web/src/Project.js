@@ -26,7 +26,8 @@ class Project extends TaskContainer {
             versionInName: "label",
             showSearchBar: false,
             searchValue: "",
-            forceParamInName: {}
+            forceParamInName: {},
+            collapseEnabled: false
         };
 
         this.toggleShowAbstract = this.toggleShowAbstract.bind(this);
@@ -38,7 +39,6 @@ class Project extends TaskContainer {
         this.filterLikeTask = this.filterLikeTask.bind(this);
         this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
         this.searchBarKeyDown = this.searchBarKeyDown.bind(this);
-        this.onChangeForceParamInName = this.onChangeForceParamInName.bind(this);
 
         this.addView = this.addView.bind(this);
         this.paramViewerRef = React.createRef();
@@ -57,6 +57,7 @@ class Project extends TaskContainer {
         dataJson['path'] = path;
         dataJson['version_in_name'] = this.state.versionInName;
         dataJson['force_param_in_name'] = this.state.forceParamInName;
+        dataJson['collapse_enabled'] = this.state.collapseEnabled;
 
 
         data.append("data", JSON.stringify(dataJson));
@@ -142,16 +143,6 @@ class Project extends TaskContainer {
                 showSearchBar: false
             });
         }
-    }
-
-    onChangeForceParamInName(e, param_uuid) {
-        const forceParamInName = Object.assign({}, this.state.forceParamInName);
-
-        forceParamInName[param_uuid] = e.target.checked;
-
-        this.setState({
-            forceParamInName: forceParamInName
-        }, () => this.filterHasUpdated());
     }
 
     render() {
@@ -249,6 +240,8 @@ class Project extends TaskContainer {
                     tensorboard_ports={this.props.tensorboard_ports}
                     forceParamInName={this.state.forceParamInName}
                     onChangeForceParamInName={this.onChangeForceParamInName}
+                    collapseEnabled={this.state.collapseEnabled}
+                    toggleCollapse={this.toggleCollapse}
                 />
             </div>
         );

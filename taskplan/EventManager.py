@@ -88,14 +88,14 @@ class ServerSentEvent(object):
             data_client['message'] = data.message
             data_client['short'] = data.short
             data_client['level'] = data.level
+        elif event_type is EventType.TASK_NAMES_CHANGED:
+            pass
         else:
             raise LookupError("Given data type not supported: " + str(data))
 
         return data_client
 
     def encode(self):
-        if not self.data:
-            return ""
         lines = ""
         #print( str(self.event.value))
         lines += "event: " + str(self.event.value) + "\n"
@@ -113,6 +113,7 @@ class EventType(Enum):
     PROJECT_CHANGED = "PROJECT_CHANGED"
     SCHEDULER_OPTIONS = "SCHEDULER_OPTIONS"
     FLASH_MESSAGE = "FLASH_MESSAGE"
+    TASK_NAMES_CHANGED = "TASK_NAMES_CHANGED"
 
 class EventManager:
     def __init__(self):

@@ -33,20 +33,24 @@ class TableRowTask extends React.Component {
         if (this.props.task !== null) {
             return (
                 <tr className="table-row">
-                    {this.props.selectedCols.map(col => {
-                        if (col === "name")
-                            return <td className="table-col"><TaskName name={this.props.name} is_test={this.props.task.is_test}/></td>;
-                        else if (col === "iterations")
-                            return <td className="table-col">{this.props.task.finished_iterations}</td>;
-                        else if (col === "saved")
-                            return <td className="table-col">{this.props.task.saved_time.toShortStr()}</td>;
-                        else if (col === "created")
-                            return <td className="table-col">{this.props.task.creation_time.toShortStr()}</td>;
-                        else if (col === "uuid")
-                            return <td className="table-col">{this.props.task.uuid}</td>;
-                        else
-                            return <td className="table-col">{col in this.props.metrics ? this.props.metrics[col][2].toFixed(2) : "N/A"}</td>
-                    })}
+                    {this.props.selectedCols.map((col, i) => (
+                        <td className="table-col" style={i === 0 ? {"border-left": (this.props.intend + "px solid #d9d9d9")} : {}}>
+                            {(() => {
+                                if (col === "name")
+                                    return <TaskName name={this.props.name} is_test={this.props.task.is_test}/>;
+                                else if (col === "iterations")
+                                    return this.props.task.finished_iterations;
+                                else if (col === "saved")
+                                    return this.props.task.saved_time.toShortStr();
+                                else if (col === "created")
+                                    return this.props.task.creation_time.toShortStr();
+                                else if (col === "uuid")
+                                    return this.props.task.uuid;
+                                else
+                                    return col in this.props.metrics ? this.props.metrics[col][2].toFixed(2) : "N/A";
+                            })()}
+                        </td>
+                    ))}
                 </tr>
             );
         } else {

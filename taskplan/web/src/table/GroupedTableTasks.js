@@ -1,5 +1,6 @@
 import React from 'react';
 import CollapsedTableTasks from "./CollapsedTableTasks";
+import TableRowTask from "./TableRowTask";
 
 class GroupedTableTasks extends React.Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class GroupedTableTasks extends React.Component {
                         <CollapsedTableTasks
                             tasks={tasks}
                             selectedCols={this.props.selectedCols}
+                            intend={this.props.intend}
                         />
                     ));
             } else {
@@ -53,6 +55,7 @@ class GroupedTableTasks extends React.Component {
                             <GroupedTableTasks
                                 tasks={this.props.tasks[group]}
                                 selectedCols={this.props.selectedCols}
+                                intend={this.props.intend + 5}
                             />
                         }
                     </React.Fragment>

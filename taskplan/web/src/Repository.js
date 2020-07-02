@@ -108,6 +108,18 @@ class Repository {
             this.removeEntity(this.params, changedParam, "params")
         });
 
+
+        this.evtSource.addEventListener("TASK_NAMES_CHANGED", (e) => {
+            for (let task_uuid of Object.keys(this.tasks)) {
+                fetch("/task_details/" + task_uuid)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                    }
+                )
+            }
+        });
+
     }
 
     updateEntity(entities, newEntity, entityType, key="uuid") {

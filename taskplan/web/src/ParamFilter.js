@@ -68,7 +68,7 @@ class ParamFilterParam extends React.Component {
 
     render() {
         return (
-            <div key={this.props.param.uuid} className="param">
+            <div key={this.props.param.uuid} className="param" style={this.props.spaceBelow && {"margin-bottom": "5px"}}>
                 <div className={this.props.expanded ? "param-name param-name-expanded" : "param-name param-name-collapsed"} onClick={() => this.props.toggleExpandedParam(this.props.param.uuid)}>
                     {this.props.param.name}
 
@@ -202,8 +202,9 @@ class ParamFilter extends React.Component {
         }
 
         return (
-            <div className="param-filter">
+            <React.Fragment>
                 {versionsParam !== null &&
+                    <div className="param-filter">
                     <ParamFilterParam
                         param={versionsParam}
                         useTemplateFields={this.props.useTemplateFields}
@@ -214,9 +215,11 @@ class ParamFilter extends React.Component {
                         expanded={"versions" === this.state.expandedParam}
                         toggleExpandedParam={this.toggleExpandedParam}
                         onParamValueArgChange={this.onParamValueArgChange}
-                        />
+                    />
+                    </div>
                 }
                 {tagsParam !== null &&
+                    <div className="param-filter">
                     <ParamFilterParam
                         param={tagsParam}
                         useTemplateFields={this.props.useTemplateFields}
@@ -228,7 +231,9 @@ class ParamFilter extends React.Component {
                         toggleExpandedParam={this.toggleExpandedParam}
                         onParamValueArgChange={this.onParamValueArgChange}
                         />
+                    </div>
                 }
+                <div className="param-filter">
                 {Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
                     <div key={group} className="param-group">
                         {group !== "" &&
@@ -255,7 +260,8 @@ class ParamFilter extends React.Component {
                         </div>
                     </div>
                 ))}
-            </div>
+                </div>
+            </React.Fragment>
         );
     }
 }

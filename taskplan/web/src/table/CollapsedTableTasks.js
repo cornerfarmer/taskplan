@@ -32,6 +32,7 @@ class CollapsedTableTasks extends React.Component {
                             name={tasks[0].name}
                             metrics={tasks[0].metrics}
                             selectedCols={this.props.selectedCols}
+                            intend={this.props.intend}
                         />
                     </LazyLoad>
                     {tasks.length > 1 &&
@@ -51,6 +52,7 @@ class CollapsedTableTasks extends React.Component {
                                 name={task.name}
                                 metrics={task.metrics}
                                 selectedCols={this.props.selectedCols}
+                                intend={this.props.intend + 5}
                             />
                         </LazyLoad>
                     ))}
