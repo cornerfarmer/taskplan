@@ -2,7 +2,7 @@ import json
 import threading
 import time
 from pathlib import Path
-
+from threading import Lock
 from pkg_resources import resource_filename
 from taskconf.config.Configuration import Configuration
 
@@ -18,6 +18,7 @@ class Controller:
         self.refresh_interval = refresh_interval
         self.call_queue = queue.Queue(maxsize=1)
         self.return_queue = queue.Queue(maxsize=1)
+        self.call_mutex = Lock()
 
         if Path("taskplan_metadata.json").exists():
             with open('taskplan_metadata.json') as f:
@@ -69,8 +70,9 @@ class Controller:
     def __getattr__(self, name):
         name = "_" + name
         def method(*args, **kwargs):
-            self.call_queue.put((name, args, kwargs))
-            return self.return_queue.get()
+            with self.call_mutex:
+                self.call_queue.put((name, args, kwargs))
+                return self.return_queue.get()
 
         return method
 
@@ -316,3 +318,8 @@ class Controller:
 
     def _set_tags(self, task_uuid, tags):
         self.project.set_tags(task_uuid, tags)
+
+    def _fetch_metrics(self, task_uuid):
+        task = self.project.find_task_by_uuid(task_uuid)
+        task.update_metrics()
+        return task.metrics

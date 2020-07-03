@@ -413,7 +413,7 @@ class TaskWrapper:
             if path.stat().st_mtime >= self.last_metrics_update:
                 for e in tf.compat.v1.train.summary_iterator(str(path)):
                     for v in e.summary.value:
-                        if v.tag not in self.metrics or self.metrics[v.tag][0] < e.step or (self.metrics[v.tag][0] == e.step and self.metrics[v.tag][1] < e.step):
+                        if v.tag not in self.metrics or self.metrics[v.tag][0] < e.step or (self.metrics[v.tag][0] == e.step and self.metrics[v.tag][1] < e.wall_time):
                             self.metrics[v.tag] = (e.step, e.wall_time, float(tf.make_ndarray(v.tensor)))
 
         if metric_superset is not None:

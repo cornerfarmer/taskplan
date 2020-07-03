@@ -337,6 +337,12 @@ def run(refresh_interval):
         controller.set_tags(task_uuid, data["tags"])
         return jsonify({})
 
+    @app.route('/fetch_metrics/<string:task_uuid>')
+    def fetch_metrics(task_uuid):
+        metrics = controller.fetch_metrics(task_uuid)
+        return jsonify(metrics)
+
+
     app.register_blueprint(main_bp)
     app.register_blueprint(table_bp)
     return app, controller

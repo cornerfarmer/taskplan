@@ -3,6 +3,7 @@ import ConfigEditor from "./ConfigEditor";
 import {TaskName} from "./Task";
 import State from "./Global";
 import TagsEdit from "./TagsEdit";
+import MetricsViewer from "./MetricsViewer";
 
 class TaskViewer extends React.Component {
     constructor(props) {
@@ -182,6 +183,9 @@ class TaskViewer extends React.Component {
                     <div className="tags">
                         <TagsEdit tags={task.tags} allTags={this.props.allTags} updateTags={this.updateTags} />
                     </div>
+                    <h2>Metrics:</h2>
+                    <MetricsViewer task={task}  />
+
                     <h2>Code versions</h2>
                     <div className="code-versions">
                         {Object.keys(task.versions).map(key => (

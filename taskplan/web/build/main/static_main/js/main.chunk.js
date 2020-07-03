@@ -1560,6 +1560,115 @@ class JsonEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
 
 /***/ }),
 
+/***/ "./src/MetricsViewer.js":
+/*!******************************!*\
+  !*** ./src/MetricsViewer.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
+var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/MetricsViewer.js";
+
+
+
+class MetricsViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      metrics: []
+    };
+    this.reload = this.reload.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.task.uuid !== this.props.task.uuid) {
+      this.reload();
+    }
+  }
+
+  componentDidMount() {
+    this.reload();
+  }
+
+  reload() {
+    this.setState({
+      loading: true
+    });
+    fetch("/fetch_metrics/" + this.props.task.uuid).then(res => res.json()).then(result => {
+      this.setState({
+        metrics: result,
+        loading: false
+      });
+    }, error => {});
+  }
+
+  render() {
+    if (!this.state.loading) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 51
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "params",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 52
+      },
+      __self: this
+    }, "Reload: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "fas fa-sync-alt",
+      onClick: this.reload,
+      style: {
+        "cursor": "pointer"
+      },
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 52
+      },
+      __self: this
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "params",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 53
+      },
+      __self: this
+    }, Object.keys(this.state.metrics).map(key => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      title: "iteration: " + this.state.metrics[key][0] + "\nsaved: " + new Date(this.state.metrics[key][1] * 1000).toShortStr(),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 55
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 55
+      },
+      __self: this
+    }, key, ":"), this.state.metrics[key][2].toFixed(3)))));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "params",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 62
+      },
+      __self: this
+    }, "Loading...");
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (MetricsViewer);
+
+/***/ }),
+
 /***/ "./src/Param.js":
 /*!**********************!*\
   !*** ./src/Param.js ***!
@@ -7927,7 +8036,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _TagsEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsEdit */ "./src/TagsEdit.js");
+/* harmony import */ var _MetricsViewer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MetricsViewer */ "./src/MetricsViewer.js");
 var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskViewer.js";
+
 
 
 
@@ -8051,14 +8162,14 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         className: "task-viewer slide-editor editor",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 166
+          lineNumber: 167
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 167
+          lineNumber: 168
         },
         __self: this
       }, "Task details", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -8066,21 +8177,21 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         onClick: this.props.close,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 167
+          lineNumber: 168
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "title",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 168
+          lineNumber: 169
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "try-number",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 168
+          lineNumber: 169
         },
         __self: this
       }, task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
@@ -8088,75 +8199,75 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         name: task.name,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 168
+          lineNumber: 169
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "metadata",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 169
+          lineNumber: 170
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 170
+          lineNumber: 171
         },
         __self: this
       }, task.uuid), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 171
+          lineNumber: 172
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 171
+          lineNumber: 172
         },
         __self: this
       }, "Status:"), " ", task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING ? "Running" : task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED ? "Queued" : "Stopped"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 172
+          lineNumber: 173
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 172
+          lineNumber: 173
         },
         __self: this
       }, "Iterations:"), " ", task.finished_iterations, " / ", task.total_iterations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 173
+          lineNumber: 174
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 173
+          lineNumber: 174
         },
         __self: this
       }, "Created:"), " ", task.creation_time.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 174
+          lineNumber: 175
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 174
+          lineNumber: 175
         },
         __self: this
       }, "Saved:"), " ", task.saved_time.toShortStr(), " ", task.had_error == true && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "task-error",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 174
+          lineNumber: 175
         },
         __self: this
       }, "(Error)"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -8166,20 +8277,20 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         preview: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 176
+          lineNumber: 177
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 177
+          lineNumber: 178
         },
         __self: this
       }, "Notes:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "notes",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 178
+          lineNumber: 179
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
@@ -8188,20 +8299,20 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         onChange: evt => this.updateNotes(evt),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 179
+          lineNumber: 180
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 181
+          lineNumber: 182
         },
         __self: this
       }, "Tags:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 182
+          lineNumber: 183
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagsEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -8210,54 +8321,67 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         updateTags: this.updateTags,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 183
+          lineNumber: 184
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 185
+          lineNumber: 186
+        },
+        __self: this
+      }, "Metrics:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MetricsViewer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        task: task,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 187
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 189
         },
         __self: this
       }, "Code versions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "code-versions",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 186
+          lineNumber: 190
         },
         __self: this
       }, Object.keys(task.versions).map(key => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.props.openCodeVersionViewer(task.versions[key]),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 188
+          lineNumber: 192
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "iteration",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 189
+          lineNumber: 193
         },
         __self: this
       }, key), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "name",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 190
+          lineNumber: 194
         },
         __self: this
       }, task.versions[key].substr(0, 7))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 195
+          lineNumber: 199
         },
         __self: this
       }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 196
+          lineNumber: 200
         },
         __self: this
       }, this.state.params.sort((a, b) => {
@@ -8265,46 +8389,46 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       }).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 200
+          lineNumber: 204
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 200
+          lineNumber: 204
         },
         __self: this
       }, param.name, ":"), this.state.selectedParamValues[param.uuid]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 203
+          lineNumber: 207
         },
         __self: this
       }, "Checkpoints"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "checkpoints",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 204
+          lineNumber: 208
         },
         __self: this
       }, task.checkpoints.length > 0 ? task.checkpoints.map((checkpoint, i) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 207
+          lineNumber: 211
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "iteration",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 208
+          lineNumber: 212
         },
         __self: this
       }, checkpoint.finished_iterations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "time",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 209
+          lineNumber: 213
         },
         __self: this
       }, checkpoint.time.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8313,20 +8437,20 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         title: "Add task based on checkpoint",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 210
+          lineNumber: 214
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-arrow-right",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 211
+          lineNumber: 215
         },
         __self: this
       })))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
+          lineNumber: 220
         },
         __self: this
       }, "No checkpoints exist")));
@@ -8749,5 +8873,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",1]]]);
+},[[0,"runtime~main",0]]]);
 //# sourceMappingURL=main.chunk.js.map

@@ -93,7 +93,7 @@ class Project:
             for key, view in self.views_data.items():
                 self.add_view(key, view, True)
         else:
-            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True], "param_sorting": {}}, True)
+            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False}, True)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -349,9 +349,9 @@ class Project:
 
     def add_param_to_views(self, param):
         for view in self.views.values():
-            for i, branch_option in reversed(enumerate(view.branch_options)):
+            for i, branch_option in reversed(list(enumerate(view.branch_options))):
                 if type(branch_option) == ParamBranch:
-                    view.branch_options.insert(i + 1, ParamBranch(param, self.configuration))
+                    view.branch_options.insert(i + 1, ParamBranch(param, self.configuration, False))
                     break
         return param
 
@@ -412,7 +412,7 @@ class Project:
                     output.extend(result)
                 else:
                     output.append(result)
-            if isinstance(root, TasksNode) and root.collapse:
+            if isinstance(root, TasksNode) and root.collapse and len(output) > 0:
                 output = [sorted(flatten(output), key=lambda x: x["collapse_sort_col"], reverse=collapse_sorting[1] == "DESC")]
             return output
 
@@ -459,7 +459,7 @@ class Project:
         del self.saved_filters[name]
 
     def add_view(self, path, data, ignore_path_check=False):
-        actual_path = (self.task_dir / path).resolve()
+        actual_path = self.task_dir / path
         if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
             raise Exception("Not empty")
         view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], data['force_param_in_name'], data['collapse_enabled'], actual_path)

@@ -55,14 +55,8 @@ class Trainer:
 
             self._train_step(data)
 
-    def _val(self, steps):
-        for i in range(steps):
-            try:
-                data = next(self.val_iter)
-            except StopIteration:
-                self.val_iter = iter(self.val_dataset)
-                data = next(self.val_iter)
-
+    def _val(self):
+        for data in self.val_dataset:
             self._val_step(data)
 
 
@@ -71,9 +65,9 @@ class Trainer:
         self.val_metric.reset()
 
         self._train(100)
-        self._val(10)
+        if current_iteration % 100 == 0:
+            self._val()
+            self.val_metric.plot(current_iteration)
 
         self.train_metric.plot(current_iteration)
-        self.val_metric.plot(current_iteration)
-
         return self.val_metric.acc.result()

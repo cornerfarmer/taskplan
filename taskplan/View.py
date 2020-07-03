@@ -330,7 +330,7 @@ class View:
         elif type(node) == TasksNode and len(node.children) == 1:
             self._check_filesystem(list(node.children.values())[0], path)
         elif type(node) not in [RootNode, TaskWrapper] or type(node) == TasksNode:
-            if path.exists() and not path.is_dir():
+            if path.exists() and (not path.is_dir() or path.is_symlink()):
                 self._remove_path(path)
 
             path.mkdir(exist_ok=True)
