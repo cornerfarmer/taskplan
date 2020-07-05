@@ -81,11 +81,13 @@ class ProjectManager extends React.Component {
     }
 
     reload() {
+        this.projectRef.current.autoFilterUpdate = false;
         fetch("/reload")
             .then(res => res.json())
             .then(
                 (result) => {
-
+                    this.projectRef.current.filterHasUpdated();
+                    this.projectRef.current.autoFilterUpdate = true;
                 },
                 (error) => {
 

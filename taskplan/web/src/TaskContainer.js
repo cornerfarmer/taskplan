@@ -24,6 +24,7 @@ class TaskContainer extends React.Component {
         this.onChangeForceParamInName = this.onChangeForceParamInName.bind(this);
         this.toggleCollapse = this.toggleCollapse.bind(this);
         this.intervalId = null;
+        this.autoFilterUpdate = true;
     }
 
     componentDidMount() {
@@ -49,7 +50,7 @@ class TaskContainer extends React.Component {
                 this.replaceUuidsWithTasks(tasks[key],task_lookup);
             } else {
                 let task = tasks[key];
-                let replacement = {"name": task.name, "metrics": task.metrics, "uuid": task.uuid};
+                let replacement = {"name": task.name, "metrics": task.metrics, "uuid": task.uuid, "collapsed_name": task.collapsed_name};
                 if (task.uuid in this.props.repository.tasks)
                     replacement["task"] = this.props.repository.tasks[task.uuid];
                 else {
@@ -170,13 +171,14 @@ class TaskContainer extends React.Component {
 
 
     newTask(task) {
-        if (!(task.uuid in this.state.task_lookup)) {
+        if (!(task.uuid in this.state.task_lookup) && this.autoFilterUpdate) {
             this.filterHasUpdated();
         }
     }
 
     removeTask(task) {
-        this.filterHasUpdated();
+        if (this.autoFilterUpdate)
+            this.filterHasUpdated();
     }
 
     updateTasks(all_tasks, changed) {

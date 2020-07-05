@@ -30,7 +30,7 @@ class CollapsedTasks extends React.Component {
                             rerunTask={this.props.rerunTask}
                             task={tasks[0].task}
                             metrics={tasks[0].metrics}
-                            name={tasks[0].name}
+                            name={this.state.collapsed ? (tasks[0].collapsed_name === undefined ? tasks[0].name : tasks[0].name.concat(tasks[0].collapsed_name.slice(-1))) : tasks[0].name.concat(tasks[0].collapsed_name)}
                             showTask={this.props.showTask}
                             highlight={tasks[0].uuid === this.props.highlightedTask}
                             filterLikeTask={this.props.filterLikeTask}
@@ -53,7 +53,7 @@ class CollapsedTasks extends React.Component {
                                 uuid={task.uuid}
                                 rerunTask={this.props.rerunTask}
                                 task={task.task}
-                                name={task.name}
+                                name={task.name.concat(task.collapsed_name)}
                                 showTask={this.props.showTask}
                                 highlight={task.uuid === this.props.highlightedTask}
                                 filterLikeTask={this.props.filterLikeTask}

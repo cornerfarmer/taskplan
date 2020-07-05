@@ -161,7 +161,7 @@ class TaskViewer extends React.Component {
 
 
     render() {
-        if (this.props.detailTaskUuid !== null) {
+        if (this.props.detailTaskUuid !== null && this.props.detailTaskUuid in this.state.tasks) {
             let task = this.state.tasks[this.props.detailTaskUuid];
             return (
                 <div className="task-viewer slide-editor editor">

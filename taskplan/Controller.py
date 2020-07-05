@@ -293,7 +293,9 @@ class Controller:
         return tasks, metric_superset
 
     def _task_details(self, task_uuid):
-        self.event_manager.throw(EventType.TASK_CHANGED, self.project.find_task_by_uuid(task_uuid))
+        task = self.project.find_task_by_uuid(task_uuid)
+        if task is not None:
+            self.event_manager.throw(EventType.TASK_CHANGED, task)
 
     def _save_filter(self, name, data):
         self.project.save_filter(name, data)

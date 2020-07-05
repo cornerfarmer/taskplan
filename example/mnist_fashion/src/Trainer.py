@@ -65,9 +65,11 @@ class Trainer:
         self.val_metric.reset()
 
         self._train(100)
-        if current_iteration % 100 == 0:
+        self.train_metric.plot(current_iteration)
+
+        if current_iteration % 10 == 0:
             self._val()
             self.val_metric.plot(current_iteration)
-
-        self.train_metric.plot(current_iteration)
-        return self.val_metric.acc.result()
+            return self.val_metric.acc.result()
+        else:
+            return None
