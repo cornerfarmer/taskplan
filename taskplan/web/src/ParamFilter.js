@@ -36,10 +36,14 @@ class ParamFilterParam extends React.Component {
     }
 
     mapValueToValues(paramValue) {
-        let paramValues = [];
-        for (let name in paramValue.number_of_tasks)
-            paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": name, "numberOfTasks": paramValue.number_of_tasks[name][0], "args": paramValue.number_of_tasks[name][1]});
-        return paramValues;
+        if (!this.props.useTemplateFields) {
+            let paramValues = [];
+            for (let name in paramValue.number_of_tasks)
+                paramValues.push({"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": name, "numberOfTasks": paramValue.number_of_tasks[name][0], "args": paramValue.number_of_tasks[name][1]});
+            return paramValues;
+        } else {
+            return [{"uuid": paramValue.uuid, "name": paramValue.name, "resolvedName": paramValue.name, "numberOfTasks": null, "args": []}];
+        }
     }
 
     toggleAll(evt) {
