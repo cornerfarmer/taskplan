@@ -316,8 +316,7 @@ class TaskWrapper:
         try:
             shutil.rmtree(save_dir)
         except OSError:
-            time.sleep(1)
-            shutil.rmtree(save_dir)
+            print("Could not remove directory: " + str(save_dir))
 
     def receive_updates(self):
         msg_type, arg = self.device.recv()
@@ -373,7 +372,6 @@ class TaskWrapper:
         if not path.exists():
             return False
 
-        self._reset_state(self.task_dir, self.class_name, self.config, self.project, self.total_iterations, self.tasks_dir, self.is_test, self.tags)
         self.load_metadata(path)
         return True
 

@@ -245,7 +245,7 @@ class View:
                 for possible_value in self.filters[param_uuid]:
                     if str(param_value.uuid) == possible_value[0] and args == possible_value[1:]:
                         found = True
-                    break
+                        break
 
             if not found:
                 select = False
@@ -327,8 +327,8 @@ class View:
     def _check_filesystem(self, node, path):
         if type(node) == CollapseNode:
             self._check_filesystem(node.primary_child(), path)
-        elif type(node) == TasksNode and len(node.children) == 1:
-            self._check_filesystem(list(node.children.values())[0], path)
+        #elif type(node) == TasksNode and len(node.children) == 1:
+        #    self._check_filesystem(list(node.children.values())[0], path)
         elif type(node) not in [RootNode, TaskWrapper] or type(node) == TasksNode:
             if path.exists() and (not path.is_dir() or path.is_symlink()):
                 self._remove_path(path)

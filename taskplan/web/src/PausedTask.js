@@ -146,7 +146,7 @@ class PausedTask extends React.Component {
                             <span><span>Created:</span> {this.props.task.creation_time.toShortStr()}</span>
                             <span><span>Last saved:</span> {this.props.task.saved_time.toShortStr()} {this.props.task.had_error == true && <span className="task-error">(Error)</span>}</span>
                             {["name", "saved", "created", "iterations", "started"].findIndex(x => x === this.props.detailCol) === -1 &&
-                            <span><span>{this.props.detailCol}:</span> {this.props.detailCol in this.props.metrics ? this.props.metrics[this.props.detailCol][2].toFixed(2) : "N/A"}</span>
+                            <span><span>{this.props.detailCol}:</span> {this.props.detailCol in this.props.metrics ? this.props.metrics[this.props.detailCol][2].toFixed(3) : "N/A"}</span>
                             }
                         </div>
                         <div className="tags">

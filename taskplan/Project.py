@@ -62,7 +62,7 @@ class Project:
             branch_options.append(ParamBranch(param, self.configuration, param.get_metadata("force") if param.has_metadata("force") else False))
         self.default_view = View(self.configuration, None, branch_options, {}, version_control=self.version_control, collapse_multiple_tries=False)
 
-    def _default_view_refresh_names(self, throw_events=True, exclude_from_throw=[]):
+    def _default_view_refresh_names(self, throw_events=True):
         for task in self.tasks:
             task.name = self.default_view.path_of_task(task)
         if throw_events:
@@ -178,7 +178,7 @@ class Project:
             for view in self.views.values():
                 view.add_task(task)
             self.default_view.add_task(task)
-            self._default_view_refresh_names(exclude_from_throw=[task])
+            self._default_view_refresh_names()
         return task
 
     def find_task_by_uuid(self, uuid):
@@ -217,7 +217,7 @@ class Project:
                 for view in self.views.values():
                     view.refresh(self.tasks)
                 self.default_view.refresh(self.tasks)
-                self._default_view_refresh_names(exclude_from_throw=[task])
+                self._default_view_refresh_names()
             task.remove_data()
 
             self.event_manager.throw(EventType.TASK_REMOVED, task)
@@ -272,7 +272,7 @@ class Project:
             for view in self.views.values():
                 view.add_task(cloned_task)
             self.default_view.add_task(cloned_task)
-            self._default_view_refresh_names(exclude_from_throw=[cloned_task])
+            self._default_view_refresh_names()
 
             return cloned_task
 
@@ -301,7 +301,7 @@ class Project:
             for view in self.views.values():
                 view.add_task(new_task)
             self.default_view.add_task(new_task)
-            self._default_view_refresh_names(exclude_from_throw=[new_task])
+            self._default_view_refresh_names()
 
             return new_task
 
@@ -323,25 +323,29 @@ class Project:
         self._default_view_refresh_names()
 
     def reload(self):
-        self.configuration.reload()
-
         task_uuids = []
-        for task in self.tasks:
+        for task in self.tasks[:]:
             success = task.reload()
             if success:
                 task_uuids.append(str(task.uuid))
                 self.event_manager.throw(EventType.TASK_CHANGED, task)
             else:
-                self.event_manager.throw(EventType.TASK_REMOVED, task)
-                self.tasks.remove(task)
+                self.remove_task(task)
 
+        added_tasks = []
         for task in self.tasks_dir.iterdir():
             if task.is_dir() and task.name not in task_uuids:
                 task = self._load_saved_task(task)
-                self.event_manager.throw(EventType.TASK_CHANGED, task)
 
-        for view in self.views.values():
-            view.refresh(self.tasks)
+                for view in self.views.values():
+                    view.add_task(task)
+                    self.default_view.add_task(task)
+
+                added_tasks.append(task)
+
+        self._default_view_refresh_names()
+        for task in added_tasks:
+            self.event_manager.throw(EventType.TASK_CHANGED, task)
 
     def add_param(self, new_data):
         param = self.configuration.add_param(new_data)
@@ -402,6 +406,9 @@ class Project:
             output = []
             for child_key in root.children:
                 output.extend(flatten(self.view_to_json(root.children[child_key], name_prefix + [child_key], sort_col, metric_superset, collapse_sorting)))
+            for entry in output:
+                entry["collapsed_name"] = entry["name"][len(name_prefix):-1]
+                entry["name"] = name_prefix + entry["name"][-1:]
             output = sorted(output, key=lambda x: x["collapse_sort_col"], reverse=collapse_sorting[1] == "DESC")
             return output
         else:
