@@ -18,6 +18,7 @@ import time
 from filelock import SoftFileLock
 import tensorflow as tf
 import sys
+import math
 
 class State(Enum):
     INIT = 0
@@ -412,7 +413,10 @@ class TaskWrapper:
                 for e in tf.compat.v1.train.summary_iterator(str(path)):
                     for v in e.summary.value:
                         if v.tag not in self.metrics or self.metrics[v.tag][0] < e.step or (self.metrics[v.tag][0] == e.step and self.metrics[v.tag][1] < e.wall_time):
-                            self.metrics[v.tag] = (e.step, e.wall_time, float(tf.make_ndarray(v.tensor)))
+                            value = float(tf.make_ndarray(v.tensor))
+                            if math.isnan(value):
+                                value = "nan"
+                            self.metrics[v.tag] = (e.step, e.wall_time, value)
 
         if metric_superset is not None:
             for tag in self.metrics.keys():
