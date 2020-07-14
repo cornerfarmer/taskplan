@@ -45,7 +45,7 @@ class StdOut(object):
 
     def write(self, message):
         self.buffer += message
-        if '\n' in message:
+        while '\n' in self.buffer:
             i = self.buffer.find('\n')
             self.logger.log(self.buffer[:i + 1])
             self.buffer = self.buffer[i + 1:]
