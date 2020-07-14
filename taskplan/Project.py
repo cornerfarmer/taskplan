@@ -22,10 +22,11 @@ import tensorflow as tf
 
 class Project:
 
-    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", load_saved_tasks=True, git_white_list=[]):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", load_saved_tasks=True, git_white_list=[], slim_mode=False):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.event_manager = event_manager
+        self.slim_mode = slim_mode
 
         self.config_dir = self.task_dir / Path(config_dir)
         if not self.config_dir.exists() or len(list(self.config_dir.iterdir())) == 0:
@@ -55,27 +56,30 @@ class Project:
             self._load_saved_tasks()
 
     def _refresh_default_view(self):
-        branch_options = []
+        if not self.slim_mode:
+            branch_options = []
 
-        branch_options.append(CodeVersionBranch("label", self.version_control))
-        for param in self.configuration.default_sorted_params():
-            branch_options.append(ParamBranch(param, self.configuration, param.get_metadata("force") if param.has_metadata("force") else False))
-        self.default_view = View(self.configuration, None, branch_options, {}, version_control=self.version_control, collapse_multiple_tries=False)
+            branch_options.append(CodeVersionBranch("label", self.version_control))
+            for param in self.configuration.default_sorted_params():
+                branch_options.append(ParamBranch(param, self.configuration, param.get_metadata("force") if param.has_metadata("force") else False))
+            self.default_view = View(self.configuration, None, branch_options, {}, version_control=self.version_control, collapse_multiple_tries=False)
 
     def _default_view_refresh_names(self, throw_events=True):
-        for task in self.tasks:
-            task.name = self.default_view.path_of_task(task)
-        if throw_events:
-            self.event_manager.throw(EventType.TASK_NAMES_CHANGED, None)
+        if not self.slim_mode:
+            for task in self.tasks:
+                if not task.is_test:
+                    task.name = self.default_view.path_of_task(task)
+            if throw_events:
+                self.event_manager.throw(EventType.TASK_NAMES_CHANGED, None)
 
     @staticmethod
-    def create_from_config_file(event_manager, metadata, path, load_saved_tasks=True):
+    def create_from_config_file(event_manager, metadata, path, load_saved_tasks=True, slim_mode=False):
         if Path(path).exists():
             with open(path) as f:
                 data = json.load(f)
         else:
             data = {}
-        return Project(event_manager, metadata, load_saved_tasks=load_saved_tasks, **data)
+        return Project(event_manager, metadata, load_saved_tasks=load_saved_tasks, slim_mode=slim_mode, **data)
 
     def save_metadata(self):
         return {**{
@@ -100,10 +104,11 @@ class Project:
             if task.is_dir():
                 self._load_saved_task(task)
 
-        for view in self.views.values():
-            view.refresh(self.tasks)
-        self.default_view.refresh(self.tasks)
-        self._default_view_refresh_names(False)
+        if not self.slim_mode:
+            for view in self.views.values():
+                view.refresh(self.tasks)
+            self.default_view.refresh(self.tasks)
+            self._default_view_refresh_names(False)
 
         if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
             self._load_saved_task(self.test_dir, is_test=True)
@@ -174,7 +179,7 @@ class Project:
         self.configuration.register_task(task)
         self._register_tags_from_task(task)
 
-        if not is_test:
+        if not is_test and not self.slim_mode:
             for view in self.views.values():
                 view.add_task(task)
             self.default_view.add_task(task)
@@ -213,7 +218,7 @@ class Project:
         if task in self.tasks:
             self.tasks.remove(task)
             self.configuration.deregister_task(task)
-            if not task.is_test:
+            if not task.is_test and not self.slim_mode:
                 for view in self.views.values():
                     view.refresh(self.tasks)
                 self.default_view.refresh(self.tasks)
@@ -269,10 +274,11 @@ class Project:
             cloned_task.creation_time = datetime.now()
             cloned_task.save_metadata()
 
-            for view in self.views.values():
-                view.add_task(cloned_task)
-            self.default_view.add_task(cloned_task)
-            self._default_view_refresh_names()
+            if not self.slim_mode:
+                for view in self.views.values():
+                    view.add_task(cloned_task)
+                self.default_view.add_task(cloned_task)
+                self._default_view_refresh_names()
 
             return cloned_task
 
@@ -298,19 +304,21 @@ class Project:
             new_task.checkpoints = []
             new_task.save_metadata()
 
-            for view in self.views.values():
-                view.add_task(new_task)
-            self.default_view.add_task(new_task)
-            self._default_view_refresh_names()
+            if not self.slim_mode:
+                for view in self.views.values():
+                    view.add_task(new_task)
+                self.default_view.add_task(new_task)
+                self._default_view_refresh_names()
 
             return new_task
 
     def change_sorting(self, param_uuid, new_sorting):
         changed_params = self.configuration.change_sorting(param_uuid, new_sorting)
 
-        self._refresh_default_view()
-        self.default_view.refresh(self.tasks)
-        self._default_view_refresh_names()
+        if not self.slim_mode:
+            self._refresh_default_view()
+            self.default_view.refresh(self.tasks)
+            self._default_view_refresh_names()
 
         return changed_params
 
@@ -318,9 +326,10 @@ class Project:
         param = self.configuration.force_param(param_uuid, enabled)
         self.event_manager.throw(EventType.PARAM_CHANGED, param, self.configuration)
 
-        self._refresh_default_view()
-        self.default_view.refresh(self.tasks)
-        self._default_view_refresh_names()
+        if not self.slim_mode:
+            self._refresh_default_view()
+            self.default_view.refresh(self.tasks)
+            self._default_view_refresh_names()
 
     def reload(self):
         task_uuids = []

@@ -51,7 +51,7 @@ class ServerSentEvent(object):
                 data_client['device'] = None if data.device is None else str(data.device.uuid)
                 data_client['tags'] = data.tags
                 data_client['name'] = data.name[:-1] if not data.is_test else ["Test"]
-                data_client['try'] = data.name[-1] if not data.is_test else 0
+                data_client['try'] = data.name[-1] if not data.is_test and len(data.name) > 0 else 0
         elif event_type in [EventType.PARAM_CHANGED, EventType.PARAM_REMOVED]:
             data_client['uuid'] = str(data.uuid)
             if event_type is not EventType.PARAM_REMOVED:
