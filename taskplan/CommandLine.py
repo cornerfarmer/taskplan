@@ -129,5 +129,14 @@ def agent(host, port):
     agent = RemoteAgent(host, port)
     agent.listen()
 
+
+@cli.command(name="diff")
+@click.argument('first_task')
+@click.argument('second_task')
+def diff(first_task, second_task):
+    event_manager, controller = _start_controller()
+    controller.diff_config(first_task, second_task)
+
+
 if __name__ == '__main__':
     cli()

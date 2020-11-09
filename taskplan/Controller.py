@@ -326,3 +326,32 @@ class Controller:
         task = self.project.find_task_by_uuid(task_uuid)
         task.update_metrics()
         return task.metrics
+
+    def flatten(self, config, prefix=''):
+        data = {}
+        for key in config.keys():
+            if isinstance(config[key], dict):
+                data.update(self.flatten(config[key], prefix + key + "/"))
+            else:
+                data[prefix + key] = config[key]
+        return data
+
+    def diff_config(self, first_task_uuid, second_task_uuid):
+        first_task = self.project.find_task_by_uuid(first_task_uuid)
+        second_task = self.project.find_task_by_uuid(second_task_uuid)
+
+        first_task.project.configuration.renew_task_config(first_task.config)
+        second_task.project.configuration.renew_task_config(second_task.config)
+
+        first_flatten_config = self.flatten(first_task.config.get_merged_config())
+        second_flatten_config = self.flatten(second_task.config.get_merged_config())
+
+        print()
+        for key in set().union(first_flatten_config, second_flatten_config):
+            if key in first_flatten_config and key in second_flatten_config:
+                if first_flatten_config[key] != second_flatten_config[key]:
+                    print(key + ": " + str(first_flatten_config[key]) + " || " + str(second_flatten_config[key]))
+            elif key in first_flatten_config:
+                print(key + ": " + str(first_flatten_config[key]) + " || -")
+            elif key in first_flatten_config:
+                print(key + ": - || " + str(second_flatten_config[key]))
