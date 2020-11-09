@@ -179,7 +179,7 @@ class TaskEditor extends React.Component {
             if (param.uuid in selectedParamValues) {
                 paramValues += param.uuid + " " + selectedParamValues[param.uuid][0];
                 for (let i = 1; i < selectedParamValues[param.uuid].length; i++)
-                    paramValues += ":\"" + selectedParamValues[param.uuid][i] + "\"";
+                    paramValues += ":'" + selectedParamValues[param.uuid][i] + "'";
                 paramValues += " ";
             }
         }
