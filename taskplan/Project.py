@@ -97,7 +97,7 @@ class Project:
             for key, view in self.views_data.items():
                 self.add_view(key, view, True)
         else:
-            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False}, True)
+            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True],"sorting_tasks": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False}, True)
 
     def _load_saved_tasks(self):
         for task in self.tasks_dir.iterdir():
@@ -359,6 +359,7 @@ class Project:
     def add_param(self, new_data):
         param = self.configuration.add_param(new_data)
         self.add_param_to_views(param)
+        return param
 
     def add_param_to_views(self, param):
         for view in self.views.values():

@@ -22,7 +22,7 @@ class Api:
 
     def load_task(self, task_path):
         task = self.project._load_saved_task(Path(task_path), task_path.startswith("tests"))
-        self.project.configuration.renew_task_config(task.config)
+        self.project.configuration.renew_task_config(task)
         return task
 
     def load_config(self, project_name, config_uuid):

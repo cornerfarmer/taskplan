@@ -340,8 +340,8 @@ class Controller:
         first_task = self.project.find_task_by_uuid(first_task_uuid)
         second_task = self.project.find_task_by_uuid(second_task_uuid)
 
-        first_task.project.configuration.renew_task_config(first_task.config)
-        second_task.project.configuration.renew_task_config(second_task.config)
+        first_task.project.configuration.renew_task_config(first_task)
+        second_task.project.configuration.renew_task_config(second_task)
 
         first_flatten_config = self.flatten(first_task.config.get_merged_config())
         second_flatten_config = self.flatten(second_task.config.get_merged_config())

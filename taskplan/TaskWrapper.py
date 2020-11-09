@@ -52,10 +52,8 @@ class StdOut(object):
 
 
     def flush(self):
-        #this flush method is needed for python 3 compatibility.
-        #this handles the flush command by doing nothing.
-        #you might want to specify some extra behavior here.
-        pass
+        self.logger.log(self.buffer)
+        self.buffer = ""
 
 class TaskWrapper:
     def __init__(self, task_dir, class_name, config, project, total_iterations, tasks_dir, is_test=False, tags=[]):
@@ -111,7 +109,7 @@ class TaskWrapper:
             "total_iterations": self.total_iterations,
             "task_uuid": str(self.uuid)
         }
-        did_update = self.project.configuration.renew_task_config(self.config)
+        did_update = self.project.configuration.renew_task_config(self)
         if did_update:
             self.save_metadata(["config"])
 

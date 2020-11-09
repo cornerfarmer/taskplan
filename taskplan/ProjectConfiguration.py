@@ -28,29 +28,31 @@ class ProjectConfiguration:
         self.number_of_tasks_per_param_value_key = {}
 
     def register_task(self, task):
-        for param_values in task.config.base_configs:
-            if str(param_values[0].uuid) not in self.number_of_tasks_per_param_value:
-                self.number_of_tasks_per_param_value[str(param_values[0].uuid)] = 0
-            self.number_of_tasks_per_param_value[str(param_values[0].uuid)] += 1
-
         for param_value in task.config.base_configs:
-            key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
-            if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value_key:
-                self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)] = {}
-            store = self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]
-            if key not in store:
-                store[key] = [0, param_value[1:]]
-            store[key][0] += 1
-            self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
+            self.register_task_for_param_value(task, param_value)
+
+    def register_task_for_param_value(self, task, param_value):
+        if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value:
+            self.number_of_tasks_per_param_value[str(param_value[0].uuid)] = 0
+        self.number_of_tasks_per_param_value[str(param_value[0].uuid)] += 1
+
+        key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
+        if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value_key:
+            self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)] = {}
+        store = self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]
+        if key not in store:
+            store[key] = [0, param_value[1:]]
+        store[key][0] += 1
+        self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
 
     def deregister_task(self, task):
-        for param_values in task.config.base_configs:
-            if str(param_values[0].uuid) in self.number_of_tasks_per_param_value:
-                self.number_of_tasks_per_param_value[str(param_values[0].uuid)] -= 1
-
         for param_value in task.config.base_configs:
+            if str(param_value[0].uuid) in self.number_of_tasks_per_param_value:
+                self.number_of_tasks_per_param_value[str(param_value[0].uuid)] -= 1
+                self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
+
             key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
-            if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value_key:
+            if str(param_value[0].uuid) in self.number_of_tasks_per_param_value_key:
                 if key in self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]:
                     self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)][key][0] -= 1
                     self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
@@ -251,7 +253,8 @@ class ProjectConfiguration:
 
         return task_config
 
-    def renew_task_config(self, config):
+    def renew_task_config(self, task):
+        config = task.config
         left_params = self.get_params()[:]
 
         for param_value in config.base_configs:
@@ -271,6 +274,8 @@ class ProjectConfiguration:
                         new_param_value.extend(param_value_config.get_metadata("template_deprecated"))
 
                     new_param_values.append(new_param_value)
+
+                    self.register_task_for_param_value(task, new_param_value)
 
             config.set_base_configs(new_param_values)
             data = config.data
