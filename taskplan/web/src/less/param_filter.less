@@ -11,6 +11,7 @@
   display: flex;
   overflow: hidden;
   justify-content: space-between;
+  align-items: center;
 }
 
 .param-filter .param-name.param-name-selected {
@@ -216,8 +217,9 @@
 }
 
 
-.param-viewer .param-filter #tb-link {
-    background: #F57C00;
+.param-viewer .param-filter .tb-link,
+.param-viewer .param-filter .tb-link-active {
+    background: #888888;
     color: white;
     border-radius: 2px;
     padding: 0 3px;
@@ -226,6 +228,18 @@
     display: flex;
     align-items: center;
     margin-right: 10px;
+}
+
+
+.param-viewer .param-filter .tb-link-active {
+    background: #F57C00;
+    margin-right:2px;
+}
+
+.param-viewer .param-filter .tb-link-icon {
+    margin-right: 10px;
+    color: #F57C00;
+    font-size: 10pt;
 }
 
 

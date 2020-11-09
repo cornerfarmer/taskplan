@@ -217,8 +217,10 @@ class Controller:
         self.scheduler.change_total_iterations(task_uuid, total_iterations)
 
     def _open_tensorboard(self, path):
-        self.event_manager.log("Starting tensorboard...")
         return self.project.start_tensorboard(path)
+
+    def _close_tensorboard(self, path):
+        return self.project.close_tensorboard(path)
 
     def _change_max_running_tasks(self, new_max_running):
         self.scheduler.set_max_running(new_max_running)
@@ -310,6 +312,8 @@ class Controller:
 
 
     def _add_view(self, path, data):
+        if path in self.project.views:
+            self.project.delete_view(path, close_tb=False)
         self.project.add_view(path, data)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)

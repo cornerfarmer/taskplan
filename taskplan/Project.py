@@ -39,6 +39,7 @@ class Project:
         self.test_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_ports = {}
+        self.tensorboard_threads = {}
         self.next_tensorboard_port = 7000
         self.version_control = VersionControl(task_dir, git_white_list)
 
@@ -200,8 +201,7 @@ class Project:
 
     def start_tensorboard(self, path):
         if path not in self.tensorboard_ports:
-            t = threading.Thread(target=lambda: self._run_tensorboard(path, self.next_tensorboard_port))
-            t.start()
+            self.tensorboard_threads[path] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port)], stdout=subprocess.PIPE)
             time.sleep(5)
 
             self.tensorboard_ports[path] = self.next_tensorboard_port
@@ -210,9 +210,12 @@ class Project:
             self.event_manager.throw(EventType.PROJECT_CHANGED, self)
         return self.tensorboard_ports[path]
 
-    def _run_tensorboard(self, path, port):
-        process = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(port)], stdout=subprocess.PIPE)
-        #output, error = process.communicate()
+    def close_tensorboard(self, path):
+        if path in self.tensorboard_threads:
+            self.tensorboard_threads[path].kill()
+            del self.tensorboard_threads[path]
+            del self.tensorboard_ports[path]
+            self.event_manager.throw(EventType.PROJECT_CHANGED, self)
 
     def remove_task(self, task):
         if task in self.tasks:
@@ -484,7 +487,9 @@ class Project:
         self.views[path] = view
         self.views_data[path] = data
 
-    def delete_view(self, path):
+    def delete_view(self, path, close_tb=True):
+        if close_tb:
+            self.close_tensorboard(path)
         actual_path = (self.task_dir / path).resolve()
         shutil.rmtree(actual_path)
 

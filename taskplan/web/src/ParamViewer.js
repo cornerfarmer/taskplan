@@ -187,6 +187,27 @@ class ParamViewer extends React.Component {
         }
     }
 
+    closeTB(path) {
+        var data = new FormData();
+        var dataJson = {};
+        dataJson['path'] = path;
+
+        data.append("data", JSON.stringify(dataJson));
+
+        fetch("/tensorboard_close", {
+            method: "POST",
+            body: data
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                },
+                (error) => {
+
+                }
+            )
+    }
+
     render() {
         if (this.state.open) {
             return (
@@ -217,7 +238,14 @@ class ParamViewer extends React.Component {
                                         {path}
                                     </div>
                                     <div style={{"flex": "2 1 auto"}}></div>
-                                    <div id="tb-link" onClick={() => this.gotoTB(path)} title="Start and open tensorboard">TB</div>
+                                    {!(path in this.props.tensorboard_ports) ?
+                                        <div className="tb-link" onClick={() => this.gotoTB(path)} title="Start and open tensorboard">TB</div>
+                                        :
+                                        <React.Fragment>
+                                            <div className="tb-link-active" onClick={() => this.closeTB(path)} title="Close tensorboard">TB</div>
+                                            <i className="fas fa-link tb-link-icon" onClick={() => this.gotoTB(path)}></i>
+                                        </React.Fragment>
+                                    }
                                     <i className="fas fa-times" onClick={() => this.deleteView(path)}></i>
                                 </div>
                             ))}

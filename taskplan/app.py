@@ -169,6 +169,11 @@ def run(refresh_interval):
         data = json.loads(request.form.get('data'))
         return jsonify({"port": controller.open_tensorboard(data["path"])})
 
+    @app.route('/tensorboard_close', methods=['POST'])
+    def close_tensorboard():
+        data = json.loads(request.form.get('data'))
+        return jsonify({"port": controller.close_tensorboard(data["path"])})
+
     @app.route('/log')
     @app.route('/log/<string:task_uuid>')
     @app.route('/log/<string:task_uuid>/<string:sub_task>')

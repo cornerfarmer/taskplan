@@ -9,7 +9,7 @@
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "body {\n  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  color: #757575;\n  line-height: 1.15;\n  background: #FAFAFA;\n}\nhtml,\nbody,\n#root,\n#root > #page,\n#root > #page > .container > .row,\n#root > #page > .container > .row > div,\n#root > #page > .container > .row > div > #scheduler {\n  height: 100%;\n}\n#root > #page > .container {\n  height: calc(100% - 39px);\n  max-width: none;\n}\n#root > #page > .container > .row > div:first-child {\n  padding-right: 0;\n}\n#root > .container > .row > div:last-child {\n  padding-left: 0;\n}\nh1 {\n  font-size: 80px;\n  font-weight: 300;\n  line-height: 1;\n  margin-bottom: 40px;\n}\nh2 {\n  font-size: 30px;\n  font-weight: 400;\n  line-height: 40px;\n  margin-bottom: 15px;\n}\n.buttons {\n  display: flex;\n}\n.buttons div {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 6px 10px;\n  border-radius: 2px;\n  cursor: pointer;\n  text-transform: uppercase;\n  font-size: 14px;\n}\n.buttons div:first-child {\n  background: #3f51b5;\n  color: white;\n  margin-right: 10px;\n}\n.buttons div:last-child {\n  margin-right: 0;\n}\nlabel {\n  margin-bottom: 0;\n}\n.separator {\n  margin: 0 5px;\n}\n.editor.task-editor {\n  flex: 1 1;\n}\n.editor .header {\n  padding: 5px 16px;\n  background: rgba(158, 158, 158, 0.2);\n}\n.editor .field {\n  margin: 10px 16px;\n}\n.editor .param-filter {\n  margin: 30px 16px;\n}\n.editor .field {\n  display: flex;\n  align-items: center;\n  justify-content: stretch;\n}\n.editor .field label {\n  margin: 0;\n  width: 150px;\n}\n.editor .field input,\n.editor .field select {\n  flex: 2 1;\n  padding-left: 5px;\n}\n.editor .field input[type=\"checkbox\"] {\n  flex: none;\n}\n.editor .jsoneditor {\n  width: calc(100% - 32px);\n  resize: vertical;\n  margin: 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.editor .jsoneditor-readOnly .jsoneditor {\n  border-color: rgba(158, 158, 158, 0.2);\n  height: auto;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_marker-layer .ace_active-line,\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_gutter-active-line {\n  background-color: inherit;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_scroller {\n  background-color: rgba(158, 158, 158, 0.1);\n}\n.editor .jsoneditor-readOnly .ace_cursor-layer {\n  display: none;\n}\n.editor .editor-loading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 250px;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 16px;\n}\n.editor .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.task-editor .command {\n  cursor: pointer;\n}\n.slide-editor {\n  position: absolute;\n  width: 400px;\n  left: -400px;\n  top: 0;\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n  background: #fafafa;\n  height: 100%;\n  animation: slide-in 0.4s ease;\n  overflow-y: auto;\n}\n@keyframes slide-in {\n  0% {\n    transform: translateX(400px);\n  }\n  100% {\n    transform: translateY(0);\n  }\n}\n.slide-editor .header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  cursor: pointer;\n}\n.slide-editor .header i {\n  padding: 2px 10px;\n  margin: -2px -10px;\n}\n.task-viewer .title,\n.task-viewer .metadata,\n.task-viewer h2,\n.task-viewer .notes,\n.task-viewer .params,\n.task-viewer .checkpoints,\n.task-viewer .code-versions,\n.code-version-viewer .metadata {\n  margin: 10px 16px;\n}\n.task-viewer .title {\n  font-weight: 300;\n  font-size: 20px;\n}\n.task-viewer .title .try-number {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 4px 10px;\n  margin-right: 10px;\n  display: inline-block;\n  line-height: 1;\n  font-size: 18px;\n  vertical-align: top;\n}\n.task-viewer .metadata,\n.task-viewer .params {\n  font-weight: 300;\n}\n.task-viewer .metadata div,\n.task-viewer .params div {\n  margin-bottom: 5px;\n}\n.task-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.task-viewer .metadata div span,\n.task-viewer .params div span {\n  font-weight: 400;\n  display: inline-block;\n  width: 150px;\n}\n.code-version-viewer .metadata {\n  font-weight: 300;\n}\n.code-version-viewer .metadata div {\n  margin-bottom: 10px;\n}\n.code-version-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.code-version-viewer .metadata div span {\n  font-weight: 400;\n  display: block;\n  margin-bottom: 5px;\n}\n.code-version-viewer .buttons div:first-child {\n  background: rgba(158, 158, 158, 0.2);\n  color: inherit;\n}\n.task-viewer h2 {\n  font-weight: 300;\n  font-size: 24px;\n}\n.task-viewer .checkpoints {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .checkpoints > div {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n}\n.task-viewer .checkpoints > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .checkpoints > div .action {\n  background: #3f51b5;\n  cursor: pointer;\n  color: white;\n}\n.task-viewer .checkpoints > div .iteration,\n.task-viewer .checkpoints > div .action {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .checkpoints > div .time {\n  font-weight: 300;\n}\n.task-viewer .code-versions {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .code-versions > div {\n  display: flex;\n  flex-direction: row;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n  cursor: pointer;\n}\n.task-viewer .code-versions > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .code-versions > div .iteration {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .code-versions > div .name {\n  font-weight: 300;\n  margin-left: 10px;\n}\n.task-viewer textarea {\n  min-height: 150px;\n  width: 100%;\n}\n.task-viewer .tags-edit {\n  margin-bottom: 15px;\n}\n.task-viewer .tags-edit > div {\n  margin: 0 16px;\n}\n.code-version-viewer {\n  display: flex;\n  flex-direction: column;\n}\n.code-version-viewer .code-versions {\n  overflow: auto;\n}\n.code-version-viewer .code-versions .code-version-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\n.code-version-viewer .code-versions .code-version-row .code-version-branch-arrow {\n  width: 30px;\n  height: 30px;\n  cursor: pointer;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.code-version-viewer .code-versions .code-version {\n  background: rgba(158, 158, 158, 0.1);\n  margin: 5px 0;\n  max-width: 300px;\n  border-radius: 5px;\n  cursor: pointer;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex: 1 1 auto;\n}\n.code-version-viewer .code-versions .code-version.current-code-version {\n  background: #3f51b5;\n  color: white;\n}\n.code-version-viewer .code-versions .code-version .name {\n  background: rgba(0, 0, 0, 0.05);\n  font-weight: 300;\n  padding: 5px 16px;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n.code-version-viewer .code-versions .code-version .time {\n  font-size: 12px;\n  text-align: center;\n  padding: 2px 0;\n}\n.code-version-viewer .code-versions .arrow {\n  text-align: center;\n  font-size: 20px;\n}\n.param-viewer label {\n  display: flex;\n  align-items: center;\n  margin: 10px 16px;\n}\n.param-viewer label input {\n  margin-right: 10px;\n}\n.param-viewer .param-filter {\n  margin: 10px 16px;\n  max-height: none;\n}\n.prompt-wrapper {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 100;\n}\n.prompt-wrapper .prompt {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: white;\n  max-width: 300px;\n  border-radius: 2px;\n}\n.prompt-wrapper .prompt.param-prompt {\n  max-width: 600px;\n  width: 600px;\n}\n.prompt-wrapper .prompt .prompt-header {\n  background: #3f51b5;\n  padding: 5px 16px;\n  color: white;\n}\n.prompt-wrapper .prompt .prompt-text {\n  font-size: 14px;\n  padding: 16px;\n  padding-bottom: 0;\n}\n.prompt-wrapper .prompt > input,\n.prompt-wrapper .prompt > select {\n  margin: 10px 16px 0 16px;\n  text-align: right;\n  width: calc(100% - 32px);\n}\n.prompt-wrapper .jsoneditor {\n  width: calc(100% - 32px);\n  margin: 10px 16px 16px 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.prompt-wrapper .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.editor .buttons,\n.prompt-wrapper .prompt .buttons {\n  display: flex;\n  justify-content: flex-end;\n  margin: 16px 16px 16px 16px;\n}\n.prompt-wrapper .prompt .param-filter .param-name {\n  cursor: pointer;\n}\n.param-filter {\n  border: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: none;\n  max-height: 350px;\n  overflow: auto;\n}\n.param-filter .param-name {\n  background: rgba(158, 158, 158, 0.05);\n  padding: 5px 10px;\n  display: flex;\n  overflow: hidden;\n  justify-content: space-between;\n}\n.param-filter .param-name.param-name-selected {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-name i {\n  cursor: pointer;\n}\n.param-filter .param-name.param-name-collapsed {\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-name.param-name-expanded {\n  justify-content: space-between;\n}\n.param-filter .param-name .param-value-hint,\n.param-filter .param-name .all-button {\n  border-radius: 2px;\n  font-weight: 600;\n  padding: 0 5px;\n  background: #ececec;\n}\n.param-filter .param-name .param-value-hint {\n  margin-left: 10px;\n}\n.param-filter .param-name .all-button {\n  cursor: pointer;\n}\n.param-filter .param-name .all-button.all-button-activated {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  border-top: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n  overflow-y: auto;\n}\n.param-filter .param-values .param-value {\n  padding: 10px;\n  white-space: nowrap;\n}\n.param-filter .param-values .param-value {\n  background: white;\n  cursor: pointer;\n}\n.param-filter .param-values .param-value-selected.param-value {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  display: flex;\n}\n.param-filter .param-values .param-value {\n  border-right: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-values .param-value.param-value-default {\n  font-weight: 500;\n}\n.param-filter .param-values .param-value .task-numbers {\n  margin-left: 10px;\n  background: #ededed;\n  border-radius: 2px;\n  color: #1c1c1c;\n  font-weight: 300;\n  padding: 0 2px;\n}\n.param-filter .param-values .param-value input {\n  padding: 0;\n  border: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .group-header {\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  background: white;\n  font-weight: 300;\n  justify-content: center;\n  font-size: 24px;\n  padding: 0 0 0 16px;\n  text-transform: uppercase;\n}\n.param-viewer > input {\n  width: calc(100% - 32px);\n  margin: 10px 16px;\n  display: flex;\n}\n.param-viewer .table-cols {\n  display: flex;\n}\n.param-viewer .table-cols .table-col {\n  flex: 1 1;\n  margin: 10px;\n}\n.param-viewer .table-cols .table-col .table-col-entry {\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 5px 0;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  cursor: grab;\n}\n.param-viewer .table-cols .table-col .table-col-dummy {\n  height: 30px;\n  margin: 5px 0;\n}\n.param-viewer .table-cols .table-col .table-col-dummy.on-drag-over,\n.param-viewer .table-cols .table-col .table-col-entry.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n.param-viewer .table-cols .table-col .table-col-entry i {\n  margin-left: 5px;\n  cursor: pointer;\n}\n.param-viewer .table-cols .table-col .table-col-entry div {\n  flex: 2 1;\n}\n.param-viewer .param-filter:empty {\n  border: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul,\n.param-viewer .param-filter ul {\n  padding: 0;\n  margin-bottom: 0;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item,\n.param-viewer .param-filter ul .item {\n  list-style: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header,\n.param-viewer .param-filter ul .item-param .header {\n  height: auto;\n  padding: 5px 10px;\n  background: rgba(158, 158, 158, 0.05);\n  cursor: grab;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over,\n.param-viewer .param-filter ul .item-param.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over .header,\n.param-viewer .param-filter ul .item-param.on-drag-over .header {\n  visibility: hidden;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .title,\n.param-viewer .param-filter ul .item-param .header .title {\n  font-size: initial;\n  font-weight: initial;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .grip-icon,\n.param-viewer .param-filter ul .item-param .header .grip-icon {\n  height: auto;\n  width: auto;\n}\n.param-viewer .param-filter #tb-link {\n  background: #F57C00;\n  color: white;\n  border-radius: 2px;\n  padding: 0 3px;\n  font-weight: 500;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  margin-right: 10px;\n}\n.param-viewer .param-filter {\n  max-height: 500px;\n  overflow-y: auto;\n}\n#root > #page > .container {\n  height: 100%;\n}\n.task-table-wrapper {\n  flex: 2 1;\n  overflow: auto;\n}\n.task-table {\n  width: calc(100% - 1px);\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.task-table th {\n  position: -webkit-sticky;\n  position: sticky;\n  background: white;\n  top: 0;\n  padding: 5px 10px;\n}\n.task-table th,\n.task-table td {\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n}\n.task-table th i {\n  cursor: pointer;\n  margin-left: 5px;\n}\n.task-table .table-row:nth-child(odd) {\n  background: rgba(158, 158, 158, 0.05);\n}\n.task-table .table-row td {\n  padding: 10px;\n}\n.task-table .table-row.group-header {\n  padding: 10px;\n  background: rgba(158, 158, 158, 0.2);\n  border: 1px solid #d9d9d9;\n  border-left: 0;\n  cursor: pointer;\n  border-right: 0;\n}\n.task-table .table-row.group-header .title {\n  align-items: end;\n}\n.task-table .table-row.group-header .title i {\n  margin-right: 5px;\n  font-size: 20px;\n}\n.task-table .task-table-header .sort-active {\n  color: #3f51b5;\n}\n.task-table .collapse-toggle {\n  padding: 5px;\n  background: #e5e5e5;\n  font-weight: 300;\n  cursor: pointer;\n  font-size: 12px;\n}\n.task-table .collapse-toggle > div {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.task-table .collapse-toggle > div i {\n  margin-right: 5px;\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  color: #757575;\n  line-height: 1.15;\n  background: #FAFAFA;\n}\nhtml,\nbody,\n#root,\n#root > #page,\n#root > #page > .container > .row,\n#root > #page > .container > .row > div,\n#root > #page > .container > .row > div > #scheduler {\n  height: 100%;\n}\n#root > #page > .container {\n  height: calc(100% - 39px);\n  max-width: none;\n}\n#root > #page > .container > .row > div:first-child {\n  padding-right: 0;\n}\n#root > .container > .row > div:last-child {\n  padding-left: 0;\n}\nh1 {\n  font-size: 80px;\n  font-weight: 300;\n  line-height: 1;\n  margin-bottom: 40px;\n}\nh2 {\n  font-size: 30px;\n  font-weight: 400;\n  line-height: 40px;\n  margin-bottom: 15px;\n}\n.buttons {\n  display: flex;\n}\n.buttons div {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 6px 10px;\n  border-radius: 2px;\n  cursor: pointer;\n  text-transform: uppercase;\n  font-size: 14px;\n}\n.buttons div:first-child {\n  background: #3f51b5;\n  color: white;\n  margin-right: 10px;\n}\n.buttons div:last-child {\n  margin-right: 0;\n}\nlabel {\n  margin-bottom: 0;\n}\n.separator {\n  margin: 0 5px;\n}\n.editor.task-editor {\n  flex: 1 1;\n}\n.editor .header {\n  padding: 5px 16px;\n  background: rgba(158, 158, 158, 0.2);\n}\n.editor .field {\n  margin: 10px 16px;\n}\n.editor .param-filter {\n  margin: 30px 16px;\n}\n.editor .field {\n  display: flex;\n  align-items: center;\n  justify-content: stretch;\n}\n.editor .field label {\n  margin: 0;\n  width: 150px;\n}\n.editor .field input,\n.editor .field select {\n  flex: 2 1;\n  padding-left: 5px;\n}\n.editor .field input[type=\"checkbox\"] {\n  flex: none;\n}\n.editor .jsoneditor {\n  width: calc(100% - 32px);\n  resize: vertical;\n  margin: 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.editor .jsoneditor-readOnly .jsoneditor {\n  border-color: rgba(158, 158, 158, 0.2);\n  height: auto;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_marker-layer .ace_active-line,\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_gutter-active-line {\n  background-color: inherit;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_scroller {\n  background-color: rgba(158, 158, 158, 0.1);\n}\n.editor .jsoneditor-readOnly .ace_cursor-layer {\n  display: none;\n}\n.editor .editor-loading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 250px;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 16px;\n}\n.editor .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.task-editor .command {\n  cursor: pointer;\n}\n.slide-editor {\n  position: absolute;\n  width: 400px;\n  left: -400px;\n  top: 0;\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n  background: #fafafa;\n  height: 100%;\n  animation: slide-in 0.4s ease;\n  overflow-y: auto;\n}\n@keyframes slide-in {\n  0% {\n    transform: translateX(400px);\n  }\n  100% {\n    transform: translateY(0);\n  }\n}\n.slide-editor .header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  cursor: pointer;\n}\n.slide-editor .header i {\n  padding: 2px 10px;\n  margin: -2px -10px;\n}\n.task-viewer .title,\n.task-viewer .metadata,\n.task-viewer h2,\n.task-viewer .notes,\n.task-viewer .params,\n.task-viewer .checkpoints,\n.task-viewer .code-versions,\n.code-version-viewer .metadata {\n  margin: 10px 16px;\n}\n.task-viewer .title {\n  font-weight: 300;\n  font-size: 20px;\n}\n.task-viewer .title .try-number {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 4px 10px;\n  margin-right: 10px;\n  display: inline-block;\n  line-height: 1;\n  font-size: 18px;\n  vertical-align: top;\n}\n.task-viewer .metadata,\n.task-viewer .params {\n  font-weight: 300;\n}\n.task-viewer .metadata div,\n.task-viewer .params div {\n  margin-bottom: 5px;\n}\n.task-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.task-viewer .metadata div span,\n.task-viewer .params div span {\n  font-weight: 400;\n  display: inline-block;\n  width: 150px;\n}\n.code-version-viewer .metadata {\n  font-weight: 300;\n}\n.code-version-viewer .metadata div {\n  margin-bottom: 10px;\n}\n.code-version-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.code-version-viewer .metadata div span {\n  font-weight: 400;\n  display: block;\n  margin-bottom: 5px;\n}\n.code-version-viewer .buttons div:first-child {\n  background: rgba(158, 158, 158, 0.2);\n  color: inherit;\n}\n.task-viewer h2 {\n  font-weight: 300;\n  font-size: 24px;\n}\n.task-viewer .checkpoints {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .checkpoints > div {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n}\n.task-viewer .checkpoints > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .checkpoints > div .action {\n  background: #3f51b5;\n  cursor: pointer;\n  color: white;\n}\n.task-viewer .checkpoints > div .iteration,\n.task-viewer .checkpoints > div .action {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .checkpoints > div .time {\n  font-weight: 300;\n}\n.task-viewer .code-versions {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .code-versions > div {\n  display: flex;\n  flex-direction: row;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n  cursor: pointer;\n}\n.task-viewer .code-versions > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .code-versions > div .iteration {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .code-versions > div .name {\n  font-weight: 300;\n  margin-left: 10px;\n}\n.task-viewer textarea {\n  min-height: 150px;\n  width: 100%;\n}\n.task-viewer .tags-edit {\n  margin-bottom: 15px;\n}\n.task-viewer .tags-edit > div {\n  margin: 0 16px;\n}\n.code-version-viewer {\n  display: flex;\n  flex-direction: column;\n}\n.code-version-viewer .code-versions {\n  overflow: auto;\n}\n.code-version-viewer .code-versions .code-version-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\n.code-version-viewer .code-versions .code-version-row .code-version-branch-arrow {\n  width: 30px;\n  height: 30px;\n  cursor: pointer;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.code-version-viewer .code-versions .code-version {\n  background: rgba(158, 158, 158, 0.1);\n  margin: 5px 0;\n  max-width: 300px;\n  border-radius: 5px;\n  cursor: pointer;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex: 1 1 auto;\n}\n.code-version-viewer .code-versions .code-version.current-code-version {\n  background: #3f51b5;\n  color: white;\n}\n.code-version-viewer .code-versions .code-version .name {\n  background: rgba(0, 0, 0, 0.05);\n  font-weight: 300;\n  padding: 5px 16px;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n.code-version-viewer .code-versions .code-version .time {\n  font-size: 12px;\n  text-align: center;\n  padding: 2px 0;\n}\n.code-version-viewer .code-versions .arrow {\n  text-align: center;\n  font-size: 20px;\n}\n.param-viewer label {\n  display: flex;\n  align-items: center;\n  margin: 10px 16px;\n}\n.param-viewer label input {\n  margin-right: 10px;\n}\n.param-viewer .param-filter {\n  margin: 10px 16px;\n  max-height: none;\n}\n.prompt-wrapper {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 100;\n}\n.prompt-wrapper .prompt {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: white;\n  max-width: 300px;\n  border-radius: 2px;\n}\n.prompt-wrapper .prompt.param-prompt {\n  max-width: 600px;\n  width: 600px;\n}\n.prompt-wrapper .prompt .prompt-header {\n  background: #3f51b5;\n  padding: 5px 16px;\n  color: white;\n}\n.prompt-wrapper .prompt .prompt-text {\n  font-size: 14px;\n  padding: 16px;\n  padding-bottom: 0;\n}\n.prompt-wrapper .prompt > input,\n.prompt-wrapper .prompt > select {\n  margin: 10px 16px 0 16px;\n  text-align: right;\n  width: calc(100% - 32px);\n}\n.prompt-wrapper .jsoneditor {\n  width: calc(100% - 32px);\n  margin: 10px 16px 16px 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.prompt-wrapper .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.editor .buttons,\n.prompt-wrapper .prompt .buttons {\n  display: flex;\n  justify-content: flex-end;\n  margin: 16px 16px 16px 16px;\n}\n.prompt-wrapper .prompt .param-filter .param-name {\n  cursor: pointer;\n}\n.param-filter {\n  border: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: none;\n  max-height: 350px;\n  overflow: auto;\n}\n.param-filter .param-name {\n  background: rgba(158, 158, 158, 0.05);\n  padding: 5px 10px;\n  display: flex;\n  overflow: hidden;\n  justify-content: space-between;\n  align-items: center;\n}\n.param-filter .param-name.param-name-selected {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-name i {\n  cursor: pointer;\n}\n.param-filter .param-name.param-name-collapsed {\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-name.param-name-expanded {\n  justify-content: space-between;\n}\n.param-filter .param-name .param-value-hint,\n.param-filter .param-name .all-button {\n  border-radius: 2px;\n  font-weight: 600;\n  padding: 0 5px;\n  background: #ececec;\n}\n.param-filter .param-name .param-value-hint {\n  margin-left: 10px;\n}\n.param-filter .param-name .all-button {\n  cursor: pointer;\n}\n.param-filter .param-name .all-button.all-button-activated {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  border-top: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n  overflow-y: auto;\n}\n.param-filter .param-values .param-value {\n  padding: 10px;\n  white-space: nowrap;\n}\n.param-filter .param-values .param-value {\n  background: white;\n  cursor: pointer;\n}\n.param-filter .param-values .param-value-selected.param-value {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  display: flex;\n}\n.param-filter .param-values .param-value {\n  border-right: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-values .param-value.param-value-default {\n  font-weight: 500;\n}\n.param-filter .param-values .param-value .task-numbers {\n  margin-left: 10px;\n  background: #ededed;\n  border-radius: 2px;\n  color: #1c1c1c;\n  font-weight: 300;\n  padding: 0 2px;\n}\n.param-filter .param-values .param-value input {\n  padding: 0;\n  border: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .group-header {\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  background: white;\n  font-weight: 300;\n  justify-content: center;\n  font-size: 24px;\n  padding: 0 0 0 16px;\n  text-transform: uppercase;\n}\n.param-viewer > input {\n  width: calc(100% - 32px);\n  margin: 10px 16px;\n  display: flex;\n}\n.param-viewer .table-cols {\n  display: flex;\n}\n.param-viewer .table-cols .table-col {\n  flex: 1 1;\n  margin: 10px;\n}\n.param-viewer .table-cols .table-col .table-col-entry {\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 5px 0;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  cursor: grab;\n}\n.param-viewer .table-cols .table-col .table-col-dummy {\n  height: 30px;\n  margin: 5px 0;\n}\n.param-viewer .table-cols .table-col .table-col-dummy.on-drag-over,\n.param-viewer .table-cols .table-col .table-col-entry.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n.param-viewer .table-cols .table-col .table-col-entry i {\n  margin-left: 5px;\n  cursor: pointer;\n}\n.param-viewer .table-cols .table-col .table-col-entry div {\n  flex: 2 1;\n}\n.param-viewer .param-filter:empty {\n  border: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul,\n.param-viewer .param-filter ul {\n  padding: 0;\n  margin-bottom: 0;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item,\n.param-viewer .param-filter ul .item {\n  list-style: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header,\n.param-viewer .param-filter ul .item-param .header {\n  height: auto;\n  padding: 5px 10px;\n  background: rgba(158, 158, 158, 0.05);\n  cursor: grab;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over,\n.param-viewer .param-filter ul .item-param.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over .header,\n.param-viewer .param-filter ul .item-param.on-drag-over .header {\n  visibility: hidden;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .title,\n.param-viewer .param-filter ul .item-param .header .title {\n  font-size: initial;\n  font-weight: initial;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .grip-icon,\n.param-viewer .param-filter ul .item-param .header .grip-icon {\n  height: auto;\n  width: auto;\n}\n.param-viewer .param-filter .tb-link,\n.param-viewer .param-filter .tb-link-active {\n  background: #888888;\n  color: white;\n  border-radius: 2px;\n  padding: 0 3px;\n  font-weight: 500;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  margin-right: 10px;\n}\n.param-viewer .param-filter .tb-link-active {\n  background: #F57C00;\n  margin-right: 2px;\n}\n.param-viewer .param-filter .tb-link-icon {\n  margin-right: 10px;\n  color: #F57C00;\n  font-size: 10pt;\n}\n.param-viewer .param-filter {\n  max-height: 500px;\n  overflow-y: auto;\n}\n#root > #page > .container {\n  height: 100%;\n}\n.task-table-wrapper {\n  flex: 2 1;\n  overflow: auto;\n}\n.task-table {\n  width: calc(100% - 1px);\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.task-table th {\n  position: -webkit-sticky;\n  position: sticky;\n  background: white;\n  top: 0;\n  padding: 5px 10px;\n}\n.task-table th,\n.task-table td {\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n}\n.task-table th i {\n  cursor: pointer;\n  margin-left: 5px;\n}\n.task-table .table-row:nth-child(odd) {\n  background: rgba(158, 158, 158, 0.05);\n}\n.task-table .table-row td {\n  padding: 10px;\n}\n.task-table .table-row.group-header {\n  padding: 10px;\n  background: rgba(158, 158, 158, 0.2);\n  border: 1px solid #d9d9d9;\n  border-left: 0;\n  cursor: pointer;\n  border-right: 0;\n}\n.task-table .table-row.group-header .title {\n  align-items: end;\n}\n.task-table .table-row.group-header .title i {\n  margin-right: 5px;\n  font-size: 20px;\n}\n.task-table .task-table-header .sort-active {\n  color: #3f51b5;\n}\n.task-table .collapse-toggle {\n  padding: 5px;\n  background: #e5e5e5;\n  font-weight: 300;\n  cursor: pointer;\n  font-size: 12px;\n}\n.task-table .collapse-toggle > div {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.task-table .collapse-toggle > div i {\n  margin-right: 5px;\n}\n", ""]);
 
 
 
@@ -3234,6 +3234,17 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     }
   }
 
+  closeTB(path) {
+    var data = new FormData();
+    var dataJson = {};
+    dataJson['path'] = path;
+    data.append("data", JSON.stringify(dataJson));
+    fetch("/tensorboard_close", {
+      method: "POST",
+      body: data
+    }).then(res => res.json()).then(result => {}, error => {});
+  }
+
   render() {
     if (this.state.open) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3241,14 +3252,14 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         style: this.props.style,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 193
+          lineNumber: 214
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 194
+          lineNumber: 215
         },
         __self: this
       }, "Save / Load", this.props.allowClose && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -3256,28 +3267,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: this.close,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 194
+          lineNumber: 215
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 195
+          lineNumber: 216
         },
         __self: this
       }, Object.keys(this.props.saved_filters).map(savedFilterName => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 197
+          lineNumber: 218
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.props.loadFilter(this.props.saved_filters[savedFilterName]),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 198
+          lineNumber: 219
         },
         __self: this
       }, savedFilterName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -3285,7 +3296,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.deleteFilter(savedFilterName),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 201
+          lineNumber: 222
         },
         __self: this
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -3295,55 +3306,55 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.handleFilterSaveNameChange,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 205
+          lineNumber: 226
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 206
+          lineNumber: 227
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.saveFilter,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 207
+          lineNumber: 228
         },
         __self: this
       }, "Save")), !this.props.hideViews && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 211
+          lineNumber: 232
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
+          lineNumber: 233
         },
         __self: this
       }, "Filesystem"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
+          lineNumber: 234
         },
         __self: this
       }, Object.keys(this.props.views).map(path => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 215
+          lineNumber: 236
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.props.loadFilter(this.props.views[path]),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
+          lineNumber: 237
         },
         __self: this
       }, path), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3352,24 +3363,47 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 219
+          lineNumber: 240
         },
         __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "tb-link",
+      }), !(path in this.props.tensorboard_ports) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tb-link",
         onClick: () => this.gotoTB(path),
         title: "Start and open tensorboard",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 220
+          lineNumber: 242
+        },
+        __self: this
+      }, "TB") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 244
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tb-link-active",
+        onClick: () => this.closeTB(path),
+        title: "Close tensorboard",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 245
         },
         __self: this
       }, "TB"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-link tb-link-icon",
+        onClick: () => this.gotoTB(path),
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 246
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-times",
         onClick: () => this.deleteView(path),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 221
+          lineNumber: 249
         },
         __self: this
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -3379,28 +3413,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.handleViewPathChange,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 225
+          lineNumber: 253
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 226
+          lineNumber: 254
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.addView,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 227
+          lineNumber: 255
         },
         __self: this
       }, "Add"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 232
+          lineNumber: 260
         },
         __self: this
       }, "Filter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -3412,20 +3446,20 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         toggleSelection: this.props.toggleSelection,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 233
+          lineNumber: 261
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 235
+          lineNumber: 263
         },
         __self: this
       }, "Collapsing"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 236
+          lineNumber: 264
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -3434,27 +3468,27 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.props.toggleCollapse,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 237
+          lineNumber: 265
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 238
+          lineNumber: 266
         },
         __self: this
       }, "Enabled")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-collapse param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 240
+          lineNumber: 268
         },
         __self: this
       }, this.props.collapsedParams.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 242
+          lineNumber: 270
         },
         __self: this
       }, param.name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -3462,7 +3496,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.props.removeParamCollapse(param),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 242
+          lineNumber: 270
         },
         __self: this
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3472,13 +3506,13 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 245
+          lineNumber: 273
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 246
+          lineNumber: 274
         },
         __self: this
       }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -3486,42 +3520,42 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.props.onChangeCollapseSorting,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 247
+          lineNumber: 275
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "saved",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 248
+          lineNumber: 276
         },
         __self: this
       }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "name",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 249
+          lineNumber: 277
         },
         __self: this
       }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "created",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 250
+          lineNumber: 278
         },
         __self: this
       }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "iterations",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 251
+          lineNumber: 279
         },
         __self: this
       }, "Iterations"), this.props.metric_superset.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: col,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 253
+          lineNumber: 281
         },
         __self: this
       }, col))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -3533,7 +3567,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         className: this.props.collapseSorting[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 256
+          lineNumber: 284
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -3543,42 +3577,42 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onSelect: this.props.addParamCollapse,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 259
+          lineNumber: 287
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 260
+          lineNumber: 288
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.paramCollapseSelection.current.openDialog(),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 261
+          lineNumber: 289
         },
         __self: this
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 264
+          lineNumber: 292
         },
         __self: this
       }, "Grouping"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 266
+          lineNumber: 294
         },
         __self: this
       }, this.props.groupedParams.map(params => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 268
+          lineNumber: 296
         },
         __self: this
       }, params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name).join(" / "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -3586,7 +3620,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.props.removeParamGroup(params),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 270
+          lineNumber: 298
         },
         __self: this
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -3597,28 +3631,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onSelect: this.props.addParamGroup,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 274
+          lineNumber: 302
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 275
+          lineNumber: 303
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.paramGroupSelection.current.openDialog(),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 276
+          lineNumber: 304
         },
         __self: this
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 279
+          lineNumber: 307
         },
         __self: this
       }, "Parameter sorting"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3629,13 +3663,13 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 280
+          lineNumber: 308
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 281
+          lineNumber: 309
         },
         __self: this
       }, "Version:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -3643,42 +3677,42 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.props.onChangeVersionInName,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 282
+          lineNumber: 310
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "none",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 283
+          lineNumber: 311
         },
         __self: this
       }, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "commit_id",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 284
+          lineNumber: 312
         },
         __self: this
       }, "Commit id"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "label",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 285
+          lineNumber: 313
         },
         __self: this
       }, "Label"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-collapse param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 288
+          lineNumber: 316
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "params-tab",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 289
+          lineNumber: 317
         },
         __self: this
       }, this.props.params.sort((a, b) => this.props.paramSorting[a.uuid] - this.props.paramSorting[b.uuid]).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -3690,41 +3724,41 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChangeForceParamInName: this.props.onChangeForceParamInName,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 291
+          lineNumber: 319
         },
         __self: this
       })))), this.props.selectedCols !== undefined && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 304
+          lineNumber: 332
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 305
+          lineNumber: 333
         },
         __self: this
       }, "Columns"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-cols",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 306
+          lineNumber: 334
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 307
+          lineNumber: 335
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col-header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 308
+          lineNumber: 336
         },
         __self: this
       }, "Used:"), this.props.selectedCols.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
@@ -3734,7 +3768,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         addCol: this.props.addCol,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 310
+          lineNumber: 338
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
@@ -3745,28 +3779,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         isDummy: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 317
+          lineNumber: 345
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 325
+          lineNumber: 353
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col-header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 326
+          lineNumber: 354
         },
         __self: this
       }, "Not used:"), this.props.allCols.filter(col => this.props.selectedCols.findIndex(x => x === col) === -1).map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
         col: col,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 328
+          lineNumber: 356
         },
         __self: this
       }))))));
@@ -8217,5 +8251,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",0]]]);
+},[[0,"runtime~main",1]]]);
 //# sourceMappingURL=main.chunk.js.map
