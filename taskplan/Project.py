@@ -1,4 +1,5 @@
 import threading
+import traceback
 from collections import Counter
 from datetime import datetime
 
@@ -115,12 +116,29 @@ class Project:
             self._load_saved_task(self.test_dir, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
-        #try:
-        task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
-        task.load_metadata(path)
-        #except:
-        #    print("Warning: Could not load task: " + str(path))
-        #    return
+        if not any(path.iterdir()):
+            try:
+                shutil.rmtree(path)
+                print("Removed empty directory " + str(path))
+            except OSError:
+                print(str(path) + " is empty but could not be removed.")
+            return None
+
+        if not (path / "metadata.json").exists():
+            print(str(path) + " does not contain a metadata.json, so probably not a task.")
+            return None
+
+        try:
+            task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
+            task.load_metadata(path)
+        except:
+            print("Warning: Could not load task: " + str(path))
+            print(traceback.format_exc())
+            return None
+
+        if self.find_task_by_uuid(task.uuid) is not None:
+            print("A task with uuid " + str(task.uuid) + " already exists. I am therefore not loading " + str(path))
+            return None
 
         task.state = State.STOPPED
 
@@ -188,6 +206,9 @@ class Project:
         return task
 
     def find_task_by_uuid(self, uuid):
+        if not isinstance(uuid, str):
+            uuid = str(uuid)
+
         for task in self.tasks:
             if str(task.uuid) == uuid:
                 return task
@@ -348,6 +369,8 @@ class Project:
         for task in self.tasks_dir.iterdir():
             if task.is_dir() and task.name not in task_uuids:
                 task = self._load_saved_task(task)
+                if task is None:
+                    continue
 
                 for view in self.views.values():
                     view.add_task(task)

@@ -315,7 +315,7 @@ class TaskWrapper:
         try:
             shutil.rmtree(save_dir)
         except OSError:
-            print("Could not remove directory: " + str(save_dir))
+            print("Could not remove directory: " + str(save_dir) + ". Probably the fault of TB, gonna try again in a bit.")
 
     def receive_updates(self):
         msg_type, arg = self.device.recv()
