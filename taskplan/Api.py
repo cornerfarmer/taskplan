@@ -18,7 +18,7 @@ class Api:
         else:
             metadata = {"project": {}, "scheduler": {}}
 
-        self.project = Project.create_from_config_file(EventManager(), metadata["project"], "taskplan.json", load_saved_tasks=False, slim_mode=True)
+        self.project = Project.create_from_config_file(EventManager(), metadata["project"], "taskplan.json", tasks_to_load=[], slim_mode=True)
 
     def load_task(self, task_path):
         task = self.project._load_saved_task(Path(task_path), task_path.startswith("tests"))

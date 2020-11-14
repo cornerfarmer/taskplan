@@ -13,16 +13,10 @@ def cli():
     pass
 
 
-def _start_controller():
+def _start_controller(tasks_to_load):
     event_manager = EventManager()
-    controller = Controller(event_manager, None, slim_mode=True)
+    controller = Controller(event_manager, None, slim_mode=True, tasks_to_load=tasks_to_load)
     return event_manager, controller
-
-
-@cli.command()
-def init():
-    _start_controller()
-
 
 @cli.command()
 @click.option('--refresh_interval', type=int, default=30000)
@@ -39,7 +33,7 @@ def web(refresh_interval):
 @click.option('--save', type=int, default=0)
 @click.option('--checkpoint', type=int, default=0)
 def start(total_iterations, params, save, checkpoint):
-    event_manager, controller = _start_controller()
+    event_manager, controller = _start_controller([])
 
     try:
         controller.start()
@@ -52,7 +46,7 @@ def start(total_iterations, params, save, checkpoint):
             values_per_param[params[i]] = params[i + 1].split(":")
 
         task = controller.start_new_task(values_per_param, config, total_iterations)
-        print("Starting task \"" + str(task.uuid))
+        print("Starting task " + str(task.uuid))
 
         console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
         console_ui.run()
@@ -64,13 +58,13 @@ def start(total_iterations, params, save, checkpoint):
 @click.argument('task_uuid')
 @click.argument('total_iterations', type=int, required=False)
 def continue_task(task_uuid, total_iterations=0):
-    event_manager, controller = _start_controller()
+    event_manager, controller = _start_controller(task_uuid)
 
     try:
         controller.start()
         task = controller.continue_task(task_uuid, total_iterations)
         if task is not None:
-            print("Continuing task" + str(task.uuid))
+            print("Continuing task " + str(task.uuid))
 
             console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
             console_ui.run()
@@ -85,9 +79,8 @@ def continue_task(task_uuid, total_iterations=0):
 @click.argument('params', nargs=-1)
 @click.option('--save', type=int, default=0)
 @click.option('--checkpoint', type=int, default=0)
-@click.option('--load', is_flag=True)
-def test_task(total_iterations, params, save, checkpoint, load):
-    event_manager, controller = _start_controller()
+def test_task(total_iterations, params, save, checkpoint):
+    event_manager, controller = _start_controller([])
 
     try:
         controller.start()
@@ -99,13 +92,10 @@ def test_task(total_iterations, params, save, checkpoint, load):
         for i in range(0, len(params), 2):
             values_per_param[params[i]] = params[i + 1].split(":")
 
-        if not load:
-            task = controller.start_new_task(values_per_param, config, total_iterations, is_test=True)
-        else:
-            task = controller.continue_test_task(values_per_param, config, total_iterations)
+        task = controller.start_new_task(values_per_param, config, total_iterations, is_test=True)
 
         if task is not None:
-            print("Testing task \"" + str(task.uuid))
+            print("Testing task " + str(task.uuid))
             console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
             console_ui.run()
         else:
@@ -113,14 +103,6 @@ def test_task(total_iterations, params, save, checkpoint, load):
     finally:
         controller.stop()
 
-
-@cli.command(name="add_version")
-@click.argument('version_name')
-def add_version(version_name):
-    event_manager, controller = _start_controller()
-
-    controller.add_code_version(version_name)
-    controller.stop()
 
 @cli.command(name="agent")
 @click.argument('host', default="0.0.0.0")
@@ -134,7 +116,7 @@ def agent(host, port):
 @click.argument('first_task')
 @click.argument('second_task')
 def diff(first_task, second_task):
-    event_manager, controller = _start_controller()
+    event_manager, controller = _start_controller([first_task, second_task])
     controller.diff_config(first_task, second_task)
 
 

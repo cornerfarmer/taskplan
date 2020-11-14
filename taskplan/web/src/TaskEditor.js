@@ -19,7 +19,7 @@ class TaskEditor extends React.Component {
             selectedParamValues: selectedParamValues,
             uuid_to_load: null,
             total_iterations: "",
-            save_interval: "0",
+            save_interval: "100",
             checkpoint_interval: "0",
             open: false,
             command: "",
@@ -159,13 +159,13 @@ class TaskEditor extends React.Component {
     onSaveIntervalChange(event) {
         this.setState({
             save_interval: event.target.value
-        });
+        },() => this.updateCommand());
     }
 
     onCheckpointIntervalChange(event) {
         this.setState({
             checkpoint_interval: event.target.value
-        });
+        },() => this.updateCommand());
     }
 
     updateCommand(selectedParamValues = null, total_iterations = null) {
@@ -184,9 +184,13 @@ class TaskEditor extends React.Component {
             }
         }
 
+        let additionalProps = "";
+        additionalProps += "--save " + (this.state.save_interval === "" ? "0" : this.state.save_interval);
+        additionalProps += " --checkpoint " + (this.state.checkpoint_interval === "" ? "0" : this.state.checkpoint_interval);
+
         if (total_iterations !== "") {
             this.setState({
-                command: "taskplan " + (this.state.isTest ? "test " : "start ") + total_iterations + " " + paramValues,
+                command: "taskplan " + (this.state.isTest ? "test " : "start ") + total_iterations + " " + paramValues + " " + additionalProps,
                 commandHint: "Click to copy"
             });
         } else {

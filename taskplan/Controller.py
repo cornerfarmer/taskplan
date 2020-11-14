@@ -14,7 +14,7 @@ import traceback
 from time import time
 
 class Controller:
-    def __init__(self, event_manager, refresh_interval, allow_remote=False, print_log=True, slim_mode=False):
+    def __init__(self, event_manager, refresh_interval, allow_remote=False, print_log=True, slim_mode=False, tasks_to_load=None):
         self.refresh_interval = refresh_interval
         self.call_queue = queue.Queue(maxsize=1)
         self.return_queue = queue.Queue(maxsize=1)
@@ -28,7 +28,7 @@ class Controller:
             metadata = {"project": {}, "scheduler": {}}
 
         self.scheduler = Scheduler(event_manager, metadata["scheduler"], allow_remote, print_log)#, self.global_config.get_list("remote_devices") if allow_remote else [])
-        self.project = Project.create_from_config_file(event_manager, metadata["project"], "taskplan.json", slim_mode=slim_mode)
+        self.project = Project.create_from_config_file(event_manager, metadata["project"], "taskplan.json", slim_mode=slim_mode, tasks_to_load=tasks_to_load)
         self.project.refresh_interval = refresh_interval
 
         self.save_metadata()
@@ -36,11 +36,12 @@ class Controller:
         self.last_refresh = 0
 
     def save_metadata(self):
-        metadata = {}
-        metadata["project"] = self.project.save_metadata()
-        metadata["scheduler"] = self.scheduler.save_metadata()
-        with open('taskplan_metadata.json', "w") as f:
-            json.dump(metadata, f)
+        if not self.slim_mode:
+            metadata = {}
+            metadata["project"] = self.project.save_metadata()
+            metadata["scheduler"] = self.scheduler.save_metadata()
+            with open('taskplan_metadata.json', "w") as f:
+                json.dump(metadata, f)
 
     def start(self):
         self.run_update_thread = True
@@ -50,10 +51,11 @@ class Controller:
 
     def _update(self):
         while self.run_update_thread:
-            self.scheduler.update_clients(self.project)
-            self.project.update_clients()
+            if not self.slim_mode:
+                self.scheduler.update_clients(self.project)
+                self.project.update_clients()
             self.scheduler.schedule()
-            if self.refresh_interval is not None and time() - self.last_refresh > self.refresh_interval / 1000:
+            if not self.slim_mode and self.refresh_interval is not None and time() - self.last_refresh > self.refresh_interval / 1000:
                 self.project.refresh_views()
                 self.last_refresh = time()
 

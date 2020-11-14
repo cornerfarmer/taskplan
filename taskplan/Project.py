@@ -23,7 +23,7 @@ import tensorflow as tf
 
 class Project:
 
-    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", load_saved_tasks=True, git_white_list=[], slim_mode=False):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", tasks_to_load=None, git_white_list=[], slim_mode=False):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.event_manager = event_manager
@@ -54,8 +54,7 @@ class Project:
 
         self.all_tags = Counter()
 
-        if load_saved_tasks:
-            self._load_saved_tasks()
+        self._load_saved_tasks(tasks_to_load)
 
     def _refresh_default_view(self):
         if not self.slim_mode:
@@ -75,13 +74,13 @@ class Project:
                 self.event_manager.throw(EventType.TASK_NAMES_CHANGED, None)
 
     @staticmethod
-    def create_from_config_file(event_manager, metadata, path, load_saved_tasks=True, slim_mode=False):
+    def create_from_config_file(event_manager, metadata, path, tasks_to_load=None, slim_mode=False):
         if Path(path).exists():
             with open(path) as f:
                 data = json.load(f)
         else:
             data = {}
-        return Project(event_manager, metadata, load_saved_tasks=load_saved_tasks, slim_mode=slim_mode, **data)
+        return Project(event_manager, metadata, tasks_to_load=tasks_to_load, slim_mode=slim_mode, **data)
 
     def save_metadata(self):
         return {**{
@@ -91,29 +90,31 @@ class Project:
 
     def _load_metadata(self, metadata):
         self.version_control.load_metadata(metadata)
-        if 'saved_filters' in metadata:
-            self.saved_filters = metadata['saved_filters']
-        if 'views' in metadata:
-            self.views_data = metadata['views']
-            self.views = {}
-            for key, view in self.views_data.items():
-                self.add_view(key, view, True)
-        else:
-            self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True],"sorting_tasks": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False}, True)
-
-    def _load_saved_tasks(self):
-        for task in self.tasks_dir.iterdir():
-            if task.is_dir():
-                self._load_saved_task(task)
-
         if not self.slim_mode:
-            for view in self.views.values():
-                view.refresh(self.tasks)
-            self.default_view.refresh(self.tasks)
-            self._default_view_refresh_names(False)
+            if 'saved_filters' in metadata:
+                self.saved_filters = metadata['saved_filters']
+            if 'views' in metadata:
+                self.views_data = metadata['views']
+                self.views = {}
+                for key, view in self.views_data.items():
+                    self.add_view(key, view, True)
+            else:
+                self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True],"sorting_tasks": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False}, True)
 
-        if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
-            self._load_saved_task(self.test_dir, is_test=True)
+    def _load_saved_tasks(self, tasks_to_load):
+        if tasks_to_load is None or len(tasks_to_load) > 0:
+            for task in self.tasks_dir.iterdir():
+                if task.is_dir() and (tasks_to_load is None or task.name in tasks_to_load):
+                    self._load_saved_task(task)
+
+            if not self.slim_mode:
+                for view in self.views.values():
+                    view.refresh(self.tasks)
+                self.default_view.refresh(self.tasks)
+                self._default_view_refresh_names(False)
+
+            if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
+                self._load_saved_task(self.test_dir, is_test=True)
 
     def _load_saved_task(self, path, is_test=False):
         if not any(path.iterdir()):
