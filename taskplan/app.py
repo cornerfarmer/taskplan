@@ -1,5 +1,6 @@
 import json
 import time
+import uuid
 
 from flask import Flask, jsonify, Response, Blueprint
 from flask import request, render_template
@@ -24,6 +25,7 @@ def run(refresh_interval):
     app.config["DEBUG"] = True
     #app.config["EXPLAIN_TEMPLATE_LOADING"] = True
 
+    log_file_lines = {}
 
     @main_bp.route('/')
     def static_page():
@@ -186,27 +188,48 @@ def run(refresh_interval):
 
     @app.route('/read_log/')
     @app.route('/read_log/<string:task_uuid>')
-    @app.route('/read_log/<string:task_uuid>/<string:sub_task>')
-    def read_log(task_uuid="", sub_task=""):
+    def read_log(task_uuid=""):
         if task_uuid is not "":
             path = controller.get_task_dir(task_uuid)
-            if sub_task is not "":
-                path /= Path(sub_task)
             log_path = str(path / "main.log")
         else:
             log_path = str(Path('.') / "global.log")
 
         def gen():
-            log_file = open(log_path, 'r')
+            log_uuid = str(uuid.uuid4())
+            log_file_lines[log_uuid] = (log_path, [])
+            yield "data: " + str(log_uuid) + "\n\n"
+            with open(log_path, 'r') as log_file:
+                last_sent_lines = -1
+                last_sent = time.time()
+                lines = 0
+                while not log_file.closed:
+                    start_pos = log_file.tell()
+                    line = log_file.readline()
+                    if not line or lines > 33554400 // 20:
+                        time.sleep(1)
+                    else:
+                        lines += 1
+                        log_file_lines[log_uuid][1].append(start_pos)
 
-            while not log_file.closed:
-                line = log_file.readline()
-                if not line:
-                    time.sleep(1)
-                else:
-                    yield "data: " + line + "\n\n"
+                    if lines != last_sent_lines and time.time() - last_sent > 1:
+                        last_sent_lines = lines
+                        last_sent = time.time()
+                        print(last_sent_lines)
+                        yield "data: " + str(last_sent_lines) + "\n\n"
 
         return Response(gen(), mimetype="text/event-stream")
+
+    @app.route('/read_log_lines/<string:log_uuid>/<int:start_line>/<int:end_line>')
+    def read_log_lines(log_uuid, start_line, end_line):
+        log_file = open(log_file_lines[log_uuid][0], 'r')
+        log_file.seek(log_file_lines[log_uuid][1][start_line])
+
+        lines = []
+        for i in range(end_line - start_line + 1):
+            lines.append(log_file.readline())
+
+        return jsonify(lines)
 
     @app.route('/change_max_running/<int:new_max_running>')
     def change_max_running(new_max_running):

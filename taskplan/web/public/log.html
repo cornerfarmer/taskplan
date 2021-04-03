@@ -32,12 +32,12 @@
             margin: 0;
             font-weight: 400;
             font-size: 20px;
-            padding: 0 0 20px;
+            padding: 15px;
             background: rgba(0,0,0,.025);
         }
 
         #container {
-            max-width: 1140px;
+            /*max-width: 1140px;*/
             margin: 0 auto;
             border-left: 1px solid rgba(0,0,0,.1);
             border-right: 1px solid rgba(0,0,0,.1);
@@ -65,17 +65,24 @@
             border-right: 1px solid rgba(0,0,0,.1);
             padding-top: 10px;
             padding-left: 15px;
+            overflow: hidden;
+            position: relative;
+            width: 70px;
         }
 
 
         #file #content-wrapper {
             white-space: nowrap;
             overflow: auto;
+            flex: 1;
         }
         #file #content {
-            padding-top: 10px;
+            /*padding-top: 10px;
             padding-left: 15px;
-            padding-right: 15px;
+            padding-right: 15px;*/
+            overflow-y: hidden;
+            height: 100%;
+            position: relative;
         }
 
         #file #content pre {
@@ -85,7 +92,7 @@
 
         #file #goto-end {
             position: fixed;
-            right: 20px;
+            right: 40px;
             bottom: 20px;
             background: #3f51b5;
             color: white;
@@ -98,18 +105,55 @@
             font-size: 20px;
             cursor: pointer;
         }
+
+        #max-line {
+            position: absolute;
+        }
+
+        #scrollbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 20px;
+            align-items: center;
+        }
+        #scrollbar-down,
+        #scrollbar-up {
+            width: 40px;
+            height: 40px;
+            background: #3f51b5;
+            color: white;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #scrollbar-bar {
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+
+            cursor: pointer;
+            height: 20px;
+            width: 800px;
+            -webkit-appearance: none;
+            z-index: 200;
+            border: 1px solid rgba(0,0,0,.5);
+            background-color: rgba(0,0,0,.25);
+        }
+
     </style>
 </head>
 <body>
     <div id="container">
-        <h1>{{ preset_name }}</h1>
-        <h2>
-            {% if sub_task %}
-                Subtask: {{ sub_task }}
-            {% else %}
-                Started: {{ created }}
-            {% endif %}
-        </h2>
+        <h2>Logfile: {{ task_uuid }}</h2>
 
         <div id="file">
             <div id="line-numbers">
@@ -117,12 +161,20 @@
             </div>
              <div id="content-wrapper">
                 <div id="content">
-
+                    <span id="max-line"></span>
                 </div>
             </div>
+            <div id="scrollbar">
+                <input id="scrollbar-bar" step="0.01" type="range" min="0" max="1" value="0">
+
+            </div>
+
+
             <div id="goto-end" onclick="gotoEnd()" style="display: none">
                 <i class="fas fa-arrow-down"></i>
             </div>
+
+
         </div>
     </div>
 
@@ -131,43 +183,174 @@
         var line = 1;
         var lines = document.querySelector('#line-numbers');
         var content = document.querySelector('#content');
+        var maxLine = document.querySelector('#max-line');
         var button = document.querySelector('#goto-end');
+        var scroll = document.querySelector('#scrollbar-bar');
         var isEnd = true;
         var ignoreNextScroll = false;
+        var log_uuid = null;
+        var log_lines = [];
+        var log_lines_div = [];
+        var existing_lines_div = [];
+        var line_height = 20;
+        var scroll_pos = 0;
+        var scroll_sight = 20;
+        var loading = false;
 
         evtSource.onmessage = function(e) {
-            var newLine = document.createElement("div");
-            newLine.textContent = line;
-            lines.appendChild(newLine);
-
-            var newContent = document.createElement("pre");
-            var data = e.data;
-            data = data.replace(/'(.*?)':([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/g, '<a href="/log/$2/$1">$1</a>');
-            newContent.innerHTML = (data !== "" ? data : " ");
-            content.appendChild(newContent);
-
-            line++;
-
-            if (isEnd) {
-                ignoreNextScroll = true;
-                window.scrollTo(0,document.body.scrollHeight);
+            if (log_uuid === null) {
+                log_uuid = e.data;
+                return;
+            } else {
+                num_lines = e.data;
             }
+
+            for (var i = log_lines.length; i < num_lines; i++) {
+                log_lines.push(null);
+                log_lines_div.push(null);
+            }
+
+            //maxLine.style.top = (num_lines * line_height) + "px";
+            if (isEnd) {
+                scroll_pos = log_lines.length * line_height - content.clientHeight;
+                scroll.value = 1;
+                refreshScrollPose();
+            } else
+                refresh();
         };
+
+        refresh = function() {
+            if (isEnd) {
+                button.style.display = "none";
+            } else {
+                button.style.display = "flex";
+            }
+            let start_line = Math.ceil(scroll_pos / line_height) - scroll_sight;
+            let end_line = start_line + parseInt(content.clientHeight / line_height) + scroll_sight * 2;
+            if (end_line >= log_lines.length)
+                end_line = log_lines.length - 1;
+            if (start_line < 0)
+                start_line = 0;
+
+            let needs_update = false;
+            for (var i = start_line; i <= end_line; i++) {
+                if (log_lines[i] === null)
+                    needs_update = true;
+            }
+
+            if (needs_update) {
+                if (loading)
+                    return;
+                loading = true;
+                fetch("/read_log_lines/" + log_uuid + "/" + start_line + "/" + end_line)
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            loading = false;
+                            for (var i = start_line; i <= end_line; i++) {
+                                log_lines[i] = result[i - start_line];
+                            }
+                            refresh();
+                        },
+                        (error) => {
+                            loading = false;
+                        }
+                    )
+            } else {
+                for (var i = start_line; i <= end_line; i++) {
+                    if (log_lines_div[i] === null) {
+                        var newLine = document.createElement("div");
+                        newLine.textContent = i +1;
+                        newLine.style.position = "absolute";
+                        newLine.style.top = (i * line_height - scroll_pos) + "px";
+                        lines.appendChild(newLine);
+
+                        var newContent = document.createElement("pre");
+                        newContent.style.position = "absolute";
+                        newContent.style.top = (i * line_height - scroll_pos) + "px";
+                        newContent.setAttribute("line", i);
+                        var data = log_lines[i];
+                        data = data.replace(/'(.*?)':([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/g, '<a href="/log/$2/$1">$1</a>');
+                        newContent.innerHTML = (data !== "" ? data : " ");
+                        content.appendChild(newContent);
+                        existing_lines_div.push([newLine, newContent]);
+                        log_lines_div[i] = [newLine, newContent];
+                        //console.log("Add: " + i);
+                    }
+                }
+            }
+
+
+        }
+
+
+        refreshScrollPose = function() {
+
+            for (var i = 0; i < existing_lines_div.length; i++) {
+                let elem = existing_lines_div[i][1];
+                var pos = elem.getAttribute("line") * line_height - scroll_pos;
+                if (pos < - scroll_sight * line_height || pos > content.clientHeight + scroll_sight * line_height) {
+                    log_lines_div[elem.getAttribute("line")] = null;
+                    //console.log("Remove: " + elem.getAttribute("line"));
+                    content.removeChild(elem);
+                    lines.removeChild(existing_lines_div[i][0]);
+                    existing_lines_div.splice(i, 1);
+                    i--;
+                } else {
+                    elem.style.top = pos + "px";
+                    existing_lines_div[i][0].style.top = pos + "px";
+                }
+            }
+
+            refresh();
+        }
 
         gotoEnd = function() {
             isEnd = true;
-            ignoreNextScroll = true;
-            window.scrollTo(0,document.body.scrollHeight);
-            button.style.display = "none";
+            scroll_pos = log_lines.length * line_height - content.clientHeight;
+            scroll.value = 1;
+            refreshScrollPose();
         };
 
+        document.addEventListener("wheel", function (e) {
+            if(e.ctrlKey || e.shiftKey)
+                return false;
+
+            scroll_pos += e.deltaY * 8;
+            if (scroll_pos > log_lines.length * line_height - content.clientHeight) {
+                scroll_pos = log_lines.length * line_height - content.clientHeight;
+                isEnd = true;
+            } else
+                isEnd = false;
+            if (scroll_pos < 0)
+                scroll_pos = 0;
+            scroll.value = scroll_pos / (log_lines.length * line_height - content.clientHeight);
+
+            refreshScrollPose();
+
+            return false;
+        }, true);
+
         window.onscroll = function() {
+            //console.log("scroll");
+            refresh();
             if (!ignoreNextScroll && isEnd) {
                 isEnd = false;
                 button.style.display = "flex";
             }
             ignoreNextScroll = false;
         };
+
+        scroll.addEventListener("input",function(e){
+            scroll_pos = scroll.value * (log_lines.length * line_height - content.clientHeight);
+            if (scroll.value < 1)
+                isEnd = false;
+            else
+                isEnd = true;
+
+            refreshScrollPose();
+        });
+
     </script>
 
 </body>
