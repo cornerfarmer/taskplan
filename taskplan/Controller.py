@@ -13,6 +13,9 @@ import queue
 import traceback
 from time import time
 
+from taskplan.Utility import Utility
+
+
 class Controller:
     def __init__(self, event_manager, refresh_interval, allow_remote=False, print_log=True, slim_mode=False, tasks_to_load=None):
         self.refresh_interval = refresh_interval
@@ -204,12 +207,16 @@ class Controller:
 
         return {'inherited_config': inherited_config, "config": config, 'dynamic': dynamic}
 
-    def _task_config(self, param_value_uuids):
-        param_values = [[self.project.configuration.get_config(uuid[0])] + uuid[1:] for uuid in param_value_uuids]
+    def _task_config(self, param_values):
+        if len(param_values) > 0:
+            config, param_visibility = self.project.build_task_config(param_values)
+        else:
+            param_values = [[self.project.configuration.get_config(uuid[0])] + uuid[1:] for uuid in param_values]
 
-        config = Configuration({"config": {}}, param_values)
+            config = Configuration({"config": {}}, param_values)
+            param_visibility = {}
 
-        return {'inherited_config': {}, "config": config.get_merged_config(), 'dynamic': config.treat_dynamic()}
+        return {'inherited_config': {}, "config": config.get_merged_config(), 'dynamic': config.treat_dynamic(), "param_visibility": param_visibility}
 
     def _existing_task_config(self, task_uuid):
         task = self.project.find_task_by_uuid(task_uuid)
@@ -333,14 +340,6 @@ class Controller:
         task.update_metrics()
         return task.metrics
 
-    def flatten(self, config, prefix=''):
-        data = {}
-        for key in config.keys():
-            if isinstance(config[key], dict):
-                data.update(self.flatten(config[key], prefix + key + "/"))
-            else:
-                data[prefix + key] = config[key]
-        return data
 
     def diff_config(self, first_task_uuid, second_task_uuid):
         first_task = self.project.find_task_by_uuid(first_task_uuid)
@@ -349,8 +348,8 @@ class Controller:
         first_task.project.configuration.renew_task_config(first_task)
         second_task.project.configuration.renew_task_config(second_task)
 
-        first_flatten_config = self.flatten(first_task.config.get_merged_config())
-        second_flatten_config = self.flatten(second_task.config.get_merged_config())
+        first_flatten_config = Utility.flatten(first_task.config.get_merged_config())
+        second_flatten_config = Utility.flatten(second_task.config.get_merged_config())
 
         print()
         for key in set().union(first_flatten_config, second_flatten_config):

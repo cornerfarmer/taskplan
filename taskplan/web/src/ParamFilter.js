@@ -247,7 +247,7 @@ class ParamFilter extends React.Component {
                         }
                         <div className="params">
                             <div className="params">
-                                {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => (
+                                {this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => (param.values.length > 0 && (this.props.paramVisibility === undefined || !(param.uuid in this.props.paramVisibility) || this.props.paramVisibility[param.uuid]))).map(param => (
                                     <ParamFilterParam
                                         param={param}
                                         useTemplateFields={this.props.useTemplateFields}

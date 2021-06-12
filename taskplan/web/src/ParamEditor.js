@@ -7,7 +7,8 @@ class ParamEditor extends React.Component {
             param: null,
             name: '',
             deprecatedParamValue: '',
-            defaultParamValue: ''
+            defaultParamValue: '',
+            condition: ''
         };
 
         this.configEditor = React.createRef();
@@ -16,6 +17,7 @@ class ParamEditor extends React.Component {
         this.save = this.save.bind(this);
         this.new = this.new.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
+        this.onConditionChange = this.onConditionChange.bind(this);
         this.onDeprecatedParamValueChange = this.onDeprecatedParamValueChange.bind(this);
         this.onDefaultParamValueChange = this.onDefaultParamValueChange.bind(this);
     }
@@ -25,6 +27,7 @@ class ParamEditor extends React.Component {
         this.setState({
             param: param,
             name: param.name,
+            condition: param.condition,
             deprecatedParamValue: param.deprecated_param_value.uuid === undefined ? param.values[0].uuid : param.deprecated_param_value.uuid,
             defaultParamValue: param.default_param_value.uuid === undefined ? param.values[0].uuid : param.default_param_value.uuid
         });
@@ -35,6 +38,7 @@ class ParamEditor extends React.Component {
         this.setState({
             param: {name: 'New parameter', values: []},
             name: '',
+            condition: '',
             deprecatedParamValue: '',
             defaultParamValue: ''
         });
@@ -51,6 +55,7 @@ class ParamEditor extends React.Component {
 
         var dataJson = {};
         dataJson['name'] = this.state.name;
+        dataJson['condition'] = this.state.condition;
         dataJson['deprecated_param_value'] = this.state.deprecatedParamValue;
         dataJson['default_param_value'] = this.state.defaultParamValue;
         dataJson['config'] = {};
@@ -84,6 +89,12 @@ class ParamEditor extends React.Component {
     onNameChange(event) {
         this.setState({
             name: event.target.value
+        });
+    }
+
+    onConditionChange(event) {
+        this.setState({
+            condition: event.target.value
         });
     }
 
@@ -128,6 +139,10 @@ class ParamEditor extends React.Component {
                         </select>
                     </div>
                     }
+                     <div className="field">
+                        <label>Condition:</label>
+                        <input value={this.state.condition} onChange={this.onConditionChange} required="required" />
+                    </div>
                     <div className="buttons">
                         <div onClick={this.save}>Save</div>
                         <div onClick={this.close}>Cancel</div>

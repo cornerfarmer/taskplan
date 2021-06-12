@@ -128,9 +128,13 @@ class ParamViewer extends React.Component {
     }
 
 
-    addView() {
-        if (this.state.viewPath !== "") {
-            this.props.addView(this.state.viewPath);
+    addView(path="") {
+        if (path === "") {
+            if (this.state.viewPath !== "") {
+                this.props.addView(this.state.viewPath);
+            }
+        } else {
+             this.props.addView(path);
         }
     }
 
@@ -242,10 +246,11 @@ class ParamViewer extends React.Component {
                                         <div className="tb-link" onClick={() => this.gotoTB(path)} title="Start and open tensorboard">TB</div>
                                         :
                                         <React.Fragment>
-                                            <div className="tb-link-active" onClick={() => this.closeTB(path)} title="Close tensorboard">TB</div>
                                             <i className="fas fa-link tb-link-icon" onClick={() => this.gotoTB(path)}></i>
+                                            <div className="tb-link-active" onClick={() => this.closeTB(path)} title="Close tensorboard">TB</div>
                                         </React.Fragment>
                                     }
+                                    <i className="fas fa-arrow-alt-circle-up" onClick={() => this.addView(path)}></i>
                                     <i className="fas fa-times" onClick={() => this.deleteView(path)}></i>
                                 </div>
                             ))}

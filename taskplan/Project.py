@@ -3,6 +3,7 @@ import traceback
 from collections import Counter
 from datetime import datetime
 
+from taskplan.Utility import Utility
 from taskplan.VersionControl import VersionControl
 from taskplan.View import *
 
@@ -20,6 +21,7 @@ import uuid
 import json
 import shutil
 import tensorflow as tf
+import ast
 
 class Project:
 
@@ -165,7 +167,7 @@ class Project:
         for param in params:
             if self.configuration.has_param_values(str(param.uuid)):
                 if str(param.uuid) not in param_values:
-                    raise LookupError("No param value for the param with uuid " + str(param.uuid))
+                    continue
                 param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
                 if param_value.get_metadata("param") != str(param.uuid):
                     raise LookupError("Param value " + param_values[param] + " with wrong param")
@@ -177,6 +179,26 @@ class Project:
 
         self.event_manager.throw(EventType.PROJECT_CHANGED, self)
         return task
+
+    def build_task_config(self, param_values):
+        params = self.configuration.get_params()
+
+        base_uuids = []
+        param_uuids = []
+        for param in params:
+            if self.configuration.has_param_values(str(param.uuid)):
+                if str(param.uuid) not in param_values:
+                    raise LookupError("No param value for the param with uuid " + str(param.uuid))
+                param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
+                if param_value.get_metadata("param") != str(param.uuid):
+                    raise LookupError("Param value " + param_values[param] + " with wrong param")
+
+                base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
+                param_uuids.append(str(param.uuid))
+
+        selected_base_uuids, param_visibility = self.configuration.collect_visible_bases(base_uuids, param_uuids)
+
+        return self.configuration.add_task(selected_base_uuids, {}), param_visibility
 
     def _create_task_from_config(self, task_config, total_iterations, is_test=False, tags=[]):
         if is_test:
@@ -390,10 +412,13 @@ class Project:
 
     def add_param_to_views(self, param):
         for view in self.views.values():
-            for i, branch_option in reversed(list(enumerate(view.branch_options))):
-                if type(branch_option) == ParamBranch:
-                    view.branch_options.insert(i + 1, ParamBranch(param, self.configuration, False))
-                    break
+            if len(view.branch_options) > 1:
+                for i, branch_option in reversed(list(enumerate(view.branch_options))):
+                    if type(branch_option) in [ParamBranch, CodeVersionBranch, GroupBranch]:
+                        view.branch_options.insert(i + 1, ParamBranch(param, self.configuration, False))
+                        break
+            else:
+                view.branch_options.append(ParamBranch(param, self.configuration, False))
         return param
 
     def add_param_batch(self, config):

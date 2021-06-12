@@ -26,7 +26,8 @@ class TaskEditor extends React.Component {
             commandHint: "",
             isTest: false,
             device: null,
-            tags: []
+            tags: [],
+            paramVisibility: {}
         };
 
 
@@ -42,6 +43,7 @@ class TaskEditor extends React.Component {
         this.copyCommand = this.copyCommand.bind(this);
         this.onIsTestChange = this.onIsTestChange.bind(this);
         this.onDeviceChange = this.onDeviceChange.bind(this);
+        this.onParamVisibilityChanged = this.onParamVisibilityChanged.bind(this);
         this.updateTags = this.updateTags.bind(this);
         this.wrapperRef = React.createRef();
         this.commandInput = React.createRef();
@@ -105,8 +107,16 @@ class TaskEditor extends React.Component {
     run() {
         var data = new FormData();
 
+
+        let visibleParams = {};
+        for (const param of this.props.params) {
+            if (param.uuid in this.state.selectedParamValues && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
+                visibleParams[param.uuid] = this.state.selectedParamValues[param.uuid];
+            }
+        }
+
         var dataJson = {};
-        dataJson['params'] = this.state.selectedParamValues;
+        dataJson['params'] = visibleParams;
         dataJson['config'] = {
             "save_interval": parseInt(this.state.save_interval),
             "checkpoint_interval": parseInt(this.state.checkpoint_interval)
@@ -176,7 +186,7 @@ class TaskEditor extends React.Component {
         let paramValues = "";
 
         for (const param of this.props.params) {
-            if (param.uuid in selectedParamValues) {
+            if (param.uuid in selectedParamValues && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
                 paramValues += param.uuid + " " + selectedParamValues[param.uuid][0];
                 for (let i = 1; i < selectedParamValues[param.uuid].length; i++)
                     paramValues += ":'" + selectedParamValues[param.uuid][i] + "'";
@@ -235,6 +245,12 @@ class TaskEditor extends React.Component {
         });
     }
 
+    onParamVisibilityChanged(paramVisibility) {
+        this.setState({
+            paramVisibility: paramVisibility
+        })
+    }
+
     render() {
         return (
             <div ref={this.wrapperRef} style={{'display': (this.state.open ? 'block' : 'none')}}>
@@ -256,8 +272,8 @@ class TaskEditor extends React.Component {
                         <label>Is test:</label>
                         <input checked={this.state.isTest} onChange={this.onIsTestChange} type="checkbox" />
                     </div>
-                    <ParamFilter selectMultiple={false} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.state.selectedParamValues} toggleSelection={this.onSelectionChange} useTemplateFields={true}/>
-                    <ConfigEditor ref={this.configEditor} url={"/config/task"} bases={Object.values(this.state.selectedParamValues)} preview={true} />
+                    <ParamFilter selectMultiple={false} paramsByGroup={this.props.paramsByGroup} selectedParamValues={this.state.selectedParamValues} toggleSelection={this.onSelectionChange} useTemplateFields={true} paramVisibility={this.state.paramVisibility}/>
+                    <ConfigEditor ref={this.configEditor} url={"/config/task"} onParamVisibilityChanged={this.onParamVisibilityChanged} bases={this.state.selectedParamValues} preview={true} />
                     <div className="field">
                         <label>Device:</label>
                         <select value={this.state.device} onChange={this.onDeviceChange}>

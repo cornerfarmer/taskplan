@@ -56,6 +56,8 @@ class ConfigEditor extends React.Component {
                     .then(res => res.json())
                     .then(
                         (result) => {
+                            if (result['param_visibility'] !== undefined)
+                                this.props.onParamVisibilityChanged(result['param_visibility']);
                             this.setState({
                                 inheritedConfig: result['inherited_config'],
                                 config: result['config'] !== null ? result['config'] : this.state.config,

@@ -4,6 +4,7 @@ from taskconf.config.ConfigurationManager import ConfigurationManager
 import json
 
 from taskplan.EventManager import EventType
+from taskplan.Utility import Utility
 
 
 class ProjectConfiguration:
@@ -253,18 +254,42 @@ class ProjectConfiguration:
 
         return task_config
 
+    def collect_visible_bases(self, base_uuids, param_uuids):
+        task_config = self.add_task(base_uuids, {})
+        full_config = task_config.get_merged_config()
+        flat_config = Utility.flatten(full_config)
+
+        selected_base_uuids = []
+        param_visibility = {}
+        for param in self.get_params():
+            if param.has_metadata("condition"):
+                condition = param.get_metadata("condition")
+                for key, value in flat_config.items():
+                    condition = condition.replace(key, str(value))
+                selected = Utility.eval_condition(condition)
+            else:
+                selected = True
+
+            if selected:
+                selected_base_uuids.append(base_uuids[param_uuids.index(str(param.uuid))])
+            param_visibility[str(param.uuid)] = selected
+
+        return selected_base_uuids, param_visibility
+
     def renew_task_config(self, task):
         config = task.config
         left_params = self.get_params()[:]
 
+        param_uuids = []
         for param_value in config.base_configs:
+            param_uuids.append(param_value[0].get_metadata('param'))
             for left_param in left_params:
                 if param_value[0].get_metadata('param') == str(left_param.uuid):
                     left_params.remove(left_param)
                     break
 
         if len(left_params) > 0:
-            new_param_values = config.base_configs[:]
+            new_param_values = []
             for left_param in left_params:
                 if left_param.has_metadata("deprecated_param_value") and left_param.get_metadata("deprecated_param_value") != "":
                     param_value_config = self.get_config(left_param.get_metadata("deprecated_param_value"))
@@ -274,9 +299,20 @@ class ProjectConfiguration:
                         new_param_value.extend(param_value_config.get_metadata("template_deprecated"))
 
                     new_param_values.append(new_param_value)
+                    param_uuids.append(str(left_param.uuid))
+            param_values = config.base_configs[:] + new_param_values
+
+            param_values = [([str(p[0].uuid)] + p[1:]) for p in param_values]
+            _, param_visibility = self.collect_visible_bases(param_values, param_uuids)
+
+            selected_new_param_value = []
+            for new_param_value in new_param_values:
+                if param_visibility[str(new_param_value[0].get_metadata("param"))]:
+                    selected_new_param_value.append(new_param_value)
 
                     self.register_task_for_param_value(task, new_param_value)
 
+            new_param_values = config.base_configs[:] + selected_new_param_value
             config.set_base_configs(new_param_values)
             data = config.data
             data['config'] = config.get_merged_config()

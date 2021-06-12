@@ -34,7 +34,7 @@ class VersionControl:
 
     def take_snapshot(self, cause, force=False):
         files = []
-        for file in self.repo.untracked_files + [item.a_path for item in self.repo.index.diff(None)]:
+        for file in self.repo.untracked_files + [item.a_path for item in self.repo.index.diff(None)] + [item.a_path for item in self.repo.index.diff("HEAD")]:
             for pattern in self.white_list:
                 if fnmatch.fnmatch(file, pattern):
                     files.append(file)

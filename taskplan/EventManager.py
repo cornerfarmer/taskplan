@@ -56,6 +56,7 @@ class ServerSentEvent(object):
             data_client['uuid'] = str(data.uuid)
             if event_type is not EventType.PARAM_REMOVED:
                 data_client['name'] = data.get_metadata("name")
+                data_client['condition'] = data.get_metadata("condition") if data.has_metadata("condition") else ""
                 data_client['deprecated_param_value'] = data.get_metadata("deprecated_param_value")
                 data_client['default_param_value'] = data.get_metadata("default_param_value")
                 data_client['sorting'] = data.get_metadata("sorting")
