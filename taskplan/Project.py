@@ -268,7 +268,7 @@ class Project:
         if task in self.tasks:
             self.tasks.remove(task)
             self.configuration.deregister_task(task)
-            if not task.is_test and not self.slim_mode:
+            if not self.slim_mode:
                 for view in self.views.values():
                     view.refresh(self.tasks)
                 self.default_view.refresh(self.tasks)

@@ -596,7 +596,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
   render() {
     if (Object.values(this.props.tasks).length > 0) {
       if (this.props.tasks instanceof Array) {
-        console.log(this.props.tasks);
+        //console.log(this.props.tasks);
         return this.props.tasks.map((tasks, i) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CollapsedTasks__WEBPACK_IMPORTED_MODULE_6__["default"], {
           tasks: tasks,
           key: tasks[0] !== null ? tasks[0].uuid : i,
@@ -6315,10 +6315,10 @@ class TaskContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
       method: "POST",
       body: data
     }).then(res => res.json()).then(result => {
-      let task_lookup = {};
-      console.log(result);
-      this.replaceUuidsWithTasks(result[0], task_lookup);
-      console.log(result);
+      let task_lookup = {}; //console.log(result);
+
+      this.replaceUuidsWithTasks(result[0], task_lookup); //console.log(result);
+
       self.setState({
         tasks: result[0],
         metric_superset: result[1].sort(),
@@ -8319,5 +8319,5 @@ module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan
 
 /***/ })
 
-},[[0,"runtime~main",0]]]);
+},[[0,"runtime~main",1]]]);
 //# sourceMappingURL=main.chunk.js.map
