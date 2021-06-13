@@ -52,7 +52,7 @@ class MetricsViewer extends React.Component {
                     <div className="params">Reload: <span className="fas fa-sync-alt" onClick={this.reload} style={{"cursor": "pointer"}}></span></div>
                     <div className="params">
                         {Object.keys(this.state.metrics).map(key => (
-                            <div title={"iteration: " + this.state.metrics[key][0] + "\nsaved: " + (new Date(this.state.metrics[key][1] * 1000)).toShortStr()}><span>{key}:</span>{this.state.metrics[key][2].toFixed(3)}</div>
+                            <div title={"iteration: " + this.state.metrics[key][0] + "\nsaved: " + (new Date(this.state.metrics[key][1] * 1000)).toShortStr()}><span>{key}:</span>{typeof this.state.metrics[key][2] === "number" ? this.state.metrics[key][2].toFixed(3) : this.state.metrics[key][2]}</div>
                         ))}
                     </div>
                 </React.Fragment>

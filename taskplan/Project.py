@@ -21,6 +21,7 @@ import uuid
 import json
 import shutil
 import tensorflow as tf
+import math
 import ast
 
 class Project:
@@ -506,7 +507,7 @@ class Project:
                 tasks[key] = self._sort_tasks(tasks[key], sort_col, sort_dir)
             return tasks
         else:
-            return sorted(tasks, key=lambda x: x[0]["sort_col"], reverse=sort_dir == "DESC")
+            return sorted(tasks, key=lambda x: -math.inf if x[0]["sort_col"] == "nan" else x[0]["sort_col"], reverse=sort_dir == "DESC")
 
     def filter_tasks(self, filters, collapse, collapse_sorting, collapse_enabled, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
         view = self._build_view(filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, collapse_enabled)

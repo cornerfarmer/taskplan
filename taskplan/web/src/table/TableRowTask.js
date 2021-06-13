@@ -47,7 +47,7 @@ class TableRowTask extends React.Component {
                                 else if (col === "uuid")
                                     return this.props.task.uuid;
                                 else
-                                    return col in this.props.metrics ? this.props.metrics[col][2].toFixed(3) : "N/A";
+                                    return col in this.props.metrics ? (typeof this.props.metrics[col][2] === "number" ?this.props.metrics[col][2].toFixed(3) : this.props.metrics[col][2]) : "N/A";
                             })()}
                         </td>
                     ))}
