@@ -3943,7 +3943,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     });
   }
 
-  addView(path = "") {
+  addView(e, path = "") {
     if (path === "") {
       if (this.state.viewPath !== "") {
         this.props.addView(this.state.viewPath);
@@ -4158,7 +4158,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         __self: this
       }, "TB")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-arrow-alt-circle-up",
-        onClick: () => this.addView(path),
+        onClick: () => this.addView(null, path),
         __source: {
           fileName: _jsxFileName,
           lineNumber: 253
