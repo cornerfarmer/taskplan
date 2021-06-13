@@ -87,9 +87,9 @@ class TaskContainer extends React.Component {
             .then(
                 (result) => {
                     let task_lookup = {};
-                    console.log(result);
+                    //console.log(result);
                     this.replaceUuidsWithTasks(result[0], task_lookup);
-                    console.log(result);
+                    //console.log(result);
                     self.setState({
                         tasks: result[0], 
                         metric_superset: result[1].sort(),

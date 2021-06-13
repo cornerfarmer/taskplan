@@ -93,6 +93,21 @@ class TaskWrapper:
         self.metrics = {}
         self.last_metrics_update = 0
 
+    def load_metric_cache(self, path):
+        if (path / "metrics_cache.json").exists():
+            with open(str(path / "metrics_cache.json"), "r") as handle:
+                data = json.load(handle)
+                self.metrics = data["metrics"]
+                self.last_metrics_update = data["last_metrics_update"]
+
+    def save_metric_cache(self):
+        path = self.build_save_dir()
+        path.mkdir(parents=True, exist_ok=True)
+        path = path / "metrics_cache.json"
+
+        with open(str(path), 'w') as handle:
+            json.dump({"metrics": self.metrics, "last_metrics_update": self.last_metrics_update}, handle)
+
     def _create_metadata_lock(self):
         path = self.build_save_dir()
         path = path / "metadata.json.lock"
@@ -405,6 +420,7 @@ class TaskWrapper:
 
     def update_metrics(self, metric_superset=None):
         current_time = time.time()
+        metrics_changed = False
 
         for path in self.build_save_dir().glob("events.out.tfevents.*"):
             if path.stat().st_mtime >= self.last_metrics_update:
@@ -415,11 +431,15 @@ class TaskWrapper:
                             if math.isnan(value):
                                 value = "nan"
                             self.metrics[v.tag] = (e.step, e.wall_time, value)
+                            metrics_changed = True
 
         if metric_superset is not None:
             for tag in self.metrics.keys():
                metric_superset.add(tag)
         self.last_metrics_update = current_time
+
+        if metrics_changed:
+            self.save_metric_cache()
 
     def col_from_task(self, col_name, task_name):
         if col_name == "saved":

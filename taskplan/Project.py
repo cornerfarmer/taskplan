@@ -118,6 +118,7 @@ class Project:
 
             if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
                 self._load_saved_task(self.test_dir, is_test=True)
+        print("Loaded " + str(len(self.tasks)) + " tasks.")
 
     def _load_saved_task(self, path, is_test=False):
         if not any(path.iterdir()):
@@ -135,6 +136,7 @@ class Project:
         try:
             task = TaskWrapper(self.task_dir, self.task_class_name, None, self, 0, is_test=is_test, tasks_dir=self.test_dir if is_test else self.tasks_dir)
             task.load_metadata(path)
+            task.load_metric_cache(path)
         except:
             print("Warning: Could not load task: " + str(path))
             print(traceback.format_exc())
@@ -321,6 +323,8 @@ class Project:
             cloned_task.uuid = new_uuid
             cloned_task.creation_time = datetime.now()
             cloned_task.save_metadata()
+            cloned_task.metrics = task.metrics
+            cloned_task.last_metrics_update = task.last_metrics_update
 
             if not self.slim_mode:
                 for view in self.views.values():
@@ -345,6 +349,7 @@ class Project:
                 file.rename(str(file).replace("events.out.checkpoint", "events.out.tfevents"))
 
             new_task.load_metadata(new_task.build_save_dir())
+            new_task.load_metric_cache(new_task.build_save_dir())
 
             new_task.state = State.STOPPED
             new_task.uuid = new_uuid
@@ -385,7 +390,7 @@ class Project:
             success = task.reload()
             if success:
                 task_uuids.append(str(task.uuid))
-                self.event_manager.throw(EventType.TASK_CHANGED, task)
+                #self.event_manager.throw(EventType.TASK_CHANGED, task)
             else:
                 self.remove_task(task)
 
