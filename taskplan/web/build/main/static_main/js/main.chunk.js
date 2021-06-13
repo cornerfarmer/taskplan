@@ -7545,12 +7545,10 @@ var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskEditor.j
 class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   constructor(props) {
     super(props);
-    let selectedParamValues = {
-      0: {}
-    };
+    let selectedParamValues = {};
 
     for (const param of props.params) {
-      if (param.values.length > 0) selectedParamValues[0][param.uuid] = [param.values[0].uuid];
+      if (param.values.length > 0) selectedParamValues[param.uuid] = [param.values[0].uuid];
     }
 
     this.state = {

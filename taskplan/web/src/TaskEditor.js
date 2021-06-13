@@ -8,11 +8,11 @@ class TaskEditor extends React.Component {
     constructor(props) {
         super(props);
 
-        let selectedParamValues = {0:{}};
+        let selectedParamValues = {};
 
         for (const param of props.params) {
             if (param.values.length > 0)
-                selectedParamValues[0][param.uuid] = [param.values[0].uuid];
+                selectedParamValues[param.uuid] = [param.values[0].uuid];
         }
 
         this.state = {

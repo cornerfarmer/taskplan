@@ -23,7 +23,7 @@ def _start_controller(tasks_to_load):
 def web(refresh_interval):
     app, controller = run(refresh_interval)
 
-    run_simple("0.0.0.0", 9999, app, threaded=True)
+    run_simple("0.0.0.0", 9998, app, threaded=True)
     controller.stop()
 
 
