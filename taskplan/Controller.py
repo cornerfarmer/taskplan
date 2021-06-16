@@ -54,8 +54,8 @@ class Controller:
 
     def _update(self):
         while self.run_update_thread:
+            self.scheduler.update_clients(self.slim_mode)
             if not self.slim_mode:
-                self.scheduler.update_clients(self.project)
                 self.project.update_clients()
             self.scheduler.schedule()
             if not self.slim_mode and self.refresh_interval is not None and time() - self.last_refresh > self.refresh_interval / 1000:

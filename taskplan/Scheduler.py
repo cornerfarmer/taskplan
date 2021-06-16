@@ -155,17 +155,18 @@ class Scheduler:
         self.event_manager.throw_for_client(client, EventManager.EventType.SCHEDULER_OPTIONS, self)
 
 
-    def update_clients(self, project_manager):
-        device_changed = False
-        for device in self.devices:
-            if type(device) == RemoteDevice:
-                if device.is_connected():
-                    if device.check_connection():
-                        self._on_device_disconnect(device)
-                        device_changed = True
+    def update_clients(self, slim_mode):
+        if not slim_mode:
+            device_changed = False
+            for device in self.devices:
+                if type(device) == RemoteDevice:
+                    if device.is_connected():
+                        if device.check_connection():
+                            self._on_device_disconnect(device)
+                            device_changed = True
 
-        if device_changed:
-            self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
+            if device_changed:
+                self.event_manager.throw(EventManager.EventType.SCHEDULER_OPTIONS, self)
 
         for device in self.devices:
             for running in device.runnings:
