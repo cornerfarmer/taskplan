@@ -107,11 +107,23 @@ class Project extends TaskContainer {
     }
 
     filterLikeTask(task) {
-        const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
+        const selectedParamValues = {}
 
         for (const param of this.state.params) {
-            let value = this.filterView.getValueToParam(task, param);
-            selectedParamValues[param.uuid] = [[value[0].uuid, ...value[1]]];
+            let suitableParamValue = null;
+            let args = [];
+            for (const value of task.paramValues["0"]) {
+                if (value[0].param === param.uuid) {
+                    suitableParamValue = value[0];
+                    args = value.slice(1);
+                    break;
+                }
+            }
+
+            if (suitableParamValue === null)
+                selectedParamValues[param.uuid] = [[param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated]];
+            else
+                selectedParamValues[param.uuid] = [[suitableParamValue.uuid, ...args]];
         }
 
         this.setState({
@@ -120,6 +132,9 @@ class Project extends TaskContainer {
         this.openParamViewer();
     }
 
+    editTask(task) {
+        this.taskTabRef.current.editTask(task);
+    }
 
     openParamViewer() {
         this.props.closeViewer();

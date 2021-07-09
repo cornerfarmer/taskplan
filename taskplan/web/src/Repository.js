@@ -75,7 +75,8 @@ class Repository {
 
             changedTask.creation_time = new Date(changedTask.creation_time * 1000);
             changedTask.saved_time = new Date(changedTask.saved_time * 1000);
-            changedTask.paramValues = changedTask.paramValues.map(e => [this.paramValues[e[0]]].concat(e.slice(1)));
+            for (let iteration in changedTask.paramValues)
+                changedTask.paramValues[iteration] = changedTask.paramValues[iteration].map(e => [this.paramValues[e[0]]].concat(e.slice(1)));
             for (let checkpoint of changedTask.checkpoints) {
                 checkpoint.time = new Date(checkpoint.time * 1000);
             }

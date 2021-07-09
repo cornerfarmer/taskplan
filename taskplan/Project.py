@@ -111,10 +111,7 @@ class Project:
                     self._load_saved_task(task)
 
             if not self.slim_mode:
-                for view in self.views.values():
-                    view.refresh(self.tasks)
-                self.default_view.refresh(self.tasks)
-                self._default_view_refresh_names(False)
+                self.refresh_all_views(False)
 
             if self.test_dir.exists() and len(list(self.test_dir.iterdir())) > 0:
                 self._load_saved_task(self.test_dir, is_test=True)
@@ -166,16 +163,18 @@ class Project:
     def create_task(self, param_values, config, total_iterations, is_test=False, tags=[]):
         params = self.configuration.get_params()
 
-        base_uuids = []
-        for param in params:
-            if self.configuration.has_param_values(str(param.uuid)):
-                if str(param.uuid) not in param_values:
-                    continue
-                param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
-                if param_value.get_metadata("param") != str(param.uuid):
-                    raise LookupError("Param value " + param_values[param] + " with wrong param")
+        base_uuids = {}
+        for iteration in param_values.keys():
+            base_uuids[iteration] = []
+            for param in params:
+                if self.configuration.has_param_values(str(param.uuid)):
+                    if str(param.uuid) not in param_values[iteration]:
+                        continue
+                    param_value = self.configuration.get_config(param_values[iteration][str(param.uuid)][0])
+                    if param_value.get_metadata("param") != str(param.uuid):
+                        raise LookupError("Param value " + param_values[iteration][param] + " with wrong param")
 
-                base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
+                    base_uuids[iteration].append([param_values[iteration][str(param.uuid)][0]] + param_values[iteration][str(param.uuid)][1:])
 
         task_config = self.configuration.add_task(base_uuids, config)
         task = self._create_task_from_config(task_config, total_iterations, is_test, tags)
@@ -183,21 +182,51 @@ class Project:
         self.event_manager.throw(EventType.PROJECT_CHANGED, self)
         return task
 
+
+    def edit_task(self, task_uuid, param_values, config, total_iterations):
+        task = self.find_task_by_uuid(task_uuid)
+
+        params = self.configuration.get_params()
+
+        base_uuids = {}
+        for iteration in param_values.keys():
+            base_uuids[iteration] = []
+            for param in params:
+                if self.configuration.has_param_values(str(param.uuid)):
+                    if str(param.uuid) not in param_values[iteration]:
+                        continue
+                    param_value = self.configuration.get_config(param_values[iteration][str(param.uuid)][0])
+                    if param_value.get_metadata("param") != str(param.uuid):
+                        raise LookupError("Param value " + param_values[iteration][param] + " with wrong param")
+
+                    base_uuids[iteration].append([param_values[iteration][str(param.uuid)][0]] + param_values[iteration][str(param.uuid)][1:])
+
+        task_config = self.configuration.add_task(base_uuids, config)
+        task.set_config(task_config)
+        task.set_total_iterations(total_iterations)
+
+        self.refresh_views()
+        self.event_manager.throw(EventType.TASK_CHANGED, task)
+        return task
+
     def build_task_config(self, param_values):
         params = self.configuration.get_params()
 
-        base_uuids = []
-        param_uuids = []
-        for param in params:
-            if self.configuration.has_param_values(str(param.uuid)):
-                if str(param.uuid) not in param_values:
-                    raise LookupError("No param value for the param with uuid " + str(param.uuid))
-                param_value = self.configuration.get_config(param_values[str(param.uuid)][0])
-                if param_value.get_metadata("param") != str(param.uuid):
-                    raise LookupError("Param value " + param_values[param] + " with wrong param")
+        base_uuids = {}
+        param_uuids = {}
+        for iteration in param_values.keys():
+            base_uuids[iteration] = []
+            param_uuids[iteration] = []
+            for param in params:
+                if self.configuration.has_param_values(str(param.uuid)):
+                    if str(param.uuid) not in param_values[iteration]:
+                        raise LookupError("No param value for the param with uuid " + str(param.uuid))
+                    param_value = self.configuration.get_config(param_values[iteration][str(param.uuid)][0])
+                    if param_value.get_metadata("param") != str(param.uuid):
+                        raise LookupError("Param value " + param_values[iteration][param] + " with wrong param")
 
-                base_uuids.append([param_values[str(param.uuid)][0]] + param_values[str(param.uuid)][1:])
-                param_uuids.append(str(param.uuid))
+                    base_uuids[iteration].append([param_values[iteration][str(param.uuid)][0]] + param_values[iteration][str(param.uuid)][1:])
+                    param_uuids[iteration].append(str(param.uuid))
 
         selected_base_uuids, param_visibility = self.configuration.collect_visible_bases(base_uuids, param_uuids)
 
@@ -225,10 +254,8 @@ class Project:
         self._register_tags_from_task(task)
 
         if not is_test and not self.slim_mode:
-            for view in self.views.values():
-                view.add_task(task)
-            self.default_view.add_task(task)
-            self._default_view_refresh_names()
+            self.add_task_to_views(task)
+
         return task
 
     def find_task_by_uuid(self, uuid):
@@ -269,10 +296,7 @@ class Project:
             self.tasks.remove(task)
             self.configuration.deregister_task(task)
             if not self.slim_mode:
-                for view in self.views.values():
-                    view.refresh(self.tasks)
-                self.default_view.refresh(self.tasks)
-                self._default_view_refresh_names()
+                self.refresh_all_views()
             task.remove_data()
 
             self.event_manager.throw(EventType.TASK_REMOVED, task)
@@ -327,10 +351,7 @@ class Project:
             cloned_task.last_metrics_update = task.last_metrics_update
 
             if not self.slim_mode:
-                for view in self.views.values():
-                    view.add_task(cloned_task)
-                self.default_view.add_task(cloned_task)
-                self._default_view_refresh_names()
+                self.add_task_to_views(cloned_task)
 
             return cloned_task
 
@@ -358,12 +379,21 @@ class Project:
             new_task.save_metadata()
 
             if not self.slim_mode:
-                for view in self.views.values():
-                    view.add_task(new_task)
-                self.default_view.add_task(new_task)
-                self._default_view_refresh_names()
+                self.add_task_to_views(new_task)
 
             return new_task
+
+    def add_task_to_views(self, new_task):
+        for view in self.views.values():
+            view.add_task(new_task)
+        self.default_view.add_task(new_task)
+        self._default_view_refresh_names()
+
+    def refresh_all_views(self, throw_events=True):
+        for view in self.views.values():
+            view.refresh(self.tasks)
+        self.default_view.refresh(self.tasks)
+        self._default_view_refresh_names(throw_events)
 
     def change_sorting(self, param_uuid, new_sorting):
         changed_params = self.configuration.change_sorting(param_uuid, new_sorting)

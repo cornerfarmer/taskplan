@@ -74,6 +74,7 @@ class Device extends React.Component {
                             }
                             {this.props.tasks.filter(task => task.state === State.RUNNING).map((task, index) => (
                                 <Task
+                                    editTask={this.props.editTask}
                                     key={task.uuid}
                                     task={task}
                                     index={index}
@@ -100,6 +101,7 @@ class Device extends React.Component {
                                 return a.queue_index - b.queue_index
                             }).map((task, index) => (
                                 <Task
+                                    editTask={this.props.editTask}
                                     key={task.uuid}
                                     task={task}
                                     index={index}

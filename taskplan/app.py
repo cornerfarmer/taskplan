@@ -65,6 +65,12 @@ def run(refresh_interval):
         controller.start_new_task(data["params"], data["config"], total_iterations, is_test=True, device_uuid=data["device"], tags=data["tags"])
         return jsonify({})
 
+    @app.route('/edit_task/<string:task_uuid>/<int:total_iterations>', methods=['POST'])
+    def edit_task(task_uuid, total_iterations):
+        data = json.loads(request.form.get('data'))
+        controller.edit_task(task_uuid, data["params"], data["config"], total_iterations)
+        return jsonify({})
+
     @app.route('/pause/<string:task_uuid>')
     def pause(task_uuid):
         controller.pause_task(task_uuid)

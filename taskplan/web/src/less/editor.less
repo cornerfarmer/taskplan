@@ -7,12 +7,34 @@
     background: rgba(158,158,158,.2);
 }
 
+.editor .iterations {
+    margin: 10px 16px;
+    margin-bottom: 0;
+    display: flex;
+}
+
+.editor .iterations .iteration,
+.editor .iterations .new-iteration {
+    background: rgba(158, 158, 158, 0.05);
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    border: 1px solid rgba(158, 158, 158, 0.2);
+    border-bottom: 0;
+}
+
+.editor .iterations .iteration.iteration-current {
+    background: #3f51b5;
+    color: white;
+}
+
 .editor .field {
     margin: 10px 16px;
 }
 
 .editor .param-filter {
     margin: 30px 16px;
+    margin-top: 0;
 }
 
 .editor .field {

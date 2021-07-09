@@ -100,8 +100,8 @@ class CodeVersionViewer extends React.Component {
                         <div onClick={() => this.reassuringSoftResetPromptRef.current.openDialog()}>Soft reset</div>
                     </div>
 
-                    <ReassuringPrompt ref={this.reassuringHardResetPromptRef} header="Really want to do a hard reset?" text="Do you really want to remove this parameter value?" url={"/hard_reset/" + this.state.commit_id}/>
-                    <ReassuringPrompt ref={this.reassuringSoftResetPromptRef} header="Really want to do a soft reset?" text="Do you really want to remove this parameter value?" url={"/soft_reset/" + this.state.commit_id}/>
+                    <ReassuringPrompt ref={this.reassuringHardResetPromptRef} header="Really want to do a hard reset?" text="Do you really want to do a hard reset? This will move HEAD to this commit and reset all code to its state." url={"/hard_reset/" + this.state.commit_id}/>
+                    <ReassuringPrompt ref={this.reassuringSoftResetPromptRef} header="Really want to do a soft reset?" text="Do you really want to do a soft reset? This will move HEAD to this commit, but keeps the changes." url={"/soft_reset/" + this.state.commit_id}/>
                 </div>
             );
         } else {

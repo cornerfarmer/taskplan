@@ -28,6 +28,7 @@ class CollapsedTasks extends React.Component {
                         <PausedTask
                             uuid={tasks[0].uuid}
                             rerunTask={this.props.rerunTask}
+                            editTask={this.props.editTask}
                             task={tasks[0].task}
                             metrics={tasks[0].metrics}
                             name={!this.state.collapsed ? (tasks[0].collapsed_name === undefined ? tasks[0].name : tasks[0].name.slice(0, -1).concat(tasks[0].collapsed_name, tasks[0].name.slice(-1))) : tasks[0].name}

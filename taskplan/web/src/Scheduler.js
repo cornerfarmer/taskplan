@@ -92,7 +92,7 @@ class Scheduler extends React.Component {
 
                 <div className="mock-device"></div>
                  {this.props.devices.filter(this.shouldShowDevice).map(device => (
-                    <Device device={device} tasks={this.state.tasks.filter(task => task.device === device.uuid)} hideDevice={this.hideDevice} highlightTask={this.props.highlightTask}/>
+                    <Device device={device} editTask={this.props.editTask} tasks={this.state.tasks.filter(task => task.device === device.uuid)} hideDevice={this.hideDevice} highlightTask={this.props.highlightTask}/>
                 ))}
                 <div className="mock-device"></div>
             </div>

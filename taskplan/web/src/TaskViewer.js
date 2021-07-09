@@ -42,7 +42,7 @@ class TaskViewer extends React.Component {
                 if (param.values.length > 0) {
                     let suitableParamValue = null;
                     let args = [];
-                    for (const value of task.paramValues) {
+                    for (const value of task.paramValues["0"]) {
                         if (value[0].param === param.uuid) {
                             suitableParamValue = value[0];
                             args = value.slice(1);

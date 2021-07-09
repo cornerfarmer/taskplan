@@ -325,6 +325,13 @@ class TaskWrapper:
             self.total_iterations = total_iterations
             self.save_metadata(["total_iterations"])
 
+    def set_config(self, config):
+        if self.state == State.RUNNING:
+            self.device.send(PipeMsg.CONFIG_CHANGED, config)
+        else:
+            self.config = config
+            self.save_metadata(["config"])
+
     def remove_data(self):
         save_dir = self.build_save_dir()
         try:
@@ -333,6 +340,7 @@ class TaskWrapper:
             print("Could not remove directory: " + str(save_dir) + ". Probably the fault of TB, gonna try again at next reload.")
 
     def receive_updates(self):
+        config_changed = False
         msg_type, arg = self.device.recv()
         while msg_type is not None:
             if msg_type == PipeMsg.PAUSING:
@@ -355,10 +363,19 @@ class TaskWrapper:
             elif msg_type == PipeMsg.TOTAL_ITERATIONS:
                 self.total_iterations = arg
                 self.save_metadata(["total_iterations"])
+            elif msg_type == PipeMsg.CONFIG_CHANGED:
+                self.config = arg
+                self.save_metadata(["config"])
+                config_changed = True
             elif msg_type == PipeMsg.CREATE_CHECKPOINT:
                 self.creating_checkpoint = arg
 
             msg_type, arg = self.device.recv()
+
+        if config_changed:
+            self.project.refresh_views()
+
+        return config_changed
 
     def save_now(self):
         if self.state == State.RUNNING:
@@ -389,10 +406,10 @@ class TaskWrapper:
         self.load_metadata(path)
         return True
 
-    def get_param_value_to_param(self, param, project_config):
+    def get_param_value_to_param(self, param, project_config, time_step="0"):
         suitable_param_value = None
         args = []
-        for param_value in self.config.base_configs:
+        for param_value in self.config.base_configs[time_step]:
             if param_value[0].get_metadata("param") == str(param.uuid):
                 suitable_param_value = param_value[0]
                 args = param_value[1:]

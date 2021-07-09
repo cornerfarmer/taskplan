@@ -95,6 +95,10 @@ class ProjectManager extends React.Component {
             );
     }
 
+    editTask(task) {
+        this.projectRef.current.editTask(task);
+    }
+
     render() {
         return (
             <div id="project-manager">

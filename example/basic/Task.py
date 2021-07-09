@@ -29,7 +29,7 @@ class Task(taskplan.Task):
             pickle.dump(self.sum, handle)
 
     def step(self, tensorboard_writer, current_iteration):
-        time.sleep(0.1)
+        time.sleep(1)
         self.sum += self.config.get_int('step')
         self.logger.log("Current sum101: " + str(self.sum) + " (Iteration " + str(current_iteration) + ")")
         #self.logger.log("Test: " + str(self.config.get_list("test_list")[0]))

@@ -24,35 +24,39 @@ class Prompt extends React.Component {
         this.setState({
             dialogOpen: false
         });
-        if (this.props.paramEditor) {
-            var data = new FormData();
-            data.append("data", JSON.stringify(this.configEditor.current.state.config));
+        if (this.props.url) {
+            if (this.props.paramEditor) {
+                var data = new FormData();
+                data.append("data", JSON.stringify(this.configEditor.current.state.config));
 
-            fetch(this.props.url,
-            {
-                method: "POST",
-                body: data
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
+                fetch(this.props.url,
+                    {
+                        method: "POST",
+                        body: data
+                    })
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
 
-                },
-                (error) => {
+                        },
+                        (error) => {
 
-                }
-            );
+                        }
+                    );
+            } else {
+                fetch(this.props.url + (this.props.devices ? "/" + this.state.device : "") + "/" + this.state.inputValue)
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+
+                        },
+                        (error) => {
+
+                        }
+                    )
+            }
         } else {
-            fetch(this.props.url + (this.props.devices ? "/" + this.state.device : "") + "/" + this.state.inputValue)
-                .then(res => res.json())
-                .then(
-                    (result) => {
-
-                    },
-                    (error) => {
-
-                    }
-                )
+            this.props.onSend(this.state.inputValue);
         }
     }
 

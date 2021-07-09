@@ -39,6 +39,7 @@ class GroupedTasks extends React.Component {
                             tasks={tasks}
                             key={tasks[0] !== null ? tasks[0].uuid : i}
                             rerunTask={this.props.rerunTask}
+                            editTask={this.props.editTask}
                             showTask={this.props.showTask}
                             filterLikeTask={this.props.filterLikeTask}
                             devices={this.props.devices}
@@ -65,6 +66,7 @@ class GroupedTasks extends React.Component {
                                 <GroupedTasks
                                     tasks={this.props.tasks[group]}
                                     rerunTask={this.props.rerunTask}
+                                    editTask={this.props.editTask}
                                     showTask={this.props.showTask}
                                     filterLikeTask={this.props.filterLikeTask}
                                     devices={this.props.devices}

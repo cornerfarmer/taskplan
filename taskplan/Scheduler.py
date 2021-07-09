@@ -171,6 +171,7 @@ class Scheduler:
         for device in self.devices:
             for running in device.runnings:
                 running.receive_updates()
+
                 self.event_manager.throw(EventManager.EventType.TASK_CHANGED, running)
 
     def change_total_iterations(self, task_uuid, total_iterations):

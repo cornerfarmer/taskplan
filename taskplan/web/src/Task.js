@@ -217,8 +217,8 @@ class TaskToolbar extends React.Component {
                         < div className="action" onClick={this.saveNow} title="Force the task to save after the current iteration">
                             <i className="fas fa-save"></i><span>Save now!</span>
                         </div>
-                        < div className="action" onClick={this.openExtraDialog} title="Change the scheduled number of total iterations">
-                            <i className="fa fa-edit"></i><span>Change</span>
+                        < div className="action" onClick={() => this.props.editTask(this.props.task)} title="Change the scheduled number of total iterations">
+                            <i className="fa fa-edit"></i><span>Edit</span>
                         </div>
                         <div className="dropdown">
                             <div className="action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
@@ -344,7 +344,7 @@ class Task extends React.Component {
                     <TaskProgress state={this.props.task.state} total_iterations={this.props.task.total_iterations} finished_iterations={this.props.task.finished_iterations} />
                     <div className="param-name" onClick={() => this.props.highlightTask(this.props.task)}><span className="try-number">{this.props.task.try}</span><TaskName task={this.props.task} name={this.props.task.name}/></div>
                 </div>
-                <TaskToolbar task={this.props.task}/>
+                <TaskToolbar task={this.props.task} editTask={this.props.editTask} />
             </li>
         );
     }

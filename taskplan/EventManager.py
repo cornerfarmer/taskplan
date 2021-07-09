@@ -44,7 +44,9 @@ class ServerSentEvent(object):
                 data_client['is_pausing'] = data.pausing
                 data_client['is_saving'] = data.saving
                 data_client['creating_checkpoint'] = data.creating_checkpoint
-                data_client['paramValues'] = [[str(param_value[0].uuid)] + param_value[1:] for param_value in data.config.base_configs]
+                data_client['paramValues'] = {iteration: [[str(param_value[0].uuid)] + param_value[1:] for param_value in data.config.base_configs[iteration]] for iteration in data.config.base_configs}
+                data_client['save_interval'] = data.config.get_int('save_interval')
+                data_client['checkpoint_interval'] = data.config.get_int('checkpoint_interval')
                 data_client['checkpoints'] = data.checkpoints
                 data_client['notes'] = data.notes
                 data_client['is_test'] = data.is_test

@@ -29,7 +29,7 @@ class ProjectConfiguration:
         self.number_of_tasks_per_param_value_key = {}
 
     def register_task(self, task):
-        for param_value in task.config.base_configs:
+        for param_value in task.config.base_configs["0"]:
             self.register_task_for_param_value(task, param_value)
 
     def register_task_for_param_value(self, task, param_value):
@@ -47,7 +47,7 @@ class ProjectConfiguration:
         self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
 
     def deregister_task(self, task):
-        for param_value in task.config.base_configs:
+        for param_value in task.config.base_configs["0"]:
             if str(param_value[0].uuid) in self.number_of_tasks_per_param_value:
                 self.number_of_tasks_per_param_value[str(param_value[0].uuid)] -= 1
                 self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
@@ -250,6 +250,8 @@ class ProjectConfiguration:
 
         task_config = self.configuration.add_config(config_data, None)
         config_data['config'] = task_config.get_merged_config()
+        if task_config.dynamic:
+            config_data['dynamic'] = True
         task_config.set_data(config_data)
 
         return task_config
@@ -259,20 +261,26 @@ class ProjectConfiguration:
         full_config = task_config.get_merged_config()
         flat_config = Utility.flatten(full_config)
 
-        selected_base_uuids = []
+        selected_base_uuids = {}
         param_visibility = {}
-        for param in self.get_params():
-            if param.has_metadata("condition"):
-                condition = param.get_metadata("condition")
-                for key, value in flat_config.items():
-                    condition = condition.replace(key, str(value))
-                selected = Utility.eval_condition(condition)
-            else:
-                selected = True
+        prev_selected_base_uuids = {}
+        for iteration in sorted(base_uuids, key=lambda x: int(x)):
+            selected_base_uuids[iteration] = []
+            param_visibility[iteration] = {}
+            for param in self.get_params():
+                if param.has_metadata("condition"):
+                    condition = param.get_metadata("condition")
+                    for key, value in flat_config.items():
+                        condition = condition.replace(key, str(value))
+                    selected = Utility.eval_condition(condition)
+                else:
+                    selected = True
 
-            if selected:
-                selected_base_uuids.append(base_uuids[param_uuids.index(str(param.uuid))])
-            param_visibility[str(param.uuid)] = selected
+                base_uuid = base_uuids[iteration][param_uuids[iteration].index(str(param.uuid))]
+                if selected and (str(param.uuid) not in prev_selected_base_uuids or base_uuid != prev_selected_base_uuids[str(param.uuid)]):
+                    selected_base_uuids[iteration].append(base_uuid)
+                param_visibility[iteration][str(param.uuid)] = selected
+                prev_selected_base_uuids[str(param.uuid)] = base_uuid
 
         return selected_base_uuids, param_visibility
 
@@ -281,7 +289,7 @@ class ProjectConfiguration:
         left_params = self.get_params()[:]
 
         param_uuids = []
-        for param_value in config.base_configs:
+        for param_value in config.base_configs["0"]:
             param_uuids.append(param_value[0].get_metadata('param'))
             for left_param in left_params:
                 if param_value[0].get_metadata('param') == str(left_param.uuid):
@@ -289,6 +297,7 @@ class ProjectConfiguration:
                     break
 
         if len(left_params) > 0:
+            raise Exception("todo")
             new_param_values = []
             for left_param in left_params:
                 if left_param.has_metadata("deprecated_param_value") and left_param.get_metadata("deprecated_param_value") != "":

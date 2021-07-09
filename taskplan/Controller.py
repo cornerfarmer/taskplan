@@ -91,6 +91,9 @@ class Controller:
         self.scheduler.enqueue(task, device_uuid)
         return task
 
+    def _edit_task(self, task_uuid, params, config, total_iterations):
+        self.project.edit_task(task_uuid, params, config, total_iterations)
+
     def _pause_task(self, task_uuid):
         self.scheduler.pause(task_uuid)
 
@@ -208,10 +211,10 @@ class Controller:
         return {'inherited_config': inherited_config, "config": config, 'dynamic': dynamic}
 
     def _task_config(self, param_values):
-        if len(param_values) > 0:
+        if len(param_values['0']) > 0:
             config, param_visibility = self.project.build_task_config(param_values)
         else:
-            param_values = [[self.project.configuration.get_config(uuid[0])] + uuid[1:] for uuid in param_values]
+            param_values = [[self.project.configuration.get_config(uuid[0])] + uuid[1:] for uuid in param_values["0"]]
 
             config = Configuration({"config": {}}, param_values)
             param_visibility = {}

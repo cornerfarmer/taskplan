@@ -181,6 +181,9 @@ class PausedTask extends React.Component {
                                 <i className="fas fa-ellipsis-h"></i>
                             </div>
                             <div className="dropdown-menu">
+                                <div className="action" onClick={() => this.props.editTask(this.props.task)} title="Edit the task config">
+                                    <i className="fas fa-pencil-alt"></i>
+                                </div>
                                 <div className="action" onClick={() => this.props.rerunTask(this.props.task)} title="Run new task with the exact same config">
                                     <i className="fa fa-redo"></i>
                                 </div>

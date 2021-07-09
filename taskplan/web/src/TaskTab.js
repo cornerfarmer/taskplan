@@ -11,6 +11,7 @@ class TaskTab extends React.Component {
         };
         this.newTask = this.newTask.bind(this);
         this.rerunTask = this.rerunTask.bind(this);
+        this.editTask = this.editTask.bind(this);
         this.closeEditors = this.closeEditors.bind(this);
         this.paramValueToName = this.paramValueToName.bind(this);
         this.taskEditor = React.createRef();
@@ -30,6 +31,11 @@ class TaskTab extends React.Component {
         this.taskEditor.current.open(task);
     }
 
+    editTask(task) {
+        this.props.closeViewer();
+        this.taskEditor.current.edit(task);
+    }
+
     paramValueToName(paramValue) {
         let paramValueName = paramValue[1].name;
         for (let i = 2; i < paramValue.length; i++)
@@ -45,6 +51,7 @@ class TaskTab extends React.Component {
                     <GroupedTasks
                         tasks={this.props.tasks}
                         rerunTask={this.rerunTask}
+                        editTask={this.editTask}
                         showTask={this.props.showTask}
                         filterLikeTask={this.props.filterLikeTask}
                         devices={this.props.devices}

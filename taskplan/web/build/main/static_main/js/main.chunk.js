@@ -9,7 +9,7 @@
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "body {\n  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  color: #757575;\n  line-height: 1.15;\n  background: #FAFAFA;\n}\nhtml,\nbody,\n#root,\n#root > #page,\n#root > #page > .container > .row,\n#root > #page > .container > .row > div,\n#root > #page > .container > .row > div > #scheduler {\n  height: 100%;\n}\n#root > #page > .container {\n  height: calc(100% - 39px);\n  max-width: none;\n}\n#root > #page > .container > .row > div:first-child {\n  padding-right: 0;\n}\n#root > .container > .row > div:last-child {\n  padding-left: 0;\n}\nh1 {\n  font-size: 80px;\n  font-weight: 300;\n  line-height: 1;\n  margin-bottom: 40px;\n}\nh2 {\n  font-size: 30px;\n  font-weight: 400;\n  line-height: 40px;\n  margin-bottom: 15px;\n}\n.buttons {\n  display: flex;\n}\n.buttons div {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 6px 10px;\n  border-radius: 2px;\n  cursor: pointer;\n  text-transform: uppercase;\n  font-size: 14px;\n}\n.buttons div:first-child {\n  background: #3f51b5;\n  color: white;\n  margin-right: 10px;\n}\n.buttons div:last-child {\n  margin-right: 0;\n}\nlabel {\n  margin-bottom: 0;\n}\n.separator {\n  margin: 0 5px;\n}\n#scheduler {\n  padding: 16px 0 16px 0;\n  overflow-y: auto;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: flex-start;\n  align-content: flex-start;\n  justify-content: center;\n}\n#scheduler #max-running-tasks {\n  cursor: pointer;\n}\n#scheduler > .dropdown {\n  width: 510px;\n  margin-bottom: 10px;\n}\n#scheduler > .dropdown div.action {\n  margin-bottom: 0;\n}\n#scheduler > .dropdown > .dropdown-menu {\n  border-radius: 0px;\n  transform: translate3d(0px, 24px, 0px) !important;\n}\n#scheduler > .dropdown > .dropdown-menu .dropdown-item {\n  cursor: pointer;\n}\n#scheduler > .dropdown > .dropdown-menu .dropdown-item:active {\n  background-color: #3f51b5;\n}\n.mock-device {\n  width: 510px;\n  height: 0;\n}\n.device {\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 20px;\n  width: 500px;\n  margin-right: 10px;\n}\n.device > .header {\n  background: rgba(0, 0, 0, 0.05);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  height: 40px;\n  padding: 0 16px;\n}\n.device > .header > span {\n  flex: 1 1;\n}\n.device > .header .action {\n  margin-bottom: 0;\n  margin-right: 16px;\n}\n.device > .header .hide-device {\n  cursor: pointer;\n}\n.device .queue-header {\n  display: flex;\n  align-items: center;\n}\n.device .queue-header .action {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  width: 21px;\n  height: 21px;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  margin: 0;\n  margin-right: 8px;\n}\n.device .body {\n  padding: 16px;\n}\n.device .tasks {\n  padding: 0;\n  margin-bottom: 10px;\n}\n.device .tasks.tasks-queued {\n  margin: 0;\n}\n.device .tasks.tasks-queued .task {\n  margin-top: 10px;\n}\n.device .tasks .mock-task {\n  background: white;\n  border: 2px dashed rgba(0, 0, 0, 0.1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 300;\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.4);\n  height: 132px;\n}\n.device .tasks .task {\n  list-style: none;\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: white;\n}\n.device .tasks .task .content {\n  padding: 16px;\n  padding-bottom: 12px;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-bottom: none;\n}\n.device .tasks .task .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: flex-start;\n}\n.device .tasks .task .header .status {\n  text-align: right;\n  line-height: 1;\n}\n.device .tasks .task .header .status .iterations {\n  font-size: 12px;\n  color: #AAA;\n}\n.tasks-queued.device .tasks .task .header {\n  cursor: grab;\n}\n.device .tasks .task .header .project-name {\n  font-weight: 300;\n  font-size: 24px;\n  margin-bottom: 10px;\n}\n.device .tasks .task .progress {\n  background: #3f51b5;\n  height: 2px;\n  margin-bottom: 10px;\n  border-radius: 0;\n  transition: width 400ms ease-in-out;\n}\n.device .tasks .task .param-name {\n  font-size: 14px;\n  cursor: pointer;\n}\n.device .tasks .task .try-number {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 1px 7px 2px 7px;\n  margin-right: 7px;\n  display: inline-block;\n  line-height: 1;\n  vertical-align: top;\n}\n.device .tasks .task .toolbar {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 5px 16px 1px 16px;\n  line-height: 1;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.device .tasks .task .toolbar > span {\n  display: flex;\n  align-items: center;\n}\n#scheduler > .dropdown .action,\n.device .action,\n.device .tasks .task .toolbar .action {\n  background: #3f51b5;\n  padding: 0 10px;\n  text-transform: uppercase;\n  display: inline-flex;\n  align-items: center;\n  color: white;\n  border-radius: 2px;\n  font-weight: 500;\n  /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/\n  height: 24px;\n  font-size: 13px;\n  cursor: pointer;\n  margin-right: 5px;\n  margin-bottom: 4px;\n}\n.device .tasks .task .toolbar .action i {\n  margin-right: 7px;\n}\n.device .tasks .task .toolbar .action span {\n  margin-top: 2px;\n}\n.device .tasks .task .toolbar .dropdown {\n  display: inline-flex;\n  margin-bottom: 4px;\n}\n.device .tasks .task .toolbar .action.dropdown-toggle i {\n  margin: 0;\n}\n.device .tasks .task .toolbar .current-action {\n  flex: 2 1;\n  text-align: right;\n  font-size: 12px;\n}\n.device .tasks .task.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n.device .tasks .task.on-drag-over .content,\n.device .tasks .task.on-drag-over .toolbar {\n  visibility: hidden;\n}\n#root div.jsoneditor-tree div.jsoneditor-tree-inner {\n  padding-bottom: 100px;\n}\n.jsoneditor .inherited-value .jsoneditor-field,\n.jsoneditor .inherited-value .jsoneditor-value {\n  color: #888888;\n}\n.jsoneditor table.jsoneditor-values.inherited-value td .revert {\n  display: none;\n}\n.jsoneditor table.jsoneditor-values:not(.inherited-value) td .revert {\n  width: 24px;\n  height: 24px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: 16px;\n  color: #3f51b5;\n  cursor: pointer;\n}\n.jsoneditor table.jsoneditor-values.new-value td .revert i:before {\n  content: \"\\f00d\";\n}\n#project-manager {\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-top: 0;\n  border-bottom: 0;\n  height: 100%;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n#project-manager #projects-toolbar {\n  display: flex;\n  padding: 5px 16px;\n  background: #e8e8e8;\n  justify-content: space-between;\n  z-index: 10;\n}\n#project-manager #projects-toolbar #project-selector span {\n  margin-right: 20px;\n}\n#project-manager #projects-toolbar #project-selector span i {\n  color: #BBB;\n}\n#project-manager #projects-toolbar #project-selector span.active i {\n  color: inherit;\n  cursor: pointer;\n}\n#project-manager #projects-toolbar #project-toolbar {\n  display: flex;\n  flex-direction: row;\n}\n#project-manager #projects-toolbar #project-toolbar #code-version {\n  padding: 0 10px;\n  border-radius: 2px;\n  font-weight: 500;\n  margin-right: 10px;\n  color: #757575;\n  background: #f2f2f2;\n  display: flex;\n  align-items: stretch;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n#project-manager #projects-toolbar #project-toolbar #reload-tasks {\n  cursor: pointer;\n  margin-right: 10px;\n}\n#project-manager #projects-toolbar #project-toolbar a {\n  color: #757575;\n}\n#project-manager #projects {\n  overflow-y: hidden;\n  flex: 1 1 auto;\n  height: 100px;\n  background: #FAFAFA;\n  z-index: 10;\n}\n#project-manager #projects .project {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n#project-manager #projects .project .search-bar {\n  padding: 5px 16px;\n  display: flex;\n  align-items: center;\n}\n#project-manager #projects .project .search-bar span {\n  margin-right: 10px;\n}\n#project-manager #projects .project .tabs {\n  display: flex;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: none;\n  border-left: none;\n  background: white;\n  flex: 0 0 auto;\n}\n#project-manager #projects .project .tabs div {\n  padding: 16px;\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n  flex: 2 1;\n  text-align: center;\n  font-weight: 300;\n  font-size: 24px;\n  background: rgba(0, 0, 0, 0.05);\n  cursor: pointer;\n}\n#project-manager #projects .project .tabs div:hover {\n  background: rgba(0, 0, 0, 0.025);\n}\n#project-manager #projects .project .tabs div.tab-active,\n#project-manager #projects .project .tabs div.tab-active:hover {\n  background: white;\n}\n#project-manager #projects .project .tabs div:last-child {\n  border: none;\n}\n#project-manager #projects .project .sorting {\n  padding: 5px 16px;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n#project-manager #projects .project .sorting > div > * {\n  margin-right: 10px;\n}\n#project-manager #projects .project .sorting > div > .fa,\n#project-manager #projects .project .sorting > div > .fas {\n  cursor: pointer;\n}\n#project-manager #projects .project .sorting .filter-enabled {\n  color: #3f51b5;\n}\n#project-manager #projects .project > .param-filter {\n  border: none;\n}\n#project-manager #projects .project .tab {\n  flex: 1 1 auto;\n  display: flex;\n  flex-direction: column;\n  min-height: 0;\n}\n#project-manager #projects .project .params-tab,\n#project-manager #projects .project .tasks-tab {\n  overflow-y: auto;\n  flex: 1 1 auto;\n  position: relative;\n}\n#project-manager #projects .project .tasks-tab .collapse-toggle {\n  display: flex;\n  justify-content: center;\n  padding: 5px;\n  background: #e5e5e5;\n  font-weight: 300;\n  cursor: pointer;\n  font-size: 12px;\n}\n#project-manager #projects .project .tasks-tab .param-group > .group-header {\n  padding: 10px;\n  background: #f2f2f2;\n  border: 1px solid #d9d9d9;\n  border-left: 0;\n  cursor: pointer;\n  border-right: 0;\n}\n#project-manager #projects .project .tasks-tab .param-group > .group-header .title {\n  display: flex;\n  align-items: end;\n}\n#project-manager #projects .project .tasks-tab .param-group > .group-header .title i {\n  margin-right: 5px;\n  font-size: 20px;\n}\n#project-manager #projects .project .tasks-tab .param-group .group-tasks {\n  padding-left: 10px;\n  background: #d9d9d9;\n}\n#project-manager #projects .project ul {\n  padding: 0;\n  margin-bottom: 0;\n}\n#project-manager #projects .project ul .item {\n  list-style: none;\n}\n#project-manager #projects .project ul .item-param[draggable=\"true\"] .header {\n  cursor: grab;\n}\n#project-manager #projects .project ul .item-param.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n#project-manager #projects .project ul .item-param.on-drag-over .header {\n  visibility: hidden;\n}\n#project-manager #projects .project ul .item-param .grip-icon {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#project-manager #projects .project ul .item-param .group-header,\n#project-manager #projects .project ul .item-param .header {\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#project-manager #projects .project ul .item-param .group-header {\n  background: white;\n  font-weight: 300;\n  justify-content: center;\n  font-size: 24px;\n  padding: 0 0 0 16px;\n  text-transform: uppercase;\n}\n#project-manager #projects .project ul .item-param .header {\n  height: 40px;\n  padding-left: 16px;\n  padding-right: 10px;\n  background: rgba(0, 0, 0, 0.05);\n}\n#project-manager #projects .project ul .item-param .header .title {\n  font-weight: 300;\n  font-size: 18px;\n}\n#project-manager #projects .project ul .item-param .header .toolbar {\n  display: flex;\n  align-items: center;\n}\n#project-manager #projects .project ul .item-task,\n#project-manager #projects .project ul .item-param-value {\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  background: white;\n  display: flex;\n}\n#project-manager #projects .project ul .item-task.item-task-collapsed {\n  border-left: 10px solid #d9d9d9;\n}\n#project-manager #projects .project ul .item-task.task-running {\n  background-image: repeating-linear-gradient(-45deg, #f4f5ff, #f4f5ff 11px, white 10px, white 20px);\n  background-size: 28px 28px;\n  animation: move 2s linear infinite;\n}\n@keyframes move {\n  0% {\n    background-position: 0 0;\n  }\n  100% {\n    background-position: 28px 0;\n  }\n}\n#project-manager #projects .project ul .item-task.task-queued:not(.item-highlight) {\n  background-image: repeating-linear-gradient(-45deg, #f4f4f4, #f4f4f4 11px, white 10px, white 20px);\n  background-size: 28px 28px;\n}\n#project-manager #projects .project ul .item-task.item-highlight {\n  border-bottom: 1px solid #3f51b5;\n  border-top: 1px solid #3f51b5;\n}\n@keyframes highlight {\n  0% {\n    background-color: #4f61f4;\n  }\n  100% {\n    background-color: white;\n  }\n}\n#project-manager #projects .project ul .item-param-value.item-abstract {\n  font-style: italic;\n}\n#project-manager #projects .project ul .item-task.item-task-loading {\n  height: 102px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#project-manager #projects .project ul .item-task .content,\n#project-manager #projects .project ul .item-param-value .content {\n  flex: 1 1 auto;\n  padding: 16px;\n}\n#project-manager #projects .project ul .item-task .content .title,\n#project-manager #projects .project ul .item-param-value .content .title {\n  font-weight: 300;\n  font-size: 20px;\n  margin-bottom: 10px;\n}\n#project-manager #projects .project ul .item-task .content .title .try-number,\n#project-manager #projects .project ul .item-param-value .content .title .try-number {\n  background: #ececec;\n  padding: 4px 10px;\n  margin-right: 10px;\n  display: inline-block;\n  line-height: 1;\n  font-size: 18px;\n  vertical-align: top;\n}\n#project-manager #projects .project ul .item-task .content .tags {\n  display: flex;\n  margin-top: 5px;\n}\n#project-manager #projects .project ul .item-task .content .tags div {\n  margin-right: 5px;\n  text-transform: uppercase;\n  font-size: 12px;\n  background: #3f51b5;\n  display: inline-flex;\n  align-items: center;\n  color: white;\n  border-radius: 2px;\n  font-weight: 500;\n  padding: 5px;\n}\n#project-manager #projects .project ul .item-task .content .footer,\n#project-manager #projects .project ul .item-param-value .content .footer {\n  font-size: 14px;\n  font-weight: 300;\n  border-top: 1px solid rgba(0, 0, 0, 0.1);\n  padding-top: 10px;\n  margin-top: 10px;\n}\n#project-manager #projects .project ul .item-task .content .footer .task-error {\n  color: #ef767a;\n  font-weight: 400;\n}\n#project-manager #projects .project ul .item-task .content .footer span:not(.task-error):before {\n  content: \"-\";\n  margin: 0 7px;\n}\n#project-manager #projects .project ul .item-task .content .footer span:first-child:before,\n#project-manager #projects .project ul .item-param-value .content .footer span:first-child:before {\n  content: \"\";\n  margin: 0;\n}\n#project-manager #projects .project ul .item-task .content .footer span span,\n#project-manager #projects .project ul .item-param-value .content .footer span span {\n  font-weight: 400;\n}\n#project-manager #projects .project ul .item-task .toolbar,\n#project-manager #projects .project ul .item-param-value .toolbar {\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  padding: 10px;\n  background: #f2f2f2;\n  display: flex;\n  flex-direction: column;\n}\n#project-manager #projects .project ul .item .toolbar .action {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #3f51b5;\n  border-radius: 2px;\n  cursor: pointer;\n  color: white;\n  font-size: 12px;\n}\n#project-manager #projects .project ul .item .toolbar .action.action-disabled {\n  cursor: not-allowed;\n  background: gray;\n}\n#project-manager #projects .project ul .item-task .toolbar .action,\n#project-manager #projects .project ul .item-param-value .toolbar .action {\n  margin-bottom: 4px;\n}\n#project-manager #projects .project ul .item-param .header .toolbar .action {\n  margin-left: 4px;\n}\n.tasks .task .toolbar .action.dropdown-toggle,\n#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle,\n#project-manager #projects .project ul .item-param-value .toolbar .action.dropdown-toggle {\n  margin: 0;\n}\n#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle,\n#project-manager #projects .project ul .item-param-value .toolbar .action.dropdown-toggle {\n  height: 14px;\n}\n.tasks .task .toolbar .action.dropdown-toggle:after,\n#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle:after,\n#project-manager #projects .project ul .item-param-value .toolbar .action.dropdown-toggle:after {\n  display: none;\n}\n.tasks .task .toolbar .dropdown-menu,\n#project-manager #projects .project ul .item-task .toolbar .dropdown-menu,\n#project-manager #projects .project ul .item-param-value .toolbar .dropdown-menu {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  min-width: auto;\n  padding: 7px;\n  border: 1px solid #E3E3E3;\n  border-radius: 0;\n  margin-top: 5px;\n}\n.tasks .task .toolbar .dropdown-menu {\n  left: -42px !important;\n}\n#project-manager #projects .project ul .item .toolbar .dropdown-menu {\n  left: 4px !important;\n}\n.tasks .task .toolbar .dropdown-menu:after,\n#project-manager #projects .project ul .item .toolbar .dropdown-menu:after {\n  content: \" \";\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -8px;\n  border: 10px solid transparent;\n  border-bottom-color: white;\n}\n.tasks .task .toolbar .dropdown-menu .action:last-child,\n#project-manager #projects .project ul .item .toolbar .dropdown-menu .action:last-child {\n  margin: 0;\n}\n#project-manager #projects .project .tab-toolbar {\n  display: flex;\n  padding: 5px 16px;\n  background: rgba(158, 158, 158, 0.2);\n  flex-direction: row;\n  justify-content: space-between;\n  flex: 0 0 auto;\n}\n#project-manager #projects .project .tab-toolbar label {\n  margin-bottom: 0;\n  display: flex;\n  align-items: center;\n}\n#project-manager #projects .project .tab-toolbar label input {\n  margin-right: 10px;\n}\n#project-manager #projects .project .tab-toolbar .buttons div:last-child {\n  margin-right: 0;\n}\n.prompt-wrapper {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 100;\n}\n.prompt-wrapper .prompt {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: white;\n  max-width: 300px;\n  border-radius: 2px;\n}\n.prompt-wrapper .prompt.param-prompt {\n  max-width: 600px;\n  width: 600px;\n}\n.prompt-wrapper .prompt .prompt-header {\n  background: #3f51b5;\n  padding: 5px 16px;\n  color: white;\n}\n.prompt-wrapper .prompt .prompt-text {\n  font-size: 14px;\n  padding: 16px;\n  padding-bottom: 0;\n}\n.prompt-wrapper .prompt > input,\n.prompt-wrapper .prompt > select {\n  margin: 10px 16px 0 16px;\n  text-align: right;\n  width: calc(100% - 32px);\n}\n.prompt-wrapper .jsoneditor {\n  width: calc(100% - 32px);\n  margin: 10px 16px 16px 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.prompt-wrapper .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.editor .buttons,\n.prompt-wrapper .prompt .buttons {\n  display: flex;\n  justify-content: flex-end;\n  margin: 16px 16px 16px 16px;\n}\n.prompt-wrapper .prompt .param-filter .param-name {\n  cursor: pointer;\n}\n.editor.task-editor {\n  flex: 1 1;\n}\n.editor .header {\n  padding: 5px 16px;\n  background: rgba(158, 158, 158, 0.2);\n}\n.editor .field {\n  margin: 10px 16px;\n}\n.editor .param-filter {\n  margin: 30px 16px;\n}\n.editor .field {\n  display: flex;\n  align-items: center;\n  justify-content: stretch;\n}\n.editor .field label {\n  margin: 0;\n  width: 150px;\n}\n.editor .field input,\n.editor .field select {\n  flex: 2 1;\n  padding-left: 5px;\n}\n.editor .field input[type=\"checkbox\"] {\n  flex: none;\n}\n.editor .jsoneditor {\n  width: calc(100% - 32px);\n  resize: vertical;\n  margin: 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.editor .jsoneditor-readOnly .jsoneditor {\n  border-color: rgba(158, 158, 158, 0.2);\n  height: auto;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_marker-layer .ace_active-line,\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_gutter-active-line {\n  background-color: inherit;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_scroller {\n  background-color: rgba(158, 158, 158, 0.1);\n}\n.editor .jsoneditor-readOnly .ace_cursor-layer {\n  display: none;\n}\n.editor .editor-loading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 250px;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 16px;\n}\n.editor .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.task-editor .command {\n  cursor: pointer;\n}\n.slide-editor {\n  position: absolute;\n  width: 400px;\n  left: -400px;\n  top: 0;\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n  background: #fafafa;\n  height: 100%;\n  animation: slide-in 0.4s ease;\n  overflow-y: auto;\n}\n@keyframes slide-in {\n  0% {\n    transform: translateX(400px);\n  }\n  100% {\n    transform: translateY(0);\n  }\n}\n.slide-editor .header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  cursor: pointer;\n}\n.slide-editor .header i {\n  padding: 2px 10px;\n  margin: -2px -10px;\n}\n.task-viewer .title,\n.task-viewer .metadata,\n.task-viewer h2,\n.task-viewer .notes,\n.task-viewer .params,\n.task-viewer .checkpoints,\n.task-viewer .code-versions,\n.code-version-viewer .metadata {\n  margin: 10px 16px;\n}\n.task-viewer .title {\n  font-weight: 300;\n  font-size: 20px;\n}\n.task-viewer .title .try-number {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 4px 10px;\n  margin-right: 10px;\n  display: inline-block;\n  line-height: 1;\n  font-size: 18px;\n  vertical-align: top;\n}\n.task-viewer .metadata,\n.task-viewer .params {\n  font-weight: 300;\n}\n.task-viewer .metadata div,\n.task-viewer .params div {\n  margin-bottom: 5px;\n}\n.task-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.task-viewer .metadata div span,\n.task-viewer .params div span {\n  font-weight: 400;\n  display: inline-block;\n  width: 150px;\n}\n.code-version-viewer .metadata {\n  font-weight: 300;\n}\n.code-version-viewer .metadata div {\n  margin-bottom: 10px;\n}\n.code-version-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.code-version-viewer .metadata div span {\n  font-weight: 400;\n  display: block;\n  margin-bottom: 5px;\n}\n.code-version-viewer .buttons div:first-child {\n  background: rgba(158, 158, 158, 0.2);\n  color: inherit;\n}\n.task-viewer h2 {\n  font-weight: 300;\n  font-size: 24px;\n}\n.task-viewer .checkpoints {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .checkpoints > div {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n}\n.task-viewer .checkpoints > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .checkpoints > div .action {\n  background: #3f51b5;\n  cursor: pointer;\n  color: white;\n}\n.task-viewer .checkpoints > div .iteration,\n.task-viewer .checkpoints > div .action {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .checkpoints > div .time {\n  font-weight: 300;\n}\n.task-viewer .code-versions {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .code-versions > div {\n  display: flex;\n  flex-direction: row;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n  cursor: pointer;\n}\n.task-viewer .code-versions > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .code-versions > div .iteration {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .code-versions > div .name {\n  font-weight: 300;\n  margin-left: 10px;\n}\n.task-viewer textarea {\n  min-height: 150px;\n  width: 100%;\n}\n.task-viewer .tags-edit {\n  margin-bottom: 15px;\n}\n.task-viewer .tags-edit > div {\n  margin: 0 16px;\n}\n.code-version-viewer {\n  display: flex;\n  flex-direction: column;\n}\n.code-version-viewer .code-versions {\n  overflow: auto;\n}\n.code-version-viewer .code-versions .code-version-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\n.code-version-viewer .code-versions .code-version-row .code-version-branch-arrow {\n  width: 30px;\n  height: 30px;\n  cursor: pointer;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.code-version-viewer .code-versions .code-version {\n  background: rgba(158, 158, 158, 0.1);\n  margin: 5px 0;\n  max-width: 300px;\n  border-radius: 5px;\n  cursor: pointer;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex: 1 1 auto;\n}\n.code-version-viewer .code-versions .code-version.current-code-version {\n  background: #3f51b5;\n  color: white;\n}\n.code-version-viewer .code-versions .code-version .name {\n  background: rgba(0, 0, 0, 0.05);\n  font-weight: 300;\n  padding: 5px 16px;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n.code-version-viewer .code-versions .code-version .time {\n  font-size: 12px;\n  text-align: center;\n  padding: 2px 0;\n}\n.code-version-viewer .code-versions .arrow {\n  text-align: center;\n  font-size: 20px;\n}\n.param-viewer label {\n  display: flex;\n  align-items: center;\n  margin: 10px 16px;\n}\n.param-viewer label input {\n  margin-right: 10px;\n}\n.param-viewer .param-filter {\n  margin: 10px 16px;\n  max-height: none;\n}\n#flash-messages {\n  position: absolute;\n  left: 0;\n  top: 0;\n  z-index: 10;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n}\n#flash-messages .flash-message {\n  opacity: 1;\n  background: #3f51b5;\n  border-radius: 0 2px 2px 0;\n  color: white;\n  padding: 5px 10px;\n  max-width: 400px;\n  display: inline-block;\n  height: 26px;\n  margin-top: 10px;\n  transition: margin 0.4s;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-size: 14px;\n  font-weight: 300;\n}\n#flash-messages .flash-message:hover {\n  opacity: 1;\n}\n#flash-messages .flash-message.level-40 {\n  background: #ef767a;\n}\n#flash-messages .flash-message.level-30 {\n  background: #eeb868;\n}\n#controlbar {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: rgba(158, 158, 158, 0.4);\n  color: white;\n}\n#controlbar > .container {\n  display: flex;\n  align-items: center;\n  flex-direction: row;\n}\n#controlbar > .container #title {\n  background: #3f51b5;\n  font-size: 24px;\n  padding: 7px 10px;\n  font-weight: 400;\n  border-top: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 0 50px 0 0;\n}\n#controlbar > .container .action {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 14px;\n  background: #3f51b5;\n  margin-right: 10px;\n}\n.param-filter {\n  border: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: none;\n  max-height: 350px;\n  overflow: auto;\n}\n.param-filter .param-name {\n  background: rgba(158, 158, 158, 0.05);\n  padding: 5px 10px;\n  display: flex;\n  overflow: hidden;\n  justify-content: space-between;\n  align-items: center;\n}\n.param-filter .param-name.param-name-selected {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-name i {\n  cursor: pointer;\n}\n.param-filter .param-name.param-name-collapsed {\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-name.param-name-expanded {\n  justify-content: space-between;\n}\n.param-filter .param-name .param-value-hint,\n.param-filter .param-name .all-button {\n  border-radius: 2px;\n  font-weight: 600;\n  padding: 0 5px;\n  background: #ececec;\n}\n.param-filter .param-name .param-value-hint {\n  margin-left: 10px;\n}\n.param-filter .param-name .all-button {\n  cursor: pointer;\n}\n.param-filter .param-name .all-button.all-button-activated {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  border-top: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n  overflow-y: auto;\n}\n.param-filter .param-values .param-value {\n  padding: 10px;\n  white-space: nowrap;\n}\n.param-filter .param-values .param-value {\n  background: white;\n  cursor: pointer;\n}\n.param-filter .param-values .param-value-selected.param-value {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  display: flex;\n}\n.param-filter .param-values .param-value {\n  border-right: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-values .param-value.param-value-default {\n  font-weight: 500;\n}\n.param-filter .param-values .param-value .task-numbers {\n  margin-left: 10px;\n  background: #ededed;\n  border-radius: 2px;\n  color: #1c1c1c;\n  font-weight: 300;\n  padding: 0 2px;\n}\n.param-filter .param-values .param-value input {\n  padding: 0;\n  border: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .group-header {\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  background: white;\n  font-weight: 300;\n  justify-content: center;\n  font-size: 24px;\n  padding: 0 0 0 16px;\n  text-transform: uppercase;\n}\n.param-viewer > input {\n  width: calc(100% - 32px);\n  margin: 10px 16px;\n  display: flex;\n}\n.param-viewer .table-cols {\n  display: flex;\n}\n.param-viewer .table-cols .table-col {\n  flex: 1 1;\n  margin: 10px;\n}\n.param-viewer .table-cols .table-col .table-col-entry {\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 5px 0;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  cursor: grab;\n}\n.param-viewer .table-cols .table-col .table-col-dummy {\n  height: 30px;\n  margin: 5px 0;\n}\n.param-viewer .table-cols .table-col .table-col-dummy.on-drag-over,\n.param-viewer .table-cols .table-col .table-col-entry.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n.param-viewer .table-cols .table-col .table-col-entry i {\n  margin-left: 5px;\n  cursor: pointer;\n}\n.param-viewer .table-cols .table-col .table-col-entry div {\n  flex: 2 1;\n}\n.param-viewer .param-filter:empty {\n  border: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul,\n.param-viewer .param-filter ul {\n  padding: 0;\n  margin-bottom: 0;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item,\n.param-viewer .param-filter ul .item {\n  list-style: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header,\n.param-viewer .param-filter ul .item-param .header {\n  height: auto;\n  padding: 5px 10px;\n  background: rgba(158, 158, 158, 0.05);\n  cursor: grab;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over,\n.param-viewer .param-filter ul .item-param.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over .header,\n.param-viewer .param-filter ul .item-param.on-drag-over .header {\n  visibility: hidden;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .title,\n.param-viewer .param-filter ul .item-param .header .title {\n  font-size: initial;\n  font-weight: initial;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .grip-icon,\n.param-viewer .param-filter ul .item-param .header .grip-icon {\n  height: auto;\n  width: auto;\n}\n.param-viewer .param-filter .tb-link,\n.param-viewer .param-filter .tb-link-active {\n  background: #888888;\n  color: white;\n  border-radius: 2px;\n  padding: 0 3px;\n  font-weight: 500;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  margin-right: 5px;\n  margin-left: 5px;\n}\n.param-viewer .param-filter .fa-arrow-alt-circle-up {\n  margin-right: 5px;\n}\n.param-viewer .param-filter .tb-link-active {\n  background: #F57C00;\n}\n.param-viewer .param-filter .tb-link-icon {\n  margin-right: 5px;\n  color: #F57C00;\n  font-size: 10pt;\n}\n.param-viewer .param-filter {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.tags-edit > div > .value {\n  background: #3f51b5;\n  display: inline-flex;\n  align-items: center;\n  color: white;\n  border-radius: 2px;\n  font-weight: 500;\n  /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/\n  font-size: 14px;\n  cursor: pointer;\n  text-decoration: none;\n  padding: 6px 10px;\n  margin-right: 5px;\n  margin-bottom: 5px;\n}\n.tags-edit > div > .value i {\n  margin-left: 7px;\n}\n.tags-edit > div > .value span {\n  /*margin-top: 2px;*/\n}\n.tags-edit {\n  display: flex;\n  align-items: center;\n}\n.tags-edit > label {\n  margin: 0;\n  width: 100px;\n}\n.tags-edit > div {\n  border: 1px solid lightgray;\n  background: white;\n  flex: 1 1;\n  display: flex;\n  flex-wrap: wrap;\n  padding: 5px 5px 0;\n}\n.tags-edit > div > div {\n  flex: 1 1;\n  min-width: 100px;\n  margin-bottom: 5px;\n}\n.tags-edit > div > div > input {\n  border: none;\n  background: transparent;\n  width: 100%;\n  padding-top: 5px;\n  padding-left: 10px;\n}\n.tags-edit > div > div > div > .autocomplete-hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.tags-edit > div > div > div {\n  overflow: auto;\n  max-height: 300px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-bottom: none;\n  background: white;\n  z-index: 100;\n}\n.tags-edit > div > div > div > div {\n  padding: 5px 10px;\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  color: #757575;\n  line-height: 1.15;\n  background: #FAFAFA;\n}\nhtml,\nbody,\n#root,\n#root > #page,\n#root > #page > .container > .row,\n#root > #page > .container > .row > div,\n#root > #page > .container > .row > div > #scheduler {\n  height: 100%;\n}\n#root > #page > .container {\n  height: calc(100% - 39px);\n  max-width: none;\n}\n#root > #page > .container > .row > div:first-child {\n  padding-right: 0;\n}\n#root > .container > .row > div:last-child {\n  padding-left: 0;\n}\nh1 {\n  font-size: 80px;\n  font-weight: 300;\n  line-height: 1;\n  margin-bottom: 40px;\n}\nh2 {\n  font-size: 30px;\n  font-weight: 400;\n  line-height: 40px;\n  margin-bottom: 15px;\n}\n.buttons {\n  display: flex;\n}\n.buttons div {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 6px 10px;\n  border-radius: 2px;\n  cursor: pointer;\n  text-transform: uppercase;\n  font-size: 14px;\n}\n.buttons div:first-child {\n  background: #3f51b5;\n  color: white;\n  margin-right: 10px;\n}\n.buttons div:last-child {\n  margin-right: 0;\n}\nlabel {\n  margin-bottom: 0;\n}\n.separator {\n  margin: 0 5px;\n}\n#scheduler {\n  padding: 16px 0 16px 0;\n  overflow-y: auto;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: flex-start;\n  align-content: flex-start;\n  justify-content: center;\n}\n#scheduler #max-running-tasks {\n  cursor: pointer;\n}\n#scheduler > .dropdown {\n  width: 510px;\n  margin-bottom: 10px;\n}\n#scheduler > .dropdown div.action {\n  margin-bottom: 0;\n}\n#scheduler > .dropdown > .dropdown-menu {\n  border-radius: 0px;\n  transform: translate3d(0px, 24px, 0px) !important;\n}\n#scheduler > .dropdown > .dropdown-menu .dropdown-item {\n  cursor: pointer;\n}\n#scheduler > .dropdown > .dropdown-menu .dropdown-item:active {\n  background-color: #3f51b5;\n}\n.mock-device {\n  width: 510px;\n  height: 0;\n}\n.device {\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 20px;\n  width: 500px;\n  margin-right: 10px;\n}\n.device > .header {\n  background: rgba(0, 0, 0, 0.05);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  height: 40px;\n  padding: 0 16px;\n}\n.device > .header > span {\n  flex: 1 1;\n}\n.device > .header .action {\n  margin-bottom: 0;\n  margin-right: 16px;\n}\n.device > .header .hide-device {\n  cursor: pointer;\n}\n.device .queue-header {\n  display: flex;\n  align-items: center;\n}\n.device .queue-header .action {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  width: 21px;\n  height: 21px;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  margin: 0;\n  margin-right: 8px;\n}\n.device .body {\n  padding: 16px;\n}\n.device .tasks {\n  padding: 0;\n  margin-bottom: 10px;\n}\n.device .tasks.tasks-queued {\n  margin: 0;\n}\n.device .tasks.tasks-queued .task {\n  margin-top: 10px;\n}\n.device .tasks .mock-task {\n  background: white;\n  border: 2px dashed rgba(0, 0, 0, 0.1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 300;\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.4);\n  height: 132px;\n}\n.device .tasks .task {\n  list-style: none;\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: white;\n}\n.device .tasks .task .content {\n  padding: 16px;\n  padding-bottom: 12px;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-bottom: none;\n}\n.device .tasks .task .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: flex-start;\n}\n.device .tasks .task .header .status {\n  text-align: right;\n  line-height: 1;\n}\n.device .tasks .task .header .status .iterations {\n  font-size: 12px;\n  color: #AAA;\n}\n.tasks-queued.device .tasks .task .header {\n  cursor: grab;\n}\n.device .tasks .task .header .project-name {\n  font-weight: 300;\n  font-size: 24px;\n  margin-bottom: 10px;\n}\n.device .tasks .task .progress {\n  background: #3f51b5;\n  height: 2px;\n  margin-bottom: 10px;\n  border-radius: 0;\n  transition: width 400ms ease-in-out;\n}\n.device .tasks .task .param-name {\n  font-size: 14px;\n  cursor: pointer;\n}\n.device .tasks .task .try-number {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 1px 7px 2px 7px;\n  margin-right: 7px;\n  display: inline-block;\n  line-height: 1;\n  vertical-align: top;\n}\n.device .tasks .task .toolbar {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 5px 16px 1px 16px;\n  line-height: 1;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.device .tasks .task .toolbar > span {\n  display: flex;\n  align-items: center;\n}\n#scheduler > .dropdown .action,\n.device .action,\n.device .tasks .task .toolbar .action {\n  background: #3f51b5;\n  padding: 0 10px;\n  text-transform: uppercase;\n  display: inline-flex;\n  align-items: center;\n  color: white;\n  border-radius: 2px;\n  font-weight: 500;\n  /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/\n  height: 24px;\n  font-size: 13px;\n  cursor: pointer;\n  margin-right: 5px;\n  margin-bottom: 4px;\n}\n.device .tasks .task .toolbar .action i {\n  margin-right: 7px;\n}\n.device .tasks .task .toolbar .action span {\n  margin-top: 2px;\n}\n.device .tasks .task .toolbar .dropdown {\n  display: inline-flex;\n  margin-bottom: 4px;\n}\n.device .tasks .task .toolbar .action.dropdown-toggle i {\n  margin: 0;\n}\n.device .tasks .task .toolbar .current-action {\n  flex: 2 1;\n  text-align: right;\n  font-size: 12px;\n}\n.device .tasks .task.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n.device .tasks .task.on-drag-over .content,\n.device .tasks .task.on-drag-over .toolbar {\n  visibility: hidden;\n}\n#root div.jsoneditor-tree div.jsoneditor-tree-inner {\n  padding-bottom: 100px;\n}\n.jsoneditor .inherited-value .jsoneditor-field,\n.jsoneditor .inherited-value .jsoneditor-value {\n  color: #888888;\n}\n.jsoneditor table.jsoneditor-values.inherited-value td .revert {\n  display: none;\n}\n.jsoneditor table.jsoneditor-values:not(.inherited-value) td .revert {\n  width: 24px;\n  height: 24px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: 16px;\n  color: #3f51b5;\n  cursor: pointer;\n}\n.jsoneditor table.jsoneditor-values.new-value td .revert i:before {\n  content: \"\\f00d\";\n}\n#project-manager {\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-top: 0;\n  border-bottom: 0;\n  height: 100%;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n#project-manager #projects-toolbar {\n  display: flex;\n  padding: 5px 16px;\n  background: #e8e8e8;\n  justify-content: space-between;\n  z-index: 10;\n}\n#project-manager #projects-toolbar #project-selector span {\n  margin-right: 20px;\n}\n#project-manager #projects-toolbar #project-selector span i {\n  color: #BBB;\n}\n#project-manager #projects-toolbar #project-selector span.active i {\n  color: inherit;\n  cursor: pointer;\n}\n#project-manager #projects-toolbar #project-toolbar {\n  display: flex;\n  flex-direction: row;\n}\n#project-manager #projects-toolbar #project-toolbar #code-version {\n  padding: 0 10px;\n  border-radius: 2px;\n  font-weight: 500;\n  margin-right: 10px;\n  color: #757575;\n  background: #f2f2f2;\n  display: flex;\n  align-items: stretch;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n#project-manager #projects-toolbar #project-toolbar #reload-tasks {\n  cursor: pointer;\n  margin-right: 10px;\n}\n#project-manager #projects-toolbar #project-toolbar a {\n  color: #757575;\n}\n#project-manager #projects {\n  overflow-y: hidden;\n  flex: 1 1 auto;\n  height: 100px;\n  background: #FAFAFA;\n  z-index: 10;\n}\n#project-manager #projects .project {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n#project-manager #projects .project .search-bar {\n  padding: 5px 16px;\n  display: flex;\n  align-items: center;\n}\n#project-manager #projects .project .search-bar span {\n  margin-right: 10px;\n}\n#project-manager #projects .project .tabs {\n  display: flex;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: none;\n  border-left: none;\n  background: white;\n  flex: 0 0 auto;\n}\n#project-manager #projects .project .tabs div {\n  padding: 16px;\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n  flex: 2 1;\n  text-align: center;\n  font-weight: 300;\n  font-size: 24px;\n  background: rgba(0, 0, 0, 0.05);\n  cursor: pointer;\n}\n#project-manager #projects .project .tabs div:hover {\n  background: rgba(0, 0, 0, 0.025);\n}\n#project-manager #projects .project .tabs div.tab-active,\n#project-manager #projects .project .tabs div.tab-active:hover {\n  background: white;\n}\n#project-manager #projects .project .tabs div:last-child {\n  border: none;\n}\n#project-manager #projects .project .sorting {\n  padding: 5px 16px;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n#project-manager #projects .project .sorting > div > * {\n  margin-right: 10px;\n}\n#project-manager #projects .project .sorting > div > .fa,\n#project-manager #projects .project .sorting > div > .fas {\n  cursor: pointer;\n}\n#project-manager #projects .project .sorting .filter-enabled {\n  color: #3f51b5;\n}\n#project-manager #projects .project > .param-filter {\n  border: none;\n}\n#project-manager #projects .project .tab {\n  flex: 1 1 auto;\n  display: flex;\n  flex-direction: column;\n  min-height: 0;\n}\n#project-manager #projects .project .params-tab,\n#project-manager #projects .project .tasks-tab {\n  overflow-y: auto;\n  flex: 1 1 auto;\n  position: relative;\n}\n#project-manager #projects .project .tasks-tab .collapse-toggle {\n  display: flex;\n  justify-content: center;\n  padding: 5px;\n  background: #e5e5e5;\n  font-weight: 300;\n  cursor: pointer;\n  font-size: 12px;\n}\n#project-manager #projects .project .tasks-tab .param-group > .group-header {\n  padding: 10px;\n  background: #f2f2f2;\n  border: 1px solid #d9d9d9;\n  border-left: 0;\n  cursor: pointer;\n  border-right: 0;\n}\n#project-manager #projects .project .tasks-tab .param-group > .group-header .title {\n  display: flex;\n  align-items: end;\n}\n#project-manager #projects .project .tasks-tab .param-group > .group-header .title i {\n  margin-right: 5px;\n  font-size: 20px;\n}\n#project-manager #projects .project .tasks-tab .param-group .group-tasks {\n  padding-left: 10px;\n  background: #d9d9d9;\n}\n#project-manager #projects .project ul {\n  padding: 0;\n  margin-bottom: 0;\n}\n#project-manager #projects .project ul .item {\n  list-style: none;\n}\n#project-manager #projects .project ul .item-param[draggable=\"true\"] .header {\n  cursor: grab;\n}\n#project-manager #projects .project ul .item-param.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n#project-manager #projects .project ul .item-param.on-drag-over .header {\n  visibility: hidden;\n}\n#project-manager #projects .project ul .item-param .grip-icon {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#project-manager #projects .project ul .item-param .group-header,\n#project-manager #projects .project ul .item-param .header {\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#project-manager #projects .project ul .item-param .group-header {\n  background: white;\n  font-weight: 300;\n  justify-content: center;\n  font-size: 24px;\n  padding: 0 0 0 16px;\n  text-transform: uppercase;\n}\n#project-manager #projects .project ul .item-param .header {\n  height: 40px;\n  padding-left: 16px;\n  padding-right: 10px;\n  background: rgba(0, 0, 0, 0.05);\n}\n#project-manager #projects .project ul .item-param .header .title {\n  font-weight: 300;\n  font-size: 18px;\n}\n#project-manager #projects .project ul .item-param .header .toolbar {\n  display: flex;\n  align-items: center;\n}\n#project-manager #projects .project ul .item-task,\n#project-manager #projects .project ul .item-param-value {\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  background: white;\n  display: flex;\n}\n#project-manager #projects .project ul .item-task.item-task-collapsed {\n  border-left: 10px solid #d9d9d9;\n}\n#project-manager #projects .project ul .item-task.task-running {\n  background-image: repeating-linear-gradient(-45deg, #f4f5ff, #f4f5ff 11px, white 10px, white 20px);\n  background-size: 28px 28px;\n  animation: move 2s linear infinite;\n}\n@keyframes move {\n  0% {\n    background-position: 0 0;\n  }\n  100% {\n    background-position: 28px 0;\n  }\n}\n#project-manager #projects .project ul .item-task.task-queued:not(.item-highlight) {\n  background-image: repeating-linear-gradient(-45deg, #f4f4f4, #f4f4f4 11px, white 10px, white 20px);\n  background-size: 28px 28px;\n}\n#project-manager #projects .project ul .item-task.item-highlight {\n  border-bottom: 1px solid #3f51b5;\n  border-top: 1px solid #3f51b5;\n}\n@keyframes highlight {\n  0% {\n    background-color: #4f61f4;\n  }\n  100% {\n    background-color: white;\n  }\n}\n#project-manager #projects .project ul .item-param-value.item-abstract {\n  font-style: italic;\n}\n#project-manager #projects .project ul .item-task.item-task-loading {\n  height: 102px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#project-manager #projects .project ul .item-task .content,\n#project-manager #projects .project ul .item-param-value .content {\n  flex: 1 1 auto;\n  padding: 16px;\n}\n#project-manager #projects .project ul .item-task .content .title,\n#project-manager #projects .project ul .item-param-value .content .title {\n  font-weight: 300;\n  font-size: 20px;\n  margin-bottom: 10px;\n}\n#project-manager #projects .project ul .item-task .content .title .try-number,\n#project-manager #projects .project ul .item-param-value .content .title .try-number {\n  background: #ececec;\n  padding: 4px 10px;\n  margin-right: 10px;\n  display: inline-block;\n  line-height: 1;\n  font-size: 18px;\n  vertical-align: top;\n}\n#project-manager #projects .project ul .item-task .content .tags {\n  display: flex;\n  margin-top: 5px;\n}\n#project-manager #projects .project ul .item-task .content .tags div {\n  margin-right: 5px;\n  text-transform: uppercase;\n  font-size: 12px;\n  background: #3f51b5;\n  display: inline-flex;\n  align-items: center;\n  color: white;\n  border-radius: 2px;\n  font-weight: 500;\n  padding: 5px;\n}\n#project-manager #projects .project ul .item-task .content .footer,\n#project-manager #projects .project ul .item-param-value .content .footer {\n  font-size: 14px;\n  font-weight: 300;\n  border-top: 1px solid rgba(0, 0, 0, 0.1);\n  padding-top: 10px;\n  margin-top: 10px;\n}\n#project-manager #projects .project ul .item-task .content .footer .task-error {\n  color: #ef767a;\n  font-weight: 400;\n}\n#project-manager #projects .project ul .item-task .content .footer span:not(.task-error):before {\n  content: \"-\";\n  margin: 0 7px;\n}\n#project-manager #projects .project ul .item-task .content .footer span:first-child:before,\n#project-manager #projects .project ul .item-param-value .content .footer span:first-child:before {\n  content: \"\";\n  margin: 0;\n}\n#project-manager #projects .project ul .item-task .content .footer span span,\n#project-manager #projects .project ul .item-param-value .content .footer span span {\n  font-weight: 400;\n}\n#project-manager #projects .project ul .item-task .toolbar,\n#project-manager #projects .project ul .item-param-value .toolbar {\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  padding: 10px;\n  background: #f2f2f2;\n  display: flex;\n  flex-direction: column;\n}\n#project-manager #projects .project ul .item .toolbar .action {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #3f51b5;\n  border-radius: 2px;\n  cursor: pointer;\n  color: white;\n  font-size: 12px;\n}\n#project-manager #projects .project ul .item .toolbar .action.action-disabled {\n  cursor: not-allowed;\n  background: gray;\n}\n#project-manager #projects .project ul .item-task .toolbar .action,\n#project-manager #projects .project ul .item-param-value .toolbar .action {\n  margin-bottom: 4px;\n}\n#project-manager #projects .project ul .item-param .header .toolbar .action {\n  margin-left: 4px;\n}\n.tasks .task .toolbar .action.dropdown-toggle,\n#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle,\n#project-manager #projects .project ul .item-param-value .toolbar .action.dropdown-toggle {\n  margin: 0;\n}\n#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle,\n#project-manager #projects .project ul .item-param-value .toolbar .action.dropdown-toggle {\n  height: 14px;\n}\n.tasks .task .toolbar .action.dropdown-toggle:after,\n#project-manager #projects .project ul .item-task .toolbar .action.dropdown-toggle:after,\n#project-manager #projects .project ul .item-param-value .toolbar .action.dropdown-toggle:after {\n  display: none;\n}\n.tasks .task .toolbar .dropdown-menu,\n#project-manager #projects .project ul .item-task .toolbar .dropdown-menu,\n#project-manager #projects .project ul .item-param-value .toolbar .dropdown-menu {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  min-width: auto;\n  padding: 7px;\n  border: 1px solid #E3E3E3;\n  border-radius: 0;\n  margin-top: 5px;\n}\n.tasks .task .toolbar .dropdown-menu {\n  left: -42px !important;\n}\n#project-manager #projects .project ul .item .toolbar .dropdown-menu {\n  left: 4px !important;\n}\n.tasks .task .toolbar .dropdown-menu:after,\n#project-manager #projects .project ul .item .toolbar .dropdown-menu:after {\n  content: \" \";\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -8px;\n  border: 10px solid transparent;\n  border-bottom-color: white;\n}\n.tasks .task .toolbar .dropdown-menu .action:last-child,\n#project-manager #projects .project ul .item .toolbar .dropdown-menu .action:last-child {\n  margin: 0;\n}\n#project-manager #projects .project .tab-toolbar {\n  display: flex;\n  padding: 5px 16px;\n  background: rgba(158, 158, 158, 0.2);\n  flex-direction: row;\n  justify-content: space-between;\n  flex: 0 0 auto;\n}\n#project-manager #projects .project .tab-toolbar label {\n  margin-bottom: 0;\n  display: flex;\n  align-items: center;\n}\n#project-manager #projects .project .tab-toolbar label input {\n  margin-right: 10px;\n}\n#project-manager #projects .project .tab-toolbar .buttons div:last-child {\n  margin-right: 0;\n}\n.prompt-wrapper {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 100;\n}\n.prompt-wrapper .prompt {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: white;\n  max-width: 300px;\n  border-radius: 2px;\n}\n.prompt-wrapper .prompt.param-prompt {\n  max-width: 600px;\n  width: 600px;\n}\n.prompt-wrapper .prompt .prompt-header {\n  background: #3f51b5;\n  padding: 5px 16px;\n  color: white;\n}\n.prompt-wrapper .prompt .prompt-text {\n  font-size: 14px;\n  padding: 16px;\n  padding-bottom: 0;\n}\n.prompt-wrapper .prompt > input,\n.prompt-wrapper .prompt > select {\n  margin: 10px 16px 0 16px;\n  text-align: right;\n  width: calc(100% - 32px);\n}\n.prompt-wrapper .jsoneditor {\n  width: calc(100% - 32px);\n  margin: 10px 16px 16px 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.prompt-wrapper .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.editor .buttons,\n.prompt-wrapper .prompt .buttons {\n  display: flex;\n  justify-content: flex-end;\n  margin: 16px 16px 16px 16px;\n}\n.prompt-wrapper .prompt .param-filter .param-name {\n  cursor: pointer;\n}\n.editor.task-editor {\n  flex: 1 1;\n}\n.editor .header {\n  padding: 5px 16px;\n  background: rgba(158, 158, 158, 0.2);\n}\n.editor .iterations {\n  margin: 10px 16px;\n  margin-bottom: 0;\n  display: flex;\n}\n.editor .iterations .iteration,\n.editor .iterations .new-iteration {\n  background: rgba(158, 158, 158, 0.05);\n  padding: 5px 10px;\n  margin-right: 5px;\n  cursor: pointer;\n  border: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: 0;\n}\n.editor .iterations .iteration.iteration-current {\n  background: #3f51b5;\n  color: white;\n}\n.editor .field {\n  margin: 10px 16px;\n}\n.editor .param-filter {\n  margin: 30px 16px;\n  margin-top: 0;\n}\n.editor .field {\n  display: flex;\n  align-items: center;\n  justify-content: stretch;\n}\n.editor .field label {\n  margin: 0;\n  width: 150px;\n}\n.editor .field input,\n.editor .field select {\n  flex: 2 1;\n  padding-left: 5px;\n}\n.editor .field input[type=\"checkbox\"] {\n  flex: none;\n}\n.editor .jsoneditor {\n  width: calc(100% - 32px);\n  resize: vertical;\n  margin: 16px;\n  height: 250px;\n  border-color: #3f51b5;\n}\n.editor .jsoneditor-readOnly .jsoneditor {\n  border-color: rgba(158, 158, 158, 0.2);\n  height: auto;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_marker-layer .ace_active-line,\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_gutter-active-line {\n  background-color: inherit;\n}\n.editor .jsoneditor-readOnly .ace-jsoneditor .ace_scroller {\n  background-color: rgba(158, 158, 158, 0.1);\n}\n.editor .jsoneditor-readOnly .ace_cursor-layer {\n  display: none;\n}\n.editor .editor-loading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 250px;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 16px;\n}\n.editor .jsoneditor div.jsoneditor-menu {\n  background-color: #3f51b5;\n  border-color: #3f51b5;\n}\n.task-editor .command {\n  cursor: pointer;\n}\n.slide-editor {\n  position: absolute;\n  width: 400px;\n  left: -400px;\n  top: 0;\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n  background: #fafafa;\n  height: 100%;\n  animation: slide-in 0.4s ease;\n  overflow-y: auto;\n}\n@keyframes slide-in {\n  0% {\n    transform: translateX(400px);\n  }\n  100% {\n    transform: translateY(0);\n  }\n}\n.slide-editor .header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  cursor: pointer;\n}\n.slide-editor .header i {\n  padding: 2px 10px;\n  margin: -2px -10px;\n}\n.task-viewer .title,\n.task-viewer .metadata,\n.task-viewer h2,\n.task-viewer .notes,\n.task-viewer .params,\n.task-viewer .checkpoints,\n.task-viewer .code-versions,\n.code-version-viewer .metadata {\n  margin: 10px 16px;\n}\n.task-viewer .title {\n  font-weight: 300;\n  font-size: 20px;\n}\n.task-viewer .title .try-number {\n  background: rgba(158, 158, 158, 0.2);\n  padding: 4px 10px;\n  margin-right: 10px;\n  display: inline-block;\n  line-height: 1;\n  font-size: 18px;\n  vertical-align: top;\n}\n.task-viewer .metadata,\n.task-viewer .params {\n  font-weight: 300;\n}\n.task-viewer .metadata div,\n.task-viewer .params div {\n  margin-bottom: 5px;\n}\n.task-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.task-viewer .metadata div span,\n.task-viewer .params div span {\n  font-weight: 400;\n  display: inline-block;\n  width: 150px;\n}\n.code-version-viewer .metadata {\n  font-weight: 300;\n}\n.code-version-viewer .metadata div {\n  margin-bottom: 10px;\n}\n.code-version-viewer .metadata div:first-child {\n  margin: 10px 0;\n}\n.code-version-viewer .metadata div span {\n  font-weight: 400;\n  display: block;\n  margin-bottom: 5px;\n}\n.code-version-viewer .buttons div:first-child {\n  background: rgba(158, 158, 158, 0.2);\n  color: inherit;\n}\n.task-viewer h2 {\n  font-weight: 300;\n  font-size: 24px;\n}\n.task-viewer .checkpoints {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .checkpoints > div {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n}\n.task-viewer .checkpoints > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .checkpoints > div .action {\n  background: #3f51b5;\n  cursor: pointer;\n  color: white;\n}\n.task-viewer .checkpoints > div .iteration,\n.task-viewer .checkpoints > div .action {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .checkpoints > div .time {\n  font-weight: 300;\n}\n.task-viewer .code-versions {\n  max-height: 300px;\n  overflow: auto;\n}\n.task-viewer .code-versions > div {\n  display: flex;\n  flex-direction: row;\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin-bottom: 5px;\n  align-items: center;\n  cursor: pointer;\n}\n.task-viewer .code-versions > div .iteration {\n  background: rgba(158, 158, 158, 0.2);\n}\n.task-viewer .code-versions > div .iteration {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.task-viewer .code-versions > div .name {\n  font-weight: 300;\n  margin-left: 10px;\n}\n.task-viewer textarea {\n  min-height: 150px;\n  width: 100%;\n}\n.task-viewer .tags-edit {\n  margin-bottom: 15px;\n}\n.task-viewer .tags-edit > div {\n  margin: 0 16px;\n}\n.code-version-viewer {\n  display: flex;\n  flex-direction: column;\n}\n.code-version-viewer .code-versions {\n  overflow: auto;\n}\n.code-version-viewer .code-versions .code-version-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\n.code-version-viewer .code-versions .code-version-row .code-version-branch-arrow {\n  width: 30px;\n  height: 30px;\n  cursor: pointer;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.code-version-viewer .code-versions .code-version {\n  background: rgba(158, 158, 158, 0.1);\n  margin: 5px 0;\n  max-width: 300px;\n  border-radius: 5px;\n  cursor: pointer;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex: 1 1 auto;\n}\n.code-version-viewer .code-versions .code-version.current-code-version {\n  background: #3f51b5;\n  color: white;\n}\n.code-version-viewer .code-versions .code-version .name {\n  background: rgba(0, 0, 0, 0.05);\n  font-weight: 300;\n  padding: 5px 16px;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n.code-version-viewer .code-versions .code-version .time {\n  font-size: 12px;\n  text-align: center;\n  padding: 2px 0;\n}\n.code-version-viewer .code-versions .arrow {\n  text-align: center;\n  font-size: 20px;\n}\n.param-viewer label {\n  display: flex;\n  align-items: center;\n  margin: 10px 16px;\n}\n.param-viewer label input {\n  margin-right: 10px;\n}\n.param-viewer .param-filter {\n  margin: 10px 16px;\n  max-height: none;\n}\n#flash-messages {\n  position: absolute;\n  left: 0;\n  top: 0;\n  z-index: 10;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n}\n#flash-messages .flash-message {\n  opacity: 1;\n  background: #3f51b5;\n  border-radius: 0 2px 2px 0;\n  color: white;\n  padding: 5px 10px;\n  max-width: 400px;\n  display: inline-block;\n  height: 26px;\n  margin-top: 10px;\n  transition: margin 0.4s;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-size: 14px;\n  font-weight: 300;\n}\n#flash-messages .flash-message:hover {\n  opacity: 1;\n}\n#flash-messages .flash-message.level-40 {\n  background: #ef767a;\n}\n#flash-messages .flash-message.level-30 {\n  background: #eeb868;\n}\n#controlbar {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background: rgba(158, 158, 158, 0.4);\n  color: white;\n}\n#controlbar > .container {\n  display: flex;\n  align-items: center;\n  flex-direction: row;\n}\n#controlbar > .container #title {\n  background: #3f51b5;\n  font-size: 24px;\n  padding: 7px 10px;\n  font-weight: 400;\n  border-top: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 0 50px 0 0;\n}\n#controlbar > .container .action {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 14px;\n  background: #3f51b5;\n  margin-right: 10px;\n}\n.param-filter {\n  border: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: none;\n  max-height: 350px;\n  overflow: auto;\n}\n.param-filter .param-name {\n  background: rgba(158, 158, 158, 0.05);\n  padding: 5px 10px;\n  display: flex;\n  overflow: hidden;\n  justify-content: space-between;\n  align-items: center;\n}\n.param-filter .param-name.param-name-selected {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-name i {\n  cursor: pointer;\n}\n.param-filter .param-name.param-name-collapsed {\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-name.param-name-expanded {\n  justify-content: space-between;\n}\n.param-filter .param-name .param-value-hint,\n.param-filter .param-name .all-button {\n  border-radius: 2px;\n  font-weight: 600;\n  padding: 0 5px;\n  background: #ececec;\n}\n.param-filter .param-name .param-value-hint {\n  margin-left: 10px;\n}\n.param-filter .param-name .all-button {\n  cursor: pointer;\n}\n.param-filter .param-name .all-button.all-button-activated {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  border-top: 1px solid rgba(158, 158, 158, 0.2);\n  border-bottom: 1px solid rgba(158, 158, 158, 0.2);\n  overflow-y: auto;\n}\n.param-filter .param-values .param-value {\n  padding: 10px;\n  white-space: nowrap;\n}\n.param-filter .param-values .param-value {\n  background: white;\n  cursor: pointer;\n}\n.param-filter .param-values .param-value-selected.param-value {\n  background: #3f51b5;\n  color: white;\n}\n.param-filter .param-values {\n  display: flex;\n}\n.param-filter .param-values .param-value {\n  border-right: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .param-values .param-value.param-value-default {\n  font-weight: 500;\n}\n.param-filter .param-values .param-value .task-numbers {\n  margin-left: 10px;\n  background: #ededed;\n  border-radius: 2px;\n  color: #1c1c1c;\n  font-weight: 300;\n  padding: 0 2px;\n}\n.param-filter .param-values .param-value input {\n  padding: 0;\n  border: 1px solid rgba(158, 158, 158, 0.2);\n}\n.param-filter .group-header {\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  background: white;\n  font-weight: 300;\n  justify-content: center;\n  font-size: 24px;\n  padding: 0 0 0 16px;\n  text-transform: uppercase;\n}\n.param-viewer > input {\n  width: calc(100% - 32px);\n  margin: 10px 16px;\n  display: flex;\n}\n.param-viewer .table-cols {\n  display: flex;\n}\n.param-viewer .table-cols .table-col {\n  flex: 1 1;\n  margin: 10px;\n}\n.param-viewer .table-cols .table-col .table-col-entry {\n  background: white;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  margin: 5px 0;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  cursor: grab;\n}\n.param-viewer .table-cols .table-col .table-col-dummy {\n  height: 30px;\n  margin: 5px 0;\n}\n.param-viewer .table-cols .table-col .table-col-dummy.on-drag-over,\n.param-viewer .table-cols .table-col .table-col-entry.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n.param-viewer .table-cols .table-col .table-col-entry i {\n  margin-left: 5px;\n  cursor: pointer;\n}\n.param-viewer .table-cols .table-col .table-col-entry div {\n  flex: 2 1;\n}\n.param-viewer .param-filter:empty {\n  border: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul,\n.param-viewer .param-filter ul {\n  padding: 0;\n  margin-bottom: 0;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item,\n.param-viewer .param-filter ul .item {\n  list-style: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header,\n.param-viewer .param-filter ul .item-param .header {\n  height: auto;\n  padding: 5px 10px;\n  background: rgba(158, 158, 158, 0.05);\n  cursor: grab;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over,\n.param-viewer .param-filter ul .item-param.on-drag-over {\n  border: 3px dashed #3f51b5;\n  box-shadow: none;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param.on-drag-over .header,\n.param-viewer .param-filter ul .item-param.on-drag-over .header {\n  visibility: hidden;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .title,\n.param-viewer .param-filter ul .item-param .header .title {\n  font-size: initial;\n  font-weight: initial;\n}\n#project-manager #projects .project .param-viewer .param-filter ul .item-param .header .grip-icon,\n.param-viewer .param-filter ul .item-param .header .grip-icon {\n  height: auto;\n  width: auto;\n}\n.param-viewer .param-filter .tb-link,\n.param-viewer .param-filter .tb-link-active {\n  background: #888888;\n  color: white;\n  border-radius: 2px;\n  padding: 0 3px;\n  font-weight: 500;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  margin-right: 5px;\n  margin-left: 5px;\n}\n.param-viewer .param-filter .fa-arrow-alt-circle-up {\n  margin-right: 5px;\n}\n.param-viewer .param-filter .tb-link-active {\n  background: #F57C00;\n}\n.param-viewer .param-filter .tb-link-icon {\n  margin-right: 5px;\n  color: #F57C00;\n  font-size: 10pt;\n}\n.param-viewer .param-filter {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.tags-edit > div > .value {\n  background: #3f51b5;\n  display: inline-flex;\n  align-items: center;\n  color: white;\n  border-radius: 2px;\n  font-weight: 500;\n  /* box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/\n  font-size: 14px;\n  cursor: pointer;\n  text-decoration: none;\n  padding: 6px 10px;\n  margin-right: 5px;\n  margin-bottom: 5px;\n}\n.tags-edit > div > .value i {\n  margin-left: 7px;\n}\n.tags-edit > div > .value span {\n  /*margin-top: 2px;*/\n}\n.tags-edit {\n  display: flex;\n  align-items: center;\n}\n.tags-edit > label {\n  margin: 0;\n  width: 100px;\n}\n.tags-edit > div {\n  border: 1px solid lightgray;\n  background: white;\n  flex: 1 1;\n  display: flex;\n  flex-wrap: wrap;\n  padding: 5px 5px 0;\n}\n.tags-edit > div > div {\n  flex: 1 1;\n  min-width: 100px;\n  margin-bottom: 5px;\n}\n.tags-edit > div > div > input {\n  border: none;\n  background: transparent;\n  width: 100%;\n  padding-top: 5px;\n  padding-left: 10px;\n}\n.tags-edit > div > div > div > .autocomplete-hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.tags-edit > div > div > div {\n  overflow: auto;\n  max-height: 300px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-bottom: none;\n  background: white;\n  z-index: 100;\n}\n.tags-edit > div > div > div > div {\n  padding: 5px 10px;\n  cursor: pointer;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n}\n", ""]);
 
 
 
@@ -85,7 +85,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! reconnecting-eventsource */ "./node_modules/reconnecting-eventsource/lib/index.js");
 /* harmony import */ var reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _Repository__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Repository */ "./src/Repository.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/App.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/App.js";
 
 
 
@@ -166,6 +166,7 @@ class App extends react__WEBPACK_IMPORTED_MODULE_3___default.a.Component {
       devices: this.state.devices,
       evtSource: this.evtSource,
       repository: this.repository,
+      editTask: task => this.projectManagerRef.current.editTask(task),
       highlightTask: task => this.projectManagerRef.current.highlightTask(task),
       __source: {
         fileName: _jsxFileName,
@@ -217,7 +218,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/CodeVersionViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/CodeVersionViewer.js";
 
 
 
@@ -420,7 +421,7 @@ class CodeVersionViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Com
       }, "Soft reset")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.reassuringHardResetPromptRef,
         header: "Really want to do a hard reset?",
-        text: "Do you really want to remove this parameter value?",
+        text: "Do you really want to do a hard reset? This will move HEAD to this commit and reset all code to its state.",
         url: "/hard_reset/" + this.state.commit_id,
         __source: {
           fileName: _jsxFileName,
@@ -430,7 +431,7 @@ class CodeVersionViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Com
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.reassuringSoftResetPromptRef,
         header: "Really want to do a soft reset?",
-        text: "Do you really want to remove this parameter value?",
+        text: "Do you really want to do a soft reset? This will move HEAD to this commit, but keeps the changes.",
         url: "/soft_reset/" + this.state.commit_id,
         __source: {
           fileName: _jsxFileName,
@@ -463,7 +464,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
 /* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-lazyload */ "./node_modules/react-lazyload/lib/index.js");
 /* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_2__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/CollapsedTasks.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/CollapsedTasks.js";
 
 
 
@@ -508,6 +509,7 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PausedTask__WEBPACK_IMPORTED_MODULE_1__["default"], {
         uuid: tasks[0].uuid,
         rerunTask: this.props.rerunTask,
+        editTask: this.props.editTask,
         task: tasks[0].task,
         metrics: tasks[0].metrics,
         name: !this.state.collapsed ? tasks[0].collapsed_name === undefined ? tasks[0].name : tasks[0].name.slice(0, -1).concat(tasks[0].collapsed_name, tasks[0].name.slice(-1)) : tasks[0].name,
@@ -526,33 +528,33 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
         onClick: this.toggleCollapsed,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 42
+          lineNumber: 43
         },
         __self: this
       }, this.state.collapsed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 45
+          lineNumber: 46
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-angle-double-down",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 45
+          lineNumber: 46
         },
         __self: this
       }), " ", "Expand (" + (tasks.length - 1) + ")") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 47
+          lineNumber: 48
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-angle-double-up",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 47
+          lineNumber: 48
         },
         __self: this
       }), " Collapse")), !this.state.collapsed && tasks.slice(1).map(task => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -564,7 +566,7 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
         overflow: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 51
+          lineNumber: 52
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PausedTask__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -581,7 +583,7 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
         collapsed: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 52
+          lineNumber: 53
         },
         __self: this
       }))));
@@ -608,7 +610,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ConfigEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ConfigEditor.js";
 
 
 
@@ -730,7 +732,7 @@ class ConfigEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ControlBar.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ControlBar.js";
 
 
 class ControlBar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -824,7 +826,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Device.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Device.js";
 
 
 
@@ -935,6 +937,7 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       __self: this
     }, "Idle"), this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING).map((task, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      editTask: this.props.editTask,
       key: task.uuid,
       task: task,
       index: index,
@@ -948,7 +951,7 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       className: "queue-header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
+        lineNumber: 88
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -956,40 +959,41 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onClick: this.toggleQueue,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 88
+        lineNumber: 89
       },
       __self: this
     }, this.state.showQueue ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-minus",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 90
+        lineNumber: 91
       },
       __self: this
     }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-plus",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 92
+        lineNumber: 93
       },
       __self: this
     })), "Waiting (", this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED).length, ")"), this.state.showQueue && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "tasks tasks-queued",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 98
+        lineNumber: 99
       },
       __self: this
     }, this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED).sort(function (a, b) {
       return a.queue_index - b.queue_index;
     }).map((task, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      editTask: this.props.editTask,
       key: task.uuid,
       task: task,
       index: index,
       highlightTask: this.props.highlightTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 102
+        lineNumber: 103
       },
       __self: this
     })))));
@@ -1012,7 +1016,7 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/FlashMessageManager.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/FlashMessageManager.js";
 
 
 class FlashMessage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1178,7 +1182,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
 /* harmony import */ var _CollapsedTasks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CollapsedTasks */ "./src/CollapsedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/GroupedTasks.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/GroupedTasks.js";
 
 
 
@@ -1212,6 +1216,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           tasks: tasks,
           key: tasks[0] !== null ? tasks[0].uuid : i,
           rerunTask: this.props.rerunTask,
+          editTask: this.props.editTask,
           showTask: this.props.showTask,
           filterLikeTask: this.props.filterLikeTask,
           devices: this.props.devices,
@@ -1229,7 +1234,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           className: "param-group",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 51
+            lineNumber: 52
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1237,40 +1242,41 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           onClick: () => this.toggleCollapsed(group),
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 52
+            lineNumber: 53
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "title",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 53
+            lineNumber: 54
           },
           __self: this
         }, !(group in this.state.collapsed) || !this.state.collapsed[group] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-caret-down",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 56
+            lineNumber: 57
           },
           __self: this
         }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-caret-right",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 58
+            lineNumber: 59
           },
           __self: this
         }), group)), (!(group in this.state.collapsed) || !this.state.collapsed[group]) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-tasks",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 64
+            lineNumber: 65
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupedTasks, {
           tasks: this.props.tasks[group],
           rerunTask: this.props.rerunTask,
+          editTask: this.props.editTask,
           showTask: this.props.showTask,
           filterLikeTask: this.props.filterLikeTask,
           devices: this.props.devices,
@@ -1278,7 +1284,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           highlightedTask: this.props.highlightedTask,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 65
+            lineNumber: 66
           },
           __self: this
         }))));
@@ -1321,7 +1327,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var brace__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(brace__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! brace/mode/json */ "./node_modules/brace/mode/json.js");
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(brace_mode_json__WEBPACK_IMPORTED_MODULE_8__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/JsonEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/JsonEditor.js";
 
 
 
@@ -1573,7 +1579,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/MetricsViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/MetricsViewer.js";
 
 
 
@@ -1683,7 +1689,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ParamValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamValue */ "./src/ParamValue.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Param.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Param.js";
 
 
 
@@ -1944,7 +1950,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamBatchEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamBatchEditor.js";
 
 
 
@@ -2054,7 +2060,7 @@ class ParamBatchEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamEditor.js";
 
 
 class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -2311,7 +2317,7 @@ class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamFilter.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamFilter.js";
 
 
 class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -2713,7 +2719,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamGroup.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamGroup.js";
 
 
 
@@ -2793,7 +2799,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamSelection.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamSelection.js";
 
 
 
@@ -2984,7 +2990,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamValueEditor */ "./src/ParamValueEditor.js");
 /* harmony import */ var _ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamBatchEditor */ "./src/ParamBatchEditor.js");
 /* harmony import */ var _ParamGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ParamGroup */ "./src/ParamGroup.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamTab.js";
 
 
 
@@ -3179,7 +3185,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValue.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValue.js";
 
 
 
@@ -3380,7 +3386,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValueEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValueEditor.js";
 
 
 
@@ -3796,7 +3802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamFilter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamFilter */ "./src/ParamFilter.js");
 /* harmony import */ var _ParamSelection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamSelection */ "./src/ParamSelection.js");
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamViewer.js";
 
 
 
@@ -4597,7 +4603,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
 /* harmony import */ var _GroupedTasks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GroupedTasks */ "./src/GroupedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/PausedTask.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/PausedTask.js";
 
 
 
@@ -4894,18 +4900,34 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
-        onClick: () => this.props.rerunTask(this.props.task),
-        title: "Run new task with the exact same config",
+        onClick: () => this.props.editTask(this.props.task),
+        title: "Edit the task config",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 184
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-redo",
+        className: "fas fa-pencil-alt",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 185
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "action",
+        onClick: () => this.props.rerunTask(this.props.task),
+        title: "Run new task with the exact same config",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 187
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-redo",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 188
         },
         __self: this
       })), !this.props.task.is_test && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4914,14 +4936,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         title: "Filter for similar tasks",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 188
+          lineNumber: 191
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-sliders-h",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 189
+          lineNumber: 192
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4930,14 +4952,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         title: "Clone task",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 192
+          lineNumber: 195
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-copy",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 193
+          lineNumber: 196
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4946,14 +4968,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         title: "View log",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 195
+          lineNumber: 198
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-file-alt",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 196
+          lineNumber: 199
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4962,14 +4984,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         title: "Create checkpoint",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 198
+          lineNumber: 201
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-flag",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 199
+          lineNumber: 202
         },
         __self: this
       })), this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING && this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4978,14 +5000,14 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         title: "Remove task",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 202
+          lineNumber: 205
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-trash-alt",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 203
+          lineNumber: 206
         },
         __self: this
       }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -4997,7 +5019,7 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         url: "/continue/" + this.props.task.uuid,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 210
+          lineNumber: 213
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -5007,7 +5029,7 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         url: "/remove_task/" + this.props.task.uuid,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 211
+          lineNumber: 214
         },
         __self: this
       }));
@@ -5017,7 +5039,7 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
         className: "item item-task item-task-loading",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
+          lineNumber: 219
         },
         __self: this
       }, "Loading...");
@@ -5045,7 +5067,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskTab */ "./src/TaskTab.js");
 /* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamViewer */ "./src/ParamViewer.js");
 /* harmony import */ var _TaskContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TaskContainer */ "./src/TaskContainer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Project.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Project.js";
 
 
 
@@ -5157,17 +5179,31 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   filterLikeTask(task) {
-    const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
+    const selectedParamValues = {};
 
     for (const param of this.state.params) {
-      let value = this.filterView.getValueToParam(task, param);
-      selectedParamValues[param.uuid] = [[value[0].uuid, ...value[1]]];
+      let suitableParamValue = null;
+      let args = [];
+
+      for (const value of task.paramValues["0"]) {
+        if (value[0].param === param.uuid) {
+          suitableParamValue = value[0];
+          args = value.slice(1);
+          break;
+        }
+      }
+
+      if (suitableParamValue === null) selectedParamValues[param.uuid] = [[param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated]];else selectedParamValues[param.uuid] = [[suitableParamValue.uuid, ...args]];
     }
 
     this.setState({
       selectedParamValues: selectedParamValues
     }, () => this.filterHasUpdated());
     this.openParamViewer();
+  }
+
+  editTask(task) {
+    this.taskTabRef.current.editTask(task);
   }
 
   openParamViewer() {
@@ -5201,14 +5237,14 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       className: "project",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 150
+        lineNumber: 165
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 151
+        lineNumber: 166
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5216,7 +5252,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: () => this.showTab(0),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 152
+        lineNumber: 167
       },
       __self: this
     }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5224,20 +5260,20 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: () => this.showTab(1),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 153
+        lineNumber: 168
       },
       __self: this
     }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 155
+        lineNumber: 170
       },
       __self: this
     }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 157
+        lineNumber: 172
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -5245,19 +5281,19 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       className: "fas fa-sort",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 158
+        lineNumber: 173
       },
       __self: this
     })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 162
+        lineNumber: 177
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 163
+        lineNumber: 178
       },
       __self: this
     }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -5265,42 +5301,42 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onChange: this.onChangeSorting,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 164
+        lineNumber: 179
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "saved",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 165
+        lineNumber: 180
       },
       __self: this
     }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "name",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 166
+        lineNumber: 181
       },
       __self: this
     }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "created",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 167
+        lineNumber: 182
       },
       __self: this
     }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "iterations",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 168
+        lineNumber: 183
       },
       __self: this
     }, "Iterations"), this.state.metric_superset.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: col,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 170
+        lineNumber: 185
       },
       __self: this
     }, col))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -5308,7 +5344,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       className: this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 173
+        lineNumber: 188
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -5316,7 +5352,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: this.openParamViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 175
+        lineNumber: 190
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -5324,7 +5360,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onClick: this.filterHasUpdated,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 177
+        lineNumber: 192
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -5335,20 +5371,20 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       }),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 178
+        lineNumber: 193
       },
       __self: this
     }))), this.state.showSearchBar && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "search-bar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 183
+        lineNumber: 198
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 184
+        lineNumber: 199
       },
       __self: this
     }, "Search:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -5357,7 +5393,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onChange: this.handleSearchValueChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 185
+        lineNumber: 200
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5368,7 +5404,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       params: this.state.params,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 188
+        lineNumber: 203
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5388,7 +5424,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       initialized: this.state.taskTabInitialized,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 195
+        lineNumber: 210
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -5426,7 +5462,7 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       toggleCollapse: this.toggleCollapse,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
+        lineNumber: 226
       },
       __self: this
     }));
@@ -5452,7 +5488,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Project__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Project */ "./src/Project.js");
 /* harmony import */ var _CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CodeVersionViewer */ "./src/CodeVersionViewer.js");
 /* harmony import */ var _TaskViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskViewer */ "./src/TaskViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ProjectManager.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ProjectManager.js";
 
 
 
@@ -5541,26 +5577,30 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
     }, error => {});
   }
 
+  editTask(task) {
+    this.projectRef.current.editTask(task);
+  }
+
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "project-manager",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 100
+        lineNumber: 104
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "projects-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 101
+        lineNumber: 105
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       id: "project-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 102
+        lineNumber: 106
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5569,7 +5609,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       onClick: () => this.openCodeVersionViewer(this.state.current_commit_id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 103
+        lineNumber: 107
       },
       __self: this
     }, this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0, 7)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5578,14 +5618,14 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       title: "Reload tasks",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 104
+        lineNumber: 108
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-sync-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
+        lineNumber: 109
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -5594,21 +5634,21 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       target: "_blank",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
+        lineNumber: 111
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-table",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
+        lineNumber: 112
       },
       __self: this
     })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "projects",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 112
+        lineNumber: 116
       },
       __self: this
     }, this.state.refreshRate !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Project__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5626,7 +5666,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       tensorboard_ports: this.state.tensorboard_ports,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 114
+        lineNumber: 118
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5634,7 +5674,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       updateView: () => this.projectRef.current.filterHasUpdated(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 130
+        lineNumber: 134
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -5646,7 +5686,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       openCodeVersionViewer: this.openCodeVersionViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 134
+        lineNumber: 138
       },
       __self: this
     }));
@@ -5670,7 +5710,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Prompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Prompt.js";
 
 
 
@@ -5697,15 +5737,19 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       dialogOpen: false
     });
 
-    if (this.props.paramEditor) {
-      var data = new FormData();
-      data.append("data", JSON.stringify(this.configEditor.current.state.config));
-      fetch(this.props.url, {
-        method: "POST",
-        body: data
-      }).then(res => res.json()).then(result => {}, error => {});
+    if (this.props.url) {
+      if (this.props.paramEditor) {
+        var data = new FormData();
+        data.append("data", JSON.stringify(this.configEditor.current.state.config));
+        fetch(this.props.url, {
+          method: "POST",
+          body: data
+        }).then(res => res.json()).then(result => {}, error => {});
+      } else {
+        fetch(this.props.url + (this.props.devices ? "/" + this.state.device : "") + "/" + this.state.inputValue).then(res => res.json()).then(result => {}, error => {});
+      }
     } else {
-      fetch(this.props.url + (this.props.devices ? "/" + this.state.device : "") + "/" + this.state.inputValue).then(res => res.json()).then(result => {}, error => {});
+      this.props.onSend(this.state.inputValue);
     }
   }
 
@@ -5758,28 +5802,28 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         className: "prompt-wrapper",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 104
+          lineNumber: 108
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.props.paramEditor ? 'prompt param-prompt' : 'prompt',
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 105
+          lineNumber: 109
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 106
+          lineNumber: 110
         },
         __self: this
       }, this.props.header), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-text",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 107
+          lineNumber: 111
         },
         __self: this
       }, this.props.text), !this.props.paramEditor && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -5794,7 +5838,7 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         onKeyDown: this.onKeyDown,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 109
+          lineNumber: 113
         },
         __self: this
       }), this.props.paramEditor && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5802,7 +5846,7 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         url: this.props.paramEditorUrl,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 112
+          lineNumber: 116
         },
         __self: this
       }), this.props.devices && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -5810,35 +5854,35 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         onChange: this.onDeviceChange,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 115
+          lineNumber: 119
         },
         __self: this
       }, this.props.devices.map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: device.uuid,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 117
+          lineNumber: 121
         },
         __self: this
       }, device.name))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 121
+          lineNumber: 125
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.start,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 122
+          lineNumber: 126
         },
         __self: this
       }, "Ok"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.closeDialog,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 123
+          lineNumber: 127
         },
         __self: this
       }, "Cancel"))));
@@ -5864,7 +5908,7 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ReassuringPrompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ReassuringPrompt.js";
 
 
 class ReassuringPrompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -6044,7 +6088,8 @@ class Repository {
       const changedTask = JSON.parse(e.data);
       changedTask.creation_time = new Date(changedTask.creation_time * 1000);
       changedTask.saved_time = new Date(changedTask.saved_time * 1000);
-      changedTask.paramValues = changedTask.paramValues.map(e => [this.paramValues[e[0]]].concat(e.slice(1)));
+
+      for (let iteration in changedTask.paramValues) changedTask.paramValues[iteration] = changedTask.paramValues[iteration].map(e => [this.paramValues[e[0]]].concat(e.slice(1)));
 
       for (let checkpoint of changedTask.checkpoints) {
         checkpoint.time = new Date(checkpoint.time * 1000);
@@ -6161,7 +6206,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Device__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Device */ "./src/Device.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Scheduler.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Scheduler.js";
 
 
 
@@ -6298,6 +6343,7 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       __self: this
     }), this.props.devices.filter(this.shouldShowDevice).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
       device: device,
+      editTask: this.props.editTask,
       tasks: this.state.tasks.filter(task => task.device === device.uuid),
       hideDevice: this.hideDevice,
       highlightTask: this.props.highlightTask,
@@ -6333,9 +6379,9 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-autocomplete */ "./node_modules/react-autocomplete/build/lib/Autocomplete.js");
+/* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-autocomplete */ "../../node_modules/react-autocomplete/build/lib/Autocomplete.js");
 /* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_autocomplete__WEBPACK_IMPORTED_MODULE_1__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TagsEdit.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TagsEdit.js";
 
 
 
@@ -6502,7 +6548,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Task.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Task.js";
 
 
 
@@ -6753,7 +6799,7 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       __self: this
     }, "Save now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
-      onClick: this.openExtraDialog,
+      onClick: () => this.props.editTask(this.props.task),
       title: "Change the scheduled number of total iterations",
       __source: {
         fileName: _jsxFileName,
@@ -6773,7 +6819,7 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         lineNumber: 221
       },
       __self: this
-    }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, "Edit")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
       __source: {
         fileName: _jsxFileName,
@@ -7143,6 +7189,7 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       __self: this
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskToolbar, {
       task: this.props.task,
+      editTask: this.props.editTask,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 347
@@ -7535,7 +7582,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _TagsEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsEdit */ "./src/TagsEdit.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskEditor.js";
+/* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskEditor.js";
+
 
 
 
@@ -7545,10 +7594,12 @@ var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskEditor.j
 class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   constructor(props) {
     super(props);
-    let selectedParamValues = {};
+    let selectedParamValues = {
+      0: {}
+    };
 
     for (const param of props.params) {
-      if (param.values.length > 0) selectedParamValues[param.uuid] = [param.values[0].uuid];
+      if (param.values.length > 0) selectedParamValues[0][param.uuid] = [param.values[0].uuid];
     }
 
     this.state = {
@@ -7563,11 +7614,14 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       isTest: false,
       device: null,
       tags: [],
-      paramVisibility: {}
+      paramVisibility: {},
+      current_iteration: 0,
+      edit_task: null
     };
     this.configEditor = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.save = this.save.bind(this);
     this.run = this.run.bind(this);
     this.new = this.new.bind(this);
     this.onSelectionChange = this.onSelectionChange.bind(this);
@@ -7578,50 +7632,67 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     this.onIsTestChange = this.onIsTestChange.bind(this);
     this.onDeviceChange = this.onDeviceChange.bind(this);
     this.onParamVisibilityChanged = this.onParamVisibilityChanged.bind(this);
+    this.addIteration = this.addIteration.bind(this);
+    this.removeIteration = this.removeIteration.bind(this);
+    this.changeIteration = this.changeIteration.bind(this);
     this.updateTags = this.updateTags.bind(this);
     this.wrapperRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.commandInput = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    this.promptNewIterRefs = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
   }
 
-  open(task) {
-    let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
+  open(task, edit_task = null) {
+    let selectedParamValues = {};
 
-    for (const param of this.props.params) {
-      if (param.values.length > 0) {
-        let suitableParamValue = null;
-        let args = [];
+    for (const iteration in task.paramValues) {
+      selectedParamValues[iteration] = {};
 
-        for (const value of task.paramValues) {
-          if (value[0].param === param.uuid) {
-            suitableParamValue = value[0];
-            args = value.slice(1);
-            break;
+      for (const param of this.props.params) {
+        if (param.values.length > 0) {
+          let suitableParamValue = null;
+          let args = [];
+
+          for (const value of task.paramValues[iteration]) {
+            if (value[0].param === param.uuid) {
+              suitableParamValue = value[0];
+              args = value.slice(1);
+              break;
+            }
           }
-        }
 
-        if (suitableParamValue === null) selectedParamValues[param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];else selectedParamValues[param.uuid] = [suitableParamValue.uuid, ...args];
+          if (suitableParamValue === null) selectedParamValues[iteration][param.uuid] = [param.deprecated_param_value.uuid, ...param.deprecated_param_value.template_deprecated];else selectedParamValues[iteration][param.uuid] = [suitableParamValue.uuid, ...args];
+        }
       }
     }
 
     this.setState({
+      edit_task: edit_task,
       selectedParamValues: selectedParamValues,
       open: true,
       isTest: task.is_test,
       device: this.state.device === null ? this.props.devices[0].uuid : this.state.device,
-      total_iterations: task.total_iterations
+      total_iterations: task.total_iterations,
+      save_interval: task.save_interval,
+      checkpoint_interval: task.checkpoint_interval
     }, () => this.updateCommand(selectedParamValues));
+  }
+
+  edit(task) {
+    this.open(task, task.uuid);
   }
 
   new() {
     let selectedParamValues = Object.assign({}, this.state.selectedParamValues);
+    selectedParamValues["0"] = Object.assign({}, selectedParamValues["0"]);
 
     for (const param of this.props.params) {
-      if (!(param.uuid in selectedParamValues) && param.values.length > 0) selectedParamValues[param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
+      if (!(param.uuid in selectedParamValues["0"]) && param.values.length > 0) selectedParamValues["0"][param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
     }
 
     this.setState({
       selectedParamValues: selectedParamValues,
       open: true,
+      edit_task: null,
       device: this.state.device === null ? this.props.devices[0].uuid : this.state.device
     });
     this.updateCommand(selectedParamValues);
@@ -7638,9 +7709,13 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     var data = new FormData();
     let visibleParams = {};
 
-    for (const param of this.props.params) {
-      if (param.uuid in this.state.selectedParamValues && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
-        visibleParams[param.uuid] = this.state.selectedParamValues[param.uuid];
+    for (const iteration in this.state.selectedParamValues) {
+      visibleParams[iteration] = {};
+
+      for (const param of this.props.params) {
+        if (param.uuid in this.state.selectedParamValues[iteration] && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
+          visibleParams[iteration][param.uuid] = this.state.selectedParamValues[iteration][param.uuid];
+        }
       }
     }
 
@@ -7661,10 +7736,40 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     this.close();
   }
 
+  save() {
+    var data = new FormData();
+    let visibleParams = {};
+
+    for (const iteration in this.state.selectedParamValues) {
+      visibleParams[iteration] = {};
+
+      for (const param of this.props.params) {
+        if (param.uuid in this.state.selectedParamValues[iteration] && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
+          visibleParams[iteration][param.uuid] = this.state.selectedParamValues[iteration][param.uuid];
+        }
+      }
+    }
+
+    var dataJson = {};
+    dataJson['params'] = visibleParams;
+    dataJson['config'] = {
+      "save_interval": parseInt(this.state.save_interval),
+      "checkpoint_interval": parseInt(this.state.checkpoint_interval)
+    };
+    data.append("data", JSON.stringify(dataJson));
+    var url = "/edit_task/" + this.state.edit_task + "/" + this.state.total_iterations;
+    fetch(url, {
+      method: "POST",
+      body: data
+    }).then(res => res.json()).then(result => {}, error => {});
+    this.close();
+  }
+
   onSelectionChange(param, value, arg = []) {
     const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
-    selectedParamValues[param.uuid] = [value.uuid];
-    selectedParamValues[param.uuid] = selectedParamValues[param.uuid].concat(arg);
+    selectedParamValues[this.state.current_iteration] = Object.assign({}, selectedParamValues[this.state.current_iteration]);
+    selectedParamValues[this.state.current_iteration][param.uuid] = [value.uuid];
+    selectedParamValues[this.state.current_iteration][param.uuid] = selectedParamValues[this.state.current_iteration][param.uuid].concat(arg);
     this.setState({
       selectedParamValues: selectedParamValues
     });
@@ -7695,13 +7800,15 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     if (total_iterations === null) total_iterations = this.state.total_iterations;
     let paramValues = "";
 
-    for (const param of this.props.params) {
-      if (param.uuid in selectedParamValues && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
-        paramValues += param.uuid + " " + selectedParamValues[param.uuid][0];
+    for (const iteration in this.state.selectedParamValues) {
+      for (const param of this.props.params) {
+        if (param.uuid in selectedParamValues[iteration] && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
+          paramValues += iteration + ";" + param.uuid + " " + selectedParamValues[iteration][param.uuid][0];
 
-        for (let i = 1; i < selectedParamValues[param.uuid].length; i++) paramValues += ":'" + selectedParamValues[param.uuid][i] + "'";
+          for (let i = 1; i < selectedParamValues[iteration][param.uuid].length; i++) paramValues += ":'" + selectedParamValues[iteration][param.uuid][i] + "'";
 
-        paramValues += " ";
+          paramValues += " ";
+        }
       }
     }
 
@@ -7762,6 +7869,39 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     });
   }
 
+  addIteration(newIteration) {
+    const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
+    selectedParamValues[newIteration] = {};
+
+    for (const param of this.props.params) {
+      selectedParamValues[newIteration][param.uuid] = [param.default_param_value.uuid, ...param.default_param_value.template_defaults];
+    }
+
+    this.setState({
+      selectedParamValues: selectedParamValues,
+      current_iteration: newIteration
+    });
+  }
+
+  removeIteration(e, iteration) {
+    e.stopPropagation();
+    if (iteration === 0) return;
+    const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
+    delete selectedParamValues[iteration];
+    this.setState({
+      current_iteration: 0,
+      selectedParamValues: selectedParamValues
+    });
+  }
+
+  changeIteration(iteration) {
+    if (iteration in this.state.selectedParamValues) {
+      this.setState({
+        current_iteration: iteration
+      });
+    }
+  }
+
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       ref: this.wrapperRef,
@@ -7770,42 +7910,42 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 256
+        lineNumber: 362
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "task-editor slide-editor editor",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 257
+        lineNumber: 363
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 364
       },
       __self: this
-    }, "Start task", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    }, this.state.edit_task === null ? "Start task" : "Edit task", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       onClick: this.close,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
+        lineNumber: 364
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 259
+        lineNumber: 365
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 260
+        lineNumber: 366
       },
       __self: this
     }, "Total iterations:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -7814,20 +7954,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 261
+        lineNumber: 367
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 263
+        lineNumber: 369
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 264
+        lineNumber: 370
       },
       __self: this
     }, "Save interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -7836,20 +7976,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 265
+        lineNumber: 371
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 267
+        lineNumber: 373
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 268
+        lineNumber: 374
       },
       __self: this
     }, "Checkpoint interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -7858,20 +7998,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       required: "required",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 269
+        lineNumber: 375
       },
       __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    })), this.state.edit_task === null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 271
+        lineNumber: 378
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 272
+        lineNumber: 379
       },
       __self: this
     }, "Is test:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -7880,19 +8020,61 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       type: "checkbox",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 273
+        lineNumber: 380
+      },
+      __self: this
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "iterations",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 383
+      },
+      __self: this
+    }, Object.keys(this.state.selectedParamValues).map(iteration => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "iteration " + (iteration == this.state.current_iteration ? "iteration-current" : ""),
+      onClick: () => this.changeIteration(iteration),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 385
+      },
+      __self: this
+    }, iteration, " ", iteration > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-times",
+      onClick: e => this.removeIteration(e, iteration),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 385
+      },
+      __self: this
+    }), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "new-iteration",
+      onClick: () => this.promptNewIterRefs.current.openDialog(),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 387
+      },
+      __self: this
+    }, "+"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      ref: this.promptNewIterRefs,
+      defaultValue: "",
+      header: "New iteration?",
+      text: "New iteration",
+      onSend: this.addIteration,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 388
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_2__["default"], {
       selectMultiple: false,
       paramsByGroup: this.props.paramsByGroup,
-      selectedParamValues: this.state.selectedParamValues,
+      selectedParamValues: this.state.selectedParamValues[this.state.current_iteration],
       toggleSelection: this.onSelectionChange,
       useTemplateFields: true,
-      paramVisibility: this.state.paramVisibility,
+      paramVisibility: this.state.paramVisibility[this.state.current_iteration],
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 275
+        lineNumber: 390
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -7903,20 +8085,26 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       preview: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 276
+        lineNumber: 391
       },
       __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }), this.state.edit_task === null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 393
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 277
+        lineNumber: 394
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 278
+        lineNumber: 395
       },
       __self: this
     }, "Device:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -7924,27 +8112,27 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       onChange: this.onDeviceChange,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 279
+        lineNumber: 396
       },
       __self: this
     }, this.props.devices.map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: device.uuid,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 281
+        lineNumber: 398
       },
       __self: this
     }, device.name)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 285
+        lineNumber: 402
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 286
+        lineNumber: 403
       },
       __self: this
     }, "Command:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -7958,20 +8146,20 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       readOnly: true,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 287
+        lineNumber: 404
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 289
+        lineNumber: 406
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 290
+        lineNumber: 407
       },
       __self: this
     }, "Tags:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagsEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -7980,24 +8168,31 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       updateTags: this.updateTags,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 291
+        lineNumber: 408
       },
       __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 293
+        lineNumber: 412
       },
       __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, this.state.edit_task === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.run,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 294
+        lineNumber: 414
       },
       __self: this
-    }, "Run"))));
+    }, "Run") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      onClick: this.save,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 416
+      },
+      __self: this
+    }, "Save"))));
   }
 
 }
@@ -8021,7 +8216,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskEditor */ "./src/TaskEditor.js");
 /* harmony import */ var _CollapsedTasks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollapsedTasks */ "./src/CollapsedTasks.js");
 /* harmony import */ var _GroupedTasks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GroupedTasks */ "./src/GroupedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskTab.js";
 
 
 
@@ -8034,6 +8229,7 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.state = {};
     this.newTask = this.newTask.bind(this);
     this.rerunTask = this.rerunTask.bind(this);
+    this.editTask = this.editTask.bind(this);
     this.closeEditors = this.closeEditors.bind(this);
     this.paramValueToName = this.paramValueToName.bind(this);
     this.taskEditor = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
@@ -8053,6 +8249,11 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.taskEditor.current.open(task);
   }
 
+  editTask(task) {
+    this.props.closeViewer();
+    this.taskEditor.current.edit(task);
+  }
+
   paramValueToName(paramValue) {
     let paramValueName = paramValue[1].name;
 
@@ -8069,19 +8270,20 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 42
+        lineNumber: 48
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "tasks-tab",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 43
+        lineNumber: 49
       },
       __self: this
     }, this.props.initialized && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_GroupedTasks__WEBPACK_IMPORTED_MODULE_4__["default"], {
       tasks: this.props.tasks,
       rerunTask: this.rerunTask,
+      editTask: this.editTask,
       showTask: this.props.showTask,
       filterLikeTask: this.props.filterLikeTask,
       devices: this.props.devices,
@@ -8089,7 +8291,7 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       highlightedTask: this.props.highlightedTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 45
+        lineNumber: 51
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -8100,34 +8302,34 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       paramsByGroup: this.props.paramsByGroup,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 56
+        lineNumber: 63
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 57
+        lineNumber: 64
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 58
+        lineNumber: 65
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 60
+        lineNumber: 67
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.newTask,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 61
+        lineNumber: 68
       },
       __self: this
     }, "New task"))));
@@ -8155,7 +8357,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _TagsEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsEdit */ "./src/TagsEdit.js");
 /* harmony import */ var _MetricsViewer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MetricsViewer */ "./src/MetricsViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskViewer.js";
 
 
 
@@ -8200,7 +8402,7 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
           let suitableParamValue = null;
           let args = [];
 
-          for (const value of task.paramValues) {
+          for (const value of task.paramValues["0"]) {
             if (value[0].param === param.uuid) {
               suitableParamValue = value[0];
               args = value.slice(1);
@@ -8932,7 +9134,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/index.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/index.js";
 
 
 
@@ -8985,11 +9187,11 @@ if (content.locals) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
-module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/src/index.js */"./src/index.js");
+__webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
+module.exports = __webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/src/index.js */"./src/index.js");
 
 
 /***/ })
 
-},[[0,"runtime~main",1]]]);
+},[[0,"runtime~main",0]]]);
 //# sourceMappingURL=main.chunk.js.map

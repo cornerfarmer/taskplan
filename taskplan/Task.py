@@ -58,8 +58,10 @@ class Task(object):
             msg_type, arg = self.pipe.recv()
 
             if msg_type == PipeMsg.CONFIG_CHANGED:
-                arg.set_logger(self.config.logger, self.config.printed_settings)
+                printed_settings = self.config.config.printed_settings
                 self.config = arg
+                self.pipe.send(PipeMsg.CONFIG_CHANGED, self.config)
+                self.config.set_logger(self.logger.get_with_module('config'), printed_settings)
             elif msg_type == PipeMsg.TOTAL_ITERATIONS:
                 if self.finished_iterations + 1 <= arg:
                     self.total_iterations = arg
@@ -81,13 +83,13 @@ class Task(object):
   
     def run(self, save_func, checkpoint_func):
         tensorboard_writer = self._create_tensorboard_writer(str(self.task_dir))
-        save_interval = self.config.get_int('save_interval')
-        checkpoint_interval = self.config.get_int('checkpoint_interval')
 
         last_t = time.time()
         self.start()
         while self.finished_iterations < self.total_iterations:
             self.receive_updates()
+            save_interval = self.config.get_int('save_interval')
+            checkpoint_interval = self.config.get_int('checkpoint_interval')
 
             self.config.iteration_cursor = self.finished_iterations
 
