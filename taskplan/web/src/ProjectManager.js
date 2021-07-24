@@ -30,7 +30,6 @@ class ProjectManager extends React.Component {
             const data = JSON.parse(e.data);
             this.setState({
                 current_commit_id: data.current_commit_id,
-                saved_filters: data.saved_filters,
                 views: data.views,
                 tensorboard_ports: data.tensorboard_ports,
                 allTags: data.all_tags,
@@ -122,7 +121,6 @@ class ProjectManager extends React.Component {
                             closeViewer={this.closeViewer}
                             highlightedTask={this.state.detailTaskUuid}
                             devices={this.props.devices}
-                            saved_filters={this.state.saved_filters}
                             views={this.state.views}
                             allTags={this.state.allTags}
                             codeVersions={this.state.codeVersions}

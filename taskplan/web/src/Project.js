@@ -45,7 +45,7 @@ class Project extends TaskContainer {
         this.taskTabRef = React.createRef();
     }
 
-    addView(path) {
+    addView(name) {
         var data = new FormData();
         var dataJson = {};
         dataJson['filter'] = this.state.selectedParamValues;
@@ -54,7 +54,8 @@ class Project extends TaskContainer {
         dataJson['group'] = this.state.groupedParams;
         dataJson['param_sorting'] = this.state.paramSorting;
         dataJson['sorting_tasks'] = this.state.sorting_tasks;
-        dataJson['path'] = path;
+        dataJson['name'] = name;
+        dataJson['path'] = null;
         dataJson['version_in_name'] = this.state.versionInName;
         dataJson['force_param_in_name'] = this.state.forceParamInName;
         dataJson['collapse_enabled'] = this.state.collapseEnabled;
@@ -241,7 +242,6 @@ class Project extends TaskContainer {
                     removeParamGroup={this.removeParamGroup}
                     saveFilter={this.saveFilter}
                     loadFilter={this.loadFilter}
-                    saved_filters={this.props.saved_filters}
                     views={this.props.views}
                     addView={this.addView}
                     paramSorting={this.state.paramSorting}

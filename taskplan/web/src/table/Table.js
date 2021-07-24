@@ -85,7 +85,6 @@ class Table extends TaskContainer {
                     removeParamGroup={this.removeParamGroup}
                     saveFilter={this.saveFilter}
                     loadFilter={this.loadFilter}
-                    saved_filters={this.props.saved_filters}
                     open={true}
                     style={{"position": "static"}}
                     hideViews={true}

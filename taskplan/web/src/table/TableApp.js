@@ -16,7 +16,6 @@ class TableApp extends React.Component {
         this.state = {
             noConnection: true,
             devices: [],
-            saved_filters: [],
             refreshRate: null
         };
 
@@ -35,7 +34,6 @@ class TableApp extends React.Component {
             const data = JSON.parse(e.data);
             this.setState({
                // current_code_version: data.current_code_version,
-                saved_filters: data.saved_filters,
                // tensorboard_port: data.tensorboard_port,
                 refreshRate: parseInt(data.refreshRate),
                 allTags: data.all_tags,
@@ -56,7 +54,6 @@ class TableApp extends React.Component {
                         {this.state.refreshRate !== null &&
                             <Table
                                 repository={this.repository}
-                                saved_filters={this.state.saved_filters}
                                 allTags={this.state.allTags}
                                 refreshRate={this.state.refreshRate}
                             />

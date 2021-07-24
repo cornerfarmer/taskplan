@@ -82,11 +82,13 @@ class ParamFilterParam extends React.Component {
                             All
                         </span>
                         :
-                        this.getSelectedValues().map(paramValue =>
-                            <span className="param-value-hint">
-                                {paramValue}
-                            </span>
-                        )
+                        <span className="param-value-hints">
+                            {this.getSelectedValues().map(paramValue =>
+                                <span className="param-value-hint">
+                                    {paramValue}
+                                </span>
+                            )}
+                        </span>
                     }
                 </div>
                 {this.props.expanded &&

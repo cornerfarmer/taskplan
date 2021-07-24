@@ -2,6 +2,7 @@ import React from 'react';
 import ParamFilter from "./ParamFilter";
 import ParamSelection from "./ParamSelection";
 import Param from "./Param";
+import Prompt from "./Prompt";
 
 
 class Column extends React.Component {
@@ -88,11 +89,12 @@ class ParamViewer extends React.Component {
         this.paramGroupSelection = React.createRef();
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
-        this.saveFilter = this.saveFilter.bind(this);
-        this.deleteFilter = this.deleteFilter.bind(this);
         this.handleFilterSaveNameChange = this.handleFilterSaveNameChange.bind(this);
         this.handleViewPathChange = this.handleViewPathChange.bind(this);
         this.addView = this.addView.bind(this);
+        this.addViewPath = this.addView.bind(this);
+        this.removeViewPath = this.removeViewPath.bind(this);
+        this.promptViewPathRef = React.createRef();
         this.gotoTB = this.gotoTB.bind(this);
     }
 
@@ -115,12 +117,6 @@ class ParamViewer extends React.Component {
     }
 
 
-    saveFilter() {
-        if (this.state.filterSaveName !== "") {
-            this.props.saveFilter(this.state.filterSaveName);
-        }
-    }
-
     handleViewPathChange(event) {
         this.setState({
             viewPath: event.target.value
@@ -128,27 +124,17 @@ class ParamViewer extends React.Component {
     }
 
 
-    addView(e, path="") {
-        if (path === "") {
+    addView(e, name="") {
+        if (name === "") {
             if (this.state.viewPath !== "") {
                 this.props.addView(this.state.viewPath);
+                this.setState({
+                    viewPath: ""
+                })
             }
         } else {
-             this.props.addView(path);
+             this.props.addView(name);
         }
-    }
-
-    deleteFilter(name) {
-        var data = new FormData();
-        var dataJson = {};
-        dataJson['name'] = name;
-
-        data.append("data", JSON.stringify(dataJson));
-
-        fetch("delete_filter", {
-            method: "POST",
-            body: data
-        })
     }
 
     deleteView(path) {
@@ -162,6 +148,11 @@ class ParamViewer extends React.Component {
             method: "POST",
             body: data
         })
+    }
+
+
+    removeViewPath(name) {
+        fetch("remove_view_path/" + name);
     }
 
 
@@ -216,42 +207,36 @@ class ParamViewer extends React.Component {
         if (this.state.open) {
             return (
                 <div className="param-viewer slide-editor editor" style={this.props.style}>
-                    <div className="header">Save / Load{this.props.allowClose && <i className="fas fa-times" onClick={this.close}></i>}</div>
-                    <div className="params-to-group param-filter">
-                        {Object.keys(this.props.saved_filters).map(savedFilterName => (
-                            <div className="param-name param-name-collapsed">
-                                <div onClick={() => this.props.loadFilter(this.props.saved_filters[savedFilterName])}>
-                                    {savedFilterName}
-                                </div>
-                                <i className="fas fa-times" onClick={() => this.deleteFilter(savedFilterName)}></i>
-                            </div>
-                        ))}
-                    </div>
-                    <input type="text" name="filterSaveName" value={this.state.filterSaveName} onChange={this.handleFilterSaveNameChange}/>
-                    <div className="buttons">
-                        <div onClick={this.saveFilter}>Save</div>
-                    </div>
 
                     {!this.props.hideViews &&
                     <React.Fragment>
-                        <div className="header">Filesystem</div>
+                        <div className="header">Save / Load{this.props.allowClose && <i className="fas fa-times" onClick={this.close}></i>}</div>
                         <div className="params-to-group param-filter">
-                            {Object.keys(this.props.views).map(path => (
+                            {Object.keys(this.props.views).sort().map(name => (
                                 <div className="param-name param-name-collapsed">
-                                    <div onClick={() => this.props.loadFilter(this.props.views[path])}>
-                                        {path}
+                                    <div onClick={() => this.props.loadFilter(this.props.views[name])} style={{"cursor": "pointer"}}>
+                                        {name} {this.props.views[name].path !== null && <span style={{"font-style": "italic"}}>(/{this.props.views[name].path})</span>}
                                     </div>
                                     <div style={{"flex": "2 1 auto"}}></div>
-                                    {!(path in this.props.tensorboard_ports) ?
-                                        <div className="tb-link" onClick={() => this.gotoTB(path)} title="Start and open tensorboard">TB</div>
-                                        :
+                                    {this.props.views[name].path !== null &&
                                         <React.Fragment>
-                                            <i className="fas fa-link tb-link-icon" onClick={() => this.gotoTB(path)}></i>
-                                            <div className="tb-link-active" onClick={() => this.closeTB(path)} title="Close tensorboard">TB</div>
+                                            {!(name in this.props.tensorboard_ports) ?
+                                                <div className="tb-link" onClick={() => this.gotoTB(name)} title="Start and open tensorboard">TB</div>
+                                                :
+                                                <React.Fragment>
+                                                    <i className="fas fa-link tb-link-icon" onClick={() => this.gotoTB(name)}></i>
+                                                    <div className="tb-link-active" onClick={() => this.closeTB(name)} title="Close tensorboard">TB</div>
+                                                </React.Fragment>
+                                            }
                                         </React.Fragment>
                                     }
-                                    <i className="fas fa-arrow-alt-circle-up" onClick={() => this.addView(null, path)}></i>
-                                    <i className="fas fa-times" onClick={() => this.deleteView(path)}></i>
+                                    {this.props.views[name].path === null ?
+                                        <i className="fas fa-folder-plus" onClick={() => this.promptViewPathRef.current.openDialog(name)}></i>
+                                        :
+                                        <i className="fas fa-folder-minus" onClick={() => this.removeViewPath( name)}></i>
+                                    }
+                                    <i className="fas fa-arrow-alt-circle-up" onClick={() => this.addView(null, name)}></i>
+                                    <i className="fas fa-times" onClick={() => this.deleteView(name)}></i>
                                 </div>
                             ))}
                         </div>
@@ -259,6 +244,7 @@ class ParamViewer extends React.Component {
                         <div className="buttons">
                             <div onClick={this.addView}>Add</div>
                         </div>
+                        <Prompt ref={this.promptViewPathRef} defaultValue={""} header="Set path of view" text="Specify the path where to store the view:" url={"/set_view_path"}/>
                     </React.Fragment>
                     }
 

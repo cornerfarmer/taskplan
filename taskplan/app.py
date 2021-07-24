@@ -337,25 +337,21 @@ def run(refresh_interval):
         controller.task_details(task_uuid)
         return jsonify({})
 
-    @app.route('/save_filter', methods=['POST'])
-    def save_filter():
-        data = json.loads(request.form.get('data'))
-        name = data["saveName"]
-        del data["saveName"]
-        controller.save_filter(name, data)
+    @app.route('/set_view_path/<string:name>/<string:path>',)
+    def set_view_path(name, path):
+        controller.set_view_path(name, path)
         return jsonify({})
 
-    @app.route('/delete_filter', methods=['POST'])
-    def delete_filter():
-        data = json.loads(request.form.get('data'))
-        controller.delete_saved_filter(data["name"])
+    @app.route('/remove_view_path/<string:name>')
+    def remove_view_path(name):
+        controller.remove_view_path(name)
         return jsonify({})
 
     @app.route('/add_view', methods=['POST'])
     def add_view():
         data = json.loads(request.form.get('data'))
-        path = data["path"]
-        del data["path"]
+        path = data["name"]
+        del data["name"]
         controller.add_view(path, data)
         return jsonify({})
 

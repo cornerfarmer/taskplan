@@ -44,7 +44,7 @@ class Prompt extends React.Component {
                         }
                     );
             } else {
-                fetch(this.props.url + (this.props.devices ? "/" + this.state.device : "") + "/" + this.state.inputValue)
+                fetch(this.props.url + (this.props.devices || this.state.device ? "/" + this.state.device : "") + "/" + this.state.inputValue)
                     .then(res => res.json())
                     .then(
                         (result) => {
@@ -66,10 +66,10 @@ class Prompt extends React.Component {
         });
     }
 
-    openDialog() {
+    openDialog(device=null) {
         this.setState({
             dialogOpen: true,
-            device: (this.props.devices ? this.props.devices[0].uuid : null)
+            device: (this.props.devices ? this.props.devices[0].uuid : device)
         });
     }
 

@@ -180,33 +180,38 @@ class CollapseBranch(ParamBranch):
 
 class View:
 
-    def __init__(self, configuration, root, branch_options, filters, version_control, collapse_multiple_tries):
+    def __init__(self, configuration, root, branch_options, filters, version_control, collapse_multiple_tries, enabled=True):
         self.configuration = configuration
         self.branch_options = branch_options
         self.filters = filters
+        self.enabled = enabled
 
         self.collapse_multiple_tries = collapse_multiple_tries
         self.root_node = RootNode()
         self.root_node.set_child("default", TasksNode(self.collapse_multiple_tries))
-        self.root_path = root
-        if self.root_path is not None:
-            self.root_path.mkdir(exist_ok=True, parents=True)
+        self.set_path(root)
         self.task_by_uuid = {}
         self.version_control = version_control
+
+    def set_path(self, path):
+        self.root_path = path
+        if self.root_path is not None:
+            self.root_path.mkdir(exist_ok=True, parents=True)
 
     def set_branch_options(self, branch_options, tasks):
         self.branch_options = branch_options
         self.refresh(tasks)
 
     def refresh(self, tasks):
-        self.root_node = RootNode()
-        self.root_node.set_child("default", TasksNode(self.collapse_multiple_tries))
+        if self.enabled:
+            self.root_node = RootNode()
+            self.root_node.set_child("default", TasksNode(self.collapse_multiple_tries))
 
-        for task in tasks:
-            self.add_task(task, False)
+            for task in tasks:
+                self.add_task(task, False)
 
-        if self.root_path is not None:
-            self._check_filesystem(self.root_node.children["default"], self.root_path)
+            if self.root_path is not None:
+                self._check_filesystem(self.root_node.children["default"], self.root_path)
 
     def _insert_new_node(self, task, node, branching_option, key, path, change_dirs):
         if not branching_option.force:
@@ -254,36 +259,37 @@ class View:
         return select
 
     def add_task(self, task, change_dirs=True):
-        if not self._filter_task(task):
-            return
+        if self.enabled:
+            if not self._filter_task(task):
+                return
 
-        path = self.root_path
-        node = self.root_node.children["default"]
-        for branching_option in self.branch_options:
-            node_exists = branching_option.exists_node(node)
-            key = branching_option.key_from_task(task)
+            path = self.root_path
+            node = self.root_node.children["default"]
+            for branching_option in self.branch_options:
+                node_exists = branching_option.exists_node(node)
+                key = branching_option.key_from_task(task)
 
-            if key is None:
-                continue
-
-            if not node_exists:
-                new_node = self._insert_new_node(task, node, branching_option, key, path, change_dirs)
-                if new_node is None:
+                if key is None:
                     continue
-                else:
-                    node = new_node
 
-            if path is not None:
-                path = path / key
-            if key not in node.children:
-                node.set_child(key, TasksNode(self.collapse_multiple_tries))
+                if not node_exists:
+                    new_node = self._insert_new_node(task, node, branching_option, key, path, change_dirs)
+                    if new_node is None:
+                        continue
+                    else:
+                        node = new_node
 
-                if path is not None and change_dirs:
-                    path.mkdir()
+                if path is not None:
+                    path = path / key
+                if key not in node.children:
+                    node.set_child(key, TasksNode(self.collapse_multiple_tries))
 
-            node = node.children[key]
+                    if path is not None and change_dirs:
+                        path.mkdir()
 
-        self._insert_task(node, path, task, change_dirs)
+                node = node.children[key]
+
+            self._insert_task(node, path, task, change_dirs)
 
     def _add_node_before_node(self, node, new_node, key, path, change_dirs=True):
         node.insert_as_parent(key, new_node)
@@ -368,3 +374,10 @@ class View:
             path.insert(0, node.parent_key)
             node = node.parent
         return path
+
+    def enable(self, tasks):
+        self.enabled = True
+        self.refresh(tasks)
+
+    def disable(self):
+        self.enabled = False

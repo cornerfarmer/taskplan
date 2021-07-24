@@ -312,26 +312,26 @@ class Controller:
         if task is not None:
             self.event_manager.throw(EventType.TASK_CHANGED, task)
 
-    def _save_filter(self, name, data):
-        self.project.save_filter(name, data)
+    def _add_view(self, name, data):
+        if name in self.project.views:
+            data["path"] = self.project.views_data[name]["path"]
+            self.project.delete_view(name, close_tb=False)
+        self.project.add_view(name, data)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
 
-    def _delete_saved_filter(self, name):
-        self.project.delete_saved_filter(name)
+    def _delete_view(self, name):
+        self.project.delete_view(name)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
 
-
-    def _add_view(self, path, data):
-        if path in self.project.views:
-            self.project.delete_view(path, close_tb=False)
-        self.project.add_view(path, data)
+    def _set_view_path(self, name, path):
+        self.project.set_view_path(name, path)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
 
-    def _delete_view(self, path):
-        self.project.delete_view(path)
+    def _remove_view_path(self, name):
+        self.project.remove_view_path(name)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
 

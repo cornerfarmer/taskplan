@@ -26,7 +26,7 @@ import ast
 
 class Project:
 
-    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", tasks_to_load=None, git_white_list=[], slim_mode=False):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", views_dir="views", tasks_to_load=None, git_white_list=[], slim_mode=False):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.event_manager = event_manager
@@ -41,13 +41,13 @@ class Project:
         self.tasks_dir.mkdir(exist_ok=True, parents=True)
         self.test_dir = self.task_dir / Path(test_dir)
         self.test_dir.mkdir(exist_ok=True, parents=True)
+        self.views_dir = self.task_dir / Path(views_dir)
+        self.views_dir.mkdir(exist_ok=True, parents=True)
         self.tasks = []
         self.tensorboard_ports = {}
         self.tensorboard_threads = {}
         self.next_tensorboard_port = 7000
         self.version_control = VersionControl(task_dir, git_white_list)
-
-        self.saved_filters = {}
 
         self.views = {}
         self.views_data = {}
@@ -87,22 +87,19 @@ class Project:
 
     def save_metadata(self):
         return {**{
-            "saved_filters": self.saved_filters,
             "views": self.views_data
         }, **self.version_control.save_metadata()}
 
     def _load_metadata(self, metadata):
         self.version_control.load_metadata(metadata)
         if not self.slim_mode:
-            if 'saved_filters' in metadata:
-                self.saved_filters = metadata['saved_filters']
             if 'views' in metadata:
                 self.views_data = metadata['views']
                 self.views = {}
                 for key, view in self.views_data.items():
                     self.add_view(key, view, True)
-            else:
-                self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True],"sorting_tasks": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False}, True)
+            #else:
+            #    self.add_view("results", {"filter": {}, "collapse": [], "group": [], "collapse_sorting": ["saved", True], "sorting_tasks": ["saved", True], "param_sorting": {}, "version_in_name": "label", "force_param_in_name": [], "collapse_enabled": False, "path": null}, True)
 
     def _load_saved_tasks(self, tasks_to_load):
         if tasks_to_load is None or len(tasks_to_load) > 0:
@@ -273,23 +270,27 @@ class Project:
                 return task
         return None
 
-    def start_tensorboard(self, path):
-        if path not in self.tensorboard_ports:
-            self.tensorboard_threads[path] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port)], stdout=subprocess.PIPE)
-            time.sleep(5)
+    def start_tensorboard(self, name):
+        if name in self.views:
+            path = str(self.views[name].root_path)
 
-            self.tensorboard_ports[path] = self.next_tensorboard_port
-            self.next_tensorboard_port += 1
+            if path is not None and name not in self.tensorboard_ports:
+                self.tensorboard_threads[name] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port)], stdout=subprocess.PIPE)
+                time.sleep(5)
 
-            self.event_manager.throw(EventType.PROJECT_CHANGED, self)
-        return self.tensorboard_ports[path]
+                self.tensorboard_ports[name] = self.next_tensorboard_port
+                self.next_tensorboard_port += 1
 
-    def close_tensorboard(self, path):
-        if path in self.tensorboard_threads:
-            self.tensorboard_threads[path].kill()
-            del self.tensorboard_threads[path]
-            del self.tensorboard_ports[path]
-            self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+                self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+            return self.tensorboard_ports[name]
+
+    def close_tensorboard(self, name):
+        if name in self.views:
+            if name in self.tensorboard_threads:
+                self.tensorboard_threads[name].kill()
+                del self.tensorboard_threads[name]
+                del self.tensorboard_ports[name]
+                self.event_manager.throw(EventType.PROJECT_CHANGED, self)
 
     def remove_task(self, task):
         if task in self.tasks:
@@ -521,7 +522,7 @@ class Project:
                 output = [sorted(flatten(output), key=lambda x: x["collapse_sort_col"], reverse=collapse_sorting[1] == "DESC")]
             return output
 
-    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, collapse_enabled, path=None):
+    def _build_view(self, filters, collapse, groups, param_sorting, collapse_sorting, version_in_name, force_param_in_name, collapse_enabled, path=None, enabled=True):
         branch_options = []
         for group in groups:
             branch_options.append(GroupBranch([self.configuration.get_config(param) for param in group], self.configuration))
@@ -534,7 +535,7 @@ class Project:
             for param_uuid in collapse:
                 branch_options.append(CollapseBranch(self.configuration.get_config(param_uuid), self.configuration, collapse_sorting))
 
-        return View(self.configuration, path, branch_options, filters, version_control=self.version_control, collapse_multiple_tries=collapse_enabled)
+        return View(self.configuration, path, branch_options, filters, version_control=self.version_control, collapse_multiple_tries=collapse_enabled, enabled=enabled)
 
     def _sort_tasks(self, tasks, sort_col, sort_dir):
         if type(tasks) == dict:
@@ -557,29 +558,46 @@ class Project:
 
         return result, list(metric_superset)
 
-    def save_filter(self, name, data):
-        self.saved_filters[name] = data
-
-    def delete_saved_filter(self, name):
-        del self.saved_filters[name]
-
-    def add_view(self, path, data, ignore_path_check=False):
-        actual_path = self.task_dir / path
-        if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
-            raise Exception("Not empty")
-        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], data['force_param_in_name'], data['collapse_enabled'], actual_path)
+    def add_view(self, name, data, ignore_path_check=False):
+        if data["path"] is not None:
+            actual_path = self.views_dir / data["path"]
+            if actual_path.exists() and len(list(actual_path.iterdir())) > 0 and not ignore_path_check:
+                raise Exception("Not empty")
+        else:
+            actual_path = None
+        view = self._build_view(data['filter'], data['collapse'], data['group'], data['param_sorting'], data['collapse_sorting'], data['version_in_name'], data['force_param_in_name'], data['collapse_enabled'], actual_path, enabled=data["path"] is not None)
         view.refresh(self.tasks)
-        self.views[path] = view
-        self.views_data[path] = data
+        self.views[name] = view
+        self.views_data[name] = data
 
-    def delete_view(self, path, close_tb=True):
-        if close_tb:
-            self.close_tensorboard(path)
-        actual_path = (self.task_dir / path).resolve()
-        shutil.rmtree(actual_path)
+    def delete_view(self, name, close_tb=True):
+        self.delete_view_path(name, close_tb)
 
-        del self.views[path]
-        del self.views_data[path]
+        del self.views[name]
+        del self.views_data[name]
+
+    def delete_view_path(self, name, close_tb=True):
+        path = self.views[name].root_path
+        if path is not None:
+            if close_tb:
+                self.close_tensorboard(name)
+            actual_path = (self.task_dir / path).resolve()
+            shutil.rmtree(actual_path)
+
+    def set_view_path(self, name, path):
+        if name in self.views:
+            self.views_data[name]["path"] = path
+            path = self.views_dir / path
+            self.views[name].set_path(path)
+            self.views[name].enable(self.tasks)
+
+    def remove_view_path(self, name):
+        if name in self.views:
+            self.delete_view_path(name)
+
+            self.views[name].set_path(None)
+            self.views[name].disable()
+            self.views_data[name]["path"] = None
 
     def set_tags(self, task_uuid, tags):
         task = self.find_task_by_uuid(task_uuid)

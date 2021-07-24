@@ -79,7 +79,6 @@ class ServerSentEvent(object):
                 data_client['number_of_tasks'] = parent_data.number_of_tasks_per_param_value_key[str(data.uuid)] if str(data.uuid) in parent_data.number_of_tasks_per_param_value_key else []
         elif event_type is EventType.PROJECT_CHANGED:
             data_client['current_commit_id'] = data.version_control.current_commit_id
-            data_client['saved_filters'] = data.saved_filters
             data_client['views'] = data.views_data
             data_client['tensorboard_ports'] = data.tensorboard_ports
             data_client['all_tags'] = list(data.all_tags.keys())
