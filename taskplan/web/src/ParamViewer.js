@@ -214,7 +214,7 @@ class ParamViewer extends React.Component {
                         <div className="params-to-group param-filter">
                             {Object.keys(this.props.views).sort().map(name => (
                                 <div className="param-name param-name-collapsed">
-                                    <div onClick={() => this.props.loadFilter(this.props.views[name])} style={{"cursor": "pointer"}}>
+                                    <div onClick={() => this.props.loadFilter(this.props.views[name])} style={{"cursor": "pointer"}} title="Load filter">
                                         {name} {this.props.views[name].path !== null && <span style={{"font-style": "italic"}}>(/{this.props.views[name].path})</span>}
                                     </div>
                                     <div style={{"flex": "2 1 auto"}}></div>
@@ -224,24 +224,24 @@ class ParamViewer extends React.Component {
                                                 <div className="tb-link" onClick={() => this.gotoTB(name)} title="Start and open tensorboard">TB</div>
                                                 :
                                                 <React.Fragment>
-                                                    <i className="fas fa-link tb-link-icon" onClick={() => this.gotoTB(name)}></i>
+                                                    <i className="fas fa-link tb-link-icon" title="Open in new tab" onClick={() => this.gotoTB(name)}></i>
                                                     <div className="tb-link-active" onClick={() => this.closeTB(name)} title="Close tensorboard">TB</div>
                                                 </React.Fragment>
                                             }
                                         </React.Fragment>
                                     }
                                     {this.props.views[name].path === null ?
-                                        <i className="fas fa-folder-plus" onClick={() => this.promptViewPathRef.current.openDialog(name)}></i>
+                                        <i className="fas fa-folder-plus" title="Show in filesystem" onClick={() => this.promptViewPathRef.current.openDialog(name)}></i>
                                         :
-                                        <i className="fas fa-folder-minus" onClick={() => this.removeViewPath( name)}></i>
+                                        <i className="fas fa-folder-minus" title="Remove from filesystem" onClick={() => this.removeViewPath( name)}></i>
                                     }
-                                    <i className="fas fa-arrow-alt-circle-up" onClick={() => this.addView(null, name)}></i>
-                                    <i className="fas fa-times" onClick={() => this.deleteView(name)}></i>
+                                    <i className="fas fa-arrow-alt-circle-up" title="Update filter" onClick={() => this.addView(null, name)}></i>
+                                    <i className="fas fa-times"title="Remove filter" onClick={() => this.deleteView(name)}></i>
                                 </div>
                             ))}
                         </div>
                         <input type="text" name="viewPath" value={this.state.viewPath} onChange={this.handleViewPathChange}/>
-                        <div className="buttons">
+                        <div className="buttons" title="Save current filter with the specified name">
                             <div onClick={this.addView}>Add</div>
                         </div>
                         <Prompt ref={this.promptViewPathRef} defaultValue={""} header="Set path of view" text="Specify the path where to store the view:" url={"/set_view_path"}/>

@@ -103,11 +103,11 @@ class ProjectManager extends React.Component {
             <div id="project-manager">
                 <div id="projects-toolbar">
                     <span id="project-toolbar">
-                        <div id="code-version" title="Add new code version" onClick={() => this.openCodeVersionViewer(this.state.current_commit_id)}>{this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0,7)}</div>
+                        <div id="code-version" title="Show code version" onClick={() => this.openCodeVersionViewer(this.state.current_commit_id)}>{this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0,7)}</div>
                         <div id="reload-tasks" onClick={this.reload} title="Reload tasks">
                             <i className="fas fa-sync-alt"></i>
                         </div>
-                        <a id="open-table" href="/table" target="_blank">
+                        <a id="open-table" href="/table" target="_blank" title="Open table view in new tab">
                             <i className="fas fa-table"></i>
                         </a>
                     </span>

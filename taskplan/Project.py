@@ -272,6 +272,7 @@ class Project:
 
     def start_tensorboard(self, name):
         if name in self.views:
+            self.event_manager.log("Opening Tensorboard", "Starting tensorboard...")
             path = str(self.views[name].root_path)
 
             if path is not None and name not in self.tensorboard_ports:
@@ -282,6 +283,7 @@ class Project:
                 self.next_tensorboard_port += 1
 
                 self.event_manager.throw(EventType.PROJECT_CHANGED, self)
+
             return self.tensorboard_ports[name]
 
     def close_tensorboard(self, name):

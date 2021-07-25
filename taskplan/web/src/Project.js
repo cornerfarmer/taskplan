@@ -171,7 +171,7 @@ class Project extends TaskContainer {
                 <div className="sorting">
                     {this.state.activeTab === 0 &&
                     <div>
-                        <span onClick={this.toggleParamSortingMode} className={"fas fa-sort"}></span>
+                        <span onClick={this.toggleParamSortingMode} className={"fas fa-sort"} title="Switch to sorting mode for default naming"></span>
                     </div>
                     }
                     {this.state.activeTab === 1 &&
@@ -186,19 +186,19 @@ class Project extends TaskContainer {
                                 <option value={col}>{col}</option>
                             ))}
                         </select>
-                        <span onClick={this.switchSortingDirection} className={this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
+                        <span onClick={this.switchSortingDirection} title="Switch sorting direction" className={this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up"}></span>
 
-                        <span className="fas fa-sliders-h" onClick={this.openParamViewer}></span>
+                        <span className="fas fa-sliders-h" title="Open filter configurator" onClick={this.openParamViewer}></span>
 
-                        <span className="fas fa-sync-alt" onClick={this.filterHasUpdated}></span>
-                        <span className="fas fa-search" onClick={() => this.setState({showSearchBar: !this.state.showSearchBar, searchValue: ""})}></span>
+                        <span className="fas fa-sync-alt" title="Update listing" onClick={this.filterHasUpdated}></span>
+                        <span className="fas fa-search" title="Find task by uuid" onClick={() => this.setState({showSearchBar: !this.state.showSearchBar, searchValue: ""})}></span>
                     </div>
                     }
                 </div>
                 {this.state.showSearchBar &&
                 <div className="search-bar">
                     <span>Search:</span>
-                    <input value={this.state.searchValue} onKeyDown={this.searchBarKeyDown} onChange={this.handleSearchValueChange} />
+                    <input value={this.state.searchValue} onKeyDown={this.searchBarKeyDown} placeholder="uuid" onChange={this.handleSearchValueChange} />
                 </div>
                 }
                 <ParamTab

@@ -62,7 +62,8 @@ class TaskViewer extends React.Component {
             }
 
             this.setState({
-                selectedParamValues: selectedParamValues
+                selectedParamValues: selectedParamValues,
+                notes: task.notes
             });
         }
     }

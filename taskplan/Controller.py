@@ -232,7 +232,8 @@ class Controller:
         return self.project.start_tensorboard(path)
 
     def _close_tensorboard(self, path):
-        return self.project.close_tensorboard(path)
+        self.project.close_tensorboard(path)
+        self.event_manager.log("Tensorboard for path " + path + " has been closed", "Tensorboard has been closed")
 
     def _change_max_running_tasks(self, new_max_running):
         self.scheduler.set_max_running(new_max_running)
@@ -247,10 +248,12 @@ class Controller:
     def _reset_hard(self, commit_id):
         self.project.version_control.reset_hard(commit_id)
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+        self.event_manager.log("Did hard reset to commit " + commit_id, "Hard reset finished")
 
     def _reset_soft(self, commit_id):
         self.project.version_control.reset_soft(commit_id)
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+        self.event_manager.log("Did soft reset to commit " + commit_id, "Soft reset finished")
 
     def _select_code_version(self, version_uuid):
         self.project.select_code_version(version_uuid)
@@ -299,6 +302,7 @@ class Controller:
 
     def _reload(self):
         self.project.reload()
+        self.event_manager.log("Reloaded all tasks", "Reloaded all tasks")
 
     def _get_task_dir(self, task_uuid):
         return self.project.find_task_by_uuid(task_uuid).build_save_dir()
@@ -319,21 +323,25 @@ class Controller:
         self.project.add_view(name, data)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+        self.event_manager.log("Added filter: " + name, "Filter has been saved")
 
     def _delete_view(self, name):
         self.project.delete_view(name)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+        self.event_manager.log("Deleted filter: " + name, "Filter has been deleted")
 
     def _set_view_path(self, name, path):
         self.project.set_view_path(name, path)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+        self.event_manager.log("Filter " + name + " has been added to filesystem: " + path, "Filter has been added to the filesystem")
 
     def _remove_view_path(self, name):
         self.project.remove_view_path(name)
         self.save_metadata()
         self.event_manager.throw(EventType.PROJECT_CHANGED, self.project)
+        self.event_manager.log("Filter " + name + " has been removed from the filesystem", "Filter has been removed from the filesystem")
 
     def _set_tags(self, task_uuid, tags):
         self.project.set_tags(task_uuid, tags)

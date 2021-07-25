@@ -96,8 +96,8 @@ class CodeVersionViewer extends React.Component {
                         </div>
 
                     <div className="buttons">
-                        <div onClick={() => this.reassuringHardResetPromptRef.current.openDialog()}>Hard reset</div>
-                        <div onClick={() => this.reassuringSoftResetPromptRef.current.openDialog()}>Soft reset</div>
+                        <div onClick={() => this.reassuringHardResetPromptRef.current.openDialog()} title="Do a git hard reset. This will reset all files to the state of this commit.">Hard reset</div>
+                        <div onClick={() => this.reassuringSoftResetPromptRef.current.openDialog()} title="Do a git soft reset. This will leave all files as they are now but will set the HEAD to this commit.">Soft reset</div>
                     </div>
 
                     <ReassuringPrompt ref={this.reassuringHardResetPromptRef} header="Really want to do a hard reset?" text="Do you really want to do a hard reset? This will move HEAD to this commit and reset all code to its state." url={"/hard_reset/" + this.state.commit_id}/>
