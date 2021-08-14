@@ -4023,17 +4023,17 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
           lineNumber: 209
         },
         __self: this
-      }, !this.props.hideViews && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
+          lineNumber: 211
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
+          lineNumber: 212
         },
         __self: this
       }, "Save / Load", this.props.allowClose && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4041,21 +4041,21 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: this.close,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
+          lineNumber: 212
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 214
+          lineNumber: 213
         },
         __self: this
       }, Object.keys(this.props.views).sort().map(name => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
+          lineNumber: 215
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4066,7 +4066,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         title: "Load filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 217
+          lineNumber: 216
         },
         __self: this
       }, name, " ", this.props.views[name].path !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4075,22 +4075,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 218
+          lineNumber: 217
         },
         __self: this
-      }, "(/", this.props.views[name].path, ")")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          "flex": "2 1 auto"
-        },
+      }, "(/", this.props.views[name].path, ")")), !this.props.hideViewEdits && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 220
         },
         __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          "flex": "2 1 auto"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 221
+        },
+        __self: this
       }), this.props.views[name].path !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 222
+          lineNumber: 223
         },
         __self: this
       }, !(name in this.props.tensorboard_ports) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4099,13 +4105,13 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         title: "Start and open tensorboard",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 224
+          lineNumber: 225
         },
         __self: this
       }, "TB") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 226
+          lineNumber: 227
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4114,7 +4120,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.gotoTB(name),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 227
+          lineNumber: 228
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4123,7 +4129,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         title: "Close tensorboard",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 228
+          lineNumber: 229
         },
         __self: this
       }, "TB"))), this.props.views[name].path === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4132,7 +4138,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.promptViewPathRef.current.openDialog(name),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 234
+          lineNumber: 235
         },
         __self: this
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4141,7 +4147,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.removeViewPath(name),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 236
+          lineNumber: 237
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4150,7 +4156,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.addView(null, name),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 238
+          lineNumber: 239
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4159,17 +4165,23 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.deleteView(name),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 239
+          lineNumber: 240
         },
         __self: this
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }))))), !this.props.hideViewEdits && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 248
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         name: "viewPath",
         value: this.state.viewPath,
         onChange: this.handleViewPathChange,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 243
+          lineNumber: 249
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4177,14 +4189,14 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         title: "Save current filter with the specified name",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 244
+          lineNumber: 250
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.addView,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 245
+          lineNumber: 251
         },
         __self: this
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -4195,14 +4207,14 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         url: "/set_view_path",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 247
+          lineNumber: 253
         },
         __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 251
+          lineNumber: 258
         },
         __self: this
       }, "Filter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -4214,20 +4226,20 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         toggleSelection: this.props.toggleSelection,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 252
+          lineNumber: 259
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 254
+          lineNumber: 261
         },
         __self: this
       }, "Collapsing"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 255
+          lineNumber: 262
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -4236,27 +4248,27 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.props.toggleCollapse,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 256
+          lineNumber: 263
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 257
+          lineNumber: 264
         },
         __self: this
       }, "Enabled")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-collapse param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 259
+          lineNumber: 266
         },
         __self: this
       }, this.props.collapsedParams.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 261
+          lineNumber: 268
         },
         __self: this
       }, param.name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4264,7 +4276,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.props.removeParamCollapse(param),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 261
+          lineNumber: 268
         },
         __self: this
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4274,13 +4286,13 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 264
+          lineNumber: 271
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 265
+          lineNumber: 272
         },
         __self: this
       }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -4288,42 +4300,42 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.props.onChangeCollapseSorting,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 266
+          lineNumber: 273
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "saved",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 267
+          lineNumber: 274
         },
         __self: this
       }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "name",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 268
+          lineNumber: 275
         },
         __self: this
       }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "created",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 269
+          lineNumber: 276
         },
         __self: this
       }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "iterations",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 270
+          lineNumber: 277
         },
         __self: this
       }, "Iterations"), this.props.metric_superset.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: col,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 272
+          lineNumber: 279
         },
         __self: this
       }, col))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -4335,7 +4347,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         className: this.props.collapseSorting[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 275
+          lineNumber: 282
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -4345,42 +4357,42 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onSelect: this.props.addParamCollapse,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 278
+          lineNumber: 285
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 279
+          lineNumber: 286
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.paramCollapseSelection.current.openDialog(),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 280
+          lineNumber: 287
         },
         __self: this
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 283
+          lineNumber: 290
         },
         __self: this
       }, "Grouping"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 285
+          lineNumber: 292
         },
         __self: this
       }, this.props.groupedParams.map(params => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 287
+          lineNumber: 294
         },
         __self: this
       }, params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name).join(" / "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4388,7 +4400,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onClick: () => this.props.removeParamGroup(params),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 289
+          lineNumber: 296
         },
         __self: this
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -4399,28 +4411,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onSelect: this.props.addParamGroup,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 293
+          lineNumber: 300
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 294
+          lineNumber: 301
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.paramGroupSelection.current.openDialog(),
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 295
+          lineNumber: 302
         },
         __self: this
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 298
+          lineNumber: 305
         },
         __self: this
       }, "Parameter sorting"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4431,13 +4443,13 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 299
+          lineNumber: 306
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 300
+          lineNumber: 307
         },
         __self: this
       }, "Version:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -4445,42 +4457,42 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChange: this.props.onChangeVersionInName,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 301
+          lineNumber: 308
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "none",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 302
+          lineNumber: 309
         },
         __self: this
       }, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "commit_id",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 303
+          lineNumber: 310
         },
         __self: this
       }, "Commit id"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "label",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 304
+          lineNumber: 311
         },
         __self: this
       }, "Label"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-collapse param-filter",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 307
+          lineNumber: 314
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "params-tab",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 308
+          lineNumber: 315
         },
         __self: this
       }, this.props.params.sort((a, b) => this.props.paramSorting[a.uuid] - this.props.paramSorting[b.uuid]).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -4492,41 +4504,41 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         onChangeForceParamInName: this.props.onChangeForceParamInName,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 310
+          lineNumber: 317
         },
         __self: this
       })))), this.props.selectedCols !== undefined && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 323
+          lineNumber: 330
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 324
+          lineNumber: 331
         },
         __self: this
       }, "Columns"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-cols",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 325
+          lineNumber: 332
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 326
+          lineNumber: 333
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col-header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 327
+          lineNumber: 334
         },
         __self: this
       }, "Used:"), this.props.selectedCols.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
@@ -4536,7 +4548,7 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         addCol: this.props.addCol,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 329
+          lineNumber: 336
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
@@ -4547,28 +4559,28 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
         isDummy: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 336
+          lineNumber: 343
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 344
+          lineNumber: 351
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col-header",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 345
+          lineNumber: 352
         },
         __self: this
       }, "Not used:"), this.props.allCols.filter(col => this.props.selectedCols.findIndex(x => x === col) === -1).map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
         col: col,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 347
+          lineNumber: 354
         },
         __self: this
       }))))));
@@ -5526,7 +5538,8 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       allTags: [],
       refreshRate: null,
       detailTaskUuid: null,
-      tensorboard_ports: {}
+      tensorboard_ports: {},
+      viewsLoaded: false
     };
     this.addVersion = this.addVersion.bind(this);
     this.openTaskViewer = this.openTaskViewer.bind(this);
@@ -5543,6 +5556,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       this.setState({
         current_commit_id: data.current_commit_id,
         views: data.views,
+        viewsLoaded: true,
         tensorboard_ports: data.tensorboard_ports,
         allTags: data.all_tags,
         refreshRate: parseInt(data.refreshRate),
@@ -5608,21 +5622,21 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       id: "project-manager",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 103
+        lineNumber: 105
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "projects-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 104
+        lineNumber: 106
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       id: "project-toolbar",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
+        lineNumber: 107
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5631,7 +5645,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       onClick: () => this.openCodeVersionViewer(this.state.current_commit_id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 106
+        lineNumber: 108
       },
       __self: this
     }, this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0, 7)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5640,14 +5654,14 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       title: "Reload tasks",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
+        lineNumber: 109
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-sync-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
+        lineNumber: 110
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -5657,21 +5671,21 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       title: "Open table view in new tab",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
+        lineNumber: 112
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-table",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 111
+        lineNumber: 113
       },
       __self: this
     })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "projects",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 115
+        lineNumber: 117
       },
       __self: this
     }, this.state.refreshRate !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Project__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5682,13 +5696,14 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       highlightedTask: this.state.detailTaskUuid,
       devices: this.props.devices,
       views: this.state.views,
+      viewsLoaded: this.state.viewsLoaded,
       allTags: this.state.allTags,
       codeVersions: this.state.codeVersions,
       refreshRate: this.state.refreshRate,
       tensorboard_ports: this.state.tensorboard_ports,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
+        lineNumber: 119
       },
       __self: this
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5696,7 +5711,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       updateView: () => this.projectRef.current.filterHasUpdated(),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 132
+        lineNumber: 135
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -5708,7 +5723,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       openCodeVersionViewer: this.openCodeVersionViewer,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 136
+        lineNumber: 139
       },
       __self: this
     }));
@@ -7274,14 +7289,25 @@ class TaskContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
     this.props.repository.onRemove("tasks", this.removeTask);
     this.props.repository.onChange("params", this.updateParams);
     this.updateParams(this.props.repository.params);
-    this.filterHasUpdated();
-    this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
+    this.intervalId = null;
+
+    if (this.props.viewsLoaded) {
+      if ("overview" in this.props.views) this.loadFilter(this.props.views["overview"]);else this.filterHasUpdated();
+      this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
+    }
   }
 
   componentWillUnmount() {
     this.props.repository.removeOnChange("tasks", this.updateTasks);
     this.props.repository.removeOnChange("params", this.updateParams);
-    clearInterval(this.intervalId);
+    if (this.intervalId !== null) clearInterval(this.intervalId);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!prevProps.viewsLoaded && this.props.viewsLoaded) {
+      if ("overview" in this.props.views) this.loadFilter(this.props.views["overview"]);else this.filterHasUpdated();
+      this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
+    }
   }
 
   replaceUuidsWithTasks(tasks, task_lookup) {

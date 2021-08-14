@@ -24,7 +24,7 @@ class Task(taskplan.Task):
         super(Task, self).__init__(config, logger, metadata)
         self.sum = self.config.get_int('offset')
         self.on_param_change("step", self.on_step_change)
-   
+
     def save(self, path):
         with open(str(path / Path("model.pk")), 'wb') as handle:
             pickle.dump(self.sum, handle)

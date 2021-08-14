@@ -12,7 +12,8 @@ class ProjectManager extends React.Component {
             allTags: [],
             refreshRate: null,
             detailTaskUuid: null,
-            tensorboard_ports: {}
+            tensorboard_ports: {},
+            viewsLoaded: false
         };
         this.addVersion = this.addVersion.bind(this);
         this.openTaskViewer = this.openTaskViewer.bind(this);
@@ -31,6 +32,7 @@ class ProjectManager extends React.Component {
             this.setState({
                 current_commit_id: data.current_commit_id,
                 views: data.views,
+                viewsLoaded: true,
                 tensorboard_ports: data.tensorboard_ports,
                 allTags: data.all_tags,
                 refreshRate: parseInt(data.refreshRate),
@@ -122,6 +124,7 @@ class ProjectManager extends React.Component {
                             highlightedTask={this.state.detailTaskUuid}
                             devices={this.props.devices}
                             views={this.state.views}
+                            viewsLoaded={this.state.viewsLoaded}
                             allTags={this.state.allTags}
                             codeVersions={this.state.codeVersions}
                             refreshRate={this.state.refreshRate}

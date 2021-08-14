@@ -33,14 +33,33 @@ class TaskContainer extends React.Component {
         this.props.repository.onRemove("tasks", this.removeTask);
         this.props.repository.onChange("params", this.updateParams);
         this.updateParams(this.props.repository.params);
-        this.filterHasUpdated();
-        this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
+        this.intervalId = null;
+
+        if (this.props.viewsLoaded) {
+            if ("overview" in this.props.views)
+                this.loadFilter(this.props.views["overview"]);
+            else
+                this.filterHasUpdated();
+            this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
+        }
     }
 
     componentWillUnmount() {
         this.props.repository.removeOnChange("tasks", this.updateTasks);
         this.props.repository.removeOnChange("params", this.updateParams);
-        clearInterval(this.intervalId);
+        if (this.intervalId !== null)
+            clearInterval(this.intervalId);
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (!prevProps.viewsLoaded && this.props.viewsLoaded) {
+            if ("overview" in this.props.views)
+                this.loadFilter(this.props.views["overview"]);
+            else
+                this.filterHasUpdated();
+            this.intervalId = setInterval(this.filterHasUpdated, this.props.refreshRate);
+        }
     }
 
 

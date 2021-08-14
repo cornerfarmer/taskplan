@@ -16,7 +16,8 @@ class TableApp extends React.Component {
         this.state = {
             noConnection: true,
             devices: [],
-            refreshRate: null
+            refreshRate: null,
+            viewsLoaded: false
         };
 
         this.evtSource = new ReconnectingEventSource("/update", {});
@@ -35,6 +36,8 @@ class TableApp extends React.Component {
             this.setState({
                // current_code_version: data.current_code_version,
                // tensorboard_port: data.tensorboard_port,
+                views: data.views,
+                viewsLoaded: true,
                 refreshRate: parseInt(data.refreshRate),
                 allTags: data.all_tags,
             });
@@ -56,6 +59,8 @@ class TableApp extends React.Component {
                                 repository={this.repository}
                                 allTags={this.state.allTags}
                                 refreshRate={this.state.refreshRate}
+                                views={this.state.views}
+                                viewsLoaded={this.state.viewsLoaded}
                             />
                         }
                     </div>

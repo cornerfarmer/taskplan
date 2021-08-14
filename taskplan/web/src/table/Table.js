@@ -75,6 +75,7 @@ class Table extends TaskContainer {
                     selectedParamValues={this.state.selectedParamValues}
                     toggleSelection={this.toggleSelection}
 
+                    views={this.props.views}
                     tags={this.props.allTags}
                     params={this.state.params}
                     collapsedParams={this.state.collapsedParams}
@@ -87,7 +88,7 @@ class Table extends TaskContainer {
                     loadFilter={this.loadFilter}
                     open={true}
                     style={{"position": "static"}}
-                    hideViews={true}
+                    hideViewEdits={true}
                     selectedCols={this.state.selectedCols}
                     metric_superset={this.state.metric_superset}
                     allCols={["name", "iterations", "created", "saved", "uuid"].concat(this.state.metric_superset)}
