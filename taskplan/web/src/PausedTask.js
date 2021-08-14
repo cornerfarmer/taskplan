@@ -17,6 +17,7 @@ class PausedTask extends React.Component {
         this.openLog = this.openLog.bind(this);
         this.clone = this.clone.bind(this);
         this.pause = this.pause.bind(this);
+        this.makeTestPersistent = this.makeTestPersistent.bind(this);
         this.queueCancel = this.queueCancel.bind(this);
     }
 
@@ -135,6 +136,19 @@ class PausedTask extends React.Component {
     }
 
 
+    makeTestPersistent() {
+        fetch("/make_test_persistent/" + this.props.task.uuid)
+            .then(res => res.json())
+            .then(
+                (result) => {
+
+                },
+                (error) => {
+
+                }
+            )
+    }
+
     render() {
         if (this.props.task !== null) {
             return (
@@ -201,6 +215,11 @@ class PausedTask extends React.Component {
                                 <div className="action" onClick={() => this.createCheckpoint()} title="Create checkpoint">
                                     <i className="far fa-flag"></i>
                                 </div>
+                                {this.props.task.state !== State.RUNNING && this.props.task.state !== State.QUEUED && this.props.task.is_test &&
+                                    <div className="action" onClick={() => this.makeTestPersistent()} title="Make test run persistent">
+                                        <i className="fas fa-infinity"></i>
+                                    </div>
+                                }
                                 {this.props.task.state !== State.RUNNING && this.props.task.state !== State.QUEUED &&
                                 <div className="action" onClick={() => this.reassuringRemovePromptRefs.current.openDialog()} title="Remove task">
                                     <i className="far fa-trash-alt"></i>

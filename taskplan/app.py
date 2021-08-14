@@ -106,6 +106,11 @@ def run(refresh_interval):
         controller.remove_task(task_uuid)
         return jsonify({})
 
+    @app.route('/make_test_persistent/<string:task_uuid>')
+    def make_test_persistent(task_uuid):
+        controller.make_test_persistent(task_uuid)
+        return jsonify({})
+
     @app.route('/remove_param/<string:param_uuid>')
     def remove_param(param_uuid):
         controller.remove_param(param_uuid)

@@ -339,6 +339,14 @@ class TaskWrapper:
         except OSError:
             print("Could not remove directory: " + str(save_dir) + ". Probably the fault of TB, gonna try again at next reload.")
 
+    def move_data(self, new_path):
+        save_dir = self.build_save_dir()
+        assert save_dir != new_path
+        shutil.copytree(save_dir, new_path)
+        shutil.rmtree(save_dir)
+        self.tasks_dir = new_path.parent
+        self._create_metadata_lock()
+
     def receive_updates(self):
         config_changed = False
         msg_type, arg = self.device.recv()

@@ -304,6 +304,14 @@ class Project:
 
             self.event_manager.throw(EventType.TASK_REMOVED, task)
 
+
+    def make_test_persistent(self, task):
+        if task.is_test:
+            task.move_data(self.tasks_dir / str(task.uuid))
+            task.is_test = False
+
+            self.event_manager.throw(EventType.TASK_CHANGED, task)
+
     def remove_param(self, param_uuid):
         param = self.configuration.remove_param(param_uuid)
         if param is not None:

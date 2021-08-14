@@ -115,6 +115,11 @@ class Controller:
         task = self.project.find_task_by_uuid(task_uuid)
         self.project.remove_task(task)
 
+    def _make_test_persistent(self, task_uuid):
+        task = self.project.find_task_by_uuid(task_uuid)
+        self.project.make_test_persistent(task)
+        self.event_manager.log("Test task \"" + task_uuid + "\" has been made persistent", "Test task has been made persistent")
+
     def _remove_param(self, param_uuid):
         self.project.remove_param(param_uuid)
 

@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 
 from taskplan.TaskWrapper import PipeMsg
 
@@ -29,6 +30,24 @@ class Task(object):
         self.save_now = False
         self.creating_checkpoint = False
         self.use_tensorboardX = use_tensorboardX
+        self.param_change_callbacks = defaultdict(lambda: [])
+        self.last_iteration_param_cache = {}
+
+    def on_param_change(self, param_name, callback):
+        self.param_change_callbacks[param_name].append(callback)
+
+    def perform_param_change_callbacks(self):
+        for key in self.param_change_callbacks:
+            if key not in self.last_iteration_param_cache and self.finished_iterations > 0:
+                self.config.iteration_cursor = self.finished_iterations - 1
+                self.last_iteration_param_cache[key] = self.config.get_value(key)
+                self.config.iteration_cursor = self.finished_iterations
+
+            new_value = self.config.get_value(key)
+            if self.finished_iterations == 0 or self.last_iteration_param_cache[key] != new_value:
+                for callback in self.param_change_callbacks[key]:
+                    callback(self.last_iteration_param_cache[key] if self.finished_iterations > 0 else None, new_value)
+                self.last_iteration_param_cache[key] = new_value
 
     def load(self, path):
         raise NotImplementedError()
@@ -88,10 +107,11 @@ class Task(object):
         self.start()
         while self.finished_iterations < self.total_iterations:
             self.receive_updates()
+            self.config.iteration_cursor = self.finished_iterations
+            self.perform_param_change_callbacks()
             save_interval = self.config.get_int('save_interval')
             checkpoint_interval = self.config.get_int('checkpoint_interval')
 
-            self.config.iteration_cursor = self.finished_iterations
 
             if self.finished_iterations == 0:
                 self.before_first_iteration()

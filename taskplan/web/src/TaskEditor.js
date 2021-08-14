@@ -92,6 +92,7 @@ class TaskEditor extends React.Component {
             total_iterations: task.total_iterations,
             save_interval: task.save_interval,
             checkpoint_interval: task.checkpoint_interval,
+            current_iteration: 0
         }, () => this.updateCommand(selectedParamValues));
     }
 

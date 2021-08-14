@@ -23,10 +23,14 @@ class Task(taskplan.Task):
     def __init__(self, config, logger, metadata):
         super(Task, self).__init__(config, logger, metadata)
         self.sum = self.config.get_int('offset')
-
+        self.on_param_change("step", self.on_step_change)
+   
     def save(self, path):
         with open(str(path / Path("model.pk")), 'wb') as handle:
             pickle.dump(self.sum, handle)
+
+    def on_step_change(self, prev_step, new_step):
+        print("Step changed: " + str(prev_step) + " -> " + str(new_step))
 
     def step(self, tensorboard_writer, current_iteration):
         time.sleep(1)
