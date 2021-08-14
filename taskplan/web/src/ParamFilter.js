@@ -243,7 +243,7 @@ class ParamFilter extends React.Component {
                 {Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map((group) => (
                     <div key={group} className="param-group">
                         {group !== "" &&
-                        <div className="group-header" onClick={() => this.toggleHideParamValues()}>
+                        <div className="group-header">
                             <div className="title">{group}</div>
                         </div>
                         }
