@@ -29,8 +29,9 @@ class ProjectConfiguration:
         self.number_of_tasks_per_param_value_key = {}
 
     def register_task(self, task):
-        for param_value in task.config.base_configs["0"]:
-            self.register_task_for_param_value(task, param_value)
+        if "0" in task.config.base_configs:
+            for param_value in task.config.base_configs["0"]:
+                self.register_task_for_param_value(task, param_value)
 
     def register_task_for_param_value(self, task, param_value):
         if str(param_value[0].uuid) not in self.number_of_tasks_per_param_value:
@@ -47,16 +48,17 @@ class ProjectConfiguration:
         self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
 
     def deregister_task(self, task):
-        for param_value in task.config.base_configs["0"]:
-            if str(param_value[0].uuid) in self.number_of_tasks_per_param_value:
-                self.number_of_tasks_per_param_value[str(param_value[0].uuid)] -= 1
-                self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
-
-            key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
-            if str(param_value[0].uuid) in self.number_of_tasks_per_param_value_key:
-                if key in self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]:
-                    self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)][key][0] -= 1
+        if "0" in task.config.base_configs:
+            for param_value in task.config.base_configs["0"]:
+                if str(param_value[0].uuid) in self.number_of_tasks_per_param_value:
+                    self.number_of_tasks_per_param_value[str(param_value[0].uuid)] -= 1
                     self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
+
+                key = task.fill_param_value_template(param_value[0].get_metadata("name"), param_value[1:])
+                if str(param_value[0].uuid) in self.number_of_tasks_per_param_value_key:
+                    if key in self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)]:
+                        self.number_of_tasks_per_param_value_key[str(param_value[0].uuid)][key][0] -= 1
+                        self.event_manager.throw(EventType.PARAM_VALUE_CHANGED, param_value[0], self)
 
     def is_param_value_removable(self, param_value):
         return str(param_value.uuid) not in self.number_of_tasks_per_param_value or self.number_of_tasks_per_param_value[str(param_value.uuid)] == 0
@@ -289,12 +291,13 @@ class ProjectConfiguration:
         left_params = self.get_params()[:]
 
         param_uuids = []
-        for param_value in config.base_configs["0"]:
-            param_uuids.append(param_value[0].get_metadata('param'))
-            for left_param in left_params:
-                if param_value[0].get_metadata('param') == str(left_param.uuid):
-                    left_params.remove(left_param)
-                    break
+        if "0" in config.base_configs:
+            for param_value in config.base_configs["0"]:
+                param_uuids.append(param_value[0].get_metadata('param'))
+                for left_param in left_params:
+                    if param_value[0].get_metadata('param') == str(left_param.uuid):
+                        left_params.remove(left_param)
+                        break
 
         if len(left_params) > 0:
             raise Exception("todo")

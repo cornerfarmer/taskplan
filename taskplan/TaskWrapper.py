@@ -452,6 +452,8 @@ class TaskWrapper:
                 for e in tf.compat.v1.train.summary_iterator(str(path)):
                     for v in e.summary.value:
                         if v.tag not in self.metrics or self.metrics[v.tag][0] < e.step or (self.metrics[v.tag][0] == e.step and self.metrics[v.tag][1] < e.wall_time):
+                            if v.tensor.dtype == 0:
+                                v.tensor.dtype = 1
                             value = float(tf.make_ndarray(v.tensor))
                             if math.isnan(value):
                                 value = "nan"

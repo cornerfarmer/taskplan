@@ -1,4 +1,4 @@
-from git import Repo
+from git import Repo, BadName
 import os
 import fnmatch
 import time
@@ -34,7 +34,13 @@ class VersionControl:
 
     def take_snapshot(self, cause, force=False):
         files = []
-        for file in self.repo.untracked_files + [item.a_path for item in self.repo.index.diff(None)] + [item.a_path for item in self.repo.index.diff("HEAD")]:
+        possible_files = self.repo.untracked_files + [item.a_path for item in self.repo.index.diff(None)]
+        try:
+            possible_files += [item.a_path for item in self.repo.index.diff("HEAD")]
+        except BadName:
+            pass # Initial call, no head
+
+        for file in possible_files:
             for pattern in self.white_list:
                 if fnmatch.fnmatch(file, pattern) and os.path.exists(file):
                     files.append(file)
