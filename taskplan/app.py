@@ -13,10 +13,10 @@ try:
 except ImportError:
   from pathlib import Path
 
-def run(refresh_interval):
+def run(refresh_interval, taskplan_config):
     event_manager = EventManager()
 
-    controller = Controller(event_manager, refresh_interval, allow_remote=True, print_log=False)
+    controller = Controller(event_manager, refresh_interval, taskplan_config, allow_remote=True, print_log=False)
     controller.start()
 
     app = Flask(__name__, static_url_path="/static_web")

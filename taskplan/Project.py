@@ -82,7 +82,7 @@ class Project:
             with open(path) as f:
                 data = json.load(f)
         else:
-            data = {}
+            raise Exception("No such file: " + str(path))
         return Project(event_manager, metadata, tasks_to_load=tasks_to_load, slim_mode=slim_mode, **data)
 
     def save_metadata(self):

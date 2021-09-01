@@ -13,15 +13,16 @@ def cli():
     pass
 
 
-def _start_controller(tasks_to_load):
+def _start_controller(tasks_to_load, taskplan_config="taskplan.json"):
     event_manager = EventManager()
-    controller = Controller(event_manager, None, slim_mode=True, tasks_to_load=tasks_to_load)
+    controller = Controller(event_manager, None, taskplan_config, slim_mode=True, tasks_to_load=tasks_to_load)
     return event_manager, controller
 
 @cli.command()
 @click.option('--refresh_interval', type=int, default=30000)
-def web(refresh_interval):
-    app, controller = run(refresh_interval)
+@click.option('--config', type=str, default="taskplan.json")
+def web(refresh_interval, config):
+    app, controller = run(refresh_interval, config)
 
     run_simple("0.0.0.0", 9998, app, threaded=True)
     controller.stop()

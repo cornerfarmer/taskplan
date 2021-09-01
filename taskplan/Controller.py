@@ -17,7 +17,7 @@ from taskplan.Utility import Utility
 
 
 class Controller:
-    def __init__(self, event_manager, refresh_interval, allow_remote=False, print_log=True, slim_mode=False, tasks_to_load=None):
+    def __init__(self, event_manager, refresh_interval, taskplan_config, allow_remote=False, print_log=True, slim_mode=False, tasks_to_load=None):
         self.refresh_interval = refresh_interval
         self.call_queue = queue.Queue(maxsize=1)
         self.return_queue = queue.Queue(maxsize=1)
@@ -31,7 +31,7 @@ class Controller:
             metadata = {"project": {}, "scheduler": {}}
 
         self.scheduler = Scheduler(event_manager, metadata["scheduler"], allow_remote, print_log)#, self.global_config.get_list("remote_devices") if allow_remote else [])
-        self.project = Project.create_from_config_file(event_manager, metadata["project"], "taskplan.json", slim_mode=slim_mode, tasks_to_load=tasks_to_load)
+        self.project = Project.create_from_config_file(event_manager, metadata["project"], taskplan_config, slim_mode=slim_mode, tasks_to_load=tasks_to_load)
         self.project.refresh_interval = refresh_interval
 
         self.save_metadata()
