@@ -11,14 +11,14 @@ import json
 from taskconf.config.Configuration import Configuration
 
 class Api:
-    def __init__(self):
+    def __init__(self, taskplan_config="taskplan.json"):
         if Path("taskplan_metadata.json").exists():
             with open('taskplan_metadata.json') as f:
                 metadata = json.load(f)
         else:
             metadata = {"project": {}, "scheduler": {}}
 
-        self.project = Project.create_from_config_file(EventManager(), metadata["project"], "taskplan.json", tasks_to_load=[], slim_mode=True)
+        self.project = Project.create_from_config_file(EventManager(), metadata["project"], taskplan_config, tasks_to_load=[], slim_mode=True)
 
     def load_task(self, task_path):
         task = self.project._load_saved_task(Path(task_path), task_path.startswith("tests"))
