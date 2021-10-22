@@ -41,6 +41,6 @@ class Api:
                         base_configs.append([param_value])
                         if param_value.has_metadata("template_deprecated"):
                             base_configs[-1] += param_value.get_metadata("template_deprecated")
-
+        base_configs = []
         config = Configuration(data, base_configs)
         return config

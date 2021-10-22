@@ -33,8 +33,9 @@ def web(refresh_interval, config):
 @click.argument('params', nargs=-1)
 @click.option('--save', type=int, default=0)
 @click.option('--checkpoint', type=int, default=0)
-def start(total_iterations, params, save, checkpoint):
-    event_manager, controller = _start_controller([])
+@click.option('--config', type=str, default="taskplan.json")
+def start(total_iterations, params, save, checkpoint, config):
+    event_manager, controller = _start_controller([], config)
 
     try:
         controller.start()
@@ -46,7 +47,7 @@ def start(total_iterations, params, save, checkpoint):
         for i in range(0, len(params), 2):
             values_per_param[params[i]] = params[i + 1].split(":")
 
-        task = controller.start_new_task(values_per_param, config, total_iterations)
+        task = controller.start_new_task({"0": values_per_param}, config, total_iterations)
         print("Starting task " + str(task.uuid))
 
         console_ui = ConsoleUI(controller, event_manager, str(task.uuid))
@@ -58,8 +59,9 @@ def start(total_iterations, params, save, checkpoint):
 @cli.command(name="continue")
 @click.argument('task_uuid')
 @click.argument('total_iterations', type=int, required=False)
-def continue_task(task_uuid, total_iterations=0):
-    event_manager, controller = _start_controller(task_uuid)
+@click.option('--config', type=str, default="taskplan.json")
+def continue_task(task_uuid, total_iterations, config):
+    event_manager, controller = _start_controller(task_uuid, config)
 
     try:
         controller.start()
@@ -80,9 +82,9 @@ def continue_task(task_uuid, total_iterations=0):
 @click.argument('params', nargs=-1)
 @click.option('--save', type=int, default=0)
 @click.option('--checkpoint', type=int, default=0)
-def test_task(total_iterations, params, save, checkpoint):
-    event_manager, controller = _start_controller([])
-
+@click.option('--config', type=str, default="taskplan.json")
+def test_task(total_iterations, params, save, checkpoint, config):
+    event_manager, controller = _start_controller([], config)
 
     try:
         controller.start()
@@ -94,7 +96,7 @@ def test_task(total_iterations, params, save, checkpoint):
         for i in range(0, len(params), 2):
             values_per_param[params[i]] = params[i + 1].split(":")
 
-        task = controller.start_new_task(values_per_param, config, total_iterations, is_test=True)
+        task = controller.start_new_task({"0": values_per_param}, config, total_iterations, is_test=True)
 
         if task is not None:
             print("Testing task " + str(task.uuid))
