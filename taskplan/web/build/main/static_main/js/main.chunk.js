@@ -85,7 +85,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! reconnecting-eventsource */ "./node_modules/reconnecting-eventsource/lib/index.js");
 /* harmony import */ var reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(reconnecting_eventsource__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _Repository__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Repository */ "./src/Repository.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/App.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/App.js";
 
 
 
@@ -126,77 +126,86 @@ class App extends react__WEBPACK_IMPORTED_MODULE_3___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       id: "page",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_FlashMessageManager__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        lineNumber: 49,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_FlashMessageManager__WEBPACK_IMPORTED_MODULE_6__["default"], {
       evtSource: this.evtSource,
       noConnection: this.state.noConnection,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+        lineNumber: 50,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "container",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 51
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+        lineNumber: 51,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "row",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 52
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+        lineNumber: 52,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "col-sm-8",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_Scheduler__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        lineNumber: 53,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_Scheduler__WEBPACK_IMPORTED_MODULE_4__["default"], {
       devices: this.state.devices,
       evtSource: this.evtSource,
       repository: this.repository,
       editTask: task => this.projectManagerRef.current.editTask(task),
       highlightTask: task => this.projectManagerRef.current.highlightTask(task),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 54
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+        lineNumber: 54,
+        columnNumber: 29
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "col-sm-4",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 56
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_ProjectManager__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        lineNumber: 56,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_ProjectManager__WEBPACK_IMPORTED_MODULE_5__["default"], {
       devices: this.state.devices,
       evtSource: this.evtSource,
       ref: this.projectManagerRef,
       repository: this.repository,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 57
-      },
-      __self: this
-    })))), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_ControlBar__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        lineNumber: 57,
+        columnNumber: 29
+      }
+    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_ControlBar__WEBPACK_IMPORTED_MODULE_7__["default"], {
       evtSource: this.evtSource,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 61
-      },
-      __self: this
+        lineNumber: 61,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -218,7 +227,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/CodeVersionViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/CodeVersionViewer.js";
 
 
 
@@ -283,163 +292,184 @@ class CodeVersionViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Com
 
   render() {
     if (this.state.open) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "code-version-viewer slide-editor editor",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 84
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 84,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 85
-        },
-        __self: this
-      }, "Code version", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 85,
+          columnNumber: 21
+        }
+      }, "Code version", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         class: "fas fa-times",
         onClick: this.close,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 85
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 85,
+          columnNumber: 57
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "metadata",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 86
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 86,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 87
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 87,
+          columnNumber: 30
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.commit_id,
         onChange: this.onIdChange,
         required: "required",
         style: {
           "width": "100%"
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 87
-        },
-        __self: this
-      })), this.state.data !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 87,
+          columnNumber: 35
+        }
+      })), this.state.data !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 89
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 89,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 90
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 90,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 90
-        },
-        __self: this
-      }, "Message:"), " ", this.state.data.message), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 90,
+          columnNumber: 38
+        }
+      }, "Message:"), " ", this.state.data.message), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 91
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 91,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 91
-        },
-        __self: this
-      }, "Date:"), " ", this.state.data.date.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 91,
+          columnNumber: 38
+        }
+      }, "Date:"), " ", this.state.data.date.toShortStr()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.state.data.parent !== null ? () => this.open(this.state.data.parent) : null,
         style: this.state.data.parent !== null ? {
           "cursor": "pointer"
         } : {},
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 92
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 92,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 92
-        },
-        __self: this
-      }, "Parent:"), " ", this.state.data.parent === null ? "-" : this.state.data.parent), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 92,
+          columnNumber: 198
+        }
+      }, "Parent:"), " ", this.state.data.parent === null ? "-" : this.state.data.parent), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 93
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 93,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 93
-        },
-        __self: this
-      }, "Label:"), "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 93,
+          columnNumber: 38
+        }
+      }, "Label:"), "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         placeholder: this.state.data.inherited_label,
         value: this.state.label,
         onChange: this.onLabelChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 93
-        },
-        __self: this
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 93,
+          columnNumber: 59
+        }
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 98
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 98,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.reassuringHardResetPromptRef.current.openDialog(),
         title: "Do a git hard reset. This will reset all files to the state of this commit.",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 99
-        },
-        __self: this
-      }, "Hard reset"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 99,
+          columnNumber: 25
+        }
+      }, "Hard reset"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.reassuringSoftResetPromptRef.current.openDialog(),
         title: "Do a git soft reset. This will leave all files as they are now but will set the HEAD to this commit.",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 100
-        },
-        __self: this
-      }, "Soft reset")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 100,
+          columnNumber: 25
+        }
+      }, "Soft reset")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.reassuringHardResetPromptRef,
         header: "Really want to do a hard reset?",
         text: "Do you really want to do a hard reset? This will move HEAD to this commit and reset all code to its state.",
         url: "/hard_reset/" + this.state.commit_id,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 103
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 103,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.reassuringSoftResetPromptRef,
         header: "Really want to do a soft reset?",
         text: "Do you really want to do a soft reset? This will move HEAD to this commit, but keeps the changes.",
         url: "/soft_reset/" + this.state.commit_id,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 104
-        },
-        __self: this
+          lineNumber: 104,
+          columnNumber: 21
+        }
       }));
     } else {
       return "";
@@ -466,7 +496,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
 /* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-lazyload */ "./node_modules/react-lazyload/lib/index.js");
 /* harmony import */ var react_lazyload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_lazyload__WEBPACK_IMPORTED_MODULE_2__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/CollapsedTasks.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/CollapsedTasks.js";
 
 
 
@@ -490,25 +520,27 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
     let tasks = Object.values(this.props.tasks); //.filter(task => task.task !== null);
 
     if (tasks.length > 0) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 26
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
+          lineNumber: 26,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
         key: tasks[0].uuid,
         height: 102,
         offset: [0, 0],
         scrollContainer: ".project",
         resize: true,
         overflow: true,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 27
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PausedTask__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 27,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PausedTask__WEBPACK_IMPORTED_MODULE_1__["default"], {
         uuid: tasks[0].uuid,
         rerunTask: this.props.rerunTask,
         editTask: this.props.editTask,
@@ -520,58 +552,65 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
         filterLikeTask: this.props.filterLikeTask,
         devices: this.props.devices,
         detailCol: this.props.detailCol,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 28
-        },
-        __self: this
-      })), tasks.length > 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 28,
+          columnNumber: 25
+        }
+      })), tasks.length > 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         class: "collapse-toggle",
         onClick: this.toggleCollapsed,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 43
-        },
-        __self: this
-      }, this.state.collapsed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 43,
+          columnNumber: 25
+        }
+      }, this.state.collapsed ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 46
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 46,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-angle-double-down",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 46
-        },
-        __self: this
-      }), " ", "Expand (" + (tasks.length - 1) + ")") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 46,
+          columnNumber: 38
+        }
+      }), " ", "Expand (" + (tasks.length - 1) + ")") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 48
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 48,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-angle-double-up",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 48
-        },
-        __self: this
-      }), " Collapse")), !this.state.collapsed && tasks.slice(1).map(task => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
+          lineNumber: 48,
+          columnNumber: 38
+        }
+      }), " Collapse")), !this.state.collapsed && tasks.slice(1).map(task => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
         key: tasks.uuid,
         height: 102,
         offset: [0, 0],
         scrollContainer: ".project",
         resize: true,
         overflow: true,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 52
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PausedTask__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 52,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PausedTask__WEBPACK_IMPORTED_MODULE_1__["default"], {
         uuid: task.uuid,
         rerunTask: this.props.rerunTask,
         task: task.task,
@@ -583,11 +622,12 @@ class CollapsedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
         detailCol: this.props.detailCol,
         metrics: task.metrics,
         collapsed: true,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 53
-        },
-        __self: this
+          lineNumber: 53,
+          columnNumber: 29
+        }
       }))));
     } else {
       return "";
@@ -612,7 +652,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ConfigEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ConfigEditor.js";
 
 
 
@@ -683,7 +723,7 @@ class ConfigEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
   }
 
   render() {
-    if (this.state.loadedUrl === this.props.url) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_JsonEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    if (this.state.loadedUrl === this.props.url) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_JsonEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
       ref: this.jsonEditor,
       json: this.state.config,
       inheritedJson: this.state.inheritedConfig,
@@ -695,25 +735,28 @@ class ConfigEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
         mainMenuBar: false,
         statusBar: false
       } : {},
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 89
-      },
-      __self: this
-    });else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 89,
+        columnNumber: 17
+      }
+    });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "editor-loading",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 93,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-sync fa-spin fa-2x",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
-      },
-      __self: this
+        lineNumber: 93,
+        columnNumber: 49
+      }
     }));
   }
 
@@ -734,7 +777,7 @@ class ConfigEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ControlBar.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ControlBar.js";
 
 
 class ControlBar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -753,59 +796,66 @@ class ControlBar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "controlbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 30
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 30,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "container",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 31
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        lineNumber: 31,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
       id: "title",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 32
-      },
-      __self: this
-    }, "TaskPlan"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 32,
+        columnNumber: 21
+      }
+    }, "TaskPlan"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.pauseAll,
       title: "Pause all running tasks",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 35
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 35,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-pause",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 36
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 36,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.openGlobalLog,
       title: "Open the global log",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 38
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 38,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-file-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 39
-      },
-      __self: this
+        lineNumber: 39,
+        columnNumber: 25
+      }
     }))));
   }
 
@@ -828,7 +878,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Task */ "./src/Task.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Device.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Device.js";
 
 
 
@@ -865,139 +915,156 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "device",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 49,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 50,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 51
-      },
-      __self: this
-    }, this.props.device.name), this.props.device.is_connected === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 51,
+        columnNumber: 21
+      }
+    }, this.props.device.name), this.props.device.is_connected === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.connect,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53
-      },
-      __self: this
-    }, "Connect"), this.props.device.is_connected === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 53,
+        columnNumber: 25
+      }
+    }, "Connect"), this.props.device.is_connected === 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.disconnect,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 58
-      },
-      __self: this
-    }, "Disconnect"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 58,
+        columnNumber: 25
+      }
+    }, "Disconnect"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "hide-device",
       onClick: () => this.props.hideDevice(this.props.device),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 62
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 62,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 63
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 63,
+        columnNumber: 25
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "body",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 67
-      },
-      __self: this
-    }, this.props.device.is_connected !== 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        lineNumber: 67,
+        columnNumber: 17
+      }
+    }, this.props.device.is_connected !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "tasks",
       id: "tasks-running",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 69
-      },
-      __self: this
-    }, this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING).length === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        lineNumber: 69,
+        columnNumber: 25
+      }
+    }, this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING).length === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "mock-task",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 71
-      },
-      __self: this
-    }, "Idle"), this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING).map((task, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 71,
+        columnNumber: 29
+      }
+    }, "Idle"), this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING).map((task, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
       editTask: this.props.editTask,
       key: task.uuid,
       task: task,
       index: index,
       highlightTask: this.props.highlightTask,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 76,
+        columnNumber: 33
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "queue-header",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 88
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 88,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.toggleQueue,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 89
-      },
-      __self: this
-    }, this.state.showQueue ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 89,
+        columnNumber: 25
+      }
+    }, this.state.showQueue ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-minus",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 91
-      },
-      __self: this
-    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 91,
+        columnNumber: 33
+      }
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-plus",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
-      },
-      __self: this
-    })), "Waiting (", this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED).length, ")"), this.state.showQueue && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        lineNumber: 93,
+        columnNumber: 33
+      }
+    })), "Waiting (", this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED).length, ")"), this.state.showQueue && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "tasks tasks-queued",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 99
-      },
-      __self: this
+        lineNumber: 99,
+        columnNumber: 25
+      }
     }, this.props.tasks.filter(task => task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED).sort(function (a, b) {
       return a.queue_index - b.queue_index;
-    }).map((task, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }).map((task, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
       editTask: this.props.editTask,
       key: task.uuid,
       task: task,
       index: index,
       highlightTask: this.props.highlightTask,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 103
-      },
-      __self: this
+        lineNumber: 103,
+        columnNumber: 33
+      }
     })))));
   }
 
@@ -1018,7 +1085,7 @@ class Device extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/FlashMessageManager.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/FlashMessageManager.js";
 
 
 class FlashMessage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -1039,15 +1106,16 @@ class FlashMessage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
       marginLeft: 0,
       marginTop: -26
     };
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: 'flash-message level-' + this.props.flashMessage.level,
       style: style,
       title: this.props.flashMessage.message,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 21
-      },
-      __self: this
+        lineNumber: 21,
+        columnNumber: 13
+      }
     }, this.props.flashMessage.short);
   }
 
@@ -1101,34 +1169,37 @@ class FlashMessageManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.C
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "flash-messages",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    }, this.state.flashMessages.map((flashMessage, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(FlashMessage, {
+        lineNumber: 81,
+        columnNumber: 13
+      }
+    }, this.state.flashMessages.map((flashMessage, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(FlashMessage, {
       key: flashMessage.id,
       flashMessage: flashMessage,
       ref: this.flashMessagesRefs[index],
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 83
-      },
-      __self: this
-    })), this.props.noConnection && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(FlashMessage, {
+        lineNumber: 83,
+        columnNumber: 21
+      }
+    })), this.props.noConnection && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(FlashMessage, {
       key: "-1",
       flashMessage: {
         "short": "No connection to server",
         "level": "40"
       },
       state: "1",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 90
-      },
-      __self: this
+        lineNumber: 90,
+        columnNumber: 21
+      }
     }));
   }
 
@@ -1184,7 +1255,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
 /* harmony import */ var _PausedTask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PausedTask */ "./src/PausedTask.js");
 /* harmony import */ var _CollapsedTasks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CollapsedTasks */ "./src/CollapsedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/GroupedTasks.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/GroupedTasks.js";
 
 
 
@@ -1214,7 +1285,7 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
     if (Object.values(this.props.tasks).length > 0) {
       if (this.props.tasks instanceof Array) {
         //console.log(this.props.tasks);
-        return this.props.tasks.map((tasks, i) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CollapsedTasks__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        return this.props.tasks.map((tasks, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CollapsedTasks__WEBPACK_IMPORTED_MODULE_6__["default"], {
           tasks: tasks,
           key: tasks[0] !== null ? tasks[0].uuid : i,
           rerunTask: this.props.rerunTask,
@@ -1224,58 +1295,65 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           devices: this.props.devices,
           detailCol: this.props.detailCol,
           highlightedTask: this.props.highlightedTask,
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 38
-          },
-          __self: this
+            lineNumber: 38,
+            columnNumber: 25
+          }
         }));
       } else {
-        return Object.keys(this.props.tasks).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return Object.keys(this.props.tasks).sort((a, b) => a.localeCompare(b)).map(group => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: group,
           className: "param-group",
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 52
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            lineNumber: 52,
+            columnNumber: 21
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-header",
           onClick: () => this.toggleCollapsed(group),
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 53
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            lineNumber: 53,
+            columnNumber: 25
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "title",
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 54
-          },
-          __self: this
-        }, !(group in this.state.collapsed) || !this.state.collapsed[group] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            lineNumber: 54,
+            columnNumber: 29
+          }
+        }, !(group in this.state.collapsed) || !this.state.collapsed[group] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-caret-down",
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 57
-          },
-          __self: this
-        }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            lineNumber: 57,
+            columnNumber: 37
+          }
+        }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-caret-right",
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 59
-          },
-          __self: this
-        }), group)), (!(group in this.state.collapsed) || !this.state.collapsed[group]) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            lineNumber: 59,
+            columnNumber: 37
+          }
+        }), group)), (!(group in this.state.collapsed) || !this.state.collapsed[group]) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-tasks",
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 65
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupedTasks, {
+            lineNumber: 65,
+            columnNumber: 29
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupedTasks, {
           tasks: this.props.tasks[group],
           rerunTask: this.props.rerunTask,
           editTask: this.props.editTask,
@@ -1284,11 +1362,12 @@ class GroupedTasks extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Componen
           devices: this.props.devices,
           detailCol: this.props.detailCol,
           highlightedTask: this.props.highlightedTask,
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 66
-          },
-          __self: this
+            lineNumber: 66,
+            columnNumber: 33
+          }
         }))));
       }
     } else {
@@ -1329,7 +1408,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var brace__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(brace__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! brace/mode/json */ "./node_modules/brace/mode/json.js");
 /* harmony import */ var brace_mode_json__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(brace_mode_json__WEBPACK_IMPORTED_MODULE_8__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/JsonEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/JsonEditor.js";
 
 
 
@@ -1552,14 +1631,15 @@ class JsonEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "jsoneditor-react-container" + ('readOnly' in this.props.options && this.props.options.readOnly ? ' jsoneditor-readOnly' : ''),
       ref: elem => this.container = elem,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 212
-      },
-      __self: this
+        lineNumber: 212,
+        columnNumber: 13
+      }
     });
   }
 
@@ -1581,7 +1661,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _JsonEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsonEditor */ "./src/JsonEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/MetricsViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/MetricsViewer.js";
 
 
 
@@ -1618,57 +1698,64 @@ class MetricsViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
   }
 
   render() {
-    if (!this.state.loading) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+    if (!this.state.loading) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 51
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 51,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 52
-      },
-      __self: this
-    }, "Reload: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 52,
+        columnNumber: 21
+      }
+    }, "Reload: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "fas fa-sync-alt",
       onClick: this.reload,
       style: {
         "cursor": "pointer"
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 52
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 52,
+        columnNumber: 53
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53
-      },
-      __self: this
-    }, Object.keys(this.state.metrics).map(key => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 53,
+        columnNumber: 21
+      }
+    }, Object.keys(this.state.metrics).map(key => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       title: "iteration: " + this.state.metrics[key][0] + "\nsaved: " + new Date(this.state.metrics[key][1] * 1000).toShortStr(),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 55
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 55,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 55
-      },
-      __self: this
-    }, key, ":"), typeof this.state.metrics[key][2] === "number" ? this.state.metrics[key][2].toFixed(3) : this.state.metrics[key][2]))));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 55,
+        columnNumber: 160
+      }
+    }, key, ":"), typeof this.state.metrics[key][2] === "number" ? this.state.metrics[key][2].toFixed(3) : this.state.metrics[key][2]))));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 62
-      },
-      __self: this
+        lineNumber: 62,
+        columnNumber: 17
+      }
     }, "Loading...");
   }
 
@@ -1691,7 +1778,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ParamValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParamValue */ "./src/ParamValue.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Param.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Param.js";
 
 
 
@@ -1755,7 +1842,7 @@ class Param extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       ref: this.paramRef,
       className: "item item-param",
       onDragOver: this.onDragOver,
@@ -1764,20 +1851,22 @@ class Param extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onDrop: this.onDrop,
       onDragStart: this.onDragStart,
       draggable: this.props.sortMode ? "true" : "false",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 69
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 69,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
       onClick: () => this.toggleHideParamValues(),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 70
-      },
-      __self: this
-    }, this.props.sortMode && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 70,
+        columnNumber: 17
+      }
+    }, this.props.sortMode && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
       title: "Always show parameter in default names",
       style: {
@@ -1785,154 +1874,172 @@ class Param extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       },
       checked: this.props.forceInName,
       onChange: e => this.props.onChangeForceParamInName(e, this.props.param.uuid),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 72
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 72,
+        columnNumber: 25
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 75
-      },
-      __self: this
-    }, this.props.sortMode ? this.props.param.group.concat([this.props.param.name]).join(" / ") : this.props.param.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 75,
+        columnNumber: 21
+      }
+    }, this.props.sortMode ? this.props.param.group.concat([this.props.param.name]).join(" / ") : this.props.param.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       style: {
         "flex": "2 1 auto"
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
-      },
-      __self: this
-    }), !this.props.sortMode ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 76,
+        columnNumber: 21
+      }
+    }), !this.props.sortMode ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 78,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: e => {
         this.props.newParamValueFunc(this.props.param, this.props.param.values);
         e.stopPropagation();
       },
       title: "New parameter value",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 79,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-plus",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 80
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 80,
+        columnNumber: 33
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: e => {
         this.props.editParamFunc(this.props.param);
         e.stopPropagation();
       },
       title: "Edit parameter",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 82
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 82,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 83
-      },
-      __self: this
-    })), this.props.param.values.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 83,
+        columnNumber: 33
+      }
+    })), this.props.param.values.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: () => this.reassuringRemovePromptRefs.current.openDialog(),
       title: "Remove parameter",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 86
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 86,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-trash-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
-      },
-      __self: this
-    })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 87,
+        columnNumber: 37
+      }
+    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action action-disabled",
       title: "Parameter cannot be removed, as it still has values.",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 90
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 90,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-trash-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 91
-      },
-      __self: this
-    }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 91,
+        columnNumber: 37
+      }
+    }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 96
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 96,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "grip-icon",
       title: "Move param in ordering for default naming",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 97
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 97,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-bars",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 98
-      },
-      __self: this
-    })))), !this.state.hideParamValues && !this.props.sortMode && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        lineNumber: 98,
+        columnNumber: 33
+      }
+    })))), !this.state.hideParamValues && !this.props.sortMode && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 104
-      },
-      __self: this
+        lineNumber: 104,
+        columnNumber: 21
+      }
     }, this.props.param.values.sort((a, b) => {
       return a.name.localeCompare(b.name);
-    }).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamValue__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }).map(value => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamValue__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: value.uuid,
       paramValue: value,
       param: this.props.param,
       editFunc: this.props.editParamValueFunc,
       removable: Object.values(value.number_of_tasks).map(x => x[0]).reduce((accumulator, currentValue) => accumulator + currentValue, 0) === 0,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 108,
+        columnNumber: 29
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
       ref: this.reassuringRemovePromptRefs,
       header: "Really want to delete?",
       text: "Do you really want to remove this parameter?",
       url: "/remove_param/" + this.props.param.uuid,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 118
-      },
-      __self: this
+        lineNumber: 118,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -1954,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamBatchEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamBatchEditor.js";
 
 
 
@@ -1998,49 +2105,55 @@ class ParamBatchEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 
   render() {
     if (this.state.open) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-batch-editor editor",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 62
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 62,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 63
-        },
-        __self: this
-      }, "Add multiple parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 63,
+          columnNumber: 21
+        }
+      }, "Add multiple parameters"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.configEditor,
         url: "",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 64
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 64,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 65
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 65,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.save,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
-        },
-        __self: this
-      }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 66,
+          columnNumber: 25
+        }
+      }, "Save"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.close,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 67
-        },
-        __self: this
+          lineNumber: 67,
+          columnNumber: 25
+        }
       }, "Cancel")));
     } else {
       return "";
@@ -2064,7 +2177,7 @@ class ParamBatchEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamEditor.js";
 
 
 class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -2163,141 +2276,160 @@ class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 
   render() {
     if (this.state.param !== null) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-editor editor",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 116
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 116,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 117
-        },
-        __self: this
-      }, this.state.param.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 117,
+          columnNumber: 21
+        }
+      }, this.state.param.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 118
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 118,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 119
-        },
-        __self: this
-      }, "Name:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 119,
+          columnNumber: 25
+        }
+      }, "Name:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.name,
         onChange: this.onNameChange,
         required: "required",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 120
-        },
-        __self: this
-      })), this.state.param.values.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 120,
+          columnNumber: 25
+        }
+      })), this.state.param.values.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 123
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 123,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 124
-        },
-        __self: this
-      }, "Parameter value for deprecated tasks:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          lineNumber: 124,
+          columnNumber: 25
+        }
+      }, "Parameter value for deprecated tasks:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.deprecatedParamValue,
         onChange: this.onDeprecatedParamValueChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 125
-        },
-        __self: this
-      }, this.state.param.values.map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 125,
+          columnNumber: 25
+        }
+      }, this.state.param.values.map(value => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: value.uuid,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 127
-        },
-        __self: this
-      }, value.name)))), this.state.param.values.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 127,
+          columnNumber: 33
+        }
+      }, value.name)))), this.state.param.values.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 133
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 133,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 134
-        },
-        __self: this
-      }, "Default parameter value for new tasks:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          lineNumber: 134,
+          columnNumber: 25
+        }
+      }, "Default parameter value for new tasks:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.defaultParamValue,
         onChange: this.onDefaultParamValueChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 135
-        },
-        __self: this
-      }, this.state.param.values.map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 135,
+          columnNumber: 25
+        }
+      }, this.state.param.values.map(value => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: value.uuid,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 137
-        },
-        __self: this
-      }, value.name)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 137,
+          columnNumber: 33
+        }
+      }, value.name)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 142
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 142,
+          columnNumber: 22
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 143
-        },
-        __self: this
-      }, "Condition:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 143,
+          columnNumber: 25
+        }
+      }, "Condition:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.condition,
         onChange: this.onConditionChange,
         required: "required",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 144
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 144,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 146
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 146,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.save,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 147
-        },
-        __self: this
-      }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 147,
+          columnNumber: 25
+        }
+      }, "Save"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.close,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 148
-        },
-        __self: this
+          lineNumber: 148,
+          columnNumber: 25
+        }
       }, "Cancel")));
     } else {
       return "";
@@ -2321,7 +2453,7 @@ class ParamEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamFilter.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamFilter.js";
 
 
 class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -2402,111 +2534,124 @@ class ParamFilterParam extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: this.props.param.uuid,
       className: "param",
       style: this.props.spaceBelow && {
         "margin-bottom": "5px"
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 75
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 75,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: this.props.expanded ? "param-name param-name-expanded" : "param-name param-name-collapsed",
       onClick: () => this.props.toggleExpandedParam(this.props.param.uuid),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
-      },
-      __self: this
-    }, this.props.param.name, this.props.expanded ? this.props.selectMultiple && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 76,
+        columnNumber: 17
+      }
+    }, this.props.param.name, this.props.expanded ? this.props.selectMultiple && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: !(this.props.param.uuid in this.props.selectedParamValues) ? "all-button all-button-activated" : "all-button",
       onClick: this.toggleAll,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    }, "All") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 81,
+        columnNumber: 25
+      }
+    }, "All") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "param-value-hints",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 85
-      },
-      __self: this
-    }, this.getSelectedValues().map(paramValue => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 85,
+        columnNumber: 25
+      }
+    }, this.getSelectedValues().map(paramValue => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "param-value-hint",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
-      },
-      __self: this
-    }, paramValue)))), this.props.expanded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 87,
+        columnNumber: 33
+      }
+    }, paramValue)))), this.props.expanded && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-values-wrapper",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 95
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 95,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-values",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 96
-      },
-      __self: this
+        lineNumber: 96,
+        columnNumber: 25
+      }
     }, this.props.param.values.sort((a, b) => {
       return a.name.localeCompare(b.name);
-    }).map(paramValue => !paramValue.isTemplate || !this.props.useTemplateFields ? this.mapValueToValues(paramValue).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }).map(paramValue => !paramValue.isTemplate || !this.props.useTemplateFields ? this.mapValueToValues(paramValue).map(value => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: value.uuid,
       className: this.calcParamValueClasses(this.props.param, value),
       onClick: () => this.props.toggleSelection(this.props.param, value, value.args),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 102
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        lineNumber: 102,
+        columnNumber: 41
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 103
-      },
-      __self: this
-    }, value.resolvedName, value.numberOfTasks !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 103,
+        columnNumber: 45
+      }
+    }, value.resolvedName, value.numberOfTasks !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "task-numbers",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
-      },
-      __self: this
-    }, value.numberOfTasks)))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 105,
+        columnNumber: 82
+      }
+    }, value.numberOfTasks)))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: paramValue.uuid,
       className: this.calcParamValueClasses(this.props.param, paramValue),
       onClick: () => this.props.toggleSelection(this.props.param, paramValue, [this.props.getParamValueArg(this.props.param, paramValue)]),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        lineNumber: 110,
+        columnNumber: 34
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 111
-      },
-      __self: this
-    }, paramValue.name.split("$T0$")[0], react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 111,
+        columnNumber: 37
+      }
+    }, paramValue.name.split("$T0$")[0], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       value: this.props.getParamValueArg(this.props.param, paramValue),
       style: {
         "width": Math.max(10, 10 * this.props.getParamValueArg(this.props.param, paramValue).toString().length) + "px"
       },
       onChange: evt => this.props.onParamValueArgChange(this.props.param, paramValue, evt),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 113
-      },
-      __self: this
+        lineNumber: 113,
+        columnNumber: 41
+      }
     }), paramValue.name.split("$T0$")[1]))))));
   }
 
@@ -2600,20 +2745,22 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       }
     }
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
-      },
-      __self: this
-    }, versionsParam !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 211,
+        columnNumber: 13
+      }
+    }, versionsParam !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-filter",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 213
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+        lineNumber: 213,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
       param: versionsParam,
       useTemplateFields: this.props.useTemplateFields,
       toggleSelection: this.props.toggleSelection,
@@ -2623,19 +2770,21 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       expanded: "versions" === this.state.expandedParam,
       toggleExpandedParam: this.toggleExpandedParam,
       onParamValueArgChange: this.onParamValueArgChange,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214
-      },
-      __self: this
-    })), tagsParam !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 214,
+        columnNumber: 21
+      }
+    })), tagsParam !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-filter",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+        lineNumber: 228,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
       param: tagsParam,
       useTemplateFields: this.props.useTemplateFields,
       toggleSelection: this.props.toggleSelection,
@@ -2645,55 +2794,62 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       expanded: "tags" === this.state.expandedParam,
       toggleExpandedParam: this.toggleExpandedParam,
       onParamValueArgChange: this.onParamValueArgChange,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 229,
+        columnNumber: 21
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-filter",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 242
-      },
-      __self: this
-    }, Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 242,
+        columnNumber: 17
+      }
+    }, Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: group,
       className: "param-group",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 244
-      },
-      __self: this
-    }, group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 244,
+        columnNumber: 21
+      }
+    }, group !== "" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "group-header",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 246,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
-      },
-      __self: this
-    }, group)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 247,
+        columnNumber: 29
+      }
+    }, group)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 250,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "params",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 251
-      },
-      __self: this
-    }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0 && (this.props.paramVisibility === undefined || !(param.uuid in this.props.paramVisibility) || this.props.paramVisibility[param.uuid] || true)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
+        lineNumber: 251,
+        columnNumber: 29
+      }
+    }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0 && (this.props.paramVisibility === undefined || !(param.uuid in this.props.paramVisibility) || this.props.paramVisibility[param.uuid] || true)).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ParamFilterParam, {
       param: param,
       useTemplateFields: this.props.useTemplateFields,
       toggleSelection: this.props.toggleSelection,
@@ -2703,11 +2859,12 @@ class ParamFilter extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       expanded: param.uuid === this.state.expandedParam,
       toggleExpandedParam: this.toggleExpandedParam,
       onParamValueArgChange: this.onParamValueArgChange,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
-      },
-      __self: this
+        lineNumber: 253,
+        columnNumber: 37
+      }
     }))))))));
   }
 
@@ -2729,7 +2886,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamGroup.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamGroup.js";
 
 
 
@@ -2749,45 +2906,50 @@ class ParamGroup extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "item item-param",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 22
-      },
-      __self: this
-    }, this.props.group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 22,
+        columnNumber: 13
+      }
+    }, this.props.group !== "" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "group-header",
       onClick: () => this.toggleHideParamValues(),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 24
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 24,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 25
-      },
-      __self: this
-    }, this.props.group)), !this.state.hideParamValue && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        lineNumber: 25,
+        columnNumber: 25
+      }
+    }, this.props.group)), !this.state.hideParamValue && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 29
-      },
-      __self: this
-    }, this.props.params.sort((a, b) => a.name.localeCompare(b.name)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 29,
+        columnNumber: 21
+      }
+    }, this.props.params.sort((a, b) => a.name.localeCompare(b.name)).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: param.uuid,
       param: param,
       editParamFunc: this.props.editParamFunc,
       editParamValueFunc: this.props.editParamValueFunc,
       newParamValueFunc: this.props.newParamValueFunc,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 31
-      },
-      __self: this
+        lineNumber: 31,
+        columnNumber: 29
+      }
     }))));
   }
 
@@ -2809,7 +2971,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamSelection.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamSelection.js";
 
 
 
@@ -2868,110 +3030,124 @@ class ParamSelection extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
 
   render() {
     if (this.state.dialogOpen) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-wrapper",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 59
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 59,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.props.paramEditor ? 'prompt param-prompt' : 'prompt',
         style: {
           "width": "300px"
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 60
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 60,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61
-        },
-        __self: this
-      }, this.props.header), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 61,
+          columnNumber: 25
+        }
+      }, this.props.header), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-filter",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 62
-        },
-        __self: this
-      }, Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 62,
+          columnNumber: 29
+        }
+      }, Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         key: group,
         className: "param-group",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 64
-        },
-        __self: this
-      }, group !== "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 64,
+          columnNumber: 37
+        }
+      }, group !== "" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 66,
+          columnNumber: 41
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "title",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 67
-        },
-        __self: this
-      }, group)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 67,
+          columnNumber: 45
+        }
+      }, group)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 70
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 70,
+          columnNumber: 41
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 71
-        },
-        __self: this
-      }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 71,
+          columnNumber: 45
+        }
+      }, this.props.paramsByGroup[group].sort((a, b) => a.name.localeCompare(b.name)).filter(param => param.values.length > 0).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         key: param.uuid,
         className: "param",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 73
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 73,
+          columnNumber: 53
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed " + (this.state.selectedParams.indexOf(param) !== -1 ? " param-name-selected" : ""),
         onClick: () => this.selectParam(param),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 74
-        },
-        __self: this
-      }, param.name)))))))), this.props.selectMultiple && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 74,
+          columnNumber: 57
+        }
+      }, param.name)))))))), this.props.selectMultiple && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 85
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 85,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.sendSelection,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 86
-        },
-        __self: this
-      }, "Ok"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 86,
+          columnNumber: 37
+        }
+      }, "Ok"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.closeDialog,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 87
-        },
-        __self: this
+          lineNumber: 87,
+          columnNumber: 37
+        }
       }, "Cancel"))));
     } else {
       return "";
@@ -3000,7 +3176,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamValueEditor */ "./src/ParamValueEditor.js");
 /* harmony import */ var _ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ParamBatchEditor */ "./src/ParamBatchEditor.js");
 /* harmony import */ var _ParamGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ParamGroup */ "./src/ParamGroup.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamTab.js";
 
 
 
@@ -3058,36 +3234,39 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab",
       style: {
         'display': this.props.active ? 'flex' : 'none'
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 77
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        lineNumber: 77,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "params-tab",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
-      },
-      __self: this
-    }, this.props.paramSortingMode ? this.props.params.sort((a, b) => a.sorting - b.sorting).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 78,
+        columnNumber: 17
+      }
+    }, this.props.paramSortingMode ? this.props.params.sort((a, b) => a.sorting - b.sorting).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: param.uuid,
       param: param,
       sortMode: true,
       reorderParam: this.reorderParam,
       forceInName: param.force,
       onChangeForceParamInName: this.onChangeForceParamInName,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    })) : Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        lineNumber: 81,
+        columnNumber: 29
+      }
+    })) : Object.keys(this.props.paramsByGroup).sort((a, b) => a.localeCompare(b)).map(group => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
       key: group,
       params: this.props.paramsByGroup[group],
       group: group,
@@ -3096,84 +3275,95 @@ class ParamTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       editParamFunc: this.paramEditor.current.open,
       editParamValueFunc: this.paramValueEditor.current.open,
       newParamValueFunc: this.paramValueEditor.current.new,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 92
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 92,
+        columnNumber: 29
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
       ref: this.paramEditor,
       closeEditors: this.closeEditors,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        lineNumber: 105,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamValueEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
       ref: this.paramValueEditor,
       closeEditors: this.closeEditors,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 106
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        lineNumber: 106,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamBatchEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
       ref: this.paramBatchEditor,
       closeEditors: this.closeEditors,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 107,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 108,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 109,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
       defaultChecked: this.state.showAbstract,
       onChange: this.toggleShowAbstract,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 110,
+        columnNumber: 25
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 111
-      },
-      __self: this
-    }, "Show abstract parameter values")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 111,
+        columnNumber: 25
+      }
+    }, "Show abstract parameter values")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 113
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 113,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.addParam,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 114
-      },
-      __self: this
-    }, "Add parameter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 114,
+        columnNumber: 25
+      }
+    }, "Add parameter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.addParamBatch,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 115
-      },
-      __self: this
+        lineNumber: 115,
+        columnNumber: 25
+      }
     }, "Add batch"))));
   }
 
@@ -3195,7 +3385,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValue.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValue.js";
 
 
 
@@ -3206,175 +3396,198 @@ class ParamValue extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: this.props.paramValue.abstract ? "item item-abstract item-param-value" : "item item-param-value",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 13
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 13,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "content",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 14
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 14,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "title",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 15
-      },
-      __self: this
-    }, this.props.paramValue.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 15,
+        columnNumber: 21
+      }
+    }, this.props.paramValue.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "footer",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 16
-      },
-      __self: this
-    }, this.props.paramValue.base !== "" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 16,
+        columnNumber: 21
+      }
+    }, this.props.paramValue.base !== "" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 17
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 17,
+        columnNumber: 62
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 17
-      },
-      __self: this
-    }, "Inherits from:"), " ", this.props.paramValue.base) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 17,
+        columnNumber: 68
+      }
+    }, "Inherits from:"), " ", this.props.paramValue.base) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 17
-      },
-      __self: this
-    }, "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 17,
+        columnNumber: 134
+      }
+    }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 18
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 18,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 18
-      },
-      __self: this
-    }, "Created:"), " ", this.props.paramValue.creation_time.toShortStr()))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 18,
+        columnNumber: 31
+      }
+    }, "Created:"), " ", this.props.paramValue.creation_time.toShortStr()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 21
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 21,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: () => this.props.editFunc(this.props.paramValue, true, this.props.param, this.props.param.values),
       title: "Clone parameter value",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 22
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 22,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-copy",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 23
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 23,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: () => this.props.editFunc(this.props.paramValue, false, this.props.param, this.props.param.values),
       title: "Edit parameter value",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 25
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 25,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 26
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 26,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 28
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 28,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action dropdown-toggle",
       "data-toggle": "dropdown",
       "aria-haspopup": "true",
       "aria-expanded": "false",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 29
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 29,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-h",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 30
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 30,
+        columnNumber: 29
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 32
-      },
-      __self: this
-    }, this.props.removable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 32,
+        columnNumber: 25
+      }
+    }, this.props.removable ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: () => this.reassuringRemovePromptRefs.current.openDialog(),
       title: "Remove parameter value",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 34
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 34,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-trash-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 35
-      },
-      __self: this
-    })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 35,
+        columnNumber: 37
+      }
+    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action action-disabled",
       title: "Parameter value cannot be removed, as there are tasks using it.",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 38
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 38,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-trash-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 39
-      },
-      __self: this
-    }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 39,
+        columnNumber: 37
+      }
+    }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
       ref: this.reassuringRemovePromptRefs,
       header: "Really want to delete?",
       text: "Do you really want to remove this parameter value?",
       url: "/remove_param_value/" + this.props.paramValue.uuid,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 45
-      },
-      __self: this
+        lineNumber: 45,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -3396,7 +3609,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamValueEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamValueEditor.js";
 
 
 
@@ -3575,217 +3788,246 @@ class ParamValueEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 
   render() {
     if (this.state.paramValue !== null) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-value-editor editor",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 197
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 197,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 198
-        },
-        __self: this
-      }, this.state.paramValue.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 198,
+          columnNumber: 21
+        }
+      }, this.state.paramValue.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 199
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 199,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 200
-        },
-        __self: this
-      }, "Name:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 200,
+          columnNumber: 25
+        }
+      }, "Name:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.name,
         onChange: this.onNameChange,
         required: "required",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 201
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 201,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 203
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 203,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 204
-        },
-        __self: this
-      }, "Base:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          lineNumber: 204,
+          columnNumber: 25
+        }
+      }, "Base:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.base,
         onChange: this.onBaseChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 205
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 205,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 206
-        },
-        __self: this
-      }, "None"), this.state.possible_base_param_values.filter(value => value.uuid !== this.state.uuid_to_load).map(paramValue => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 206,
+          columnNumber: 29
+        }
+      }, "None"), this.state.possible_base_param_values.filter(value => value.uuid !== this.state.uuid_to_load).map(paramValue => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: paramValue.uuid,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 208
-        },
-        __self: this
-      }, paramValue.name)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 208,
+          columnNumber: 33
+        }
+      }, paramValue.name)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 212,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
-        },
-        __self: this
-      }, "Abstract:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 213,
+          columnNumber: 25
+        }
+      }, "Abstract:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         checked: this.state.abstract,
         onChange: this.onAbstractChange,
         type: "checkbox",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 214
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 214,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 216,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 217
-        },
-        __self: this
-      }, "Dynamic:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 217,
+          columnNumber: 25
+        }
+      }, "Dynamic:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         checked: this.state.dynamic,
         onChange: this.onDynamicChange,
         type: "checkbox",
         disabled: this.state.forceDynamic,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 218
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 218,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 220
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 220,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 221
-        },
-        __self: this
-      }, "Template:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 221,
+          columnNumber: 25
+        }
+      }, "Template:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         checked: this.state.template,
         onChange: this.onTemplateChange,
         type: "checkbox",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 222
-        },
-        __self: this
-      })), this.state.template && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 222,
+          columnNumber: 25
+        }
+      })), this.state.template && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 225
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 225,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 226
-        },
-        __self: this
-      }, "Template default:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 226,
+          columnNumber: 25
+        }
+      }, "Template default:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.templateDefaults[0],
         onChange: this.onTemplateDefaultsChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 227
-        },
-        __self: this
-      })), this.state.template && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 227,
+          columnNumber: 25
+        }
+      })), this.state.template && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "field",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 230
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 230,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 231
-        },
-        __self: this
-      }, "Template deprecated:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 231,
+          columnNumber: 25
+        }
+      }, "Template deprecated:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.templateDeprecated[0],
         onChange: this.onTemplateDeprecatedChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 232
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 232,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.configEditor,
         onDynamicChange: this.onIsBaseDynamic,
         url: "/config/param_value" + (this.state.uuid_to_load !== null ? "/" + this.state.uuid_to_load : ""),
         bases: [this.state.base],
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 234
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 234,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 235
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 235,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.save,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 236
-        },
-        __self: this
-      }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 236,
+          columnNumber: 25
+        }
+      }, "Save"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.close,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 237
-        },
-        __self: this
+          lineNumber: 237,
+          columnNumber: 25
+        }
       }, "Cancel")));
     } else {
       return "";
@@ -3813,7 +4055,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ParamSelection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParamSelection */ "./src/ParamSelection.js");
 /* harmony import */ var _Param__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Param */ "./src/Param.js");
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ParamViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ParamViewer.js";
 
 
 
@@ -3872,7 +4114,7 @@ class Column extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: this.getClassName(),
       ref: this.colRef,
       onDragOver: this.onDragOver,
@@ -3881,31 +4123,35 @@ class Column extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onDrop: this.onDrop,
       onDragStart: this.onDragStart,
       draggable: "true",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 65
-      },
-      __self: this
-    }, !this.props.isDummy && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        lineNumber: 65,
+        columnNumber: 13
+      }
+    }, !this.props.isDummy && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 67
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 67,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 68
-      },
-      __self: this
-    }, this.props.col), this.props.removeCol && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 68,
+        columnNumber: 21
+      }
+    }, this.props.col), this.props.removeCol && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       onClick: () => this.props.removeCol(this.props.col),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 69
-      },
-      __self: this
+        lineNumber: 69,
+        columnNumber: 46
+      }
     })));
   }
 
@@ -3956,7 +4202,9 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
     });
   }
 
-  addView(e, name = "") {
+  addView(e) {
+    let name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+
     if (name === "") {
       if (this.state.viewPath !== "") {
         this.props.addView(this.state.viewPath);
@@ -4014,574 +4262,646 @@ class ParamViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
 
   render() {
     if (this.state.open) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-viewer slide-editor editor",
         style: this.props.style,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 209
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 209,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 211
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 211,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
-        },
-        __self: this
-      }, "Save / Load", this.props.allowClose && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 212,
+          columnNumber: 25
+        }
+      }, "Save / Load", this.props.allowClose && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-times",
         onClick: this.close,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 212,
+          columnNumber: 86
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
-        },
-        __self: this
-      }, Object.keys(this.props.views).sort().map(name => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 213,
+          columnNumber: 25
+        }
+      }, Object.keys(this.props.views).sort().map(name => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 215
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 215,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.props.loadFilter(this.props.views[name]),
         style: {
           "cursor": "pointer"
         },
         title: "Load filter",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
-        },
-        __self: this
-      }, name, " ", this.props.views[name].path !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 216,
+          columnNumber: 37
+        }
+      }, name, " ", this.props.views[name].path !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         style: {
           "font-style": "italic"
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 217
-        },
-        __self: this
-      }, "(/", this.props.views[name].path, ")")), !this.props.hideViewEdits && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 217,
+          columnNumber: 89
+        }
+      }, "(/", this.props.views[name].path, ")")), !this.props.hideViewEdits && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 220
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 220,
+          columnNumber: 41
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           "flex": "2 1 auto"
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 221
-        },
-        __self: this
-      }), this.props.views[name].path !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 221,
+          columnNumber: 45
+        }
+      }), this.props.views[name].path !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 223
-        },
-        __self: this
-      }, !(name in this.props.tensorboard_ports) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 223,
+          columnNumber: 49
+        }
+      }, !(name in this.props.tensorboard_ports) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tb-link",
         onClick: () => this.gotoTB(name),
         title: "Start and open tensorboard",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 225
-        },
-        __self: this
-      }, "TB") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 225,
+          columnNumber: 57
+        }
+      }, "TB") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 227
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 227,
+          columnNumber: 57
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-link tb-link-icon",
         title: "Open in new tab",
         onClick: () => this.gotoTB(name),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 228
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 228,
+          columnNumber: 61
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tb-link-active",
         onClick: () => this.closeTB(name),
         title: "Close tensorboard",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 229
-        },
-        __self: this
-      }, "TB"))), this.props.views[name].path === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 229,
+          columnNumber: 61
+        }
+      }, "TB"))), this.props.views[name].path === null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-folder-plus",
         title: "Show in filesystem",
-        onClick: () => this.promptViewPathRef.current.openDialog(name),
+        onClick: () => this.promptViewPathRef.current.openDialog(name, name),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 235
-        },
-        __self: this
-      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 235,
+          columnNumber: 49
+        }
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-folder-minus",
         title: "Remove from filesystem",
         onClick: () => this.removeViewPath(name),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 237
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 237,
+          columnNumber: 49
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-arrow-alt-circle-up",
         title: "Update filter",
         onClick: () => this.addView(null, name),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 239
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 239,
+          columnNumber: 45
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-times",
         title: "Remove filter",
         onClick: () => this.deleteView(name),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 240
-        },
-        __self: this
-      }))))), !this.props.hideViewEdits && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 240,
+          columnNumber: 45
+        }
+      }))))), !this.props.hideViewEdits && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 248
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 248,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         name: "viewPath",
         value: this.state.viewPath,
         onChange: this.handleViewPathChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 249
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 249,
+          columnNumber: 29
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
         title: "Save current filter with the specified name",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 250
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 250,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.addView,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 251
-        },
-        __self: this
-      }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          lineNumber: 251,
+          columnNumber: 33
+        }
+      }, "Add")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
         ref: this.promptViewPathRef,
         defaultValue: "",
         header: "Set path of view",
         text: "Specify the path where to store the view:",
         url: "/set_view_path",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 253
-        },
-        __self: this
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 253,
+          columnNumber: 29
+        }
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 258
-        },
-        __self: this
-      }, "Filter"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 258,
+          columnNumber: 21
+        }
+      }, "Filter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tags: this.props.tags,
         codeVersions: this.props.codeVersions,
         selectMultiple: true,
         paramsByGroup: this.props.paramsByGroup,
         selectedParamValues: this.props.selectedParamValues,
         toggleSelection: this.props.toggleSelection,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 259
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 259,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 261
-        },
-        __self: this
-      }, "Collapsing"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 261,
+          columnNumber: 21
+        }
+      }, "Collapsing"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 262
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 262,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "checkbox",
         defaultChecked: this.props.collapseEnabled,
         onChange: this.props.toggleCollapse,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 263
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 263,
+          columnNumber: 25
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 264
-        },
-        __self: this
-      }, "Enabled")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 264,
+          columnNumber: 25
+        }
+      }, "Enabled")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-collapse param-filter",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 266
-        },
-        __self: this
-      }, this.props.collapsedParams.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 266,
+          columnNumber: 21
+        }
+      }, this.props.collapsedParams.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 268
-        },
-        __self: this
-      }, param.name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 268,
+          columnNumber: 29
+        }
+      }, param.name, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-times",
         onClick: () => this.props.removeParamCollapse(param),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 268
-        },
-        __self: this
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 268,
+          columnNumber: 91
+        }
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           "display": "flex",
           "align-items": "center"
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 271
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 271,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 272
-        },
-        __self: this
-      }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          lineNumber: 272,
+          columnNumber: 25
+        }
+      }, "Sorting:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.props.collapseSorting[0],
         onChange: this.props.onChangeCollapseSorting,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 273
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 273,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "saved",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 274
-        },
-        __self: this
-      }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 274,
+          columnNumber: 29
+        }
+      }, "Saved"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "name",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 275
-        },
-        __self: this
-      }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 275,
+          columnNumber: 29
+        }
+      }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "created",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 276
-        },
-        __self: this
-      }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 276,
+          columnNumber: 29
+        }
+      }, "Created"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "iterations",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 277
-        },
-        __self: this
-      }, "Iterations"), this.props.metric_superset.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 277,
+          columnNumber: 29
+        }
+      }, "Iterations"), this.props.metric_superset.map(col => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: col,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 279
-        },
-        __self: this
-      }, col))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 279,
+          columnNumber: 33
+        }
+      }, col))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         style: {
           "margin-left": "5px",
           "cursor": "pointer"
         },
         onClick: this.props.flipCollapseSortingDirection,
         className: this.props.collapseSorting[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 282
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          lineNumber: 282,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
         header: "Select param to collapse",
         ref: this.paramCollapseSelection,
         paramsByGroup: this.props.paramsByGroup,
         onSelect: this.props.addParamCollapse,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 285
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 285,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 286
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 286,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.paramCollapseSelection.current.openDialog(),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 287
-        },
-        __self: this
-      }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 287,
+          columnNumber: 25
+        }
+      }, "Add")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 290
-        },
-        __self: this
-      }, "Grouping"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 290,
+          columnNumber: 21
+        }
+      }, "Grouping"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-group param-filter",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 292
-        },
-        __self: this
-      }, this.props.groupedParams.map(params => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 292,
+          columnNumber: 21
+        }
+      }, this.props.groupedParams.map(params => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "param-name param-name-collapsed",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 294
-        },
-        __self: this
-      }, params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name).join(" / "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 294,
+          columnNumber: 29
+        }
+      }, params.map(param_uuid => this.props.params.find(p => p.uuid === param_uuid)).map(param => param.name).join(" / "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-times",
         onClick: () => this.props.removeParamGroup(params),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 296
-        },
-        __self: this
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          lineNumber: 296,
+          columnNumber: 33
+        }
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamSelection__WEBPACK_IMPORTED_MODULE_2__["default"], {
         header: "Select params to group",
         selectMultiple: true,
         ref: this.paramGroupSelection,
         paramsByGroup: this.props.paramsByGroup,
         onSelect: this.props.addParamGroup,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 300
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 300,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 301
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 301,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.paramGroupSelection.current.openDialog(),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 302
-        },
-        __self: this
-      }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 302,
+          columnNumber: 25
+        }
+      }, "Add")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 305
-        },
-        __self: this
-      }, "Parameter sorting"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 305,
+          columnNumber: 21
+        }
+      }, "Parameter sorting"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           "display": "flex",
           "align-items": "center",
           "margin-top": "10px"
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 306
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          lineNumber: 306,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 307
-        },
-        __self: this
-      }, "Version:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          lineNumber: 307,
+          columnNumber: 25
+        }
+      }, "Version:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.props.versionInName,
         onChange: this.props.onChangeVersionInName,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 308
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 308,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "none",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 309
-        },
-        __self: this
-      }, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 309,
+          columnNumber: 29
+        }
+      }, "None"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "commit_id",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 310
-        },
-        __self: this
-      }, "Commit id"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 310,
+          columnNumber: 29
+        }
+      }, "Commit id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "label",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 311
-        },
-        __self: this
-      }, "Label"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 311,
+          columnNumber: 29
+        }
+      }, "Label"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params-to-collapse param-filter",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 314
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          lineNumber: 314,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "params-tab",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 315
-        },
-        __self: this
-      }, this.props.params.sort((a, b) => this.props.paramSorting[a.uuid] - this.props.paramSorting[b.uuid]).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          lineNumber: 315,
+          columnNumber: 25
+        }
+      }, this.props.params.sort((a, b) => this.props.paramSorting[a.uuid] - this.props.paramSorting[b.uuid]).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Param__WEBPACK_IMPORTED_MODULE_3__["default"], {
         key: param.uuid,
         param: param,
         sortMode: true,
         reorderParam: this.props.reorderParam,
         forceInName: param.uuid in this.props.forceParamInName && this.props.forceParamInName[param.uuid],
         onChangeForceParamInName: this.props.onChangeForceParamInName,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 317
-        },
-        __self: this
-      })))), this.props.selectedCols !== undefined && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+          lineNumber: 317,
+          columnNumber: 33
+        }
+      })))), this.props.selectedCols !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 330
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 330,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 331
-        },
-        __self: this
-      }, "Columns"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 331,
+          columnNumber: 25
+        }
+      }, "Columns"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-cols",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 332
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 332,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 333
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 333,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col-header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 334
-        },
-        __self: this
-      }, "Used:"), this.props.selectedCols.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
+          lineNumber: 334,
+          columnNumber: 33
+        }
+      }, "Used:"), this.props.selectedCols.map(col => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
         col: col,
         allowDrop: true,
         removeCol: this.props.removeCol,
         addCol: this.props.addCol,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 336
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
+          lineNumber: 336,
+          columnNumber: 37
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
         col: null,
         allowDrop: true,
         removeCol: this.props.removeCol,
         addCol: this.props.addCol,
         isDummy: true,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 343
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 343,
+          columnNumber: 33
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 351
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 351,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-col-header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 352
-        },
-        __self: this
-      }, "Not used:"), this.props.allCols.filter(col => this.props.selectedCols.findIndex(x => x === col) === -1).map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
+          lineNumber: 352,
+          columnNumber: 33
+        }
+      }, "Not used:"), this.props.allCols.filter(col => this.props.selectedCols.findIndex(x => x === col) === -1).map(col => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, {
         col: col,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 354
-        },
-        __self: this
+          lineNumber: 354,
+          columnNumber: 37
+        }
       }))))));
     } else {
       return "";
@@ -4610,7 +4930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ReassuringPrompt */ "./src/ReassuringPrompt.js");
 /* harmony import */ var _GroupedTasks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GroupedTasks */ "./src/GroupedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/PausedTask.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/PausedTask.js";
 
 
 
@@ -4696,380 +5016,429 @@ class PausedTask extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
 
   render() {
     if (this.props.task !== null) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         ref: this.itemRef,
         className: this.itemClass(),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 155
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 155,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "content",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 156
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 156,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "title",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 157
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 157,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "try-number",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 157
-        },
-        __self: this
-      }, this.props.name[this.props.name.length - 1]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
+          lineNumber: 157,
+          columnNumber: 48
+        }
+      }, this.props.name[this.props.name.length - 1]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
         name: this.props.name.slice(0, -1),
         is_test: this.props.task.is_test,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 157
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 157,
+          columnNumber: 129
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "footer",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 158
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 158,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 159
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 159,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 159
-        },
-        __self: this
-      }, "Iterations:"), " ", this.props.task.finished_iterations, " / ", this.props.task.total_iterations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 159,
+          columnNumber: 35
+        }
+      }, "Iterations:"), " ", this.props.task.finished_iterations, " / ", this.props.task.total_iterations), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 160
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 160,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 160
-        },
-        __self: this
-      }, "Created:"), " ", this.props.task.creation_time.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 160,
+          columnNumber: 35
+        }
+      }, "Created:"), " ", this.props.task.creation_time.toShortStr()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 161
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 161,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 161
-        },
-        __self: this
-      }, "Last saved:"), " ", this.props.task.saved_time.toShortStr(), " ", this.props.task.had_error == true && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 161,
+          columnNumber: 35
+        }
+      }, "Last saved:"), " ", this.props.task.saved_time.toShortStr(), " ", this.props.task.had_error == true && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "task-error",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 161
-        },
-        __self: this
-      }, "(Error)")), ["name", "saved", "created", "iterations", "started"].findIndex(x => x === this.props.detailCol) === -1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 161,
+          columnNumber: 140
+        }
+      }, "(Error)")), ["name", "saved", "created", "iterations", "started"].findIndex(x => x === this.props.detailCol) === -1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 163
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 163,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 163
-        },
-        __self: this
-      }, this.props.detailCol, ":"), " ", this.props.detailCol in this.props.metrics ? this.props.metrics[this.props.detailCol][2].toFixed(3) : "N/A")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 163,
+          columnNumber: 35
+        }
+      }, this.props.detailCol, ":"), " ", this.props.detailCol in this.props.metrics ? this.props.metrics[this.props.detailCol][2].toFixed(3) : "N/A")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 166
-        },
-        __self: this
-      }, this.props.task.tags.map(tag => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 166,
+          columnNumber: 25
+        }
+      }, this.props.task.tags.map(tag => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 168
-        },
-        __self: this
-      }, tag)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 168,
+          columnNumber: 33
+        }
+      }, tag)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 172
-        },
-        __self: this
-      }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 172,
+          columnNumber: 21
+        }
+      }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: this.pause,
         title: "Pause task",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 175
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 175,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-pause",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 176
-        },
-        __self: this
-      })) : this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 176,
+          columnNumber: 37
+        }
+      })) : this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: this.queueCancel,
         title: "Remove this task from queue",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 181
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 181,
+          columnNumber: 37
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-times",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 182
-        },
-        __self: this
-      })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 182,
+          columnNumber: 41
+        }
+      })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: this.openExtraDialog,
         title: "Run for more iterations",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 185
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 185,
+          columnNumber: 37
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-play",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 186
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 186,
+          columnNumber: 41
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.props.showTask(this.props.task.uuid),
         title: "Show detail information",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 190
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 190,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-info",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 191
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 191,
+          columnNumber: 29
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 193
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 193,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action dropdown-toggle",
         "data-toggle": "dropdown",
         "aria-haspopup": "true",
         "aria-expanded": "false",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 194
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 194,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-ellipsis-h",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 195
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 195,
+          columnNumber: 33
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-menu",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 197
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 197,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.props.editTask(this.props.task),
         title: "Edit the task config",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 198
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 198,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-pencil-alt",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 199
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 199,
+          columnNumber: 37
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.props.rerunTask(this.props.task),
         title: "Run new task with the exact same config",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 201
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 201,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-redo",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 202
-        },
-        __self: this
-      })), !this.props.task.is_test && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 202,
+          columnNumber: 37
+        }
+      })), !this.props.task.is_test && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.props.filterLikeTask(this.props.task),
         title: "Filter for similar tasks",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 205
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 205,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-sliders-h",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 206
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 206,
+          columnNumber: 37
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: this.clone,
         title: "Clone task",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 209
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 209,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-copy",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 210
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 210,
+          columnNumber: 37
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: this.openLog,
         title: "View log",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 212,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-file-alt",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 213,
+          columnNumber: 37
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.createCheckpoint(),
         title: "Create checkpoint",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 215
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 215,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-flag",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
-        },
-        __self: this
-      })), this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING && this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED && this.props.task.is_test && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 216,
+          columnNumber: 37
+        }
+      })), this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING && this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED && this.props.task.is_test && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.makeTestPersistent(),
         title: "Make test run persistent",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 219
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 219,
+          columnNumber: 37
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-infinity",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 220
-        },
-        __self: this
-      })), this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING && this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 220,
+          columnNumber: 41
+        }
+      })), this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING && this.props.task.state !== _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.reassuringRemovePromptRefs.current.openDialog(),
         title: "Remove task",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 224
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 224,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-trash-alt",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 225
-        },
-        __self: this
-      }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 225,
+          columnNumber: 37
+        }
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.promptExtraRefs,
         devices: this.props.devices,
         defaultValue: this.props.task.total_iterations,
         header: "Change total iterations?",
         text: "Specify the new number of iterations, you want the task to run:",
         url: "/continue/" + this.props.task.uuid,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 232
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          lineNumber: 232,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ReassuringPrompt__WEBPACK_IMPORTED_MODULE_4__["default"], {
         ref: this.reassuringRemovePromptRefs,
         header: "Really want to delete?",
         text: "Do you really want to remove this task?",
         url: "/remove_task/" + this.props.task.uuid,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 233
-        },
-        __self: this
+          lineNumber: 233,
+          columnNumber: 21
+        }
       }));
     } else {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         ref: this.itemRef,
         className: "item item-task item-task-loading",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 238
-        },
-        __self: this
+          lineNumber: 238,
+          columnNumber: 17
+        }
       }, "Loading...");
     }
   }
@@ -5095,7 +5464,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskTab */ "./src/TaskTab.js");
 /* harmony import */ var _ParamViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ParamViewer */ "./src/ParamViewer.js");
 /* harmony import */ var _TaskContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TaskContainer */ "./src/TaskContainer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Project.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Project.js";
 
 
 
@@ -5262,187 +5631,210 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "project",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 166
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 166,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tabs",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 167
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 167,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: this.state.activeTab === 0 ? "tab-active" : "",
       onClick: () => this.showTab(0),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 168
-      },
-      __self: this
-    }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 168,
+        columnNumber: 21
+      }
+    }, "Parameters"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: this.state.activeTab === 1 ? "tab-active" : "",
       onClick: () => this.showTab(1),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 169
-      },
-      __self: this
-    }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 169,
+        columnNumber: 21
+      }
+    }, "Tasks")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "sorting",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 171
-      },
-      __self: this
-    }, this.state.activeTab === 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 171,
+        columnNumber: 17
+      }
+    }, this.state.activeTab === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 173
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 173,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       onClick: this.toggleParamSortingMode,
       className: "fas fa-sort",
       title: "Switch to sorting mode for default naming",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 174
-      },
-      __self: this
-    })), this.state.activeTab === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 174,
+        columnNumber: 25
+      }
+    })), this.state.activeTab === 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 178
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 178,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 179
-      },
-      __self: this
-    }, "Sorting:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        lineNumber: 179,
+        columnNumber: 25
+      }
+    }, "Sorting:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       value: this.state.sorting_tasks[0],
       onChange: this.onChangeSorting,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 180
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        lineNumber: 180,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "saved",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 181
-      },
-      __self: this
-    }, "Saved"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        lineNumber: 181,
+        columnNumber: 29
+      }
+    }, "Saved"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "name",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 182
-      },
-      __self: this
-    }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        lineNumber: 182,
+        columnNumber: 29
+      }
+    }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "created",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 183
-      },
-      __self: this
-    }, "Created"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        lineNumber: 183,
+        columnNumber: 29
+      }
+    }, "Created"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: "iterations",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 184
-      },
-      __self: this
-    }, "Iterations"), this.state.metric_superset.map(col => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        lineNumber: 184,
+        columnNumber: 29
+      }
+    }, "Iterations"), this.state.metric_superset.map(col => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: col,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 186
-      },
-      __self: this
-    }, col))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 186,
+        columnNumber: 33
+      }
+    }, col))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       onClick: this.switchSortingDirection,
       title: "Switch sorting direction",
       className: this.state.sorting_tasks[1] ? "fa fa-sort-amount-down" : "fa fa-sort-amount-up",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 189
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 189,
+        columnNumber: 25
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "fas fa-sliders-h",
       title: "Open filter configurator",
       onClick: this.openParamViewer,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 191
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 191,
+        columnNumber: 25
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "fas fa-sync-alt",
       title: "Update listing",
       onClick: this.filterHasUpdated,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 193
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 193,
+        columnNumber: 25
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "fas fa-search",
       title: "Find task by uuid",
       onClick: () => this.setState({
         showSearchBar: !this.state.showSearchBar,
         searchValue: ""
       }),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 194
-      },
-      __self: this
-    }))), this.state.showSearchBar && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 194,
+        columnNumber: 25
+      }
+    }))), this.state.showSearchBar && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "search-bar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 199
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 199,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 200
-      },
-      __self: this
-    }, "Search:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 200,
+        columnNumber: 21
+      }
+    }, "Search:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       value: this.state.searchValue,
       onKeyDown: this.searchBarKeyDown,
       placeholder: "uuid",
       onChange: this.handleSearchValueChange,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 201
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 201,
+        columnNumber: 21
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamTab__WEBPACK_IMPORTED_MODULE_1__["default"], {
       active: this.state.activeTab === 0,
       paramsByGroup: this.state.paramsByGroup,
       sorting: this.state.sorting_params,
       paramSortingMode: this.state.paramSortingMode,
       params: this.state.params,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 204
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 204,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskTab__WEBPACK_IMPORTED_MODULE_2__["default"], {
       ref: this.taskTabRef,
       closeViewer: this.props.closeViewer,
       allTags: this.props.allTags,
@@ -5457,12 +5849,13 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       devices: this.props.devices,
       detailCol: this.state.collapseSorting[0],
       initialized: this.state.taskTabInitialized,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        lineNumber: 211,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
       ref: this.paramViewerRef,
       paramsByGroup: this.state.paramsByGroup,
       selectedParamValues: this.state.selectedParamValues,
@@ -5494,11 +5887,12 @@ class Project extends _TaskContainer__WEBPACK_IMPORTED_MODULE_4__["default"] {
       onChangeForceParamInName: this.onChangeForceParamInName,
       collapseEnabled: this.state.collapseEnabled,
       toggleCollapse: this.toggleCollapse,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 227
-      },
-      __self: this
+        lineNumber: 227,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -5522,7 +5916,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Project__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Project */ "./src/Project.js");
 /* harmony import */ var _CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CodeVersionViewer */ "./src/CodeVersionViewer.js");
 /* harmony import */ var _TaskViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskViewer */ "./src/TaskViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ProjectManager.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ProjectManager.js";
 
 
 
@@ -5557,6 +5951,7 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
         views: data.views,
         viewsLoaded: true,
         tensorboard_ports: data.tensorboard_ports,
+        config_path: data.config_path,
         allTags: data.all_tags,
         refreshRate: parseInt(data.refreshRate),
         codeVersions: data.code_versions
@@ -5617,77 +6012,86 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "project-manager",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 106,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "projects-toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 106
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 107,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       id: "project-toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 108,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "code-version",
       title: "Show code version",
       onClick: () => this.openCodeVersionViewer(this.state.current_commit_id),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
-      },
-      __self: this
-    }, this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0, 7)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 109,
+        columnNumber: 25
+      }
+    }, this.state.current_commit_id === undefined ? "" : this.state.current_commit_id.substr(0, 7)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "reload-tasks",
       onClick: this.reload,
       title: "Reload tasks",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 110,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-sync-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        lineNumber: 111,
+        columnNumber: 29
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       id: "open-table",
       href: "/table",
       target: "_blank",
       title: "Open table view in new tab",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 112
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 113,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-table",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 113
-      },
-      __self: this
-    })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 114,
+        columnNumber: 29
+      }
+    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "projects",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
-      },
-      __self: this
-    }, this.state.refreshRate !== null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Project__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 118,
+        columnNumber: 17
+      }
+    }, this.state.refreshRate !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Project__WEBPACK_IMPORTED_MODULE_1__["default"], {
       ref: this.projectRef,
       repository: this.props.repository,
       showTask: this.openTaskViewer,
@@ -5700,31 +6104,34 @@ class ProjectManager extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       codeVersions: this.state.codeVersions,
       refreshRate: this.state.refreshRate,
       tensorboard_ports: this.state.tensorboard_ports,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 119
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 120,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CodeVersionViewer__WEBPACK_IMPORTED_MODULE_2__["default"], {
       ref: this.codeVersionViewerRef,
       updateView: () => this.projectRef.current.filterHasUpdated(),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 135
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        lineNumber: 136,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskViewer__WEBPACK_IMPORTED_MODULE_3__["default"], {
       ref: this.taskViewerRef,
       close: this.closeTaskViewer,
       detailTaskUuid: this.state.detailTaskUuid,
       repository: this.props.repository,
       allTags: this.state.allTags,
       openCodeVersionViewer: this.openCodeVersionViewer,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 139
-      },
-      __self: this
+        lineNumber: 140,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -5746,7 +6153,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ConfigEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfigEditor */ "./src/ConfigEditor.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Prompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Prompt.js";
 
 
 
@@ -5795,10 +6202,13 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     });
   }
 
-  openDialog(device = null) {
+  openDialog() {
+    let device = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    let default_value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
     this.setState({
       dialogOpen: true,
-      device: this.props.devices ? this.props.devices[0].uuid : device
+      device: this.props.devices ? this.props.devices[0].uuid : device,
+      inputValue: default_value
     });
   }
 
@@ -5834,35 +6244,39 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
   render() {
     if (this.state.dialogOpen) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-wrapper",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 108
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 109,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.props.paramEditor ? 'prompt param-prompt' : 'prompt',
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 109
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 110,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 110
-        },
-        __self: this
-      }, this.props.header), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 111,
+          columnNumber: 25
+        }
+      }, this.props.header), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-text",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 111
-        },
-        __self: this
-      }, this.props.text), !this.props.paramEditor && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          lineNumber: 112,
+          columnNumber: 25
+        }
+      }, this.props.text), !this.props.paramEditor && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         autoFocus: true,
         onFocus: e => {
           e.target.select();
@@ -5872,55 +6286,62 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         value: this.state.inputValue,
         onChange: evt => this.updateInputValue(evt),
         onKeyDown: this.onKeyDown,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 113
-        },
-        __self: this
-      }), this.props.paramEditor && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 114,
+          columnNumber: 29
+        }
+      }), this.props.paramEditor && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.configEditor,
         url: this.props.paramEditorUrl,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 116
-        },
-        __self: this
-      }), this.props.devices && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          lineNumber: 117,
+          columnNumber: 29
+        }
+      }), this.props.devices && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.device,
         onChange: this.onDeviceChange,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 119
-        },
-        __self: this
-      }, this.props.devices.map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          lineNumber: 120,
+          columnNumber: 29
+        }
+      }, this.props.devices.map(device => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: device.uuid,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 121
-        },
-        __self: this
-      }, device.name))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 122,
+          columnNumber: 37
+        }
+      }, device.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 125
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 126,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.start,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 126
-        },
-        __self: this
-      }, "Ok"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 127,
+          columnNumber: 29
+        }
+      }, "Ok"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.closeDialog,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 127
-        },
-        __self: this
+          lineNumber: 128,
+          columnNumber: 29
+        }
       }, "Cancel"))));
     } else {
       return "";
@@ -5944,7 +6365,7 @@ class Prompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/ReassuringPrompt.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/ReassuringPrompt.js";
 
 
 class ReassuringPrompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
@@ -5981,55 +6402,62 @@ class ReassuringPrompt extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
 
   render() {
     if (this.state.dialogOpen) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-wrapper",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 49
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 49,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 50
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 50,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 51
-        },
-        __self: this
-      }, this.props.header), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 51,
+          columnNumber: 25
+        }
+      }, this.props.header), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "prompt-text",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 52
-        },
-        __self: this
-      }, this.props.text), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 52,
+          columnNumber: 25
+        }
+      }, this.props.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 53
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 53,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.execute,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 54
-        },
-        __self: this
-      }, "Yes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 54,
+          columnNumber: 29
+        }
+      }, "Yes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.closeDialog,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 55
-        },
-        __self: this
+          lineNumber: 55,
+          columnNumber: 29
+        }
       }, "No"))));
     } else {
       return "";
@@ -6161,14 +6589,16 @@ class Repository {
     });
   }
 
-  updateEntity(entities, newEntity, entityType, key = "uuid") {
+  updateEntity(entities, newEntity, entityType) {
+    let key = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "uuid";
     const isNew = !(newEntity[key] in entities);
     entities[newEntity[key]] = newEntity;
     if (isNew) this.throwOnAddEvent(newEntity, entityType);
     this.throwOnChangeEvent(entities, entityType, newEntity[key]);
   }
 
-  removeEntity(entities, entityToRemove, entityType, key = "uuid") {
+  removeEntity(entities, entityToRemove, entityType) {
+    let key = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "uuid";
     let entity = entities[entityToRemove[key]];
     delete entities[entityToRemove[key]];
     this.throwOnRemoveEvent(entity, entityType);
@@ -6242,7 +6672,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Device__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Device */ "./src/Device.js");
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Scheduler.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Scheduler.js";
 
 
 
@@ -6305,96 +6735,107 @@ class Scheduler extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "scheduler",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 76,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 77
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 77,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       "data-toggle": "dropdown",
       "aria-haspopup": "true",
       "aria-expanded": "false",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
-      },
-      __self: this
-    }, "Add device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 78,
+        columnNumber: 21
+      }
+    }, "Add device"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
       "aria-labelledby": "dropdownMenuButton",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    }, this.props.devices.filter(device => !this.shouldShowDevice(device)).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 81,
+        columnNumber: 21
+      }
+    }, this.props.devices.filter(device => !this.shouldShowDevice(device)).map(device => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-item",
       onClick: () => this.showDevice(device),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 83
-      },
-      __self: this
-    }, device.name)), this.props.devices.filter(device => !this.shouldShowDevice(device)).length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 83,
+        columnNumber: 29
+      }
+    }, device.name)), this.props.devices.filter(device => !this.shouldShowDevice(device)).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-divider",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 86
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 86,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-item",
       onClick: () => this.promptAddDeviceRefs.current.openDialog(),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 88
-      },
-      __self: this
-    }, "Add new device"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        lineNumber: 88,
+        columnNumber: 25
+      }
+    }, "Add new device"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_3__["default"], {
       ref: this.promptAddDeviceRefs,
       header: "Add new device",
       text: "Specify the ip address and the port of the new device:",
       url: "/add_device",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 91
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 91,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 93
-      },
-      __self: this
-    }), this.props.devices.filter(this.shouldShowDevice).map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 93,
+        columnNumber: 17
+      }
+    }), this.props.devices.filter(this.shouldShowDevice).map(device => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Device__WEBPACK_IMPORTED_MODULE_1__["default"], {
       device: device,
       editTask: this.props.editTask,
       tasks: this.state.tasks.filter(task => task.device === device.uuid),
       hideDevice: this.hideDevice,
       highlightTask: this.props.highlightTask,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 95
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 95,
+        columnNumber: 21
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mock-device",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 97
-      },
-      __self: this
+        lineNumber: 97,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -6417,7 +6858,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-autocomplete */ "./node_modules/react-autocomplete/build/lib/Autocomplete.js");
 /* harmony import */ var react_autocomplete__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_autocomplete__WEBPACK_IMPORTED_MODULE_1__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TagsEdit.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TagsEdit.js";
 
 
 
@@ -6488,57 +6929,63 @@ class TagsEdit extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tags-edit",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 78,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
-      },
-      __self: this
-    }, this.props.tags.map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 79,
+        columnNumber: 13
+      }
+    }, this.props.tags.map(value => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       key: value,
       className: "value",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 81,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    }, value), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 81,
+        columnNumber: 57
+      }
+    }, value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       onClick: () => this.remove(value),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        lineNumber: 81,
+        columnNumber: 77
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
       ref: this.autocompleteRef,
       autoHighlight: false,
       shouldItemRender: (item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1,
       getItemValue: item => item,
       items: this.selectableValues(),
-      renderItem: (item, isHighlighted) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      renderItem: (item, isHighlighted) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: isHighlighted ? 'autocomplete-hover' : '',
         style: {
           background: isHighlighted ? 'lightgray' : 'white'
         },
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 90
-        },
-        __self: this
+          lineNumber: 90,
+          columnNumber: 25
+        }
       }, item),
       value: this.state.value,
       onChange: evt => this.updateValue(evt.target.value),
@@ -6554,11 +7001,12 @@ class TagsEdit extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         top: '35px',
         left: 0
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 83
-      },
-      __self: this
+        lineNumber: 83,
+        columnNumber: 17
+      }
     })));
   }
 
@@ -6584,7 +7032,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/Task.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/Task.js";
 
 
 
@@ -6605,56 +7053,62 @@ class TaskName extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
   render() {
     if (this.props.is_test) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         ref: this.wrapperRef,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 25
-        },
-        __self: this
+          lineNumber: 25,
+          columnNumber: 17
+        }
       }, "Test");
     } else {
       if (this.props.name !== undefined && this.props.name.length > 0) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           ref: this.wrapperRef,
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 30
-          },
-          __self: this
+            lineNumber: 30,
+            columnNumber: 21
+          }
         }, this.props.name.map((name, i) => {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             key: i,
+            __self: this,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 34
-            },
-            __self: this
-          }, i !== 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+              lineNumber: 34,
+              columnNumber: 25
+            }
+          }, i !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "separator",
+            __self: this,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 36
-            },
-            __self: this
-          }, "/"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+              lineNumber: 36,
+              columnNumber: 25
+            }
+          }, "/"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             "data-toggle": "tooltip",
             "data-placement": "bottom",
+            __self: this,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 38
-            },
-            __self: this
+              lineNumber: 38,
+              columnNumber: 29
+            }
           }, name));
         }));
       } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           ref: this.wrapperRef,
+          __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 46
-          },
-          __self: this
+            lineNumber: 46,
+            columnNumber: 21
+          }
         }, "Task");
       }
     }
@@ -6675,22 +7129,24 @@ function TaskStatus(props) {
       } else return "--:--";
     }
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "time",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 71
-      },
-      __self: this
+        lineNumber: 71,
+        columnNumber: 16
+      }
     }, renderTime(props.run_time), " / ", renderTime(props.time_left));
   } else {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "time",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 73
-      },
-      __self: this
+        lineNumber: 73,
+        columnNumber: 16
+      }
     }, props.index + 1);
   }
 }
@@ -6700,14 +7156,15 @@ function TaskProgress(props) {
     var style = {
       width: Math.min(1, props.finished_iterations / props.total_iterations) * 100 + '%'
     };
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "progress",
       style: style,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 80
-      },
-      __self: this
+        lineNumber: 80,
+        columnNumber: 16
+      }
     });
   } else {
     return "";
@@ -6776,303 +7233,343 @@ class TaskToolbar extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component
       currentAction = "checkpoint...";
     }
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211
-      },
-      __self: this
-    }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 211,
+        columnNumber: 13
+      }
+    }, this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].RUNNING && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 213
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 213,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.pause,
       title: "Pause the task after the current iteration",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 214,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-pause",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 215,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 215
-      },
-      __self: this
-    }, "Pause")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 215,
+        columnNumber: 60
+      }
+    }, "Pause")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.saveNow,
       title: "Force the task to save after the current iteration",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 217
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 217,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-save",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 218,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 218
-      },
-      __self: this
-    }, "Save now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 218,
+        columnNumber: 60
+      }
+    }, "Save now!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: () => this.props.editTask(this.props.task),
       title: "Change the scheduled number of total iterations",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 220
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 220,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 221
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 221,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 221
-      },
-      __self: this
-    }, "Edit")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 221,
+        columnNumber: 59
+      }
+    }, "Edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 223
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 223,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action dropdown-toggle",
       "data-toggle": "dropdown",
       "aria-haspopup": "true",
       "aria-expanded": "false",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 224
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 224,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 225
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 225,
+        columnNumber: 33
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 227
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 227,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.openLog,
       title: "View the log",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 228,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-file-alt",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 229,
+        columnNumber: 37
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229
-      },
-      __self: this
-    }, "Log")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 229,
+        columnNumber: 72
+      }
+    }, "Log")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.terminate,
       title: "Terminate task",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 231
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 231,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-skull-crossbones",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 232,
+        columnNumber: 36
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 232
-      },
-      __self: this
-    }, "Terminate")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 232,
+        columnNumber: 79
+      }
+    }, "Terminate")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.createCheckpoint,
       title: "Create checkpoint",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 234
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 234,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-flag",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 235,
+        columnNumber: 36
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 235
-      },
-      __self: this
-    }, "Checkpoint")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 235,
+        columnNumber: 67
+      }
+    }, "Checkpoint")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "current-action",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 239
-      },
-      __self: this
-    }, currentAction)), this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 239,
+        columnNumber: 25
+      }
+    }, currentAction)), this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 245
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 245,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.runNow,
       title: "Pause one of the running tasks and start this one instead",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 246
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 246,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-exclamation-triangle",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 247,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 247
-      },
-      __self: this
-    }, "Run now!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 247,
+        columnNumber: 76
+      }
+    }, "Run now!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.openExtraDialog,
       title: "Change the scheduled number of total iterations",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 249
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 249,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-edit",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 250,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250
-      },
-      __self: this
-    }, "Change")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 250,
+        columnNumber: 59
+      }
+    }, "Change")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 252
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 252,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action dropdown-toggle",
       "data-toggle": "dropdown",
       "aria-haspopup": "true",
       "aria-expanded": "false",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 253
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 253,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-ellipsis-v",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 254
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 254,
+        columnNumber: 33
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "dropdown-menu",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 256
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 256,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "action",
       onClick: this.cancel,
       title: "Remove this task from the queue",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 257
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 257,
+        columnNumber: 33
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 258,
+        columnNumber: 37
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258
-      },
-      __self: this
-    }, "Cancel"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 258,
+        columnNumber: 69
+      }
+    }, "Cancel"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_2__["default"], {
       ref: this.promptExtraRefs,
       defaultValue: this.props.task.total_iterations,
       header: "Change total iterations?",
       text: "Specify the new number of iterations, you want the task to run:",
       url: "/change/" + this.props.task.uuid,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 264
-      },
-      __self: this
+        lineNumber: 264,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -7131,7 +7628,7 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       ref: this.taskRef,
       className: "task",
       onDragOver: this.onDragOver,
@@ -7141,96 +7638,108 @@ class Task extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onDragStart: this.onDragStart,
       onMouseDown: this.onMouseDown,
       draggable: this.props.task.state === _Global__WEBPACK_IMPORTED_MODULE_1__["default"].QUEUED ? "true" : "false",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 335
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 335,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "content",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 336
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 336,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 337
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 337,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "project-name",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 338
-      },
-      __self: this
-    }, "Task"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 338,
+        columnNumber: 25
+      }
+    }, "Task"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "status",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 339
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskStatus, {
+        lineNumber: 339,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskStatus, {
       index: this.props.index,
       state: this.props.task.state,
       time_left: this.props.task.time_left,
       run_time: this.props.task.run_time,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 340
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 340,
+        columnNumber: 29
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "iterations",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 341
-      },
-      __self: this
-    }, this.props.task.finished_iterations, " / ", this.props.task.total_iterations))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskProgress, {
+        lineNumber: 341,
+        columnNumber: 29
+      }
+    }, this.props.task.finished_iterations, " / ", this.props.task.total_iterations))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskProgress, {
       state: this.props.task.state,
       total_iterations: this.props.task.total_iterations,
       finished_iterations: this.props.task.finished_iterations,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 344
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 344,
+        columnNumber: 21
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "param-name",
       onClick: () => this.props.highlightTask(this.props.task),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        lineNumber: 345,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "try-number",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
-      },
-      __self: this
-    }, this.props.task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskName, {
+        lineNumber: 345,
+        columnNumber: 107
+      }
+    }, this.props.task.try), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskName, {
       task: this.props.task,
       name: this.props.task.name,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 345
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskToolbar, {
+        lineNumber: 345,
+        columnNumber: 164
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TaskToolbar, {
       task: this.props.task,
       editTask: this.props.editTask,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 347
-      },
-      __self: this
+        lineNumber: 347,
+        columnNumber: 17
+      }
     }));
   }
 
@@ -7630,7 +8139,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _TagsEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsEdit */ "./src/TagsEdit.js");
 /* harmony import */ var _Prompt__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Prompt */ "./src/Prompt.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskEditor.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskEditor.js";
 
 
 
@@ -7688,7 +8197,8 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     this.promptNewIterRefs = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
   }
 
-  open(task, edit_task = null) {
+  open(task) {
+    let edit_task = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     let selectedParamValues = {};
 
     for (const iteration in task.paramValues) {
@@ -7813,7 +8323,8 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     this.close();
   }
 
-  onSelectionChange(param, value, arg = []) {
+  onSelectionChange(param, value) {
+    let arg = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
     const selectedParamValues = Object.assign({}, this.state.selectedParamValues);
     selectedParamValues[this.state.current_iteration] = Object.assign({}, selectedParamValues[this.state.current_iteration]);
     selectedParamValues[this.state.current_iteration][param.uuid] = [value.uuid];
@@ -7843,7 +8354,9 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     }, () => this.updateCommand());
   }
 
-  updateCommand(selectedParamValues = null, total_iterations = null) {
+  updateCommand() {
+    let selectedParamValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    let total_iterations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     if (selectedParamValues === null) selectedParamValues = this.state.selectedParamValues;
     if (total_iterations === null) total_iterations = this.state.total_iterations;
     let paramValues = "";
@@ -7851,13 +8364,15 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     for (const iteration in this.state.selectedParamValues) {
       for (const param of this.props.params) {
         if (param.uuid in selectedParamValues[iteration] && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
-          paramValues += iteration + ";" + param.uuid + " " + selectedParamValues[iteration][param.uuid][0];
+          paramValues += param.uuid + " " + selectedParamValues[iteration][param.uuid][0]; // iteration + ";" +
 
-          for (let i = 1; i < selectedParamValues[iteration][param.uuid].length; i++) paramValues += ":'" + selectedParamValues[iteration][param.uuid][i] + "'";
+          for (let i = 1; i < selectedParamValues[iteration][param.uuid].length; i++) paramValues += ":\"" + selectedParamValues[iteration][param.uuid][i].replaceAll("\"", "\\\"") + "\"";
 
           paramValues += " ";
         }
       }
+
+      break;
     }
 
     let additionalProps = "";
@@ -7951,239 +8466,269 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       ref: this.wrapperRef,
       style: {
         'display': this.state.open ? 'block' : 'none'
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 363
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 364,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "task-editor slide-editor editor",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 364
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 365,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 365
-      },
-      __self: this
-    }, this.state.edit_task === null ? "Start task" : "Edit task", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 366,
+        columnNumber: 21
+      }
+    }, this.state.edit_task === null ? "Start task" : "Edit task", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       onClick: this.close,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 365
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 366,
+        columnNumber: 105
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 366
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 367,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 367
-      },
-      __self: this
-    }, "Total iterations:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 368,
+        columnNumber: 25
+      }
+    }, "Total iterations:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       value: this.state.total_iterations,
       onChange: this.onTotalIterationsChange,
       required: "required",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 368
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 369,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 370
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 371,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 371
-      },
-      __self: this
-    }, "Save interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 372,
+        columnNumber: 25
+      }
+    }, "Save interval:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       value: this.state.save_interval,
       onChange: this.onSaveIntervalChange,
       required: "required",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 372
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 373,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 374
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 375,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 375
-      },
-      __self: this
-    }, "Checkpoint interval:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 376,
+        columnNumber: 25
+      }
+    }, "Checkpoint interval:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       value: this.state.checkpoint_interval,
       onChange: this.onCheckpointIntervalChange,
       required: "required",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 376
-      },
-      __self: this
-    })), this.state.edit_task === null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 377,
+        columnNumber: 25
+      }
+    })), this.state.edit_task === null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 379
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 380,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 380
-      },
-      __self: this
-    }, "Is test:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 381,
+        columnNumber: 29
+      }
+    }, "Is test:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       checked: this.state.isTest,
       onChange: this.onIsTestChange,
       type: "checkbox",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 381
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 382,
+        columnNumber: 29
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "iterations",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 384
-      },
-      __self: this
-    }, Object.keys(this.state.selectedParamValues).map(iteration => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 385,
+        columnNumber: 21
+      }
+    }, Object.keys(this.state.selectedParamValues).map(iteration => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "iteration " + (iteration == this.state.current_iteration ? "iteration-current" : ""),
       onClick: () => this.changeIteration(iteration),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 386
-      },
-      __self: this
-    }, iteration, " ", iteration > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        lineNumber: 387,
+        columnNumber: 29
+      }
+    }, iteration, " ", iteration > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-times",
       onClick: e => this.removeIteration(e, iteration),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 386
-      },
-      __self: this
-    }), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 387,
+        columnNumber: 210
+      }
+    }), " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "new-iteration",
       onClick: () => this.promptNewIterRefs.current.openDialog(),
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 388
-      },
-      __self: this
-    }, "+"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        lineNumber: 389,
+        columnNumber: 25
+      }
+    }, "+"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Prompt__WEBPACK_IMPORTED_MODULE_5__["default"], {
       ref: this.promptNewIterRefs,
       defaultValue: "",
       header: "New iteration?",
       text: "New iteration",
       onSend: this.addIteration,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 389
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 390,
+        columnNumber: 25
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ParamFilter__WEBPACK_IMPORTED_MODULE_2__["default"], {
       selectMultiple: false,
       paramsByGroup: this.props.paramsByGroup,
       selectedParamValues: this.state.selectedParamValues[this.state.current_iteration],
       toggleSelection: this.onSelectionChange,
       useTemplateFields: true,
       paramVisibility: this.state.paramVisibility[this.state.current_iteration],
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 391
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        lineNumber: 392,
+        columnNumber: 21
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
       ref: this.configEditor,
       url: "/config/task",
       onParamVisibilityChanged: this.onParamVisibilityChanged,
       bases: this.state.selectedParamValues,
       preview: true,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 392
-      },
-      __self: this
-    }), this.state.edit_task === null && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        lineNumber: 393,
+        columnNumber: 21
+      }
+    }), this.state.edit_task === null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 394
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 395,
+        columnNumber: 25
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 395
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 396,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 396
-      },
-      __self: this
-    }, "Device:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        lineNumber: 397,
+        columnNumber: 33
+      }
+    }, "Device:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       value: this.state.device,
       onChange: this.onDeviceChange,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 397
-      },
-      __self: this
-    }, this.props.devices.map(device => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        lineNumber: 398,
+        columnNumber: 33
+      }
+    }, this.props.devices.map(device => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: device.uuid,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 399
-      },
-      __self: this
-    }, device.name)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 400,
+        columnNumber: 41
+      }
+    }, device.name)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 403
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 404,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 404
-      },
-      __self: this
-    }, "Command:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        lineNumber: 405,
+        columnNumber: 33
+      }
+    }, "Command:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       className: "command",
       ref: this.commandInput,
       onClick: this.copyCommand,
@@ -8192,54 +8737,61 @@ class TaskEditor extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
       "data-original-title": this.state.commandHint,
       value: this.state.command,
       readOnly: true,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 405
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 406,
+        columnNumber: 33
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "field",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 407
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 408,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 408
-      },
-      __self: this
-    }, "Tags:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagsEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        lineNumber: 409,
+        columnNumber: 29
+      }
+    }, "Tags:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagsEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
       tags: this.state.tags,
       allTags: this.props.allTags,
       updateTags: this.updateTags,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 409
-      },
-      __self: this
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 410,
+        columnNumber: 29
+      }
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 413
-      },
-      __self: this
-    }, this.state.edit_task === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 414,
+        columnNumber: 21
+      }
+    }, this.state.edit_task === null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.run,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 415
-      },
-      __self: this
-    }, "Run") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 416,
+        columnNumber: 29
+      }
+    }, "Run") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.save,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 417
-      },
-      __self: this
+        lineNumber: 418,
+        columnNumber: 29
+      }
     }, "Save"))));
   }
 
@@ -8264,7 +8816,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskEditor */ "./src/TaskEditor.js");
 /* harmony import */ var _CollapsedTasks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollapsedTasks */ "./src/CollapsedTasks.js");
 /* harmony import */ var _GroupedTasks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GroupedTasks */ "./src/GroupedTasks.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskTab.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskTab.js";
 
 
 
@@ -8311,24 +8863,26 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab",
       style: {
         'display': this.props.active ? 'flex' : 'none'
       },
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 48
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        lineNumber: 48,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "tasks-tab",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49
-      },
-      __self: this
-    }, this.props.initialized && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_GroupedTasks__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        lineNumber: 49,
+        columnNumber: 17
+      }
+    }, this.props.initialized && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_GroupedTasks__WEBPACK_IMPORTED_MODULE_4__["default"], {
       tasks: this.props.tasks,
       rerunTask: this.rerunTask,
       editTask: this.editTask,
@@ -8337,49 +8891,55 @@ class TaskTab extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       devices: this.props.devices,
       detailCol: this.props.detailCol,
       highlightedTask: this.props.highlightedTask,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 51
-      },
-      __self: this
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        lineNumber: 51,
+        columnNumber: 21
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
       allTags: this.props.allTags,
       devices: this.props.devices,
       ref: this.taskEditor,
       params: this.props.params,
       paramsByGroup: this.props.paramsByGroup,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 63
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 63,
+        columnNumber: 17
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-toolbar",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 64
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        lineNumber: 64,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 65
-      },
-      __self: this
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 65,
+        columnNumber: 21
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "buttons",
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 67
-      },
-      __self: this
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        lineNumber: 67,
+        columnNumber: 21
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       onClick: this.newTask,
+      __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 68
-      },
-      __self: this
+        lineNumber: 68,
+        columnNumber: 25
+      }
     }, "New task"))));
   }
 
@@ -8405,7 +8965,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Global */ "./src/Global.js");
 /* harmony import */ var _TagsEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsEdit */ "./src/TagsEdit.js");
 /* harmony import */ var _MetricsViewer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MetricsViewer */ "./src/MetricsViewer.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/TaskViewer.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/TaskViewer.js";
 
 
 
@@ -8489,7 +9049,7 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   }
 
   extractCheckpoint(i) {
-    fetch("/extract_checkpoint/" + this.state.detailTaskUuid + "/" + i).then(res => res.json()).then(result => {}, error => {});
+    fetch("/extract_checkpoint/" + this.props.detailTaskUuid + "/" + i).then(res => res.json()).then(result => {}, error => {});
   }
 
   updateNotes(evt) {
@@ -8527,301 +9087,344 @@ class TaskViewer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
   render() {
     if (this.props.detailTaskUuid !== null && this.props.detailTaskUuid in this.state.tasks) {
       let task = this.state.tasks[this.props.detailTaskUuid];
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "task-viewer slide-editor editor",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 168
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 168,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 169
-        },
-        __self: this
-      }, "Task details", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 169,
+          columnNumber: 21
+        }
+      }, "Task details", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         class: "fas fa-times",
         onClick: this.props.close,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 169
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 169,
+          columnNumber: 57
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "title",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 170
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 170,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "try-number",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 170
-        },
-        __self: this
-      }, task.try), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
+          lineNumber: 170,
+          columnNumber: 44
+        }
+      }, task.try), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Task__WEBPACK_IMPORTED_MODULE_2__["TaskName"], {
         task: task,
         name: task.name,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 170
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 170,
+          columnNumber: 90
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "metadata",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 171
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 171,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 172
-        },
-        __self: this
-      }, task.uuid), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 172,
+          columnNumber: 25
+        }
+      }, task.uuid), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 173
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 173,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 173
-        },
-        __self: this
-      }, "Status:"), " ", task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING ? "Running" : task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED ? "Queued" : "Stopped"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 173,
+          columnNumber: 30
+        }
+      }, "Status:"), " ", task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].RUNNING ? "Running" : task.state === _Global__WEBPACK_IMPORTED_MODULE_3__["default"].QUEUED ? "Queued" : "Stopped"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 174
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 174,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 174
-        },
-        __self: this
-      }, "Iterations:"), " ", task.finished_iterations, " / ", task.total_iterations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 174,
+          columnNumber: 30
+        }
+      }, "Iterations:"), " ", task.finished_iterations, " / ", task.total_iterations), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 175
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 175,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 175
-        },
-        __self: this
-      }, "Created:"), " ", task.creation_time.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 175,
+          columnNumber: 30
+        }
+      }, "Created:"), " ", task.creation_time.toShortStr()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 176
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 176,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 176
-        },
-        __self: this
-      }, "Saved:"), " ", task.saved_time.toShortStr(), " ", task.had_error == true && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 176,
+          columnNumber: 30
+        }
+      }, "Saved:"), " ", task.saved_time.toShortStr(), " ", task.had_error == true && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "task-error",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 176
-        },
-        __self: this
-      }, "(Error)"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          lineNumber: 176,
+          columnNumber: 108
+        }
+      }, "(Error)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ConfigEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
         ref: this.configEditor,
         url: "/config/existing_task/" + task.uuid,
         bases: [],
         preview: true,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 178
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          lineNumber: 178,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 179
-        },
-        __self: this
-      }, "Notes:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 179,
+          columnNumber: 21
+        }
+      }, "Notes:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "notes",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 180
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+          lineNumber: 180,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         ref: this.notesTextarea,
         value: this.state.notes,
         onChange: evt => this.updateNotes(evt),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 181
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          lineNumber: 181,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 183
-        },
-        __self: this
-      }, "Tags:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 183,
+          columnNumber: 21
+        }
+      }, "Tags:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 184
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagsEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          lineNumber: 184,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagsEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
         tags: task.tags,
         allTags: this.props.allTags,
         updateTags: this.updateTags,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 185
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          lineNumber: 185,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 187
-        },
-        __self: this
-      }, "Metrics:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MetricsViewer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          lineNumber: 187,
+          columnNumber: 21
+        }
+      }, "Metrics:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MetricsViewer__WEBPACK_IMPORTED_MODULE_5__["default"], {
         task: task,
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 188
-        },
-        __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          lineNumber: 188,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 190
-        },
-        __self: this
-      }, "Code versions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 190,
+          columnNumber: 21
+        }
+      }, "Code versions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "code-versions",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 191
-        },
-        __self: this
-      }, Object.keys(task.versions).map(key => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 191,
+          columnNumber: 21
+        }
+      }, Object.keys(task.versions).map(key => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: () => this.props.openCodeVersionViewer(task.versions[key]),
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 193
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 193,
+          columnNumber: 37
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "iteration",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 194
-        },
-        __self: this
-      }, key), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 194,
+          columnNumber: 41
+        }
+      }, key), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "name",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 195
-        },
-        __self: this
-      }, task.versions[key].substr(0, 7))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          lineNumber: 195,
+          columnNumber: 41
+        }
+      }, task.versions[key].substr(0, 7))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 200
-        },
-        __self: this
-      }, "Parameters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 200,
+          columnNumber: 21
+        }
+      }, "Parameters"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "params",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 201
-        },
-        __self: this
+          lineNumber: 201,
+          columnNumber: 21
+        }
       }, this.state.params.sort((a, b) => {
         return a.name.localeCompare(b.name);
-      }).map(param => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }).map(param => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 205
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 205,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 205
-        },
-        __self: this
-      }, param.name, ":"), this.state.selectedParamValues[param.uuid]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          lineNumber: 205,
+          columnNumber: 34
+        }
+      }, param.name, ":"), this.state.selectedParamValues[param.uuid]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 208
-        },
-        __self: this
-      }, "Checkpoints"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 208,
+          columnNumber: 21
+        }
+      }, "Checkpoints"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "checkpoints",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 209
-        },
-        __self: this
-      }, task.checkpoints.length > 0 ? task.checkpoints.map((checkpoint, i) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 209,
+          columnNumber: 21
+        }
+      }, task.checkpoints.length > 0 ? task.checkpoints.map((checkpoint, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 212
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 212,
+          columnNumber: 33
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "iteration",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 213
-        },
-        __self: this
-      }, checkpoint.finished_iterations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 213,
+          columnNumber: 37
+        }
+      }, checkpoint.finished_iterations), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "time",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 214
-        },
-        __self: this
-      }, checkpoint.time.toShortStr()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          lineNumber: 214,
+          columnNumber: 37
+        }
+      }, checkpoint.time.toShortStr()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "action",
         onClick: () => this.extractCheckpoint(i),
         title: "Add task based on checkpoint",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 215
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          lineNumber: 215,
+          columnNumber: 37
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-arrow-right",
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 216
-        },
-        __self: this
-      })))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          lineNumber: 216,
+          columnNumber: 41
+        }
+      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 221
-        },
-        __self: this
+          lineNumber: 221,
+          columnNumber: 29
+        }
       }, "No checkpoints exist")));
     } else {
       return "";
@@ -9183,7 +9786,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.js");
-var _jsxFileName = "/home/domin/Dokumente/taskplan/taskplan/web/src/index.js";
+var _jsxFileName = "/home/domin/PycharmProjects/taskplan/taskplan/web/src/index.js";
 
 
 
@@ -9192,12 +9795,13 @@ __webpack_require__(/*! ./less/index.less */ "./src/less/index.less");
 
 __webpack_require__(/*! ./fonts/fonts.css */ "./src/fonts/fonts.css");
 
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_2__["default"], {
+react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  __self: undefined,
   __source: {
     fileName: _jsxFileName,
-    lineNumber: 9
-  },
-  __self: undefined
+    lineNumber: 9,
+    columnNumber: 5
+  }
 }), document.getElementById('root'));
 
 /***/ }),
@@ -9236,11 +9840,11 @@ if (content.locals) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
-module.exports = __webpack_require__(/*! /home/domin/Dokumente/taskplan/taskplan/web/src/index.js */"./src/index.js");
+__webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/node_modules/react-dev-utils/webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
+module.exports = __webpack_require__(/*! /home/domin/PycharmProjects/taskplan/taskplan/web/src/index.js */"./src/index.js");
 
 
 /***/ })
 
-},[[0,"runtime~main",0]]]);
+},[[0,"runtime~main",1]]]);
 //# sourceMappingURL=main.chunk.js.map

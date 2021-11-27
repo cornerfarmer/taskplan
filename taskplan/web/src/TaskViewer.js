@@ -81,7 +81,7 @@ class TaskViewer extends React.Component {
     }
 
     extractCheckpoint(i) {
-        fetch("/extract_checkpoint/" + this.state.detailTaskUuid + "/" + i)
+        fetch("/extract_checkpoint/" + this.props.detailTaskUuid + "/" + i)
             .then(res => res.json())
             .then(
                 (result) => {

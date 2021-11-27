@@ -194,6 +194,8 @@ def run(refresh_interval, taskplan_config):
         if task_uuid is "":
             return render_template('log.html', task_name="Global")
         else:
+            if not controller.task_exists(task_uuid):
+                raise Exception("No such task " + task_uuid)
             #task = controller.find_task_by_uuid(task_uuid)
             return render_template('log.html', task_uuid=task_uuid, sub_task=sub_task, task_name="", created=str(""))
 

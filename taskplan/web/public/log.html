@@ -179,7 +179,8 @@
     </div>
 
     <script>
-        var evtSource = new EventSource("/read_log/" + "{{ task_uuid }}" + "{% if sub_task %}/{{ sub_task }} {% endif %}");
+        const ReconnectingEventSource = require("reconnecting-eventsource");
+        var evtSource = new ReconnectingEventSource("/read_log/" + "{{ task_uuid }}" + "{% if sub_task %}/{{ sub_task }} {% endif %}");
         var line = 1;
         var lines = document.querySelector('#line-numbers');
         var content = document.querySelector('#content');
@@ -196,6 +197,8 @@
         var scroll_pos = 0;
         var scroll_sight = 20;
         var loading = false;
+
+
 
         evtSource.onmessage = function(e) {
             if (log_uuid === null) {
@@ -350,6 +353,15 @@
 
             refreshScrollPose();
         });
+
+        refreshConnectionState = function() {
+            if (this.evtSource.readyState === 0)
+
+        };
+
+
+        evtSource.onerror = refreshConnectionState;
+        evtSource.onopen = refreshConnectionState;
 
     </script>
 

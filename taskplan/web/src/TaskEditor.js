@@ -256,12 +256,13 @@ class TaskEditor extends React.Component {
         for (const iteration in this.state.selectedParamValues) {
             for (const param of this.props.params) {
                 if (param.uuid in selectedParamValues[iteration] && (!(param.uuid in this.state.paramVisibility) || this.state.paramVisibility[param.uuid])) {
-                    paramValues += iteration + ";" + param.uuid + " " + selectedParamValues[iteration][param.uuid][0];
+                    paramValues += param.uuid + " " + selectedParamValues[iteration][param.uuid][0];// iteration + ";" +
                     for (let i = 1; i < selectedParamValues[iteration][param.uuid].length; i++)
-                        paramValues += ":'" + selectedParamValues[iteration][param.uuid][i] + "'";
+                        paramValues += ":\"" + selectedParamValues[iteration][param.uuid][i].replaceAll("\"", "\\\"") + "\"";
                     paramValues += " ";
                 }
             }
+            break;
         }
 
         let additionalProps = "";

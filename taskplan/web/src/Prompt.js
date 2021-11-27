@@ -66,10 +66,11 @@ class Prompt extends React.Component {
         });
     }
 
-    openDialog(device=null) {
+    openDialog(device=null, default_value="") {
         this.setState({
             dialogOpen: true,
-            device: (this.props.devices ? this.props.devices[0].uuid : device)
+            device: (this.props.devices ? this.props.devices[0].uuid : device),
+            inputValue: default_value
         });
     }
 

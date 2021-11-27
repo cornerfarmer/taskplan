@@ -34,6 +34,7 @@ class ProjectManager extends React.Component {
                 views: data.views,
                 viewsLoaded: true,
                 tensorboard_ports: data.tensorboard_ports,
+                config_path: data.config_path,
                 allTags: data.all_tags,
                 refreshRate: parseInt(data.refreshRate),
                 codeVersions: data.code_versions

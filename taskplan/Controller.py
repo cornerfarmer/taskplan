@@ -24,8 +24,11 @@ class Controller:
         self.call_mutex = Lock()
         self.slim_mode = slim_mode
 
-        if Path("taskplan_metadata.json").exists():
-            with open('taskplan_metadata.json') as f:
+        self.taskplan_metadata_path = Path(taskplan_config)
+        self.taskplan_metadata_path = self.taskplan_metadata_path.with_name(self.taskplan_metadata_path.stem + "_metadata" + self.taskplan_metadata_path.suffix)
+
+        if self.taskplan_metadata_path.exists():
+            with open(str(self.taskplan_metadata_path)) as f:
                 metadata = json.load(f)
         else:
             metadata = {"project": {}, "scheduler": {}}
@@ -43,7 +46,7 @@ class Controller:
             metadata = {}
             metadata["project"] = self.project.save_metadata()
             metadata["scheduler"] = self.scheduler.save_metadata()
-            with open('taskplan_metadata.json', "w") as f:
+            with open(str(self.taskplan_metadata_path), "w") as f:
                 json.dump(metadata, f)
 
     def start(self):
@@ -311,6 +314,9 @@ class Controller:
 
     def _get_task_dir(self, task_uuid):
         return self.project.find_task_by_uuid(task_uuid).build_save_dir()
+
+    def _task_exists(self, task_uuid):
+        return self.project.find_task_by_uuid(task_uuid) is not None
 
     def _filter_tasks(self, filters, collapse, collapse_sorting, collapse_enabled, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name):
         tasks, metric_superset = self.project.filter_tasks(filters, collapse, collapse_sorting, collapse_enabled, groups, param_sorting, offset, limit, sort_col, sort_dir, version_in_name, force_param_in_name)

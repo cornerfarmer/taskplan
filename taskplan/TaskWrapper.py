@@ -52,7 +52,8 @@ class StdOut(object):
 
 
     def flush(self):
-        self.logger.log(self.buffer)
+        if self.buffer != "":
+            self.logger.log(self.buffer)
         self.buffer = ""
 
 class TaskWrapper:
@@ -444,6 +445,7 @@ class TaskWrapper:
         return key
 
     def update_metrics(self, metric_superset=None):
+        return
         current_time = time.time()
         metrics_changed = False
 

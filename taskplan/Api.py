@@ -12,8 +12,11 @@ from taskconf.config.Configuration import Configuration
 
 class Api:
     def __init__(self, taskplan_config="taskplan.json"):
-        if Path("taskplan_metadata.json").exists():
-            with open('taskplan_metadata.json') as f:
+        self.taskplan_metadata_path = Path(taskplan_config)
+        self.taskplan_metadata_path = self.taskplan_metadata_path.with_name(self.taskplan_metadata_path.stem + "_metadata" + self.taskplan_metadata_path.suffix)
+
+        if Path(self.taskplan_metadata_path).exists():
+            with open(self.taskplan_metadata_path) as f:
                 metadata = json.load(f)
         else:
             metadata = {"project": {}, "scheduler": {}}

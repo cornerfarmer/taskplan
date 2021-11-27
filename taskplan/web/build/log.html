@@ -52,6 +52,13 @@
             padding-left: 15px;
         }
 
+        #status#status:not(:empty) {
+            background: rgba(0,0,0,.025);
+            color: red;
+            padding: 5px 15px;
+            font-size: 18px;
+        }
+
         #file {
             border-top: 1px solid rgba(0,0,0,.1);
             display: flex;
@@ -154,6 +161,7 @@
 <body>
     <div id="container">
         <h2>Logfile: {{ task_uuid }}</h2>
+        <span id="status"></span>
 
         <div id="file">
             <div id="line-numbers">
@@ -316,7 +324,7 @@
             if(e.ctrlKey || e.shiftKey)
                 return false;
 
-            scroll_pos += e.deltaY * 8;
+            scroll_pos += e.deltaY * 2;
             if (scroll_pos > log_lines.length * line_height - content.clientHeight) {
                 scroll_pos = log_lines.length * line_height - content.clientHeight;
                 isEnd = true;
@@ -350,6 +358,20 @@
 
             refreshScrollPose();
         });
+
+        refreshConnectionState = function() {
+            if (evtSource.readyState === 0) {
+                document.querySelector('#status').textContent = "No connection";
+                log_uuid = null;
+            } else {
+                document.querySelector('#status').textContent = "";
+            }
+        };
+
+
+
+        evtSource.onerror = refreshConnectionState;
+        evtSource.onopen = refreshConnectionState;
 
     </script>
 

@@ -344,7 +344,7 @@ class Project:
 
     def clone_task(self, task):
         if task in self.tasks and not task.is_test:
-            task_config = self.configuration.add_task([], {})
+            task_config = self.configuration.add_task({"0": []}, {})
 
             cloned_task = self._create_task_from_config(task_config, task.total_iterations)
             new_uuid = cloned_task.uuid
@@ -369,7 +369,7 @@ class Project:
     def extract_checkpoint(self, task, checkpoint_id):
         if task in self.tasks and not task.is_test:
             checkpoint_dir = task.build_checkpoint_dir(checkpoint_id)
-            task_config = self.configuration.add_task([], {})
+            task_config = self.configuration.add_task({"0": []}, {})
 
             new_task = self._create_task_from_config(task_config, task.total_iterations)
             new_uuid = new_task.uuid

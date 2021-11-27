@@ -232,7 +232,7 @@ class ParamViewer extends React.Component {
                                                 </React.Fragment>
                                             }
                                             {this.props.views[name].path === null ?
-                                                <i className="fas fa-folder-plus" title="Show in filesystem" onClick={() => this.promptViewPathRef.current.openDialog(name)}></i>
+                                                <i className="fas fa-folder-plus" title="Show in filesystem" onClick={() => this.promptViewPathRef.current.openDialog(name, name)}></i>
                                                 :
                                                 <i className="fas fa-folder-minus" title="Remove from filesystem" onClick={() => this.removeViewPath( name)}></i>
                                             }
