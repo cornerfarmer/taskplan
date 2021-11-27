@@ -83,6 +83,7 @@ class ServerSentEvent(object):
             data_client['tensorboard_ports'] = data.tensorboard_ports
             data_client['all_tags'] = list(data.all_tags.keys())
             data_client['refreshRate'] = data.refresh_interval
+            data_client['config_path'] = data.taskconfig_path
             data_client['code_versions'] = data.all_code_version_labels()
         elif event_type is EventType.SCHEDULER_OPTIONS:
             data_client['devices'] = [{"uuid": str(device.uuid), "name": device.get_name(), "is_connected": device.is_connected()} for device in data.devices]

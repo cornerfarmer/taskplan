@@ -268,6 +268,7 @@ class TaskEditor extends React.Component {
         let additionalProps = "";
         additionalProps += "--save " + (this.state.save_interval === "" ? "0" : this.state.save_interval);
         additionalProps += " --checkpoint " + (this.state.checkpoint_interval === "" ? "0" : this.state.checkpoint_interval);
+        additionalProps += " --config " + (this.props.config_path);
 
         if (total_iterations !== "") {
             this.setState({

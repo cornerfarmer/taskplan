@@ -26,11 +26,12 @@ import ast
 
 class Project:
 
-    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", views_dir="views", tasks_to_load=None, git_white_list=[], slim_mode=False):
+    def __init__(self, event_manager, metadata, task_dir=".", task_class_name="Task", tasks_dir="tasks", config_dir="config", test_dir="tests", views_dir="views", tasks_to_load=None, git_white_list=[], slim_mode=False, taskconfig_path=""):
         self.task_dir = Path(task_dir).resolve()
         self.task_class_name = task_class_name
         self.event_manager = event_manager
         self.slim_mode = slim_mode
+        self.taskconfig_path = taskconfig_path
 
         self.config_dir = self.task_dir / Path(config_dir)
         if not self.config_dir.exists() or len(list(self.config_dir.iterdir())) == 0:
@@ -83,7 +84,7 @@ class Project:
                 data = json.load(f)
         else:
             raise Exception("No such file: " + str(path))
-        return Project(event_manager, metadata, tasks_to_load=tasks_to_load, slim_mode=slim_mode, **data)
+        return Project(event_manager, metadata, taskconfig_path=path, tasks_to_load=tasks_to_load, slim_mode=slim_mode, **data)
 
     def save_metadata(self):
         return {**{

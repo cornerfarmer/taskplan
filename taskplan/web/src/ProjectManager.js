@@ -13,7 +13,8 @@ class ProjectManager extends React.Component {
             refreshRate: null,
             detailTaskUuid: null,
             tensorboard_ports: {},
-            viewsLoaded: false
+            viewsLoaded: false,
+            config_path: null
         };
         this.addVersion = this.addVersion.bind(this);
         this.openTaskViewer = this.openTaskViewer.bind(this);
@@ -130,6 +131,7 @@ class ProjectManager extends React.Component {
                             codeVersions={this.state.codeVersions}
                             refreshRate={this.state.refreshRate}
                             tensorboard_ports={this.state.tensorboard_ports}
+                            config_path={this.state.config_path}
                         />
                     }
                 </div>

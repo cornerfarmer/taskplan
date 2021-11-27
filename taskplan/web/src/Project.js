@@ -223,6 +223,7 @@ class Project extends TaskContainer {
                     devices={this.props.devices}
                     detailCol={this.state.collapseSorting[0]}
                     initialized={this.state.taskTabInitialized}
+                    config_path={this.props.config_path}
                 />
                 <ParamViewer
                     ref={this.paramViewerRef}

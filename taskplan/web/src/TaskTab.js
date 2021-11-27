@@ -60,7 +60,7 @@ class TaskTab extends React.Component {
                     />
                     }
                 </ul>
-                <TaskEditor allTags={this.props.allTags} devices={this.props.devices} ref={this.taskEditor} params={this.props.params} paramsByGroup={this.props.paramsByGroup}/>
+                <TaskEditor allTags={this.props.allTags} config_path={this.props.config_path} devices={this.props.devices} ref={this.taskEditor} params={this.props.params} paramsByGroup={this.props.paramsByGroup}/>
                 <div className="tab-toolbar">
                     <label>
                     </label>
