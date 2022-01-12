@@ -37,13 +37,14 @@ class Api:
             data = {"config": data}
 
         base_configs = []
-        for param in self.project.configuration.get_params():
-            if param.has_metadata("deprecated_param_value"):
-                for param_value in self.project.configuration.get_param_values():
-                    if param.get_metadata("deprecated_param_value") == str(param_value.uuid):
-                        base_configs.append([param_value])
-                        if param_value.has_metadata("template_deprecated"):
-                            base_configs[-1] += param_value.get_metadata("template_deprecated")
+        if False:
+            for param in self.project.configuration.get_params():
+                if param.has_metadata("deprecated_param_value"):
+                    for param_value in self.project.configuration.get_param_values():
+                        if param.get_metadata("deprecated_param_value") == str(param_value.uuid):
+                            base_configs.append([param_value])
+                            if param_value.has_metadata("template_deprecated"):
+                                base_configs[-1] += param_value.get_metadata("template_deprecated")
         base_configs = []
         config = Configuration(data, base_configs)
         return config

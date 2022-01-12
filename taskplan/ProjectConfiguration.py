@@ -300,7 +300,6 @@ class ProjectConfiguration:
                         break
 
         if len(left_params) > 0:
-            raise Exception("todo")
             new_param_values = []
             for left_param in left_params:
                 if left_param.has_metadata("deprecated_param_value") and left_param.get_metadata("deprecated_param_value") != "":
@@ -312,7 +311,7 @@ class ProjectConfiguration:
 
                     new_param_values.append(new_param_value)
                     param_uuids.append(str(left_param.uuid))
-            param_values = config.base_configs[:] + new_param_values
+            """param_values = config.base_configs[:] + new_param_values
 
             param_values = [([str(p[0].uuid)] + p[1:]) for p in param_values]
             _, param_visibility = self.collect_visible_bases(param_values, param_uuids)
@@ -324,15 +323,19 @@ class ProjectConfiguration:
 
                     self.register_task_for_param_value(task, new_param_value)
 
-            new_param_values = config.base_configs[:] + selected_new_param_value
-            config.set_base_configs(new_param_values)
+            new_param_values = config.base_configs[:] + selected_new_param_value"""
+
+            new_bases = config.base_configs.copy()
+            new_bases["0"] = new_bases["0"][:] + new_param_values
+            config.set_base_configs(new_bases)
             data = config.data
             data['config'] = config.get_merged_config()
-            data['base'] = []
-            for param_value in new_param_values:
-                data['base'].append([param_value[0].uuid] + param_value[1:])
+            data['base'] = {}
+            for iteration in new_bases:
+                data['base'][iteration] = []
+                for param_value in new_bases[iteration]:
+                    data['base'][iteration].append([param_value[0].uuid] + param_value[1:])
             config.set_data(data)
-
             return True
         else:
             return False

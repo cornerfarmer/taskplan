@@ -21,10 +21,11 @@ def _start_controller(tasks_to_load, taskplan_config="taskplan.json"):
 @cli.command()
 @click.option('--refresh_interval', type=int, default=30000)
 @click.option('--config', type=str, default="taskplan.json")
-def web(refresh_interval, config):
+@click.option('--port', type=int, default=9998)
+def web(refresh_interval, config, port):
     app, controller = run(refresh_interval, config)
 
-    run_simple("0.0.0.0", 9998, app, threaded=True)
+    run_simple("0.0.0.0", port, app, threaded=True)
     controller.stop()
 
 
@@ -45,7 +46,7 @@ def start(total_iterations, params, save, checkpoint, config):
         }
         values_per_param = {}
         for i in range(0, len(params), 2):
-            values_per_param[params[i]] = params[i + 1].split(":")
+            values_per_param[params[i].split(";")[-1]] = params[i + 1].split(":")
 
         task = controller.start_new_task({"0": values_per_param}, config, total_iterations)
         print("Starting task " + str(task.uuid))
@@ -94,7 +95,7 @@ def test_task(total_iterations, params, save, checkpoint, config):
         }
         values_per_param = {}
         for i in range(0, len(params), 2):
-            values_per_param[params[i]] = params[i + 1].split(":")
+            values_per_param[params[i].split(";")[-1]] = params[i + 1].split(":")
 
         task = controller.start_new_task({"0": values_per_param}, config, total_iterations, is_test=True)
 
