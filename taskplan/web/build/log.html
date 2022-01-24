@@ -52,13 +52,6 @@
             padding-left: 15px;
         }
 
-        #status#status:not(:empty) {
-            background: rgba(0,0,0,.025);
-            color: red;
-            padding: 5px 15px;
-            font-size: 18px;
-        }
-
         #file {
             border-top: 1px solid rgba(0,0,0,.1);
             display: flex;
@@ -161,7 +154,6 @@
 <body>
     <div id="container">
         <h2>Logfile: {{ task_uuid }}</h2>
-        <span id="status"></span>
 
         <div id="file">
             <div id="line-numbers">
@@ -187,7 +179,8 @@
     </div>
 
     <script>
-        var evtSource = new EventSource("/read_log/" + "{{ task_uuid }}" + "{% if sub_task %}/{{ sub_task }} {% endif %}");
+        const ReconnectingEventSource = require("reconnecting-eventsource");
+        var evtSource = new ReconnectingEventSource("/read_log/" + "{{ task_uuid }}" + "{% if sub_task %}/{{ sub_task }} {% endif %}");
         var line = 1;
         var lines = document.querySelector('#line-numbers');
         var content = document.querySelector('#content');
@@ -204,6 +197,8 @@
         var scroll_pos = 0;
         var scroll_sight = 20;
         var loading = false;
+
+
 
         evtSource.onmessage = function(e) {
             if (log_uuid === null) {
@@ -324,7 +319,7 @@
             if(e.ctrlKey || e.shiftKey)
                 return false;
 
-            scroll_pos += e.deltaY * 2;
+            scroll_pos += e.deltaY * 8;
             if (scroll_pos > log_lines.length * line_height - content.clientHeight) {
                 scroll_pos = log_lines.length * line_height - content.clientHeight;
                 isEnd = true;
@@ -360,14 +355,9 @@
         });
 
         refreshConnectionState = function() {
-            if (evtSource.readyState === 0) {
-                document.querySelector('#status').textContent = "No connection";
-                log_uuid = null;
-            } else {
-                document.querySelector('#status').textContent = "";
-            }
-        };
+            if (this.evtSource.readyState === 0)
 
+        };
 
 
         evtSource.onerror = refreshConnectionState;
