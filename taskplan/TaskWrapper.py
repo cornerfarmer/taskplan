@@ -196,7 +196,7 @@ class TaskWrapper:
         try:
             sys.path = [str(task_dir)] + sys.path
             os.chdir(str(task_dir))
-            task_class = getattr(importlib.import_module(class_name, "."), class_name)
+            task_class = getattr(importlib.import_module(class_name, "."), class_name[class_name.rfind(".") + 1:] if "." in class_name else class_name)
 
             TaskWrapper._run_task(task_class, config, logger, metadata)
 

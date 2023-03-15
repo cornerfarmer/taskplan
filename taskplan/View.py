@@ -244,6 +244,7 @@ class View:
                     commit_id = self.version_control.current_commit_id
                 found = self.version_control.get_label(commit_id) in [f[0] for f in self.filters[param_uuid]]
             else:
+                print(task.uuid, param_uuid)
                 key, args, param_value = task.get_param_value_to_param(self.configuration.get_config(param_uuid), self.configuration)
 
                 found = False

@@ -11,8 +11,9 @@ import json
 from taskconf.config.Configuration import Configuration
 
 class Api:
-    def __init__(self, taskplan_config="taskplan.json"):
-        self.taskplan_metadata_path = Path(taskplan_config)
+    def __init__(self, task_root, taskplan_config="taskplan.json"):
+        taskplan_config = task_root / taskplan_config
+        self.taskplan_metadata_path = Path(task_root)
         self.taskplan_metadata_path = self.taskplan_metadata_path.with_name(self.taskplan_metadata_path.stem + "_metadata" + self.taskplan_metadata_path.suffix)
 
         if Path(self.taskplan_metadata_path).exists():
@@ -21,12 +22,19 @@ class Api:
         else:
             metadata = {"project": {}, "scheduler": {}}
 
-        self.project = Project.create_from_config_file(EventManager(), metadata["project"], taskplan_config, tasks_to_load=[], slim_mode=True)
+        self.project = Project.create_from_config_file(EventManager(), metadata["project"], taskplan_config, tasks_to_load=[], slim_mode=True, task_dir=task_root)
 
     def load_task(self, task_path):
         task = self.project._load_saved_task(Path(task_path), task_path.startswith("tests"))
         self.project.configuration.renew_task_config(task)
         return task
+
+    @staticmethod
+    def load_config_from_task(task_path):
+        with open(str(Path(task_path) / "metadata.json"), "r") as handle:
+            data = json.load(handle)
+            config = Configuration(data['config'], [], None)
+        return config
 
     def load_config(self, project_name, config_uuid):
         project = self.project.project_by_name(project_name)

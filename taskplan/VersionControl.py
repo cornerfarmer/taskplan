@@ -5,17 +5,18 @@ import time
 
 class VersionControl:
 
-    def __init__(self, task_dir, white_list):
+    def __init__(self, task_dir, white_list, slim_mode):
         self.task_dir = task_dir
         self.white_list = white_list
         self.commit_labels = {}
         self.current_commit_id = ""
 
-        os.environ['GIT_DIR'] = ".gittaskplan"
+        os.environ['GIT_DIR'] = str(self.task_dir / ".gittaskplan")
         os.environ['GIT_WORK_TREE'] = "."
-        self.repo = Repo.init()
-        if not self.repo.head.is_valid():
-            self.take_snapshot("Initial", True)
+        if not slim_mode:
+            self.repo = Repo.init()
+            if not self.repo.head.is_valid():
+                self.take_snapshot("Initial", True)
 
     def load_metadata(self, metadata):
         if "current_commit_id" in metadata:
@@ -74,6 +75,7 @@ class VersionControl:
             del self.commit_labels[commit_id]
 
     def get_label(self, commit_id, force_parent=False):
+        return "<no label>"
         while commit_id not in self.commit_labels or force_parent:
             if len(self.repo.commit(commit_id).parents) == 0:
                 return "initial"

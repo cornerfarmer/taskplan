@@ -48,11 +48,12 @@ class Project:
         self.tensorboard_ports = {}
         self.tensorboard_threads = {}
         self.next_tensorboard_port = 7000
-        self.version_control = VersionControl(task_dir, git_white_list)
+        print("tasks_to_load", tasks_to_load, self.tasks_dir)
+        self.version_control = VersionControl(self.task_dir, git_white_list, False)#len(tasks_to_load) != 0)
 
         self.views = {}
         self.views_data = {}
-        self._refresh_default_view()
+        self._refresh_default_view() 
 
         self._load_metadata(metadata)
 
@@ -78,13 +79,15 @@ class Project:
                 self.event_manager.throw(EventType.TASK_NAMES_CHANGED, None)
 
     @staticmethod
-    def create_from_config_file(event_manager, metadata, path, tasks_to_load=None, slim_mode=False):
+    def create_from_config_file(event_manager, metadata, path, tasks_to_load=None, slim_mode=False, task_dir="."):
         if Path(path).exists():
             with open(path) as f:
                 data = json.load(f)
+                #for key in ["tasks_dir", "config_dir", "test_dir", "views_dir"]:
+                #    data[key] = str(Path(path).parent / Path(data[key]))
         else:
             raise Exception("No such file: " + str(path))
-        return Project(event_manager, metadata, taskconfig_path=path, tasks_to_load=tasks_to_load, slim_mode=slim_mode, **data)
+        return Project(event_manager, metadata, task_dir=task_dir, taskconfig_path=path, tasks_to_load=tasks_to_load, slim_mode=slim_mode, **data)
 
     def save_metadata(self):
         return {**{
@@ -277,7 +280,7 @@ class Project:
             path = str(self.views[name].root_path)
 
             if path is not None and name not in self.tensorboard_ports:
-                self.tensorboard_threads[name] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port)], stdout=subprocess.PIPE)
+                self.tensorboard_threads[name] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port), "--host", "0.0.0.0"], stdout=subprocess.PIPE)
                 time.sleep(5)
 
                 self.tensorboard_ports[name] = self.next_tensorboard_port

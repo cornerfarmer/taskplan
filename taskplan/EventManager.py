@@ -121,7 +121,7 @@ class EventType(Enum):
 class EventManager:
     def __init__(self):
         self.subscriptions = []
-        self.logger = Logger(Path('.'), 'global')
+        self.logger = None#Logger(Path('.'), 'global')
 
     def subscribe(self):
         self.subscriptions.append(Queue())
@@ -140,7 +140,7 @@ class EventManager:
         self.subscriptions.remove(subscription)
 
     def log(self, message, short="", level=logging.INFO):
-        self.logger.log(message, level)
+        #self.logger.log(message, level)
         if short is "":
             short = message
         self.throw(EventType.FLASH_MESSAGE, FlashMessage(message, short, level))
