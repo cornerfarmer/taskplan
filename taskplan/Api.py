@@ -40,12 +40,12 @@ class Api:
         project = self.project.project_by_name(project_name)
         return project.configuration.configs_by_uuid[config_uuid]
 
-    def build_config(self, data, data_has_metadata=False):
+    def build_config(self, data, data_has_metadata=False, use_default=False):
         if not data_has_metadata:
             data = {"config": data}
 
         base_configs = []
-        if False:
+        if use_default:
             for param in self.project.configuration.get_params():
                 if param.has_metadata("deprecated_param_value"):
                     for param_value in self.project.configuration.get_param_values():
@@ -53,6 +53,6 @@ class Api:
                             base_configs.append([param_value])
                             if param_value.has_metadata("template_deprecated"):
                                 base_configs[-1] += param_value.get_metadata("template_deprecated")
-        base_configs = []
+            base_configs = {"0": base_configs}
         config = Configuration(data, base_configs)
         return config
