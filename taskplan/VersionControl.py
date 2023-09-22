@@ -13,6 +13,7 @@ class VersionControl:
 
         os.environ['GIT_DIR'] = str(self.task_dir / ".gittaskplan")
         os.environ['GIT_WORK_TREE'] = "."
+        self.slim_mode = slim_mode
         if not slim_mode:
             self.repo = Repo.init()
             if not self.repo.head.is_valid():
@@ -22,7 +23,7 @@ class VersionControl:
         if "current_commit_id" in metadata:
             self.current_commit_id = metadata["current_commit_id"]
         else:
-            self.current_commit_id = self.repo.head.commit.hexsha
+            self.current_commit_id = "" if self.slim_mode else self.repo.head.commit.hexsha
 
         if "commit_labels" in metadata:
             self.commit_labels = metadata["commit_labels"]
@@ -59,7 +60,7 @@ class VersionControl:
         data = {
             "date": commit.committed_date,#time.mktime(commit.committed_date.timetuple()),
             "message": commit.message,
-            "parent": None if len(commit.parents) == 0 else commit.parents[0].hexsha
+            "parent": None if len(commit.parents) == 0 or self.slim_mode else commit.parents[0].hexsha
         }
         if commit_id in self.commit_labels:
             data["label"] = self.commit_labels[commit_id]

@@ -130,7 +130,7 @@ class TaskWrapper:
             self.save_metadata(["config"])
 
         if not self.is_test:
-            commit_id = self.project.version_control.take_snapshot("Task: " + str(self.uuid))
+            commit_id = ""#self.project.version_control.take_snapshot("Task: " + str(self.uuid))
             recent_id = self.most_recent_code_version()
             if recent_id != commit_id:
                 self.code_versions[str(self.finished_iterations)] = commit_id

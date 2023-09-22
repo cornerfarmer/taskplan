@@ -1,3 +1,4 @@
+import sys
 import threading
 import traceback
 from collections import Counter
@@ -49,7 +50,7 @@ class Project:
         self.tensorboard_threads = {}
         self.next_tensorboard_port = 7000
         print("tasks_to_load", tasks_to_load, self.tasks_dir)
-        self.version_control = VersionControl(self.task_dir, git_white_list, False)#len(tasks_to_load) != 0)
+        self.version_control = VersionControl(self.task_dir, git_white_list, True)#len(tasks_to_load) != 0)
 
         self.views = {}
         self.views_data = {}
@@ -280,11 +281,21 @@ class Project:
             path = str(self.views[name].root_path)
 
             if path is not None and name not in self.tensorboard_ports:
-                self.tensorboard_threads[name] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port), "--host", "0.0.0.0"], stdout=subprocess.PIPE)
-                time.sleep(5)
+                while True:
+                    self.tensorboard_threads[name] = subprocess.Popen(["tensorboard", "--logdir", path, "--port", str(self.next_tensorboard_port), "--host", "0.0.0.0"], stderr=subprocess.PIPE, universal_newlines=True)
 
-                self.tensorboard_ports[name] = self.next_tensorboard_port
-                self.next_tensorboard_port += 1
+                    success = False
+                    for line in self.tensorboard_threads[name].stderr: 
+                        print(line, end="")
+                        if "Press CTRL+C to quit" in line:
+                            success = True
+                            break
+                    
+                    self.tensorboard_ports[name] = self.next_tensorboard_port
+                    self.next_tensorboard_port += 1
+
+                    if success:
+                        break
 
                 self.event_manager.throw(EventType.PROJECT_CHANGED, self)
 
