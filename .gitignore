@@ -1,0 +1,14 @@
+*.pyc
+.idea
+example/*/.gittaskplan
+example/*/tasks
+example/*/test
+example/*/views
+example/*/taskplan_metadata.json
+example/*/global.log
+example/*/config
+example/*/taskplan_remote_key
+example/*/results
+taskplan/web/node_modules
+taskplan.egg-info
+taskplan/web/package-lock.json
